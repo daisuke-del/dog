@@ -1,4 +1,10 @@
 FROM php:7.4.1-fpm
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+# RUN docker-php-ext-install opcache
+# RUN apk add autoconf
+# RUN pecl install redis
+# RUN docker-php-ext-install pdo_mysql
 
 # COPY php.ini
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
