@@ -31,6 +31,7 @@
 <script>
 import axios from 'axios'
 export default {
+  name: 'MatchAge',
   data() {
     return {
       url: 'http://127.0.0.1:8000/api/',
@@ -46,8 +47,8 @@ export default {
     validate01() {
       this.age01 = this.age01.replace(/\D/g, '')
     },
-    backBox: function (e) {
-      if (e.target.value == '') {
+    backBox(e) {
+      if (e.target.value === '') {
         this.$refs.r1.focus()
       }
     },
@@ -56,7 +57,7 @@ export default {
       const url = this.url + 'match/age'
       axios
         .post(url, {
-          age: age,
+          age,
         })
         .then(() => {
           this.$router.push({ name: 'MatchHeight' })
@@ -64,7 +65,7 @@ export default {
     },
   },
   watch: {
-    age10: function (v) {
+    age10(v) {
       if (v.length >= 1) {
         this.$refs.r2.focus()
       }

@@ -23,6 +23,7 @@
 <script>
 import axios from "axios";
 export default {
+  name: 'MatchHeight',
   data() {
     return {
       url: 'http://127.0.0.1:8000/api/',
@@ -42,13 +43,13 @@ export default {
     validate01() {
       this.height01 = this.height01.replace(/\D/g, '')
     },
-    backBox: function(e) {
-      if (e.target.value == "") {
+    backBox(e) {
+      if (e.target.value === "") {
         this.$refs.r1.focus()
       }
     },
-    backBox2: function(e) {
-      if (e.target.value == "") {
+    backBox2(e) {
+      if (e.target.value === "") {
         this.$refs.r2.focus()
       }
     },
@@ -56,19 +57,19 @@ export default {
       const height = this.height100 + this.height10 + this.height01 ;
       const url = this.url + 'match/height'
       axios.post(url, {
-        height: height
+        height
       }).then(() => {
             this.$router.push({name: 'MatchWeight'});
           }
       )}
   },
   watch: {
-    height100: function (v) {
+    height100(v) {
       if (v.length >= 1) {
         this.$refs.r2.focus()
       }
     },
-    height10: function(v) {
+    height10(v) {
       if (v.length >= 1) {
         this.$refs.r3.focus()
       }

@@ -25,6 +25,7 @@
 <script>
 import axios from "axios";
 export default {
+  name: 'MatchWeight',
   data() {
     return {
       url: 'http://127.0.0.1:8000/api/',
@@ -44,13 +45,13 @@ export default {
     validate01() {
       this.weight01 = this.weight01.replace(/\D/g, '')
     },
-    backBox: function(e) {
-      if (e.target.value == "") {
+    backBox(e) {
+      if (e.target.value === "") {
         this.$refs.r1.focus()
       }
     },
-    backBox2: function(e) {
-      if (e.target.value == "") {
+    backBox2(e) {
+      if (e.target.value === "") {
         this.$refs.r2.focus()
       }
     },
@@ -58,19 +59,19 @@ export default {
       const weight = this.weight100 + this.weight10 + this.weight01 ;
       const url = this.url + 'match/weight'
       axios.post(url, {
-        weight: weight
+        weight
       }).then(() => {
             this.$router.push({name: 'MatchSalary'});
           }
       )}
   },
   watch: {
-    weight100: function (v) {
+    weight100(v) {
       if (v.length >= 1) {
         this.$refs.r2.focus()
       }
     },
-    weight10: function(v) {
+    weight10(v) {
       if (v.length >= 1) {
         this.$refs.r3.focus()
       }
