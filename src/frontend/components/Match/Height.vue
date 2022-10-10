@@ -1,103 +1,93 @@
 <template>
-  <div>
-      <p class="big-text d-flex justify-center">身長を入力してください</p>
-      <div class="height-wrap">
-        <input class="height-box" type="text" maxlength="1" v-model="height100" @input="validate100" ref="r1">
-        <input class="height-box" type="text" maxlength="1" v-model="height10" @input="validate10" ref="r2" @keydown.delete="backBox">
-        <input class="height-box" type="text" maxlength="1" v-model="height01" @input="validate01" ref="r3" @keydown.delete="backBox2">
-        <p class="height-text big-text">cm</p>
-      </div>
-      <div class="btn-wrap">
-        <button
-            class="back-btn"
-            @click="$router.back()"
-        >戻る</button>
-        <button
-            class="next-btn"
-            @click="saveSessionHeight"
-        >次へ</button>
-      </div>
+  <div class="all">
+    <p class="big-text d-flex justify-center">身長を入力してください</p>
+    <div class="height-wrap">
+      <label>
+        <input 
+          v-for="(input, index) in length"
+          :id="generateInputNum(index)"
+          :ref="generateInputNum(index)"
+          :key="index"
+          v-model="inputValues[index]"
+          class="number"
+          type="tel"
+          maxlength="1"
+          autocomplete="off"
+          oninput="value = value.replace(/[^0-9]+/i,'');"
+          @keyup="handleInputFocus(index, $event)"
+          @input="numberInput()"
+        >
+      </label>
+      <p class="height-text big-text">cm</p>
+    </div>
+    <div class="btn-wrap">
+      <button
+        class="back-btn"
+        @click="clickBack()"
+      >戻る</button>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: 'MatchHeight',
-  data() {
+  data () {
     return {
-      url: 'http://127.0.0.1:8000/api/',
-      height100: '1',
-      height10: null,
-      height01: null,
-      errors: []
+      inputValues: [1],
+      length: 3
     }
   },
   methods: {
-    validate100() {
-      this.height100 = this.height100.replace(/\D/g, '')
+    generateInputNum (index) {
+      return `item_${index + 1}`
     },
-    validate10() {
-      this.height10 = this.height10.replace(/\D/g, '')
-    },
-    validate01() {
-      this.height01 = this.height01.replace(/\D/g, '')
-    },
-    backBox(e) {
-      if (e.target.value === "") {
-        this.$refs.r1.focus()
+    handleInputFocus (index, event) {
+      if (this.inputValues[index] && this.inputValues[index] !== '' && index < this.length -1) {
+        const [nextInput] = this.$refs[`item_${index + 2}`]
+        nextInput.focus()
+      } else if (index > 0 && (!this.inputValues[index] || this.inputValues[index] === '') && event.key === 'Backspace') {
+        const [previusInput] = this.$refs[`item_${index}`]
+        previusInput.focus()
       }
     },
-    backBox2(e) {
-      if (e.target.value === "") {
-        this.$refs.r2.focus()
-      }
+    numberInput () {
+      this.$emit('click-height', this.inputValues.join(''))
     },
-    saveSessionHeight(){
-      const height = this.height100 + this.height10 + this.height01 ;
-      const url = this.url + 'match/height'
-      axios.post(url, {
-        height
-      }).then(() => {
-            this.$router.push({name: 'MatchWeight'});
-          }
-      )}
-  },
-  watch: {
-    height100(v) {
-      if (v.length >= 1) {
-        this.$refs.r2.focus()
-      }
+    clickBack () {
+      this.$emit('click-back', 2)
     },
-    height10(v) {
-      if (v.length >= 1) {
-        this.$refs.r3.focus()
-      }
+    resetHeight () {
+      this.inputValues = [1]
     },
-  },
+    focusInput () {
+      this.$refs.item_2[0].focus()
+    }
+  }
 }
 </script>
 
 <style scoped>
+.all {
+  margin-right: 20px;
+}
+
 .big-text {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
 }
 
 .height-wrap {
   text-align: center;
-  align-items: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
 }
 
-.height-box {
+.number {
   border: 2px solid #B9C9CE;
   border-radius:5px;
-  height: 60px;
-  max-width: 60px;
-  margin: 10px;
+  height: 50px;
+  max-width: 50px;
+  margin: 5px;
   font-size: 1.5em;
   text-align: center;
   font-family: 'Noto Sans JP', sans-serif;
@@ -109,26 +99,13 @@ export default {
   margin: 0;
 }
 
-input[type="text"]:focus {
+input[type="tel"]:focus {
   border: none;
   outline: 2px solid black;
 }
 
 .btn-wrap {
   text-align: center;
-  margin-right: 20px;
-}
-
-.next-btn {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1em;
-  color: slategray;
-  background-color: white;
-  width: 100px;
-  height: 30px;
-  border-radius: .3em;
-  outline: 1px solid #B9C9CE;
-  margin: 20px 0 15px 15px;
 }
 
 .back-btn {
@@ -140,12 +117,7 @@ input[type="text"]:focus {
   height: 30px;
   border-radius: .3em;
   outline: 1px solid #B9C9CE;
-  margin: 20px 0 15px 15px;
-}
-
-.next-btn:hover {
-  outline: none;
-  border: 2px solid #B9C9CE;
+  margin: 20px 17px 5px 0;
 }
 
 .back-btn:hover {
@@ -162,20 +134,26 @@ input[type="text"]:focus {
     margin-top: 50px;
   }
 
-  .height-box {
+  .number {
     height: 70px;
     max-width: 70px;
     margin: 15px;
     font-size: 2em;
-    text-align: center;
   }
 
   .height-text {
     margin-left: 10px;
   }
   
+  .back-btn {
+    font-size: 1.2em;
+    width: 120px;
+    height: 36px;
+  }
+
   .btn-wrap {
-    margin-right: 50px;
+    margin-top: 30px;
+    margin-right: 35px;
   }
 }
 </style>

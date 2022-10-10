@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="all"> 
+    <h2>{{ title }}</h2>
     <form class="join-wrap">
-      <v-text-field
+      <div class="main-wrap">
+        <v-text-field
         v-model="name"
         :error-messages="nameErrors"
         :counter="10"
@@ -50,6 +52,7 @@
         @change="$v.checkbox.$touch()"
         @blur="$v.checkbox.$touch()"
       ></v-checkbox>
+      </div>
       <div class="btn-wrap">
         <button class="back-btn" @click="$router.back()">戻る</button>
         <button class="next-btn" @click="submit">次へ</button>
@@ -70,18 +73,20 @@ export default {
     checkbox: {
       checked(val) {
         return val
-      },
-    },
+      }
+    }
   },
   name: 'JoinleaveJoin',
-  data: () => ({
+  data () {
+    return {
     name: '',
     email: '',
     password: '',
     select: null,
     checkbox: false,
-  }),
-
+    title: '無料会員登録'
+    }
+  },
   computed: {
     checkboxErrors() {
       const errors = []
@@ -115,6 +120,22 @@ export default {
 </script>
 
 <style scoped>
+.all {
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Rampart One', cursive;
+  color: dimgrey;
+  margin: 20px;
+}
+
+.main-wrap {
+  margin-left: 20%;
+  margin-right: 20%;
+  max-width: 800px;
+}
+
 .small-text {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 1em;
@@ -122,12 +143,10 @@ export default {
 }
 
 .join-wrap {
-  margin-right: 20%;
-  margin-left: 20%;
+  margin-top: 50px;
 }
 
 .btn-wrap {
-  text-align: center;
   margin-right: 20px;
 }
 
@@ -140,7 +159,7 @@ export default {
   height: 30px;
   border-radius: 0.3em;
   outline: 1px solid #b9c9ce;
-  margin: 50px 0 15px 15px;
+  margin: 30px 0 15px 15px;
 }
 
 .back-btn {
@@ -152,7 +171,7 @@ export default {
   height: 30px;
   border-radius: 0.3em;
   outline: 1px solid #b9c9ce;
-  margin: 50px 0 15px 15px;
+  margin: 30px 0 15px 15px;
 }
 
 .next-btn:hover {

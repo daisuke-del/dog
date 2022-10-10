@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="all">
     <p class="big-text d-flex justify-center">出会う方法を選択してください</p>
     <v-row class="place-wrap">
       <v-col
@@ -9,13 +9,16 @@
         sm="4"
         class="place-box"
       >
-        <v-card class="place-card">
+        <v-card 
+          class="place-card"
+          @click="clickPlace(match.name)"
+        >
           <v-img :src="match.img" />
         </v-card>
       </v-col>
     </v-row>
     <div class="btn-wrap">
-      <button class="back-btn" @click="$router.back()">戻る</button>
+      <button class="back-btn" @click="clickBack()">戻る</button>
     </div>
   </div>
 </template>
@@ -34,20 +37,40 @@ export default {
         { name: 'tinder', img: require('@/assets/match/tinder.jpeg') },
         { name: 'workplace', img: require('@/assets/match/workplace.jpeg') },
       ],
+      place: null
     }
   },
+  methods: {
+    clickPlace (place) {
+      this.place = place
+      this.$emit('click-place', this.place) 
+    },
+    clickBack () {
+      this.$emit('click-back', 6)
+    },
+    resetPlace () {
+      this.place = null
+    }
+  }
 }
 </script>
 
 <style scoped>
+.all {
+  margin-right:30px ;
+}
+
 .big-text {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
 }
 
 .place-wrap {
-  margin: 50px 50px 30px 30px;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .place-box {
@@ -57,6 +80,8 @@ export default {
 
 .place-card {
   margin: 10px;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 .btn-wrap {
@@ -85,11 +110,20 @@ export default {
   .big-text {
     font-size: 2em;
   }
-}
 
-@media screen and (min-width: 900px) {
-  .place-card {
-    margin: 30px;
+  .place-wrap {
+    margin-top: 50px;
+  }
+
+  .btn-wrap {
+    margin-top: 30px;
+    margin-right: 22px;
+  }
+
+  .back-btn {
+    font-size: 1.2em;
+    width: 120px;
+    height: 36px;
   }
 }
 </style>

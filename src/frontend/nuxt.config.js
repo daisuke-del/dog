@@ -47,17 +47,73 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
   ],
 
+  proxy: {
+    '/api/': {
+      target: 'http://127.0.0.1:8000'
+    }
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    proxy: true,
+    retry: {
+      retries: 2
+    },
+    prefix: '/',
   },
+  auth: {
+    plugins: ['~/plugins/auth'],
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: false,
+      home: false
+    }
+  },
+  strategies: {
+    login: {
+      scheme: 'local',
+      endpoints: {
+        login: {
+          url: '/api/user/login',
+          method: 'post',
+          propertyName: false
+        },
+        logout: {
+          url: '/api/user/logout',
+          method: 'post',
+          propertyName: false
+        },
+        user: false
+      }
+    },
+    signUp: {
+      scheme: 'local',
+      endpoints: {
+        login: {
+          url: '/api/user/auth',
+          method: 'post',
+          propertyName: false
+        },
+        logout: {
+          url: '/api/user/logout',
+          method: 'post',
+          propertyName: false
+        },
+        user: false
+      }
+    }
+  },
+  // router: {
+  //   middleware: ['auth']
+  // },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -71,6 +127,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    treeShake: true,
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,
@@ -87,15 +144,6 @@ export default {
       },
     },
   },
-
-  // themes: {
-  //   light: {
-  //       primary: '#F57AB1',
-  //       secondary: '#ff9494',
-  //       accent: '#545454',
-  //       error: '#A10035',
-  //   },
-// },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

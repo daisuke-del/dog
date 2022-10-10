@@ -1,11 +1,11 @@
 <template>
   <div class="all">
-      <p class="big-text d-flex justify-center mb-6">性別を選択してください</p>
+      <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
       <div class="card-wrap">
       <v-card hover class="card" @click="clickGender('male')">
         <v-img :src="male_image" />
       </v-card>
-<v-card hover class="card" @click="clickGender('female')">
+        <v-card hover class="card" @click="clickGender('female')">
         <v-img :src="female_image" />
       </v-card>
       </div>
@@ -17,37 +17,41 @@ export default {
   name: 'MatchGender',
   data() {
     return {
-      url: 'http://127.0.0.1:8000/api/',
-      errored: false,
-      loading: true,
       male_image: require("@/assets/faceimages/male.jpeg"),
-      female_image: require("@/assets/faceimages/female.jpeg")
+      female_image: require("@/assets/faceimages/female.jpeg"),
+      gender: null
     }
   },
   methods: {
+    clickGender (gender) {
+      this.gender = gender
+      this.$emit('click-gender', this.gender)
+    },
+    resetGender () {
+      this.gender = null
+    }
   }
 }
 </script>
 
 <style scoped>
 .all {
-  height: 100%;
+  margin-right: 20px;
 }
 
 .big-text {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
 }
 
 .card-wrap {
   text-align: center;
-  margin-top: 20px;
 }
 
 .card {
   display: inline-block;
-  width: 35%;
+  width: 40%;
   max-width: 250px;
   margin: 10px;
 }

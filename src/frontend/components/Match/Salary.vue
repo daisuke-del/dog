@@ -1,50 +1,48 @@
 <template>
   <div>
-    <common-flame>
-      <p class="big-text d-flex justify-center">年収を選択してください</p>
-      <div class="salary-wrap d-flex justify-center">
-        <v-select
-            class="salary-box"
-            :items="salaryRange"
-            v-model="item"
-            label="年収を選択"
-            hide-details
-            prepend-icon="mdi-currency-jpy"
-            solo
-            color="slategray"
-            width="100px"
-        />
-        <p class="salary-text big-text">万円</p>
-      </div>
-      <div class="btn-wrap">
-        <button
-            class="back-btn"
-            @click="$router.back()"
-        >戻る</button>
-        <button
-            class="next-btn"
-            @click="saveSessionSalary"
-        >次へ</button>
-        {{ item }}
-      </div>
-    </common-flame>
+    <p class="big-text d-flex justify-center">年収を選択してください</p>
+    <div class="salary-wrap d-flex justify-center">
+      <v-select
+        class="salary-box"
+        :items="salaryRange"
+        v-model="item"
+        label="年収を選択"
+        hide-details
+        prepend-icon="mdi-currency-jpy"
+        solo
+        color="slategray"
+        width="100px"
+      />
+      <p class="salary-text big-text">万円</p>
+    </div>
+    <div class="btn-wrap">
+      <button class="back-btn" @click="clickBack()">戻る</button>
+      <button  v-if="item != null" class="next-btn" @click="clickSalary()">次へ</button>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: 'MatchSalary',
-  data() {
+  data () {
     return {
-      url: 'http://127.0.0.1:8000/api/',
-      salaryRange: ['〜 199', '200 〜 399', '400 〜 599', '600 〜 799', '800 〜 999', '1000 〜 1999', '2000 〜 2999', '3000 〜'],
+      salaryRange: [
+        '〜 199',
+        '200 〜 399',
+        '400 〜 599',
+        '600 〜 799',
+        '800 〜 999',
+        '1000 〜 1999',
+        '2000 〜 2999',
+        '3000 〜',
+      ],
       item: null,
-      salary: null
+      salary: null,
     }
   },
   methods: {
-    saveSessionSalary(){
+    clickSalary () {
       if (this.item === '〜 199') {
         this.salary = 150
       } else if (this.item === '200 〜 399') {
@@ -62,26 +60,27 @@ export default {
       } else if (this.item === '3000 〜') {
         this.salary = 3000
       }
-      const url = this.url + 'match/salary'
-      axios.post(url, {
-        salary: this.salary
-      }).then(() => {
-            this.$router.push({name: 'MatchFace'});
-          }
-      )}
+      this.$emit('click-salary', this.salary)
+    },
+    clickBack () {
+      this.$emit('click-back', 4)
+    },
+    resetSalary () {
+      this.salary = null
+      this.item = null
+    }
   },
 }
 </script>
 
 <style scoped>
 .big-text {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
 }
 
 .salary-wrap {
-  margin: 50px 50px 30px 30px;
   align-items: center;
 }
 
@@ -89,7 +88,7 @@ export default {
   display: inline-block;
   width: 80px;
   text-align: center;
-  padding-left:5px ;
+  padding-left: 5px;
   margin: 0;
 }
 
@@ -113,8 +112,8 @@ export default {
   background-color: white;
   width: 100px;
   height: 30px;
-  border-radius: .3em;
-  outline: 1px solid #B9C9CE;
+  border-radius: 0.3em;
+  outline: 1px solid #b9c9ce;
   margin: 20px 0 15px 15px;
 }
 
@@ -125,19 +124,19 @@ export default {
   background-color: white;
   width: 100px;
   height: 30px;
-  border-radius: .3em;
-  outline: 1px solid #B9C9CE;
+  border-radius: 0.3em;
+  outline: 1px solid #b9c9ce;
   margin: 20px 0 15px 15px;
 }
 
 .next-btn:hover {
   outline: none;
-  border: 2px solid #B9C9CE;
+  border: 2px solid #b9c9ce;
 }
 
 .back-btn:hover {
   outline: none;
-  border: 2px solid #B9C9CE;
+  border: 2px solid #b9c9ce;
 }
 
 @media screen and (min-width: 600px) {
@@ -156,5 +155,23 @@ export default {
   .salary-box {
     width: 300px;
   }
+
+  .btn-wrap {
+    margin-top: 30px;
+    margin-right: 40px;
+  }
+
+  .back-btn {
+    font-size: 1.2em;
+    width: 120px;
+    height: 36px;
+  }
+
+  .next-btn {
+    font-size: 1.2em;
+    width: 120px;
+    height: 36px;
+  }
+
 }
 </style>

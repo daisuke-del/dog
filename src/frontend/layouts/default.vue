@@ -57,6 +57,15 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-list-item
+        @click=$router.push(home)
+        class="menu-logo"
+        link
+      >
+        <v-img
+          :src="require('@/assets/logo/logotouka.png')"
+        />
+      </v-list-item>
     </v-navigation-drawer>
   </v-sheet>
   </v-app>
@@ -74,6 +83,7 @@ export default {
         { title: '会員登録', icon: 'mdi-account-plus', link: '/joinleave/join' }
       ],
       title: '',
+      home: '/'
     }
   },
 }
@@ -90,6 +100,10 @@ html {
 .menu {
   background: url("~assets/backGrounds/menu-background.png");
 }
+
+  .menu-logo {
+    padding:10px 30px;
+  }
 
 .header-btn {
   position: fixed;

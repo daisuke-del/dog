@@ -65,7 +65,11 @@ class MatchController extends Controller
      */
     public function age(Request $request)
     {
+        $preAge = session('age');
+        Log::debug($preAge);
         $response = $this->userService->age($request);
+        $age= session('age');
+        Log::debug($age);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 

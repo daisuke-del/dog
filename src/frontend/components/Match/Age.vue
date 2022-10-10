@@ -1,98 +1,96 @@
 <template>
-  <div>
+  <div class="all">
     <p class="big-text d-flex justify-center">年齢を入力してください</p>
     <div class="age-wrap">
-      <input
-        class="age-box"
-        type="text"
-        maxlength="1"
-        v-model="age10"
-        @input="validate10"
-        ref="r1"
-      />
-      <input
-        class="age-box"
-        type="text"
-        maxlength="1"
-        v-model="age01"
-        @input="validate01"
-        ref="r2"
-        @keydown.delete="backBox"
-      />
+      <label>
+        <input 
+          v-for="(input, index) in length"
+          :id="generateInputNum(index)"
+          :ref="generateInputNum(index)"
+          :key="index"
+          v-model="inputValues[index]"
+          class="number"
+          type="tel"
+          maxlength="1"
+          autocomplete="off"
+          oninput="value = value.replace(/[^0-9]+/i,'');"
+          @keyup="handleInputFocus(index, $event)"
+          @input="numberInput()"
+        >
+      </label>
       <p class="age-text big-text">歳</p>
     </div>
     <div class="btn-wrap">
-      <button class="back-btn" @click="$router.back()">戻る</button>
-      <button class="next-btn" @click="saveSessionAge">次へ</button>
+      <button class="back-btn" @click="clickBack()">戻る</button>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'MatchAge',
-  data() {
+  data () {
     return {
-      url: 'http://127.0.0.1:8000/api/',
-      age10: null,
-      age01: null,
-      errors: [],
+      inputValues: [],
+      length: 2
     }
   },
   methods: {
-    validate10() {
-      this.age10 = this.age10.replace(/\D/g, '')
+    generateInputNum (index) {
+      return `item_${index + 1}`
     },
-    validate01() {
-      this.age01 = this.age01.replace(/\D/g, '')
-    },
-    backBox(e) {
-      if (e.target.value === '') {
-        this.$refs.r1.focus()
+    handleInputFocus (index, event) {
+      if (this.inputValues[index] && this.inputValues[index] !== '' && index < this.length -1) {
+        const [nextInput] = this.$refs[`item_${index + 2}`]
+        nextInput.focus()
+      } else if (index > 0 && (!this.inputValues[index] || this.inputValues[index] === '') && event.key === 'Backspace') {
+        const [previusInput] = this.$refs[`item_${index}`]
+        previusInput.focus()
       }
     },
-    saveSessionAge() {
-      const age = this.age10 * 10 + this.age01
-      const url = this.url + 'match/age'
-      axios
-        .post(url, {
-          age,
-        })
-        .then(() => {
-          this.$router.push({ name: 'MatchHeight' })
-        })
+    numberInput () {
+      this.$emit('click-age', this.inputValues.join(''))
     },
-  },
-  watch: {
-    age10(v) {
-      if (v.length >= 1) {
-        this.$refs.r2.focus()
-      }
+    clickBack () {
+      this.$emit('click-back', 1)
     },
-  },
+    resetAge () {
+      this.inputValues = []
+    },
+    focusInput () {
+      this.$refs.item_1[0].focus()
+    }
+  }
 }
 </script>
 
 <style scoped>
+.all {
+  margin-right: 20px;
+}
+
 .big-text {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
 }
 
 .age-wrap {
   text-align: center;
-  margin-top: 50px;
 }
 
-.age-box {
+input[type="tel"]:focus {
+  border: none;
+  outline: 2px solid black;
+}
+
+.number {
   border: 2px solid #b9c9ce;
   border-radius: 5px;
   height: 60px;
   max-width: 60px;
   margin: 10px;
-  font-size: 1.5em;
+  font-size: 1.7em;
   text-align: center;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
@@ -103,26 +101,8 @@ export default {
   margin: 0;
 }
 
-input[type='text']:focus {
-  border: none;
-  outline: 2px solid black;
-}
-
 .btn-wrap {
   text-align: center;
-  margin-right: 20px;
-}
-
-.next-btn {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1em;
-  color: slategray;
-  background-color: white;
-  width: 100px;
-  height: 30px;
-  border-radius: 0.3em;
-  outline: 1px solid #b9c9ce;
-  margin: 50px 0 15px 15px;
 }
 
 .back-btn {
@@ -132,14 +112,9 @@ input[type='text']:focus {
   background-color: white;
   width: 100px;
   height: 30px;
-  border-radius: 0.3em;
+  border-radius: .3em;
   outline: 1px solid #b9c9ce;
-  margin: 50px 0 15px 15px;
-}
-
-.next-btn:hover {
-  outline: none;
-  border: 2px solid #b9c9ce;
+  margin: 20px 17px 5px 0;
 }
 
 .back-btn:hover {
@@ -156,7 +131,7 @@ input[type='text']:focus {
     margin-top: 50px;
   }
 
-  .age-box {
+  .number {
     height: 70px;
     max-width: 70px;
     margin: 15px;
@@ -167,9 +142,16 @@ input[type='text']:focus {
   .age-text {
     margin-left: 10px;
   }
+
+  .back-btn {
+    font-size: 1.2em;
+    width: 120px;
+    height: 36px;
+  }
   
   .btn-wrap {
-    margin-right: 50px;
+    margin-top: 30px;
+    margin-right: 25px;
   }
 }
 </style>
