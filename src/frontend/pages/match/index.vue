@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <h2>{{ titile }}</h2>
+    <h2>{{ title }}</h2>
     <v-stepper v-model="position" class="ma-4" vertical light>
         <v-stepper-step
           :complete="position > 1"
@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MatchGender from '~/components/Match/Gender'
 import MatchAge from '~/components/Match/Age'
 import MatchHeight from '~/components/Match/Height'
@@ -130,7 +131,7 @@ export default {
   },
   data () {
     return {
-      titile: 'マッチング診断',
+      title: 'マッチング診断',
       position: 1,
       isError: false,
       isFilterError: false,
@@ -142,7 +143,7 @@ export default {
       weight: null,
       salary: null,
       face: null,
-      place: null
+      place: null,
     }
   },
   methods: {
@@ -181,35 +182,46 @@ export default {
     },
     inputPlace (value) {
       this.place = value
-      
+      this.$store.dispatch('match/setMatch', {
+        gender: this.gender,
+        age: this.age,
+        height: this.height,
+        weight: this.weight,
+        salary: this.salary,
+        face: this.face,
+        place: this.place
+      })
     },
-   transitionContent (num) {
-    this.position = num
-   },
-   backContent (num) {
-    if (num === 1) {
-      this.$refs.gender.resetGender()
-      this.transitionContent (num)
-    } else if (num === 2) {
-      this.$refs.age.resetAge()
-      this.transitionContent (num)
-    } else if (num === 3) {
-      this.$refs.height.resetHeight()
-      this.transitionContent (num)
-    } else if (num === 4) {
-      this.$refs.weight.resetWeight()
-      this.transitionContent (num)
-    } else if (num === 5) {
-      this.$refs.salary.resetSalary()
-      this.transitionContent (num)
-    } else if (num === 6) {
-      this.$refs.face.resetFace()
-      this.transitionContent (num)
-    } else if (num === 7) {
-      this.$refs.place.resetPlace()
-      this.transitionContent (num)
+    transitionContent (num) {
+      this.position = num
+    },
+    backContent (num) {
+      if (num === 1) {
+        this.$refs.gender.resetGender()
+        this.transitionContent (num)
+      } else if (num === 2) {
+        this.$refs.age.resetAge()
+        this.transitionContent (num)
+      } else if (num === 3) {
+        this.$refs.height.resetHeight()
+        this.transitionContent (num)
+      } else if (num === 4) {
+        this.$refs.weight.resetWeight()
+        this.transitionContent (num)
+      } else if (num === 5) {
+        this.$refs.salary.resetSalary()
+        this.transitionContent (num)
+      } else if (num === 6) {
+        this.$refs.face.resetFace()
+        this.transitionContent (num)
+      } else if (num === 7) {
+        this.$refs.place.resetPlace()
+        this.transitionContent (num)
+      }
     }
-   }
+  },
+  computed: {
+    ...mapGetters(['match/match'])
   }
 }
 </script>

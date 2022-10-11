@@ -10,7 +10,7 @@ export const state = () => ({
   }
 })
 
-export const getter = {
+export const getters = {
   match: (state) => {
     return state.match
   }
@@ -38,8 +38,7 @@ export const mutations = {
 }
 
 export const actions = {
-  setMatch ({ commit }) {
-    commit('setMatch')
-  },
-  
+  setMatch ({ commit }, match) {
+    commit('setMatch', match)
+  }
 }
