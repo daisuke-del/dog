@@ -2,7 +2,6 @@ version: '3.8'
 
 volumes:
   mysql-volume:
-  # session_redis_data:
 
 services:
   app:
@@ -45,17 +44,4 @@ services:
       TZ: 'Asia/Tokyo'
     volumes:
       - mysql-volume:/var/lib/mysql
-  node:
-    build: ./docker/node
-    container_name: match_node
-    volumes:
-      - ./src/:/app
-    working_dir: /app/frontend
-  # session_redis:
-  #   image: redis:5.0.6-alpine
-  #   container_name: session_redis
-  #   command: redis-server --appendonly yes
-  #   ports: 
-  #     - 6379:6379
-  #   volumes:
-  #     - session_redis_data:/data
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
