@@ -1,20 +1,22 @@
 <template>
   <div>
+    <h1>{{ title }}</h1>
     <div class="main-all">
-      <parts-modal
+      <common-cropperjs
+        v-show="modalCropper"
+        @close-image-modal="closeModalCrop"
+        @save-crop-image="saveCropImage"
+      />
+      <common-modal
         :n="num"
         v-show="modal"
         @summary-method="summaryMethod"
-      ></parts-modal>
-      <parts-modalfile
-        v-if="modalfile"
-        @execute-method="executeMethod"
-      ></parts-modalfile>
+      />
       <div class="main-wrap">
         <p class="name-text">{{ name }}</p>
         <v-row>
           <v-col cols="6">
-            <v-card class="face-card">
+            <v-card light class="face-card">
               <div class="image-wrap">
                 <v-img
                   :src="require('@/assets/faceimages/nface_image/face_image/99.jpeg')"
@@ -24,7 +26,7 @@
                   elevation="5"
                   fab
                   small
-                  @click="showModalfile"
+                  @click="modalCroppers"
                 >
                   <v-icon color="white"> mdi-image-size-select-actual </v-icon>
                 </v-btn>
@@ -32,7 +34,7 @@
             </v-card>
           </v-col>
           <v-col cols="6">
-            <v-card class="my-card ml-auto">
+            <v-card light class="my-card ml-auto">
               <div class="rank-wrap">
                 <p class="big-text">総合ランク</p>
                 <v-img
@@ -71,12 +73,12 @@
       <v-row>
         <v-col cols="12" class="list-all">
           <p class="name-text">フレンドリスト</p>
-          <v-sheet class="mx-auto" elevation="8">
+          <v-sheet light class="mx-auto" elevation="8">
             <v-slide-group v-model="model" active-class="success" show-arrows>
               <v-slide-item v-for="n in 15" :key="n">
                 <v-card
                   @click="showProfile(n)"
-                  class="mt-4 mb-4 mr-2"
+                  class="mt-3 mb-3 mr-2"
                   height="150"
                   width="100"
                 >
@@ -109,8 +111,9 @@
           </v-sheet>
           <div class="btn-wrap">
             <v-btn
-              class="small-text mt-8"
-              solo
+              class="small-text show-friend-btn mt-8"
+              text
+              light
               @click="isShowFriend = !isShowFriend"
             >
               全てのフレンド
@@ -123,11 +126,11 @@
           v-for="n in 15"
           :key="n"
           cols="6"
-          md="4"
+          md="3"
           lg="2"
           class="d-flex justify-center"
         >
-          <v-card @click="showProfile(n)" height="250px" width="200px">
+          <v-card light @click="showProfile(n)" height="250px" width="200px">
             <v-img
               :src="
                 require('@/assets/faceimages/nface_image/mface_image/' + n + '.jpeg')
@@ -166,16 +169,17 @@
 </template>
 
 <script>
-import PartsModal from '@/components/modal'
-import PartsModalfile from '@/components/modalfile'
+import CommonModal from '@/components/Common/Modal'
+import CommonCropperjs from '@/components/Common/Cropper'
 export default {
   components: {
-    PartsModal,
-    PartsModalfile,
+    CommonModal,
+    CommonCropperjs
   },
   name: 'MyPage',
   data() {
     return {
+      title: 'マイページ',
       model: null,
       name: '花澤美里',
       modal: false,
@@ -185,46 +189,58 @@ export default {
       rank: 100,
       score: 'A',
       isShowFriend: false,
+      modalCropper: false
     }
   },
   props: {
     msg: String,
   },
   methods: {
+    modalCroppers () {
+      this.modalCropper = true
+    },
     showProfile(num) {
       this.num = num
       this.modal = true
     },
-    showModalfile() {
-      this.modalfile = true
-    },
     summaryMethod(status) {
       this.modal = status
     },
-    executeMethod(status) {
-      this.modalfile = false
-      if (status === true) {
-        confirm(
-          '写真を変更すると継続スコアがリセットされます。\n変更しますか？'
-        )
-      }
+    closeModalCrop () {
+      this.modalCropper = false
     },
+    saveCropImage () {
+      if(confirm('写真を変更すると継続スコアがリセットされます。\n変更しますか？')){
+        this.modalCropper = false
+        // face_imageとupdate_at を更新
+      }
+    }
   },
 }
 </script>
 
 <style scoped>
+h1 {
+  font-family: 'Rampart One', cursive;
+  color: dimgrey;
+  margin: 20px;
+  text-align: center;
+}
+
 .main-all {
   align-items: center;
+  margin: 10px;
 }
 
 .main-wrap {
-  margin-left: 0;
-  margin-right: 0;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 .list-all {
   align-items: center;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 .name-text {
@@ -318,6 +334,11 @@ export default {
   margin-right: 5px;
 }
 
+.show-friend-btn {
+  font-weight: bolder;
+  font-size: large;
+}
+
 @media screen and (min-width: 450px) {
   .point-text {
     font-size: 1.2em;
@@ -330,11 +351,6 @@ export default {
     font-size: 1.5em;
   }
 
-  .main-wrap {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
-
   .rank-wrap {
     padding-top: 10px;
   }
@@ -345,11 +361,6 @@ export default {
 }
 
 @media screen and (min-width: 1000px) {
-  .main-wrap {
-    margin-left: 10%;
-    margin-right: 10%;
-  }
-
   .point-text {
     font-size: 1.5em;
     margin-top: 10px;
@@ -357,13 +368,6 @@ export default {
 
   .point-wrap {
     padding-top: 30px;
-  }
-}
-
-@media screen and (min-width: 1264px) {
-  .main-wrap {
-    margin-left: 20%;
-    margin-right: 20%;
   }
 }
 </style>
