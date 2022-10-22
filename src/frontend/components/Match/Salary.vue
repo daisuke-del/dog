@@ -3,15 +3,14 @@
     <p class="big-text d-flex justify-center">年収を選択してください</p>
     <div class="salary-wrap d-flex justify-center">
       <v-select
-        class="salary-box"
         :items="salaryRange"
         v-model="item"
         label="年収を選択"
         hide-details
-        prepend-icon="mdi-currency-jpy"
         solo
-        color="slategray"
-        width="100px"
+        flat
+        height="80px"
+        class="salary-box"
       />
       <p class="salary-text big-text">万円</p>
     </div>
@@ -94,15 +93,16 @@ export default {
 
 .salary-box {
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1em;
-  width: 100px;
+  font-size: 1.3em;
   max-width: 300px;
   min-width: 100px;
+  border: 2px solid #b9c9ce;
+  border-radius: 5px;
 }
 
 .btn-wrap {
   text-align: center;
-  margin-right: 20px;
+  height: 60px;
 }
 
 .next-btn {
@@ -139,39 +139,35 @@ export default {
   border: 2px solid #b9c9ce;
 }
 
+.v-select >>> .v-select__selections {
+  color: slategray;
+}
+
 @media screen and (min-width: 600px) {
   .big-text {
-    font-size: 2em;
+    font-size: 2.3em;
   }
 
   .salary-wrap {
-    margin-top: 50px;
+    height: 100px;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 
   .salary-text {
     margin-left: 10px;
   }
 
-  .salary-box {
-    width: 300px;
-  }
-
   .btn-wrap {
-    margin-top: 30px;
     margin-right: 40px;
+    height: 100px;
   }
 
-  .back-btn {
-    font-size: 1.2em;
-    width: 120px;
-    height: 36px;
-  }
-
+  .back-btn,
   .next-btn {
-    font-size: 1.2em;
-    width: 120px;
-    height: 36px;
+    font-size: 1.5em;
+    width: 200px;
+    height: 50px;
   }
-
 }
 </style>

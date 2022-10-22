@@ -79,9 +79,9 @@ export default {
 }
 
 .place-card {
-  margin: 10px;
-  max-width: 200px;
-  max-height: 200px;
+  margin: 5px;
+  max-width: 250px;
+  max-height: 250px;
 }
 
 .btn-wrap {
@@ -112,18 +112,13 @@ export default {
   }
 
   .place-wrap {
-    margin-top: 50px;
-  }
-
-  .btn-wrap {
     margin-top: 30px;
-    margin-right: 22px;
   }
 
   .back-btn {
-    font-size: 1.2em;
-    width: 120px;
-    height: 36px;
+    font-size: 1.5em;
+    width: 200px;
+    height: 50px;
   }
 }
 </style>

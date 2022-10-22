@@ -75,12 +75,12 @@ export default {
 }
 
 .face-card {
-  max-width: 200px;
+  max-width: 250px;
 }
 
 .face-slider {
   margin-top: 30px;
-  max-width: 500px;
+  max-width: 400px;
 }
 
 .btn-wrap {
@@ -124,32 +124,22 @@ export default {
 
 @media screen and (min-width: 600px) {
   .big-text {
-    font-size: 2em;
+    font-size: 2.3em;
   }
 
   .face-wrap {
-    margin-top: 50px;
+    margin-top: 30px;
   }
 
   .face-card {
-  max-width: 350px;
+  max-width: 400px;
 }
 
-  .btn-wrap {
-    margin-top: 30px;
-    margin-right: 22px;
-  }
-
+  .next-btn,
   .back-btn {
-    font-size: 1.2em;
-    width: 120px;
-    height: 36px;
-  }
-
-  .next-btn {
-    font-size: 1.2em;
-    width: 120px;
-    height: 36px;
+    font-size: 1.5em;
+    width: 200px;
+    height: 50px;
   }
 }
 </style>

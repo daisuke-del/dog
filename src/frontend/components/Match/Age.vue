@@ -31,8 +31,8 @@ export default {
   name: 'MatchAge',
   data () {
     return {
-      inputValues: [],
-      length: 2
+      inputValues: [0],
+      length: 3
     }
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
       this.inputValues = []
     },
     focusInput () {
-      this.$refs.item_1[0].focus()
+      this.$refs.item_2[0].focus()
     }
   }
 }
@@ -77,11 +77,6 @@ export default {
 
 .age-wrap {
   text-align: center;
-}
-
-input[type="tel"]:focus {
-  border: none;
-  outline: 2px solid black;
 }
 
 .number {
@@ -124,7 +119,7 @@ input[type="tel"]:focus {
 
 @media screen and (min-width: 600px) {
   .big-text {
-    font-size: 2em;
+    font-size: 2.3em;
   }
 
   .age-wrap {
@@ -132,10 +127,10 @@ input[type="tel"]:focus {
   }
 
   .number {
-    height: 70px;
-    max-width: 70px;
+    height: 100px;
+    max-width: 100px;
     margin: 15px;
-    font-size: 2em;
+    font-size: 2.5em;
     text-align: center;
   }
 
@@ -144,9 +139,9 @@ input[type="tel"]:focus {
   }
 
   .back-btn {
-    font-size: 1.2em;
-    width: 120px;
-    height: 36px;
+    font-size: 1.5em;
+    width: 200px;
+    height: 50px;
   }
   
   .btn-wrap {

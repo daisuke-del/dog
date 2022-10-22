@@ -96,11 +96,6 @@ export default {
   margin: 0;
 }
 
-input[type='tel']:focus {
-  border: none;
-  outline: 2px solid black;
-}
-
 .btn-wrap {
   text-align: center;
 }
@@ -124,7 +119,7 @@ input[type='tel']:focus {
 
 @media screen and (min-width: 600px) {
   .big-text {
-    font-size: 2em;
+    font-size: 2.3em;
   }
 
   .weight-wrap {
@@ -132,10 +127,10 @@ input[type='tel']:focus {
   }
 
   .number {
-    height: 70px;
-    max-width: 70px;
+    height: 100px;
+    max-width: 100px;
     margin: 15px;
-    font-size: 2em;
+    font-size: 2.5em;
   }
 
   .weight-text {
@@ -143,9 +138,9 @@ input[type='tel']:focus {
   }
 
   .back-btn {
-    font-size: 1.2em;
-    width: 130px;
-    height: 36px;
+    font-size: 1.5em;
+    width: 200px;
+    height: 50px;
   }
 
   .btn-wrap {

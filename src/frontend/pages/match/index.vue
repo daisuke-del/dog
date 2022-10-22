@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <h2>{{ title }}</h2>
+    <h1>{{ title }}</h1>
     <v-stepper v-model="position" class="ma-4" vertical light>
         <v-stepper-step
           :complete="position > 1"
@@ -119,6 +119,7 @@ import MatchSalary from '~/components/Match/Salary'
 import MatchFace from '~/components/Match/Face'
 import MatchPlace from '~/components/Match/Place'
 export default {
+  auth: false,
   name: 'PagesMatch',
   components: {
     MatchGender,
@@ -153,7 +154,7 @@ export default {
       this.$refs.age.focusInput()
     },
     inputAge (value) {
-      if (value.length === 2) {
+      if (value.length === 3) {
         this.age = value
         this.transitionContent(3)
         this.$refs.height.focusInput()
@@ -234,7 +235,7 @@ export default {
   margin-right: auto;
 }
 
-h2 {
+h1 {
   font-family: 'Rampart One', cursive;
   color: dimgrey;
   margin: 20px;

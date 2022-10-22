@@ -67,7 +67,7 @@ export default {
 
 @media screen and (min-width: 600px) {
   .big-text {
-    font-size: 2em;
+    font-size: 2.3em;
   }
 
   .card {
