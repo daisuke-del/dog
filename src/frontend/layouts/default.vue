@@ -2,7 +2,7 @@
   <v-app class="bg">
    <v-sheet
       class="overflow-hidden bg"
-  >
+   >
       <v-btn
           @click.stop="drawer = !drawer"
           fab
@@ -35,25 +35,29 @@
           <v-list-item-title>Guest</v-list-item-title>
         </v-list-item-content>
         <v-icon
-            @click.stop="drawer = !drawer"
+          @click.stop="drawer = !drawer"
         >
           mdi-close-thick
         </v-icon>
       </v-list-item>
       <v-list dense light>
         <v-list-item
-            v-for="item in items"
-            @click=$router.push(item.link)
-            :key="item.title"
-            link
+          v-for="item in items"
+          @click=$router.push(item.link)
+          :key="item.title"
+          link
         >
           <v-list-item-icon>
-            <v-icon >{{ item.icon }}</v-icon>
+            <v-icon >
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-icon>
           <v-list-item-content >
             <v-list-item-title
-            color="accent"
-            >{{ item.title }}</v-list-item-title>
+              color="accent"
+            >
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -79,8 +83,8 @@ export default {
       drawer: null,
       items: [
         { title: 'マッチング診断', icon: 'mdi-face-recognition', link: '/match' },
-        { title: 'ログイン', icon: 'mdi-door-open', link: '/joinleave/login' },
-        { title: '会員登録', icon: 'mdi-account-plus', link: '/joinleave/join' }
+        { title: 'ログイン', icon: 'mdi-door-open', link: '/login' },
+        { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' }
       ],
       title: '',
       home: '/'
@@ -101,9 +105,9 @@ html {
   background: url("~assets/backGrounds/menu-background.png");
 }
 
-  .menu-logo {
-    padding:10px 30px;
-  }
+.menu-logo {
+  padding:10px 30px;
+}
 
 .header-btn {
   position: fixed;

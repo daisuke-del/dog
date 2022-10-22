@@ -2,7 +2,9 @@
   <div>
     <div class="main-wrapper justify-center">
       <div class="top-text-wrap">
-        <v-img :src="image_src_logo" />
+        <v-img
+          :src="image_src_logo"
+        />
         <v-img
           :src="subtext"
           class="top-text"
