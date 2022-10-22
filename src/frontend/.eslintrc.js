@@ -1,4 +1,7 @@
 module.exports = {
+  'globals': {
+    '$': false
+  },
   root: true,
   env: {
     browser: true,
@@ -11,5 +14,7 @@ module.exports = {
   extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier'],
   plugins: [],
   // add your custom rules here
-  rules: {},
+  rules: {
+    'camelcase': 'off',
+  },
 }
