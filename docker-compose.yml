@@ -1,10 +1,7 @@
 version: '3.8'
 
-volumes:
-  mysql-volume:
-
 services:
-  app:
+  match_nginx:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
@@ -12,13 +9,13 @@ services:
     volumes:
       - ./src/:/var/www/html
     environment:
-      - DB_CONNECTION=match
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=${DB_NAME}
-      - DB_USERNAME=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-  web:
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+  match_web:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
@@ -29,19 +26,51 @@ services:
       - 80:80
     depends_on:
       - app
-  db:
+  database:
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
-    container_name: match_database
+    container_name: database
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       TZ: 'Asia/Tokyo'
     volumes:
-      - mysql-volume:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+  session_redis:
+    image: redis:5.0.6-alpine
+    container_name: session_redis
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - session_redis_data:/data
+  cache_redis:
+    image: redis:5.0.6-alpine
+    container_name: cache_redis
+    command: redis-server --appendonly yes
+    ports:
+      - 6380:6379
+    volumes:
+      - cache_redis_data:/data
+  composer:
+    image: composer:1.10.6
+    container_name: composer
+    volumes:
+      - ./src:/app
+    working_dir: /app
+  web_node:
+    build: ./docker/node
+    container_name: web_node
+    volumes:
+      - ./src:/app
+    working_dir: /app/frontend
+volumes:
+  mysql_data:
+  session_redis_data:
+  cache_redis_data:

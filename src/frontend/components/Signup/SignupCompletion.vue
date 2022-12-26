@@ -31,7 +31,7 @@ export default {
   name: 'SignupCompletion',
   data () {
     return {
-      check_icon: require("@/assets/icons/check.png")
+      check_icon: require("@/../../../storage/image/icons/check.png")
     }
   },
   methods: {

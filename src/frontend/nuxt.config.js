@@ -87,12 +87,12 @@ export default {
       scheme: 'local',
       endpoints: {
         login: {
-          url: '/api/user/login',
+          url: '/login',
           method: 'post',
           propertyName: false
         },
         logout: {
-          url: '/api/user/logout',
+          url: '/logout',
           method: 'post',
           propertyName: false
         },
@@ -103,12 +103,12 @@ export default {
       scheme: 'local',
       endpoints: {
         login: {
-          url: '/api/user/auth',
+          url: '/signup',
           method: 'post',
           propertyName: false
         },
         logout: {
-          url: '/api/user/logout',
+          url: '/logout',
           method: 'post',
           propertyName: false
         },
@@ -116,9 +116,9 @@ export default {
       }
     }
   },
-  // router: {
-  //   middleware: ['auth']
-  // },
+  router: {
+    middleware: ['auth']
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

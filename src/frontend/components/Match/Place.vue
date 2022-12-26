@@ -9,7 +9,7 @@
         sm="4"
         class="place-box"
       >
-        <v-card 
+        <v-card
           class="place-card"
           @click="clickPlace(match.name)"
         >
@@ -30,12 +30,12 @@ export default {
     return {
       model: null,
       matches: [
-        { name: 'club', img: require('@/assets/match/club.jpeg') },
-        { name: 'introduction', img: require('@/assets/match/introduction.jpeg') },
-        { name: 'jointparty', img: require('@/assets/match/jointparty.jpeg') },
-        { name: 'pairs', img: require('@/assets/match/pairs.jpeg') },
-        { name: 'tinder', img: require('@/assets/match/tinder.jpeg') },
-        { name: 'workplace', img: require('@/assets/match/workplace.jpeg') },
+        { name: 'club', img: require('@/../../../storage/image/match/club.jpeg') },
+        { name: 'introduction', img: require('@/../../../storage/image/match/introduction.jpeg') },
+        { name: 'jointparty', img: require('@/../../../storage/image/match/jointparty.jpeg') },
+        { name: 'pairs', img: require('@/../../../storage/image/match/pairs.jpeg') },
+        { name: 'tinder', img: require('@/../../../storage/image/match/tinder.jpeg') },
+        { name: 'workplace', img: require('@/../../../storage/image/match/workplace.jpeg') },
       ],
       place: null
     }
@@ -43,7 +43,7 @@ export default {
   methods: {
     clickPlace (place) {
       this.place = place
-      this.$emit('click-place', this.place) 
+      this.$emit('click-place', this.place)
     },
     clickBack () {
       this.$emit('click-back', 6)

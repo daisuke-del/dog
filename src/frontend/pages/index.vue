@@ -50,7 +50,7 @@ export default {
   name: 'TopPage',
   data() {
     return {
-      image_src_logo: require("@/assets/logo/logotouka.png"),
+      image_src_logo: require("@/../../storage/image/logo/logotouka.png"),
       subtext: require("@/assets/texts/understandMyself-touka.png"),
       maintext: require("@/assets/texts/No1-topText2.png")
     }
@@ -113,7 +113,7 @@ h3 {
   text-align: left;
   padding-left: 10%;
   color: black;
-  
+
 }
 
 .intro-text {

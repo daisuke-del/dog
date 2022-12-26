@@ -1,6 +1,5 @@
-<template>
+7y<template>
   <div class="content mx-auto">
-    <h1 v-if="position > 3">認証コードを入力</h1>
     <h1 v-else-if="position > 2">自分の顔を評価</h1>
     <h1 v-else-if="position > 1">顔写真をアップロード</h1>
     <h1 v-else>新規会員登録（無料）</h1>
@@ -15,7 +14,7 @@
         :complete="position > 1"
         step="1"
       >
-        登録情報
+        登録
       </v-stepper-step>
       <v-divider />
       <v-stepper-step
@@ -33,14 +32,7 @@
       </v-stepper-step>
       <v-divider />
       <v-stepper-step
-        :complete="position > 4"
         step="4"
-      >
-        認証コード
-      </v-stepper-step>
-      <v-divider />
-      <v-stepper-step
-        step="5"
       >
         完了
       </v-stepper-step>
@@ -54,7 +46,7 @@
             :min-pass-length="minPassLength"
             :max-pass-length="maxPassLength"
             :send-loading="postUserInfoLoading"
-            @store-user-info="storeUserInfo"
+            @store-user-info="getSignupSliderImage"
           />
         </div>
       </v-stepper-content>
@@ -69,22 +61,13 @@
       <v-stepper-content step="3">
         <div class="mx-auto">
           <evaluate-face
+            :sliderImages="sliderImages"
             @store-face-point="storeFacePoint"
             @click-back="transitionContent"
           />
         </div>
       </v-stepper-content>
       <v-stepper-content step="4">
-        <auth-code
-          ref="authCode"
-          :error-show="authErrorShow"
-          :send-loading="authSendLoading"
-          :send-button-show="sendButtonShow"
-          @input="inputAuthCode"
-          @click-back="transitionContent"
-        />
-      </v-stepper-content>
-      <v-stepper-content step="5">
         <signup-completion
           @mypage="mypageClick"
         />
@@ -100,7 +83,8 @@ import EvaluateFace from '~/components/Signup/EvaluateFace'
 import AuthCode from '~/components/Signup/AuthCode'
 import SignupCompletion from '~/components/Signup/SignupCompletion'
 import constants from '~/utils/constants'
-// import user from '~/plugins/modules/user'
+import user from '~/plugins/modules/user'
+import slider from '~/plugins/modules/slider'
 export default {
   name: 'PagesSignup',
   auth: false,
@@ -139,15 +123,47 @@ export default {
       errorMessage: '',
       previousPage: null,
       sendButtonShow: false,
-      breadcrumbs: [
-        {
-          name: 'TOP',
-          item: '/'
-        },
-        {
-          name: 'Signup',
-          item: this.$route.fullPath
-        }
+      gender: null,
+      name: null,
+      email: null,
+      password: null,
+      height: null,
+      weight: null,
+      age: null,
+      salary: null,
+      facePoint: null,
+      faceImage: null,
+      sliderImages: [
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0},
+        { faceImage: '0.jpeg', facePint: 0}
       ]
     }
   },
@@ -160,67 +176,63 @@ export default {
     clickForm () {
       this.transitionContent(2)
     },
-    storeUserInfo (userInfo) {
-      this.position = 2
+    getSignupSliderImage (userInfo) {
       this.postUserInfoLoading = true
       if (!this.validationMail(userInfo.mail)) {
         this.postUserInfoLoading = false
+        this.store.dispatch('snackbar/setMessage', 'メールアドレスを入力しなおしてください')
+        this.store.dispatch('snackbar/snackOn')
         return
       }
       if (!this.validationPass(userInfo.password)) {
         this.postUserInfoLoading = false
+        this.store.dispatch('snackbar/setMessage', 'パスワードを入力しなおしてください')
+        this.store.dispatch('snackbar/snackOn')
         return
       }
-      this.$store.dispatch('signup/setSignup', {
-        gender: userInfo.gender,
-        name: userInfo.name,
-        mail: userInfo.mail,
-        password: userInfo.password,
-        height: userInfo.height,
-        weight: userInfo.weight,
-        age: userInfo.age,
-        salary: userInfo.salary
-      })
+      this.gender = userInfo.gender
+      this.name = userInfo.name
+      this.email = userInfo.email
+      this.password = userInfo.password
+      this.height = userInfo.height
+      this.weight = userInfo.weight
+      this.age = userInfo.age
+      this.salary = userInfo.salary
+      slider.signupSliderImage(this.email).then((response) => {
+        console.log(response)
+        this.position = 2
+      }).catch(() => {})
       this.postUserInfoLoading = false
     },
     storeFaceImage (faceImage) {
-      console.log(faceImage)
-      this.$store.dispatch('signup/setFaceImage', {
-        faceImage
-      }) 
-      this.position = 3
-    },
-    storeFacePoint (facePoint) {
-      this.$store.dispatch('signup/setFacePoint', {
-        facePoint
-      }) 
-      this.position = 4
-    },
-    inputAuthCode (authCode) {
-      if (authCode.length === 6) {
-        this.position = 5
+      this.faceImage = faceImage
+      if (this.faceImage) {
+        this.position = 3
       }
+      this.store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
+      this.store.dispatch('snackbar/snackOn')
     },
-    // async inputAuthCode (authCode) {
-    //   if (authCode.length === 6) {
-    //     this.authSendLoading = true
-    //     this.authErrorShow = false
-    //     this.sendButtonShow = false
+    async storeFacePoint (sliderValue) {
+      console.log(this.sliderImages[sliderValue])
+      await user.signup(
+        this.gender,
+        this.name,
+        this.email,
+        this.password,
+        this.height,
+        this.weight,
+        this.age,
+        this.salary,
+        this.facePoint,
+        this.faceImage
+      ).then(async (response) => {
+        console.log('signup', response)
+        await this.$auth.setUserToken('200')
+        setTimeout(this.redirect, 2000)
+        this.position = 4
+      }).catch(() => {})
 
-    //     await user.auth(authCode).then(async () => {
-    //       this.position = 5
-    //       await this.$auth.setUserToken('200')
-    //       setTimeout(this.redirect, 2000)
-    //     }).catch((error) => {
-    //       if (error === 400) {
-    //         this.$ref.authCode.onErrorAuthCode()
-    //       } else {
-    //         this.sendButtonShow = true
-    //       }
-    //     })
-    //     this.authSendLoading = false
-    //   }
-    // },
+    },
     redirect () {
       const redirectUrl = this.$store.state.redirect.pageUrl
       if (redirectUrl) {

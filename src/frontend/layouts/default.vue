@@ -28,7 +28,7 @@
           light
       >
         <v-list-item-avatar>
-          <v-img :src="require('@/assets/faceimages/no-user-image-icon.jpeg')"></v-img>
+          <v-img :src="require('@/../../storage/image/faceimages/no-user-image-icon.jpeg')"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -67,7 +67,7 @@
         link
       >
         <v-img
-          :src="require('@/assets/logo/logotouka.png')"
+          :src="require('@/../../storage/image/logo/logotouka.png')"
         />
       </v-list-item>
     </v-navigation-drawer>
