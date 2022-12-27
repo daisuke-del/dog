@@ -1,10 +1,10 @@
 version: '3.8'
 
 services:
-  match_nginx:
+  match_php-fpm:
     build:
       context: .
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: ./docker/php-fpm/Dockerfile
     container_name: match_php-fpm
     volumes:
       - ./src/:/var/www/html
@@ -15,21 +15,18 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
-  match_web:
+  match_nginx:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
-    container_name: match_web
+    container_name: match_nginx
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
-    depends_on:
-      - app
   database:
-    build:
-      context: .
-      dockerfile: ./docker/mysql/Dockerfile
+    image: mysql:8.0
+    platform: linux/x86_64
     container_name: database
     ports:
       - 3306:3306
