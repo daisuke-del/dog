@@ -34,7 +34,7 @@ RUN rm -rf .styleci.yml
 RUN rm -rf _ide_helper.ph
 RUN rm -rf README.md
 
-FROM php:7.4.16-fpm-alpine3.13 as app
+FROM php:7.4.16-fpm-alpine3.13 as db
 RUN docker-php-ext-install opcache
 RUN apk --no-cache add autoconf make g++ gcc
 RUN pecl install redis
