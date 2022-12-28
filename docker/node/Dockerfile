@@ -1,2 +1,2 @@
-FROM node:15.8.0-alpine3.10
+FROM node:16.10-alpine3.11
 RUN apk --no-cache add make gcc g++ python
