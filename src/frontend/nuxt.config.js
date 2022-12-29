@@ -61,7 +61,7 @@ export default {
 
   proxy: {
     '/api/': {
-      target: 'http://127.0.0.1:8000'
+      target: 'http://localhost:80'
     }
   },
 
@@ -71,48 +71,49 @@ export default {
     retry: {
       retries: 2
     },
-    prefix: '/',
+    prefix: 'http://localhost:80',
+    credentials: true
   },
   auth: {
     plugins: ['~/plugins/auth'],
     redirect: {
-      login: '/login',
+      login: '/user/login',
       logout: '/',
       callback: false,
       home: false
-    }
-  },
-  strategies: {
-    login: {
-      scheme: 'local',
-      endpoints: {
-        login: {
-          url: '/login',
-          method: 'post',
-          propertyName: false
-        },
-        logout: {
-          url: '/logout',
-          method: 'post',
-          propertyName: false
-        },
-        user: false
-      }
     },
-    signUp: {
-      scheme: 'local',
-      endpoints: {
-        login: {
-          url: '/signup',
-          method: 'post',
-          propertyName: false
-        },
-        logout: {
-          url: '/logout',
-          method: 'post',
-          propertyName: false
-        },
-        user: false
+    strategies: {
+      login: {
+        scheme: 'local',
+        endpoints: {
+          login: {
+            url: '/user/login',
+            method: 'post',
+            propertyName: false
+          },
+          logout: {
+            url: '/user/logout',
+            method: 'post',
+            propertyName: false
+          },
+          user: false
+        }
+      },
+      signUp: {
+        scheme: 'local',
+        endpoints: {
+          login: {
+            url: '/user/signup',
+            method: 'post',
+            propertyName: false
+          },
+          logout: {
+            url: '/user/logout',
+            method: 'post',
+            propertyName: false
+          },
+          user: false
+        }
       }
     }
   },

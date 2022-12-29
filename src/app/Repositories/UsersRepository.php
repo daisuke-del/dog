@@ -23,24 +23,28 @@ class UsersRepository implements UsersRepositoryInterface
     public function new(array $user): UserEntity
     {
         return (new User())->make(
-            $user['age'],
-            $user['authCode'],
-            $user['create_date'],
+            $user['user_id'],
+            $user['gender'],
+            $user['name'],
             $user['email'],
             $user['password'],
+            $user['height'],
+            $user['weight'],
+            $user['age'],
+            $user['salary'],
+            $user['face_point'],
+            $user['height2'],
+            $user['weight2'],
+            $user['age2'],
+            $user['salary2'],
+            $user['face_point2'],
+            $user['face_image'],
             $user['facebook_id'],
             $user['instagram_id'],
             $user['twitter_id'],
-            $user['weight'],
-            $user['face_point'],
-            $user['face_image'],
-            $user['gender'],
-            $user['height'],
-            $user['salary'],
-            $user['weight'],
             $user['yellow_card'],
             $user['update_face_at'],
-            $user['name']
+            $user['create_date'],
         );
     }
 

@@ -45,6 +45,7 @@ class UserFactory extends Factory
             'weight2' => ($weight / ($height*$height/10000) - 20) * 3,
             'age2' => $age - 23,
             'salary2' => $salary / 10 - 30,
+            'face_point2' => $num * 2,
             'update_face_at' => $date,
             'create_date' => $date,
             'yellow_card' => 0,

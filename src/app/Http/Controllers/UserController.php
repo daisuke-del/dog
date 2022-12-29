@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Throwable;
-use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use App\Services\UserService;
 
 class UserController extends Controller
@@ -19,40 +19,26 @@ class UserController extends Controller
     /**
      * 会員登録
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      * @throws Throwable
      */
-    public function signup(UserRequest $request)
+    public function signup(Request $request)
     {
         $response = $this->userService->signup($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
     /**
-     * 会員認証
-     *
-     * @param UserRequest $request
-     * @return false|string
-     * @throws Exception
-     * @throws Throwable
-     */
-    public function auth(UserRequest $request)
-    {
-        $response = $this->userService->auth($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * ログイン
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      * @throws Throwable
      */
-    public function login(UserRequest $request)
+    public function login(Request $request)
     {
         $response = $this->userService->login($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -72,11 +58,11 @@ class UserController extends Controller
     /**
      * 会員情報変更 - email
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function updateEmail(UserRequest $request)
+    public function updateEmail(Request $request)
     {
         $response = $this->userService->updateEmail($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -85,11 +71,11 @@ class UserController extends Controller
     /**
      * 会員情報変更 - email - 認証
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function updateEmailAuth(UserRequest $request)
+    public function updateEmailAuth(Request $request)
     {
         $response = $this->userService->updateEmailAuth($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -98,11 +84,11 @@ class UserController extends Controller
     /**
      * 会員情報変更 - password
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function updatePassword(UserRequest $request)
+    public function updatePassword(Request $request)
     {
         $response = $this->userService->updatePassword($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -111,11 +97,11 @@ class UserController extends Controller
     /**
      * 会員情報変更 - handle_name
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function updateName(UserRequest $request)
+    public function updateName(Request $request)
     {
         $response = $this->userService->updateName($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -124,11 +110,11 @@ class UserController extends Controller
     /**
      * パスワード忘れました - メールアドレス入力
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function forgetPasswordEmail(UserRequest $request)
+    public function forgetPasswordEmail(Request $request)
     {
         $response = $this->userService->forgetPasswordEmail($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -137,11 +123,11 @@ class UserController extends Controller
     /**
      * パスワード忘れました - 認証コード入力
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function forgetPasswordAuth(UserRequest $request)
+    public function forgetPasswordAuth(Request $request)
     {
         $response = $this->userService->forgetPasswordAuth($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -150,11 +136,11 @@ class UserController extends Controller
     /**
      * パスワード忘れました - パスワード更新
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function forgetPasswordUpdate(UserRequest $request)
+    public function forgetPasswordUpdate(Request $request)
     {
         $response = $this->userService->forgetPasswordUpdate($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);

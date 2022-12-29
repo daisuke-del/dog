@@ -1,6 +1,6 @@
 7y<template>
   <div class="content mx-auto">
-    <h1 v-else-if="position > 2">自分の顔を評価</h1>
+    <h1 v-if="position > 2">自分の顔を評価</h1>
     <h1 v-else-if="position > 1">顔写真をアップロード</h1>
     <h1 v-else>新規会員登録（無料）</h1>
     <v-stepper

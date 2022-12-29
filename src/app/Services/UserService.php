@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Auth;
 use App\Entities\UserEntity;
 use App\Exceptions\MUCHException;
 use App\ValueObjects\User\Age;
@@ -26,13 +27,9 @@ use Carbon\Carbon;
 use Exception;
 use Throwable;
 use Ramsey\Uuid\Uuid;
-use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
-use function PHPUnit\Framework\isNull;
-use function Psy\debug;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Session\Store;
 
 class UserService
 {
@@ -48,16 +45,51 @@ class UserService
     /**
      * 会員登録
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function signup(UserRequest $request): array
+    public function signup(Request $request): array
     {
+        $gender = $request->input('gender');
+        $height = $request->input('height');
+        $weight = $request->input('weight');
+        $age = $request->input('age');
+        $salary = $request->input('salary');
+        $salary2 = $salary / 10 - 30;
+        $facePoint = $request->input('facePoint');
+        $faceImage = decodeFaceImage($request->input('faceImage'));
+
+        if ($gender === 'male') {
+            $height2 = ($height - 150) * 2;
+            $weight2 = abs($weight / ($height*$height/10000) - 20) * 3;
+            $age2 = abs($age - 27);
+        } else {
+            $height2 = 30;
+            $weight2 = ($weight / ($height*$height/10000) - 20) * 3;
+            $age2 = $age - 23;
+        }
+
         $requestArr = [
+            'gender' => $gender,
+            'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
-
+            'gender' => $request->input('gender'),
+            'height' => $height,
+            'weight' => $weight,
+            'age' => $age,
+            'salary' => $salary,
+            'face_point' => $facePoint,
+            'height2' => $height2,
+            'weight2' => $weight2,
+            'age2' => $age2,
+            'salary2' => $salary2,
+            'face_point2' => $facePoint * 2,
+            'faceImage' => $faceImage,
+            'facebookId' => $request->input('facebook_id'),
+            'instagramId' => $request->input('instagram_id'),
+            'twitterId' => $request->input('twitter_id'),
         ];
         $email = (new Email($requestArr['email']))->get();
         if ($this->containUppercase($email)) {
@@ -69,59 +101,21 @@ class UserService
         if (empty($response)) {
             throw new MUCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
-        // メール送信
-        Mail::to($email)->send(new AuthCodeEmail($response['auth_code']));
-        $request->session()->put('sigunup_user_id', $response['user_id']);
-        return[];
-    }
-
-    /**
-     * 会員認証
-     *r
-     * @param UserRequest $request
-     * @return array
-     * @throws Exception
-     * @throws Throwable
-     */
-    public function auth(UserRequest $request): array
-    {
-        // usersテーブル検索
-        $userId = $request->session()->get('sigunup_user_id');
-        $authCode = (new AuthCode($request->input('auth_code')))->get();
-        $users = $this->checkAuthCode($userId, $authCode);
-        // usersを本登録に更新
-        $user = $this->usersRepository->selectuserById($userId);
-        if (is_null($users) || is_null($user)) {
-            // ユーザー情報が取得できない
-            throw new MUCHException(config('const.ERROR.USER.NO_TEMP_REGISTERED'), 404);
+        if (Auth::attempt($request->only(['email', 'password']))) {
+            return[];
         }
-        $users = array_merge($users, $user->toArray());
-        if ($users['email_confirm_flg'] === 1) {
-            // 既に本登録が済んでいる
-            throw new MUCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
-        }
-        $users['email_confirm_flg'] = 1;
-        $userEntity = $this->usersRepository->new($users);
-        $this->usersRepository->updateuserConfirm($userEntity);
-        // メール送信
-        Mail::to($users['pc_email'])->send(new RegisteredEmail($userEntity));
-        auth()->loginUsingId($userId);
-        $request->session()->forget('sigunup_user_id');
-        $this->saveSessionData($request, $user['uid']);
-
-        // 正常終了
-        return [];
+        throw new MUCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
      * ログイン
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      * @throws Throwable
      */
-    public function login(UserRequest $request): array
+    public function login(Request $request): array
     {
         // userをemailとpasswordで検索
         $email = (new Email($request->input('email')))->get();
@@ -131,22 +125,11 @@ class UserService
             // 会員情報が存在しない ログイン失敗
             throw new MUCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
-        $user = $user->toArray();
-        if ($this->usersRepository->existsUsers($user['uid']) === false) {
-            $users = array_merge(
-                $user,
-                ['user_id' => $user['uid']],
-                ['auth_code' => null],
 
-            );
-            $userEntity = $this->usersRepository->new($users);
-            $this->usersRepository->saveUsers($userEntity);
+        if (Auth::attempt($request->only(['email', 'password']))) {
+            return [];
         }
-
-        auth()->loginUsingId($user['uid']);
-        $this->saveSessionData($request, $user['uid']);
-
-        return [];
+        throw new MUCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -156,18 +139,19 @@ class UserService
      */
     public function logout()
     {
-        auth()->logout();
+        // ログアウトする
+        Auth::logout();
         return [];
     }
 
     /**
      * 会員情報変更 - email
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function updateEmail(UserRequest $request): array
+    public function updateEmail(Request $request): array
     {
         $userId = auth()->id();
         $email = (new Email($request->input('email')))->get();
@@ -192,11 +176,11 @@ class UserService
     /**
      * 会員情報変更 - email - 認証
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function updateEmailAuth(UserRequest $request): array
+    public function updateEmailAuth(Request $request): array
     {
         $userId = auth()->id();
         $authCode = (new AuthCode($request->input('auth_code')))->get();
@@ -237,11 +221,11 @@ class UserService
     /**
      * 会員情報変更 - password
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function updatePassword(UserRequest $request): array
+    public function updatePassword(Request $request): array
     {
         $userId = auth()->id();
         $user = $this->usersRepository->selectUsersById($userId);
@@ -272,11 +256,11 @@ class UserService
     /**
      * 会員情報変更 - name
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function updateName(UserRequest $request): array
+    public function updateName(Request $request): array
     {
         $userId = auth()->id();
         $users = $this->getUsersById($userId);
@@ -291,11 +275,11 @@ class UserService
     /**
      * パスワード忘れました - メールアドレス入力
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function forgetPasswordEmail(UserRequest $request)
+    public function forgetPasswordEmail(Request $request)
     {
         $email = (new Email($request->input('email')))->get();
         $users = $this->usersRepository->getUserByMail($email);
@@ -315,11 +299,11 @@ class UserService
     /**
      * パスワード忘れました - 認証コード入力
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function forgetPasswordAuth(UserRequest $request)
+    public function forgetPasswordAuth(Request $request)
     {
         $userId = $request->session()->get('forget_password_sigunup_user_id');
         $authCode = (new AuthCode($request->input('auth_code')))->get();
@@ -333,11 +317,11 @@ class UserService
     /**
      * パスワード忘れました - パスワード更新
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */
-    public function forgetPasswordUpdate(UserRequest $request)
+    public function forgetPasswordUpdate(Request $request)
     {
         $userId = $request->session()->get('forget_password_sigunup_user_id');
         $password = $request->input('password');
@@ -421,29 +405,32 @@ class UserService
         if (is_null($userId)) {
             $userId = $this->createUserId();
         }
-        $authCode = rand(100000, 999999);
         $now = new Carbon();
+        $orderNumber = rand(0, 10000);
         return [
-            'auth_code' => $authCode,
             'user_id' => $userId,
-            'uid' => $userId,
+            'name' => $request['name'],
             'email' => $request['email'],
             'password' => $request['password'],
-            'name' => $request['name'],
             'gender' => $request['gender'],
-            'age' => $request['age'],
-            'salary' => $request['salary'],
             'height' => $request['height'],
             'weight' => $request['weight'],
+            'age' => $request['age'],
+            'salary' => $request['salary'],
             'face_point' => $request['facePoint'],
+            'height2' => $request['height2'],
+            'weight2' => $request['weight2'],
+            'age2' => $request['age2'],
+            'salary2' => $request['salary2'],
+            'face_point2' => $request['facePoint2'],
             'face_image' => $request['faceImage'],
             'facebook_id' => $request['facebookId'],
             'instagram_id' => $request['instagramId'],
             'twitter_id' => $request['twitterId'],
-            'created_at' => $now->format('Y-m-d\TH:i:s.u\Z'),
+            'create_date' => $now->format('Y-m-d\TH:i:s.u\Z'),
             'update_face_at' => $now->format('Y-m-d H:i:s.u'),
-            'yellow_card' => $request['yellowCard'],
-            'email_confirm_flg' => 0,
+            'yellow_card' => 0,
+            'order_number' => $orderNumber
         ];
     }
 
@@ -509,7 +496,6 @@ class UserService
         // レスポンス
         return [
             'user_id' => $entityParam['user_id'],
-            'auth_code' => $entityParam['auth_code']
         ];
     }
 
@@ -583,7 +569,7 @@ class UserService
     /**
      * heightをsessionに追加
      *
-     * @param UserRequest $request
+     * @param Request $request
      * @return array
      * @throws Exception
      */

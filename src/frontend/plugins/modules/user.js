@@ -2,11 +2,11 @@
 import { auth } from "../auth";
 
 export default {
-  async login (mail, pass) {
+  async login (email, password) {
     return await auth.loginWith('login', {
       data: {
-        email: mail,
-        password: pass
+        email,
+        password
       }
     })
   },
