@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\Reaction;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class FromUserId
@@ -12,7 +12,7 @@ class FromUserId
     public function __construct(string $fromUserId)
     {
         if ($this->isFromUserId($fromUserId) === false) {
-            throw new MUCHException('validation.fromUserId', 422);
+            throw new MATCHException('validation.fromUserId', 422);
         }
         $this->fromUserId = $fromUserId;
     }

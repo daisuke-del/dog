@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
 use App\Entities\UserEntity;
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use App\ValueObjects\User\Age;
 use App\ValueObjects\User\AuthCode;
 use App\ValueObjects\User\CreateDate;
@@ -30,6 +30,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -58,7 +59,7 @@ class UserService
         $salary = $request->input('salary');
         $salary2 = $salary / 10 - 30;
         $facePoint = $request->input('facePoint');
-        $faceImage = decodeFaceImage($request->input('faceImage'));
+        $faceImage = storeFaceImage($request->input('faceImage'));
 
         if ($gender === 'male') {
             $height2 = ($height - 150) * 2;
@@ -93,18 +94,18 @@ class UserService
         ];
         $email = (new Email($requestArr['email']))->get();
         if ($this->containUppercase($email)) {
-            throw new MUCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
 
         $response = $this->insertUsers($requestArr);
 
         if (empty($response)) {
-            throw new MUCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
+            throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
         if (Auth::attempt($request->only(['email', 'password']))) {
             return[];
         }
-        throw new MUCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+        throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -123,13 +124,13 @@ class UserService
         $user = $this->usersRepository->getUser($email, $password);
         if (is_null($user)) {
             // 会員情報が存在しない ログイン失敗
-            throw new MUCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+            throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
 
         if (Auth::attempt($request->only(['email', 'password']))) {
             return [];
         }
-        throw new MUCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+        throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -156,10 +157,10 @@ class UserService
         $userId = auth()->id();
         $email = (new Email($request->input('email')))->get();
         if ($this->containUppercase($email)) {
-            throw new MUCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
         if ($this->usersRepository->existsEmail($email, $userId)) {
-            throw new MUCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $users = $this->getUsersById($userId);
         $users['auth_code'] = rand(100000, 999999);
@@ -189,21 +190,21 @@ class UserService
         $sessionEmail = $request->session()->get('email');
         // 前回入力して認証コード送信したメールアドレスとリクエストのメールアドレスが一致しなければException
         if ($email !== $sessionEmail) {
-            throw new MUCHException(config('const.ERROR.USER.SESSION_EMAIL_NO_MATCH'), 400);
+            throw new MATCHException(config('const.ERROR.USER.SESSION_EMAIL_NO_MATCH'), 400);
         }
         if ($this->usersRepository->existsEmail($sessionEmail, $userId)) {
-            throw new MUCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $user = $this->checkAuthCode($userId, $authCode);
         $users = $this->usersRepository->selectusersById($userId);
         if (is_null($user) || is_null($users)) {
             // ユーザーが取得できない
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $users = $users->toArray();
         if (is_null($this->getEmail($users, $password))) {
             // パスワードが異なる
-            throw new MUCHException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
+            throw new MATCHException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
         }
         $users['email'] = $email;
         $users['password'] = $password;
@@ -232,14 +233,14 @@ class UserService
         $users = $this->usersRepository->selectusersById($userId);
         if (is_null($user) || is_null($users)) {
             // ユーザー情報を取得できない
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $users = $users->toArray();
         $email = $users['email'];
         $passwordNew = $request->input('new_password');
         // 新パスワードと再入力パスワードが一致しない
         if ($passwordNew !== $request->input('new_password_again')) {
-            throw new MUCHException(config('const.ERROR.USER.PASSWORD_NOT_MATCH'), 401);
+            throw new MATCHException(config('const.ERROR.USER.PASSWORD_NOT_MATCH'), 401);
         }
         // パスワード生成したメールアドレスでパスワード生成 (メールアドレス自体の更新はしない)
         $users['password'] = $passwordNew;
@@ -284,7 +285,7 @@ class UserService
         $email = (new Email($request->input('email')))->get();
         $users = $this->usersRepository->getUserByMail($email);
         if (empty($users)) {
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $response = $this->registerUsers($users->toArray(), [
             'email' => $email,
@@ -309,7 +310,7 @@ class UserService
         $authCode = (new AuthCode($request->input('auth_code')))->get();
         $users = $this->checkAuthCode($userId, $authCode);
         if (is_null($users)) {
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
         }
         return [];
     }
@@ -327,7 +328,7 @@ class UserService
         $password = $request->input('password');
         // 新パスワードと再入力パスワードが一致しない
         if ($password !== $request->input('password_again')) {
-            throw new MUCHException(config('const.ERROR.USER.PASSWORD_NOT_MATCH'), 400);
+            throw new MATCHException(config('const.ERROR.USER.PASSWORD_NOT_MATCH'), 400);
         }
         $users = $this->getUsersById($userId);
         $email = $users['email'];
@@ -435,30 +436,6 @@ class UserService
     }
 
     /**
-     * 認証コードと期限をチェックして、認証成功ならusersモデルを返却する
-     *
-     * @param string $userId
-     * @param int $authCode
-     * @return array|null
-     * @throws Exception
-     */
-    private function checkAuthCode(string $userId, int $authCode): ?array
-    {
-        $users = $this->usersRepository->selectUsersById($userId);
-        if (is_null($users)) {
-            return null;
-        }
-        $users = $users->toArray();
-        // 認証コード一致チェック
-        $now = new Carbon();
-        if ($authCode !== $users['auth_code']) {
-            // 認証コード不一致
-            throw new MUCHException(config('const.ERROR.USER.AUTH_CODE_NO_MATCH'), 400);
-        }
-        return $users;
-    }
-
-    /**
      * user_idをもとにusersテーブルから取得
      *
      * @param string $userId
@@ -474,7 +451,7 @@ class UserService
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
                 'user_id' => $userId
             ];
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
         return $users;
     }
@@ -553,97 +530,6 @@ class UserService
 //    }
 
     /**
-     * genderをsessionに追加
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function gender(Request $request): array
-    {
-        $gender = $request->gender;
-        $request->session()->put('gender', $gender);
-        return [];
-    }
-
-    /**
-     * heightをsessionに追加
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function height(Request $request): array
-    {
-        $height = $request->height;
-        Log::debug($height);
-        $request->session()->put('height', $height);
-        return [];
-    }
-
-    /**
-     * weightをsessionに追加
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function weight(Request $request): array
-    {
-        $weight= $request->weight;
-        Log::debug($weight);
-        $request->session()->put('weight', $weight);
-        return [];
-    }
-
-    /**
-     * ageをsessionに追加
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function age(Request $request): array
-    {
-        $gender = $request->session()->get('gender');
-        Log::debug($gender);
-        $age = $request->age;
-        Log::debug($age);
-        $request->session()->put('age', $age);
-        return [];
-    }
-
-    /**
-     * salaryをsessionに追加
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function salary(Request $request): array
-    {
-        $salary = $request->salary;
-        Log::debug($salary);
-        $request->session()->put('salary', $salary);
-        return [];
-    }
-
-    /**
-     * face_pointをsessionに追加
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function facePoint(Request $request): array
-    {
-        $facePoint = $request->facePoint;
-        Log::debug($facePoint);
-        $request->session()->put('face_point', $facePoint);
-        return [];
-    }
-
-    /**
      * ランダムに30名取得。
      *
      * @param Request $request
@@ -676,6 +562,44 @@ class UserService
             default:
                 return 'asc';
         }
+    }
+
+    /**
+     * faceImageをdecodeして保存する。
+     *
+     * @param string $faceImage
+     * @return string
+     */
+    public function storeFaceImage($faceImage)
+    {
+        try {
+            preg_match('/data:image\/(\w+);base64./', $faceImage, $matches);
+            $extension = $matches[1];
+
+            $img = preg_replace('/^data:image.*base64,/', '', $faceImage);
+            $img = str_replace(' ', '+', $img);
+            $fileData = base64_decode($img);
+
+            $fileName = md5($img);
+            $path = $fileName. '.'. $extension;
+
+            Storage::disk($storage)->put($path, $fileData);
+
+            return $path;
+        } catch (Exception $e) {
+            Log::error($e);
+            throw new MATCHException(config('画像の保存に失敗しました'), 400);
+        }
+    }
+
+    /**
+     * 64base形式のデータをdecodeする。
+     *
+     * @param string $data
+     * @return string
+     */
+    public function decodeImage($data)
+    {
     }
 
 }

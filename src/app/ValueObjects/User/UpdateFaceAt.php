@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class UpdateFaceAt
@@ -12,7 +12,7 @@ class UpdateFaceAt
     public function __construct(string $updateFaceAt)
     {
         if ($this->isUpdateFaceAt($updateFaceAt) === false) {
-            throw new MUCHException('validation.update_face_at', 422);
+            throw new MATCHException('validation.update_face_at', 422);
         }
         $this->updateFaceAt = $updateFaceAt;
     }

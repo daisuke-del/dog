@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class Height
@@ -12,7 +12,7 @@ class Height
     public function __construct(string $height)
     {
         if ($this->isHeight($height) === false) {
-            throw new MUCHException('validation.height', 422);
+            throw new MATCHException('validation.height', 422);
         }
         $this->height = $height;
     }

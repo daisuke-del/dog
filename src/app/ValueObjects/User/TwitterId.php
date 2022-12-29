@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class TwitterId
@@ -12,7 +12,7 @@ class TwitterId
     public function __construct(string $twitterId)
     {
         if ($this->isTwitterId($twitterId) === false) {
-            throw new MUCHException('validation.twitter_id', 422);
+            throw new MATCHException('validation.twitter_id', 422);
         }
         $this->twitterId = $twitterId;
     }

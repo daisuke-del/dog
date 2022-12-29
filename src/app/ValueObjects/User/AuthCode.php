@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class AuthCode
@@ -12,7 +12,7 @@ class AuthCode
     public function __construct(?int $authCode)
     {
         if ($this->isAuthCode($authCode) === false) {
-            throw new MUCHException('validation.auth_code', 422);
+            throw new MATCHException('validation.auth_code', 422);
         }
         $this->authCode = $authCode;
     }

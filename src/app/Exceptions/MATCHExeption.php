@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class MUCHException extends Exception
+class MATCHException extends Exception
 {
     protected $message;
     protected $code;

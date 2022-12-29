@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class Weight
@@ -12,7 +12,7 @@ class Weight
     public function __construct(string $weight)
     {
         if ($this->isWeight($weight) === false) {
-            throw new MUCHException('validation.weight', 422);
+            throw new MATCHException('validation.weight', 422);
         }
         $this->weight = $weight;
     }

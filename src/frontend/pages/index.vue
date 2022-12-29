@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <a class="btn-text" href="/much/gender">マッチング診断を開始</a>
+        <a class="btn-text" href="/MATCH/gender">マッチング診断を開始</a>
       </div>
     </div>
   </div>

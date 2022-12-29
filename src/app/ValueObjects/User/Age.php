@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class Age
@@ -12,7 +12,7 @@ class Age
     public function __construct(string $age)
     {
         if ($this->isAge($age) === false) {
-            throw new MUCHException('validation.age', 422);
+            throw new MATCHException('validation.age', 422);
         }
         $this->age = $age;
     }

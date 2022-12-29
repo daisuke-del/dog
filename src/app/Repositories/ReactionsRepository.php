@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Entities\UserEntity;
 use App\Entities\ReactionEntity;
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use App\Factories\UsersFactory;
 use Carbon\Carbon;
 use App\Models\User;
@@ -21,7 +21,7 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      *
      * @param array $reaction
      * @return ReactionEntity
-     * @throws MUCHException
+     * @throws MATCHException
      */
     public function new(array $reaction): ReactionEntity
     {
@@ -37,7 +37,7 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      * @param string $userId
      * @return Reaction
      */
-    public function selectMuchById(string $userId): Reaction
+    public function selectMATCHById(string $userId): Reaction
     {
         return (new Reaction())
             ->where('to_user_id', $userId)

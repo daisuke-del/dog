@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class InstagramId
@@ -12,7 +12,7 @@ class InstagramId
     public function __construct(string $instagramId)
     {
         if ($this->isInstagramId($instagramId) === false) {
-            throw new MUCHException('validation.instagram_id', 422);
+            throw new MATCHException('validation.instagram_id', 422);
         }
         $this->instagramId = $instagramId;
     }

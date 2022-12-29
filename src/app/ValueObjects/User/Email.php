@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class Email
@@ -12,7 +12,7 @@ class Email
     public function __construct(?string $email)
     {
         if ($this->email($email) === false) {
-            throw new MUCHException('validation.pc_email', 422);
+            throw new MATCHException('validation.pc_email', 422);
         }
         $this->email = $email;
     }

@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if ($exception instanceof MUCHExeption) {
+        if ($exception instanceof MATCHExeption) {
             $log = '[' . $exception->getCode() . '] ' . $exception->getMessage();
             $param = $exception->getParam();
             if (empty($param) === false) {
@@ -86,7 +86,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if (env('BASE_URL') === env('BASE_URL_PAYMENT')) {
-            if ($exception instanceof MUCHExeption) {
+            if ($exception instanceof MATCHExeption) {
                 $param = $exception->getParam();
                 if (isset($param['retry_notification']) && $param['retry_notification'] === true) {
                     return $this->retryForPayment();
@@ -94,7 +94,7 @@ class Handler extends ExceptionHandler
             }
             return $this->renderForPayment();
         }
-        if ($exception instanceof MUCHExeption) {
+        if ($exception instanceof MATCHExeption) {
             $res = ['error' => $exception->getMessage()];
             $param = $exception->getParam();
             foreach ($param as $key => $value) {

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Entities\UserEntity;
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Carbon\Carbon;
 use Exception;
 use http\Encoding\Stream\Inflate;

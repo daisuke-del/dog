@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class FacePoint
@@ -12,7 +12,7 @@ class FacePoint
     public function __construct(string $facePoint)
     {
         if ($this->isFacePoint($facePoint) === false) {
-            throw new MUCHException('validation.face_point', 422);
+            throw new MATCHException('validation.face_point', 422);
         }
         $this->facePoint = $facePoint;
     }

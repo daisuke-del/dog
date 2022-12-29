@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class Salary
@@ -12,7 +12,7 @@ class Salary
     public function __construct(string $salary)
     {
         if ($this->isSalary($salary) === false) {
-            throw new MUCHException('validation.salary', 422);
+            throw new MATCHException('validation.salary', 422);
         }
         $this->salary = $salary;
     }

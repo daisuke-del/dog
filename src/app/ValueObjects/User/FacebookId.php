@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class FacebookId
@@ -12,7 +12,7 @@ class FacebookId
     public function __construct(string $facebookId)
     {
         if ($this->isFacebookId($facebookId) === false) {
-            throw new MUCHException('validation.Facebook_id', 422);
+            throw new MATCHException('validation.Facebook_id', 422);
         }
         $this->facebookId = $facebookId;
     }

@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class Password
@@ -14,7 +14,7 @@ class Password
         ?string $email
     ) {
         if ($this->isPassword($password) === false || is_null($email)) {
-            throw new MUCHException('validation.password', 422);
+            throw new MATCHException('validation.password', 422);
         }
         //ハッシュ化する値を作成
         $passText = $password . "\t" . $email;

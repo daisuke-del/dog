@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class UserId
@@ -12,7 +12,7 @@ class UserId
     public function __construct(string $userId)
     {
         if ($this->isUserId($userId) === false) {
-            throw new MUCHException('validation.user_id', 422);
+            throw new MATCHException('validation.user_id', 422);
         }
         $this->userId = $userId;
     }

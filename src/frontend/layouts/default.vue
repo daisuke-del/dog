@@ -34,8 +34,8 @@ export default {
   name: 'DefaultLayout',
   components: {
     MenuDrawer,
-    AccountAvatar
-    MenuDrawer
+    AccountAvatar,
+    MenuDrawer,
     AccountAvatar
   },
   data() {

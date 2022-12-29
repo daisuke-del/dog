@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Carbon\Carbon;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
@@ -28,7 +28,7 @@ class MypageService {
      * マイページTOP
      *
      * @return array
-     * @throws MUCHException
+     * @throws MATCHException
      */
     public function index(): array
     {
@@ -36,7 +36,7 @@ class MypageService {
         $user = $this->usersRepository->selectUsersById($userId);
         $status = $this->getFaceStatus($userId);
         $continuationScore = $this->getContinuationScore($userId);
-        $friends = $this->getMuchAll($userId);
+        $friends = $this->getMATCHAll($userId);
         return [
             'name' => $user['name'],
             'status' => $status,
@@ -55,9 +55,9 @@ class MypageService {
      * @return array
      * @throw Exception
      */
-    private function getMuchAll(string $userId): array
+    private function getMATCHAll(string $userId): array
     {
-        return $this->reactionsRepository->selectMuchById($userId)->toArray();
+        return $this->reactionsRepository->selectMATCHById($userId)->toArray();
     }
 
     /**
@@ -76,7 +76,7 @@ class MypageService {
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
                 'user_id' => $userId
             ];
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
 
         $facePoint = $user['face_point'];
@@ -109,7 +109,7 @@ class MypageService {
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
                 'user_id' => $userId
             ];
-            throw new MUCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
 
         $now = Carbon::now();

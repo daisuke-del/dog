@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class FaceImageVoidFlg
@@ -12,7 +12,7 @@ class FaceImageVoidFlg
     public function __construct(string $faceImageVoidFlg)
     {
         if ($this->isFaceImageVoidFlg($faceImageVoidFlg) === false) {
-            throw new MUCHException('validation.face_image_void_flg', 422);
+            throw new MATCHException('validation.face_image_void_flg', 422);
         }
         $this->faceImageVoidFlg = $faceImageVoidFlg;
     }

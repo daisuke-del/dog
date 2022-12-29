@@ -1,16 +1,16 @@
 <template>
   <div>
       <v-row>
-        <v-col cols="12" v-for="much in muchs" :key="much.img" class="card-wrap">
+        <v-col cols="12" v-for="MATCH in MATCHs" :key="MATCH.img" class="card-wrap">
           <v-card
               class="result-card"
           >
             <v-img
-                :src="'@/assets/faceimages/nface_image/' + much.img"
+                :src="'@/assets/faceimages/nface_image/' + MATCH.img"
                 class="result-img"
             />
-            <p class="name-text">{{ much.name }}</p>
-            <p class="salary-text">{{ much.salary }}</p>
+            <p class="name-text">{{ MATCH.name }}</p>
+            <p class="salary-text">{{ MATCH.salary }}</p>
             <div class="icon-wrap">
               <v-btn
                   icon
@@ -61,7 +61,7 @@ export default {
   name: 'MatchResult',
   data() {
     return {
-      muchs: [
+      MATCHs: [
         { name: '田中姫', img: 'face_image/99.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'},
         { name: '遠藤香織', img: 'face_image/90.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'},
         { name: '小田公子', img: 'face_image/83.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'},

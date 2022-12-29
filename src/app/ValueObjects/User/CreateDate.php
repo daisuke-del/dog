@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MUCHException;
+use App\Exceptions\MATCHException;
 use Illuminate\Support\Facades\Validator;
 
 class CreateDate
@@ -12,7 +12,7 @@ class CreateDate
     public function __construct(string $createDate)
     {
         if ($this->isCreateDate($createDate) === false) {
-            throw new MUCHException('validation.create_date', 422);
+            throw new MATCHException('validation.create_date', 422);
         }
         $this->createDate = $createDate;
     }
