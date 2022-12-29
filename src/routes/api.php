@@ -17,25 +17,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware(['auth:sanctum', 'checkActiveMember'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
   // マイページ
   Route::prefix('my')->name('my.')->group(function () {
     Route::get('/', [MypageController::class, 'index']);
   });
 });
 
-// 会員登録・ログイン・更新
-Route::prefix('user')->name('user.')->group(function () {
-  Route::post('signup', [UserController::class, 'signup']);
-  Route::post('auth', [UserController::class, 'auth']);
-  Route::post('foreget/password/email', [UserController::class, 'foregetPasswordEmail']);
-  Route::post('foreget/password/auth', [UserController::class, 'foregetPasswordAuth']);
-  Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
-  Route::post('login', [UserController::class, 'login']);
-  Route::post('logout', [UserController::class, 'logout']);
-});
-
-Route::middleware(['auth:sanctum', 'checkActiveMember'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
   Route::put('update/name', [UserController::class, 'updateHandleName']);
   Route::put('update/password', [UserController::class, 'updatePassword']);
   Route::put('update/email', [UserController::class, 'updateeEmail']);

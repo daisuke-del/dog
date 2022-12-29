@@ -286,9 +286,9 @@ export default {
       } else if (this.item === '1000 〜 1999') {
         this.salary = 1100
       } else if (this.item === '2000 〜 2999') {
-        this.salary = 2000
+        this.salary = 1300
       } else if (this.item === '3000 〜') {
-        this.salary = 3000
+        this.salary = 1500
       }
       this.$emit('click-salary', this.salary)
     },
