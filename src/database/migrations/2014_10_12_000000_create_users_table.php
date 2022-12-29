@@ -26,15 +26,17 @@ class CreateUsersTable extends Migration
             $table->integer('age');
             $table->integer('salary');
             $table->integer('face_point')->default(0);
-            $table->date('update_face_at')->default(Carbon::now());
-            $table->date('create_date')->default(Carbon::now());
-            $table->integer('yellow_card')->default(0);
+            $table->integer('height2');
+            $table->integer('weight2');
+            $table->integer('age2');
+            $table->integer('salary2');
             $table->string('twitter_id')->nullable();
             $table->string('instagram_id')->nullable();
             $table->string('facebook_id')->nullable();
-            $table->integer('auth_code')->nullable();
-            $table->integer('email_confirm_flg')->default(0);
+            $table->date('update_face_at')->default(Carbon::now());
+            $table->date('create_date')->default(Carbon::now());
             $table->integer('face_image_void_flg')->default(0);
+            $table->integer('yellow_card')->default(0);
             $table->integer('order_number')->nullable()->default(0);
         });
     }
