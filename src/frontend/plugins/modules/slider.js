@@ -1,8 +1,9 @@
-// import { request } from "../axios";
-import { auth } from "../auth";
-import {request} from "~/plugins/axios";
+import { request } from "~/plugins/axios";
 
 export default {
+  sliderImage() {
+    return request('get', '/api/slider')
+  },
   signupSliderImage(mail) {
     return request('post', '/api/slider/signup', {
       email: mail

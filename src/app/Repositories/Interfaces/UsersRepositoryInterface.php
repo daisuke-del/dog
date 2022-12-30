@@ -133,14 +133,14 @@ interface UsersRepositoryInterface
     public function getTwoUsersByFacePoint(int $facePoint, string $gender): User;
 
     /**
-     * 任意の数のユーザーを取得する。
+     * 引数の数値分のface_imageとface_pointを取得
      *
      * @param string $gender
+     * @param string $sort
      * @param int $num
-     * @param string $order
-     * @return array
+     * @return User
      */
-    public function getFaceAndFacePoint(string $gender, int $num, string $order): array;
+    public function getFace(string $gender, string $sort, int $num): User
 }
 
 

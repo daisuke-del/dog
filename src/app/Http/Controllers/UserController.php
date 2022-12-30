@@ -6,6 +6,7 @@ use Exception;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use App\Exceptions\MATCHException;
 
 class UserController extends Controller
 {
@@ -146,4 +147,29 @@ class UserController extends Controller
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * face_imageとface_pointをorder_number順に30件取得
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function slider(Request $request)
+    {
+        $response = $this->userService->getFace($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員登録時のスライダー画像を取得。登録emailのチェック
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function signupSlider(Request $request)
+    {
+        $email = $request->input('email');
+        $this->userService->checkEmail($email);
+        $response = $this->userService->getFace($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
 }

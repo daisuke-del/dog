@@ -68,7 +68,6 @@ class UsersRepository implements UsersRepositoryInterface
     public function getUser(string $email, string $password): User
     {
         return (new User)
-            ->where('email_confirm_flg', 1)
             ->where('password', $password)
             ->where('email', $email)
             ->first();
@@ -83,24 +82,28 @@ class UsersRepository implements UsersRepositoryInterface
     public function saveUsers(UserEntity $user): bool
     {
         return (new User([
-            'age' => $user->getAge(),
-            'auth_code' => $user->getAuthCode(),
-            'created_date' => $user->getCreateDate(),
+            'user_id' => $user->getUserId(),
+            'name' => $user->getName(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
-            'user_id' => $user->getUserId(),
+            'gender' => $user->getGender(),
+            'height' => $user->getHeight(),
+            'weight' => $user->getWeight(),
+            'age' => $user->getAge(),
+            'salary' => $user->getSalary(),
+            'face_point' => $user->getFacePoint(),
+            'height2' => $user->getHeight2(),
+            'weight2' => $user->getWeight2(),
+            'age2' => $user->getAge2(),
+            'salary2' => $user->getSalary2(),
+            'face_point2' => $user->getFacePoint2(),
+            'face_image' => $user->getFaceImage(),
             'facebook_id' => $user->getFacebookId(),
             'instagram_id' => $user->getInstagramId(),
             'twitter_id' => $user->getUserId(),
-            'face_point' => $user->getFacePoint(),
-            'face_image' => $user->getFaceImage(),
-            'gender' => $user->getGender(),
-            'height' => $user->getHeight(),
-            'salary' => $user->getSalary(),
-            'weight' => $user->getWeight(),
             'yellow_card' => $user->getYellowCard(),
             'update_face_at' => $user->getUpdateFaceAt(),
-            'name' => $user->getName()
+            'created_date' => $user->getCreateDate(),
         ]))->save();
     }
 
@@ -234,19 +237,6 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * userIdでusersテーブルのレコードを取得する
-     *
-     * @param string $userId
-     * @return User
-     */
-    public function selectUserById(string $userId): User
-    {
-        return (new User)
-            ->where('uid', $userId)
-            ->first();
-    }
-
-    /**
      * usersテーブルを複数のuidで検索し、退会していないユーザーのメールアドレスを取得する
      *
      * @param array $userIds
@@ -255,7 +245,7 @@ class UsersRepository implements UsersRepositoryInterface
     public function getEmailByIds(array $userIds): Collection
     {
         return (new User)
-            ->whereIn('uid', $userIds)
+            ->whereIn('user_id', $userIds)
             ->select('email')
             ->get();
     }
@@ -310,13 +300,13 @@ class UsersRepository implements UsersRepositoryInterface
      * 引数のemailが一致するusersテーブル情報を取得する
      *
      * @param string $email
-     * @return array
+     * @return User
      */
-    public function getUserByMail(string $email): array
+    public function getUserByMail(string $email): ?User
     {
         return (new User)
-            ->where('email', '=', $email)
-            ->get();
+            ->where('email', $email)
+            ->first();
     }
 
     /**
@@ -439,43 +429,27 @@ class UsersRepository implements UsersRepositoryInterface
     {
         DB::table('users')
             ->where('user_id', $userId)
-            ->update('face_image_void_flg', $num);
+            ->update(['face_image_void_flg', $num]);
     }
 
     /**
-     * 任意の数のユーザーを取得する。
+     * 引数の数値分のface_imageとface_pointを取得
      *
      * @param string $gender
+     * @param string $sort
      * @param int $num
-     * @param string $order
-     * @return array
+     * @return User
      */
-    public function getFaceAndFacePoint(string $gender, int $num, string $order): array
+    public function getFace(string $gender, string $sort, int $num): User
     {
         $dt = new Carbon();
         $date = $dt->subDay(30);
-        $users = DB::table('users')
-            ->where('gender', '=', $gender)
+        return (new User)
+            ->where('gender', $gender)
             ->where('update_face_at', '<', $date)
-            ->where('face_image_void_flg', '=', 0)
             ->select('face_image', 'face_point')
-            ->orderByRaw('order_number ' . $order)
+            ->orderBy('order_number', $sort)
             ->limit($num)
             ->get();
-
-        return $users->toArray();
     }
-
-//    /**
-//     * user_confirm_flgをupdateする
-//     *
-//     * @param string $userId
-//     * @return void
-//     */
-//    public function updateUserConfirm(string|UserEntity $userId): void
-//    {
-//        DB::table('users')
-//            ->where('user_id', $userId)
-//            ->update('face_image_void_flg' = );
-//    }
 }

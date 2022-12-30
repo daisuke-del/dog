@@ -2,24 +2,28 @@
 
 namespace App\Entities;
 
-use App\ValueObjects\User\Age;
-use App\ValueObjects\User\AuthCode;
+use App\ValueObjects\User\UserId;
+use App\ValueObjects\User\Name;
 use App\ValueObjects\User\Email;
-use App\ValueObjects\User\FacebookId;
-use App\ValueObjects\User\FaceImage;
-use App\ValueObjects\User\FacePoint;
+use App\ValueObjects\User\Password;
 use App\ValueObjects\User\Gender;
 use App\ValueObjects\User\Height;
-use App\ValueObjects\User\InstagramId;
-use App\ValueObjects\User\Password;
+use App\ValueObjects\User\Weight;
+use App\ValueObjects\User\Age;
 use App\ValueObjects\User\Salary;
+use App\ValueObjects\User\FacePoint;
+use App\ValueObjects\User\Height2;
+use App\ValueObjects\User\Weight2;
+use App\ValueObjects\User\Age2;
+use App\ValueObjects\User\Salary2;
+use App\ValueObjects\User\FacePoint2;
+use App\ValueObjects\User\FaceImage;
+use App\ValueObjects\User\FacebookId;
+use App\ValueObjects\User\InstagramId;
 use App\ValueObjects\User\TwitterId;
 use App\ValueObjects\User\UpdateFaceAt;
 use App\ValueObjects\User\createDate;
-use App\ValueObjects\User\UserId;
-use App\ValueObjects\User\Weight;
 use App\ValueObjects\User\YellowCard;
-use App\ValueObjects\User\Name;
 use App\ValueObjects\User\FaceImageVoidFlg;
 
 
@@ -27,24 +31,28 @@ class UserEntity
 {
 
     // users
-    private $age;
-    private $authCode;
+    private $userId;
+    private $name;
     private $email;
     private $password;
-    private $facebookId;
-    private $facePoint;
-    private $faceImage;
     private $gender;
     private $height;
-    private $instagramId;
-    private $salary;
-    private $twitterId;
-    private $userId;
     private $weight;
-    private $yellowCard;
+    private $age;
+    private $salary;
+    private $facePoint;
+    private $height2;
+    private $weight2;
+    private $age2;
+    private $salary2;
+    private $facePoint2;
+    private $faceImage;
+    private $facebookId;
+    private $instagramId;
+    private $twitterId;
     private $updateFaceAt;
     private $createDate;
-    private $name;
+    private $yellowCard;
     private $faceImageVoidFlg;
 
     private function __construct()
@@ -55,66 +63,78 @@ class UserEntity
      * UserEntityインスタンスを生成する
      *
      * @param UserId $userId
-     * @param Age $age
-     * @param AuthCode $authCode
+     * @param Name $name
      * @param Email $email
      * @param Password $password
-     * @param FacebookId $facebookId
-     * @param FacePoint $facePoint
-     * @param FaceImage $faceImage
      * @param Gender $gender
      * @param Height $height
-     * @param InstagramId $instagramId
-     * @param Salary $salary
-     * @param TwitterId $twitterId
      * @param Weight $weight
-     * @param YellowCard $yellowCard
+     * @param Age $age
+     * @param Salary $salary
+     * @param FacePoint $facePoint
+     * @param Height2 $height2
+     * @param Weight2 $weight2
+     * @param Age2 $age2
+     * @param Salary2 $salary2
+     * @param FacePoint2 $facePoint2
+     * @param FaceImage $faceImage
+     * @param FacebookId $facebookId
+     * @param InstagramId $instagramId
+     * @param TwitterId $twitterId
      * @param UpdateFaceAt $updateFaceAt
      * @param createDate $createDate
-     * @param Name $name
+     * @param YellowCard $yellowCard
      * @param FaceImageVoidFlg $faceImageVoidFlg
      * @return UserEntity
      */
     public static function getUserEntityInstance(
-     Age $age,
-     AuthCode $authCode,
+     Name $name,
      Email $email,
      Password $password,
      UserId $userId,
+     Gender $gender,
+     Height $height,
+     Weight $weight,
+     Age $age,
+     Salary $salary,
+     FacePoint $facePoint,
+     Height2 $height2,
+     Weight2 $weight2,
+     Age2 $age2,
+     Salary2 $salary2,
+     FacePoint2 $facePoint2,
+     FaceImage $faceImage,
      FacebookId $facebookId,
      InstagramId $instagramId,
      TwitterId $twitterId,
-     FacePoint $facePoint,
-     FaceImage $faceImage,
-     Gender $gender,
-     Height $height,
-     Salary $salary,
-     Weight $weight,
-     YellowCard $yellowCard,
      UpdateFaceAt $updateFaceAt,
      createDate $createDate,
-     Name $name,
+     YellowCard $yellowCard,
      FaceImageVoidFlg $faceImageVoidFlg
     ) {
         $user = new self();
-        $user->age = $age;
-        $user->authCode = $authCode;
+        $user->userId = $userId;
+        $user->name = $name;
         $user->email = $email;
         $user->password = $password;
-        $user->userId = $userId;
-        $user->facebookId = $facebookId;
-        $user->instagramId = $instagramId;
-        $user->twitterId = $twitterId;
-        $user->facePoint = $facePoint;
-        $user->faceImage = $faceImage;
         $user->gender = $gender;
         $user->height = $height;
         $user->salary = $salary;
         $user->weight = $weight;
-        $user->yellowCard = $yellowCard;
+        $user->age = $age;
+        $user->facePoint = $facePoint;
+        $user->height2 = $height2;
+        $user->weight2 = $weight2;
+        $user->salary2 = $salary2;
+        $user->age2 = $age2;
+        $user->facePoint2 = $facePoint2;
+        $user->faceImage = $faceImage;
+        $user->facebookId = $facebookId;
+        $user->instagramId = $instagramId;
+        $user->twitterId = $twitterId;
         $user->updateFaceAt = $updateFaceAt;
         $user->createDate = $createDate;
-        $user->name = $name;
+        $user->yellowCard = $yellowCard;
         $user->faceImageVoidFlg = $faceImageVoidFlg;
         return $user;
     }
@@ -140,13 +160,13 @@ class UserEntity
     }
 
     /**
-     * auth_codeを取得する
+     * age2を取得する
      *
-     * @return string
+     * @return int
      */
-    public function getAuthCode(): string
+    public function getAge2(): int
     {
-        return $this->authCode->get();
+        return $this->age2->get();
     }
 
     /**
@@ -154,7 +174,7 @@ class UserEntity
      *
      * @return string
      */
-    public function getcreateDate(): string
+    public function getCreateDate(): string
     {
         return $this->createDate->get();
     }
@@ -200,6 +220,17 @@ class UserEntity
     }
 
     /**
+     * face_point2を取得する
+     *
+     * @return int
+     */
+    public function getFacePoin2t(): int
+    {
+        return $this->facePoint2->get();
+    }
+
+
+    /**
      * genderを取得する
      *
      * @return string
@@ -217,6 +248,16 @@ class UserEntity
     public function getHeight(): int
     {
         return $this->height->get();
+    }
+
+    /**
+     * height2を取得する
+     *
+     * @return int
+     */
+    public function getHeight2(): int
+    {
+        return $this->height2->get();
     }
 
     /**
@@ -250,6 +291,16 @@ class UserEntity
     }
 
     /**
+     * salary2を取得する
+     *
+     * @return int
+     */
+    public function getSalary2(): int
+    {
+        return $this->salary2->get();
+    }
+
+    /**
      * twitter_idを取得する
      *
      * @return string
@@ -277,6 +328,16 @@ class UserEntity
     public function getWeight(): int
     {
         return $this->weight->get();
+    }
+
+    /**
+     * weight2を取得する
+     *
+     * @return int
+     */
+    public function getWeight2(): int
+    {
+        return $this->weight2->get();
     }
 
     /**

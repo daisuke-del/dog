@@ -59,7 +59,7 @@ class UserService
         $salary = $request->input('salary');
         $salary2 = $salary / 10 - 30;
         $facePoint = $request->input('facePoint');
-        $faceImage = storeFaceImage($request->input('faceImage'));
+        $faceImage = $this->storeFaceImage($request->input('faceImage'));
 
         if ($gender === 'male') {
             $height2 = ($height - 150) * 2;
@@ -92,20 +92,16 @@ class UserService
             'instagramId' => $request->input('instagram_id'),
             'twitterId' => $request->input('twitter_id'),
         ];
-        $email = (new Email($requestArr['email']))->get();
-        if ($this->containUppercase($email)) {
-            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
-        }
 
         $response = $this->insertUsers($requestArr);
 
         if (empty($response)) {
             throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
-        if (Auth::attempt($request->only(['email', 'password']))) {
-            return[];
+        if (!Auth::attempt($request->only(['email', 'password']))) {
+            throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
-        throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+        return $response;
     }
 
     /**
@@ -123,12 +119,11 @@ class UserService
         $password = (new Password($request->input('password'), $email))->get();
         $user = $this->usersRepository->getUser($email, $password);
         if (is_null($user)) {
-            // 会員情報が存在しない ログイン失敗
             throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
 
         if (Auth::attempt($request->only(['email', 'password']))) {
-            return [];
+            return $user->toArray();
         }
         throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
@@ -471,9 +466,7 @@ class UserService
         // usersテーブルに新規追加
         $this->usersRepository->save($users);
         // レスポンス
-        return [
-            'user_id' => $entityParam['user_id'],
-        ];
+        return $entityParam;
     }
 
     /**
@@ -570,7 +563,7 @@ class UserService
      * @param string $faceImage
      * @return string
      */
-    public function storeFaceImage($faceImage)
+    public function storeFaceImage($faceImage): string
     {
         try {
             preg_match('/data:image\/(\w+);base64./', $faceImage, $matches);
@@ -583,7 +576,7 @@ class UserService
             $fileName = md5($img);
             $path = $fileName. '.'. $extension;
 
-            Storage::disk($storage)->put($path, $fileData);
+            Storage::disk('local')->put($path, $fileData);
 
             return $path;
         } catch (Exception $e) {
@@ -593,13 +586,40 @@ class UserService
     }
 
     /**
-     * 64base形式のデータをdecodeする。
+     * face_imageとface_pointを30件取得
      *
-     * @param string $data
-     * @return string
+     * @param Request $request
+     * @return array
      */
-    public function decodeImage($data)
+    public function getFace(Request $request): array
     {
+        $gender = $request->input('gender');
+        $sort = rand('asc', 'desc');
+        $response = $this->usersRepository->getFace($gender, $sort, 30);
+
+        if (!$response) {
+            throw new MATCHException(config('スライダー画像の取得に失敗しました'), 400);
+        }
+
+        return $response->toArray();
     }
 
+    /**
+     * emailが登録済かどうかをチェックする
+     *
+     * @param string $email
+     * @return void
+     */
+    public function checkEmail(string $email): void
+    {
+        $checkedEmail = (new Email($email))->get();
+        if ($this->containUppercase($checkedEmail)) {
+            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+        }
+
+        $result = $this->usersRepository->getUserByMail($checkedEmail);
+        if (isset($result)) {
+            throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
+        }
+    }
 }
