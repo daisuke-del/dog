@@ -19,7 +19,7 @@
             <v-card light class="face-card">
               <div class="image-wrap">
                 <v-img
-                  :src="require('@/../../../storage/image/faceimages/99.jpeg')"
+                  :src="require('@/storage/image/faceimages/99.jpeg')"
                 />
                 <v-btn
                   class="image-icon"
@@ -39,25 +39,25 @@
                 <p class="big-text">総合ランク</p>
                 <v-img
                   v-if="rank > 80 && score === 'A'"
-                  :src="require('@/../../../storage/image/rank/gold.png')"
+                  :src="require('@/storage/image/rank/gold.png')"
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else-if="rank > 50 && score === 'B'"
-                  :src="require('@/../../../storage/image/rank/silver.png')"
+                  :src="require('@/storage/image/rank/silver.png')"
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else-if="score !== 'C'"
-                  :src="require('@/../../../storage/image/rank/blond.png')"
+                  :src="require('@/storage/image/rank/blond.png')"
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else
-                  :src="require('@/../../../storage/image/rank/nomal.png')"
+                  :src="require('@/storage/image/rank/nomal.png')"
                   class="rank-icon"
                   contain
                 />

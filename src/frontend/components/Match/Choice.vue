@@ -7,7 +7,7 @@
                 class="card"
                 @click="choiceLeft"
             >
-                <v-img :src="require(`@/../../../storage/image/faceimages/${leftImage}`)" />
+                <v-img :src="leftFaceImage" />
             </v-card>
             <v-btn
                 @click="clickAlertLeft"
@@ -23,7 +23,7 @@
                 class="card"
                 @click="choiceRight"
             >
-                <v-img :src="require(`@/../../../storage/image/faceimages/${rightImage}`)" />
+                <v-img :src="rightFaceImage" />
             </v-card>
             <v-btn
             @click="clickAlertRight"
@@ -51,6 +51,14 @@ export default {
         rightImage: {
             type: String,
             require: true
+        }
+    },
+    computed: {
+        leftFaceImage () {
+            return require(`@/storage/image/faceimages/${leftImage}`)
+        },
+        rightFaceImage () {
+            return require(`@/storage/image/faceimages/${rightImage}`)
         }
     },
     methods: {

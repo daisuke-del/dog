@@ -17,8 +17,8 @@ export default {
   name: 'MatchGender',
   data() {
     return {
-      male_image: require("@/../../../storage/image/faceimages/male.jpeg"),
-      female_image: require("@/../../../storage/image/faceimages/female.jpeg"),
+      male_image: require("@/storage/image/faceimages/male.jpeg"),
+      female_image: require("@/storage/image/faceimages/female.jpeg"),
       gender: null
     }
   },

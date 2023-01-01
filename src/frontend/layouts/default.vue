@@ -17,7 +17,7 @@
 
         <menu-drawer />
         <v-list-item @click=$router.push(home) class="menu-logo" link>
-          <v-img :src="require('@/../../storage/image/logo/logotouka.png')" />
+          <v-img :src="require('@/storage/image/logo/logotouka.png')" />
         </v-list-item>
       </v-navigation-drawer>
     </v-sheet>
@@ -28,8 +28,6 @@
 import user from '@/plugins/modules/user'
 import AccountAvatar from '@/components/Menu/AccountAvatar'
 import MenuDrawer from '@/components/Menu/MenuDrawer'
-import AccountAvatar from '../components/Menu/AccountAvatar.vue'
-import MenuDrawer from '../components/Menu/MenuDrawer.vue'
 export default {
   name: 'DefaultLayout',
   components: {

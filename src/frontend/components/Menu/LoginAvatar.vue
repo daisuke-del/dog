@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-list-item-avatar>
-            <v-img :src="require('@/../../storage/image/faceimages/99.jpeg')" />
+            <v-img :src="require('@/storage/image/faceimages/99.jpeg')" />
         </v-list-item-avatar>
 
         <v-list-item-content>

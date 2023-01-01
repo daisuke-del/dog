@@ -12,8 +12,6 @@
 <script>
 import LoginAvatar from '@/components/Menu/LoginAvatar'
 import GuestAvatar from '@/components/Menu/GuestAvatar'
-import LoginAvatar from './LoginAvatar.vue'
-import GuestAvatar from './GuestAvatar.vue'
 export default {
     name: 'AccountAvatar',
     components: {

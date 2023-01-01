@@ -141,7 +141,6 @@ import MatchFace from '@/components/Match/Face'
 import MatchPlace from '@/components/Match/Place'
 import MatchCoice from '@/components/Match/Choice'
 import MatchResult from '@/components/Match/Result'
-import slider from '@/plugins/modules/slider'
 export default {
   auth: false,
   name: 'PagesMatch',

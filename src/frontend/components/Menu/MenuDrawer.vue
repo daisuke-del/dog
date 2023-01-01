@@ -12,8 +12,6 @@
 <script>
 import LoginMenu from '@/components/Menu/LoginMenu'
 import GuestMenu from '@/components/Menu/GuestMenu'
-import LoginMenu from './LoginMenu.vue'
-import GuestMenu from './GuestMenu.vue'
 
 export default {
   components: { LoginMenuGuestMenu },
