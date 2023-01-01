@@ -1,5 +1,4 @@
-import { request } from '../axios'
-// import { auth } from '../auth'
+import { request } from '@/plugins/axios'
 
 export default {
   result (match) {
@@ -7,12 +6,16 @@ export default {
       match
     })
   },
-  choice (user) {
+  choice (upUser, downUser, gender) {
     return request('post', '/api/match/choice', {
-      user
+      upUser,
+      downUser,
+      gender
     })
   },
-  slider () {
-    return request('get', '/api/match/slider')
+  alert (userId) {
+    return request('post', '/api/match/alert', {
+      userId
+    })
   }
 }

@@ -61,7 +61,7 @@
       <v-stepper-content step="3">
         <div class="mx-auto">
           <evaluate-face
-            :sliderImages="sliderImages"
+            :sliderFaces="sliderFaces"
             @store-face-point="storeFacePoint"
             @click-back="transitionContent"
           />
@@ -133,7 +133,7 @@ export default {
       salary: null,
       facePoint: null,
       faceImage: null,
-      sliderImages: [
+      sliderFaces: [
         { faceImage: '0.jpeg', facePint: 0},
         { faceImage: '0.jpeg', facePint: 0},
         { faceImage: '0.jpeg', facePint: 0},
@@ -200,6 +200,7 @@ export default {
       this.salary = userInfo.salary
       slider.signupSliderImage(this.email).then((response) => {
         console.log(response)
+        this.sliderImages = response.data
         this.position = 2
       }).catch(() => {})
       this.postUserInfoLoading = false

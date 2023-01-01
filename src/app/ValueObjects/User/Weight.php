@@ -9,7 +9,7 @@ class Weight
 {
     private $weight;
 
-    public function __construct(string $weight)
+    public function __construct(int $weight)
     {
         if ($this->isWeight($weight) === false) {
             throw new MATCHException('validation.weight', 422);
@@ -28,10 +28,10 @@ class Weight
     /**
      * weightのValidationチェック
      *
-     * @param string $weight
+     * @param int $weight
      * @return bool
      */
-    private function isWeight(string $weight): bool
+    private function isWeight(int $weight): bool
     {
         return Validator::make([$weight], ['required|integer'])->passes();
     }

@@ -9,8 +9,8 @@
           size="30px"
           color="accent"
           @click="closeImgModal"
-          > 
-          mdi-close-thick 
+          >
+          mdi-close-thick
         </v-icon>
         <h1>写真をアップロード</h1>
         <label class="btn mt-4 mb-4">

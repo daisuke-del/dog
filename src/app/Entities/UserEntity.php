@@ -25,6 +25,7 @@ use App\ValueObjects\User\UpdateFaceAt;
 use App\ValueObjects\User\createDate;
 use App\ValueObjects\User\YellowCard;
 use App\ValueObjects\User\FaceImageVoidFlg;
+use App\ValueObjects\User\OrderNumber;
 
 
 class UserEntity
@@ -54,6 +55,7 @@ class UserEntity
     private $createDate;
     private $yellowCard;
     private $faceImageVoidFlg;
+    private $order_number;
 
     private function __construct()
     {
@@ -85,32 +87,34 @@ class UserEntity
      * @param createDate $createDate
      * @param YellowCard $yellowCard
      * @param FaceImageVoidFlg $faceImageVoidFlg
+     * @param OrderNumber $orderNumber
      * @return UserEntity
      */
     public static function getUserEntityInstance(
-     Name $name,
-     Email $email,
-     Password $password,
-     UserId $userId,
-     Gender $gender,
-     Height $height,
-     Weight $weight,
-     Age $age,
-     Salary $salary,
-     FacePoint $facePoint,
-     Height2 $height2,
-     Weight2 $weight2,
-     Age2 $age2,
-     Salary2 $salary2,
-     FacePoint2 $facePoint2,
-     FaceImage $faceImage,
-     FacebookId $facebookId,
-     InstagramId $instagramId,
-     TwitterId $twitterId,
-     UpdateFaceAt $updateFaceAt,
-     createDate $createDate,
-     YellowCard $yellowCard,
-     FaceImageVoidFlg $faceImageVoidFlg
+        UserId $userId,
+        Name $name,
+        Email $email,
+        Password $password,
+        Gender $gender,
+        Height $height,
+        Weight $weight,
+        Age $age,
+        Salary $salary,
+        FacePoint $facePoint,
+        Height2 $height2,
+        Weight2 $weight2,
+        Age2 $age2,
+        Salary2 $salary2,
+        FacePoint2 $facePoint2,
+        FaceImage $faceImage,
+        FacebookId $facebookId,
+        InstagramId $instagramId,
+        TwitterId $twitterId,
+        UpdateFaceAt $updateFaceAt,
+        createDate $createDate,
+        YellowCard $yellowCard,
+        FaceImageVoidFlg $faceImageVoidFlg,
+        OrderNumber $orderNumber
     ) {
         $user = new self();
         $user->userId = $userId;
@@ -119,14 +123,14 @@ class UserEntity
         $user->password = $password;
         $user->gender = $gender;
         $user->height = $height;
-        $user->salary = $salary;
         $user->weight = $weight;
         $user->age = $age;
+        $user->salary = $salary;
         $user->facePoint = $facePoint;
         $user->height2 = $height2;
         $user->weight2 = $weight2;
-        $user->salary2 = $salary2;
         $user->age2 = $age2;
+        $user->salary2 = $salary2;
         $user->facePoint2 = $facePoint2;
         $user->faceImage = $faceImage;
         $user->facebookId = $facebookId;
@@ -136,6 +140,7 @@ class UserEntity
         $user->createDate = $createDate;
         $user->yellowCard = $yellowCard;
         $user->faceImageVoidFlg = $faceImageVoidFlg;
+        $user->orderNumber = $orderNumber;
         return $user;
     }
 
@@ -224,7 +229,7 @@ class UserEntity
      *
      * @return int
      */
-    public function getFacePoin2t(): int
+    public function getFacePoint2(): int
     {
         return $this->facePoint2->get();
     }
@@ -370,4 +375,13 @@ class UserEntity
         return $this->faceImageVoidFlg->get();
     }
 
+    /**
+     * order_numberを取得する
+     *
+     * @return int
+     */
+    public function getOrderNumber(): int
+    {
+        return $this->orderNumber->get();
+    }
 }

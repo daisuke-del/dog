@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class UserService
 {
@@ -52,41 +53,24 @@ class UserService
      */
     public function signup(Request $request): array
     {
-        $gender = $request->input('gender');
-        $height = $request->input('height');
-        $weight = $request->input('weight');
-        $age = $request->input('age');
-        $salary = $request->input('salary');
-        $salary2 = $salary / 10 - 30;
-        $facePoint = $request->input('facePoint');
+        $storeInfo = $this->getCalculation($request);
         $faceImage = $this->storeFaceImage($request->input('faceImage'));
 
-        if ($gender === 'male') {
-            $height2 = ($height - 150) * 2;
-            $weight2 = abs($weight / ($height*$height/10000) - 20) * 3;
-            $age2 = abs($age - 27);
-        } else {
-            $height2 = 30;
-            $weight2 = ($weight / ($height*$height/10000) - 20) * 3;
-            $age2 = $age - 23;
-        }
-
         $requestArr = [
-            'gender' => $gender,
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'gender' => $request->input('gender'),
-            'height' => $height,
-            'weight' => $weight,
-            'age' => $age,
-            'salary' => $salary,
-            'face_point' => $facePoint,
-            'height2' => $height2,
-            'weight2' => $weight2,
-            'age2' => $age2,
-            'salary2' => $salary2,
-            'face_point2' => $facePoint * 2,
+            'height' => $storeInfo['height'],
+            'weight' => $storeInfo['weight'],
+            'age' => $storeInfo['age'],
+            'salary' => $storeInfo['salary'],
+            'face_point' => $storeInfo['facePoint'],
+            'height2' => $storeInfo['height2'],
+            'weight2' => $storeInfo['weight2'],
+            'age2' => $storeInfo['age2'],
+            'salary2' => $storeInfo['salary2'],
+            'face_point2' => $storeInfo['facePoint2'],
             'faceImage' => $faceImage,
             'facebookId' => $request->input('facebook_id'),
             'instagramId' => $request->input('instagram_id'),
@@ -488,39 +472,71 @@ class UserService
     }
 
     /**
-     * face_pointを更新
-     *
-     * @param string $upOrDown
-     * @param string $userId
-     * @return void
-     * @throws Exception
-     */
-    private function updateFacePint(string $upOrDown, string $userId): void
+    * choiceの２画像を取得
+    *
+    * @param Request $request
+    * @return array
+    * @throws Exception
+    */
+   public function upDownFacePoint(Request $request): array
+   {
+        $this->usersRepository->upFacePoint($request->input('upFaceId'));
+        $this->usersRepository->downFacePoint($request->input('downFaceId'));
+
+        $responseInfo = [];
+        $gender = $request->input('gender');
+        while(!$responseInfo) {
+            $responseInfo = $this->getChoiceInfo($gender);
+        }
+
+        return $responseInfo;
+   }
+
+   /**
+    * choice用画像を取得
+    *
+    *@param string $gender
+    *@return array
+    */
+    private function getChoiceInfo($gender): array
     {
-        if ($upOrDown === 'up') {
-            $this->usersRepository->upFacePoint($userId);
-        }
-        if ($upOrDown === 'down') {
-            $this->usersRepository->downFacePoint($userId);
-        }
+        $maxNum = $this->usersRepository->getMaxFacePoint($gender);
+        $randNum = mt_rand(1, $maxNum['face_point']);
+        $response = $this->usersRepository->getTwoUsersByFacePoint($randNum, $gender);
+
+        return $response->array();
     }
 
-//    /**
-//     * face_pointを更新
-//     *
-//     * @param string $upOrDown
-//     * @param string $userId
-//     * @return void
-//     * @throws Exception
-//     */
-//    private function updateAndCheckYellowCard(string $userId): void
-//    {
-//        $this->usersRepository->upYellowCard($userId);
-//        $yellowCard = $this->usersRepository->getYellowCard($userId);
-//        if ($yellowCard > 2) {
-//
-//        }
-//    }
+   /**
+    * yellow_cardを更新して、choice用画像を取得
+    *
+    * @param Request $request
+    * @return array
+    * @throws Exception
+    */
+    public function updateYellowAndGetFace(Request $request): array
+    {
+        $this->updateAndCheckYellowCard($request->input('userId'));
+        $gender = $request->input('gender');
+        return $this->getChoiceInfo($gender);
+    }
+
+   /**
+    * yellowCardを更新して、face_image_void_flgを更新
+    *
+    * @param string $upOrDown
+    * @param string $userId
+    * @return void
+    * @throws Exception
+    */
+   private function updateAndCheckYellowCard(string $userId): void
+   {
+       $this->usersRepository->upYellowCard($userId);
+       $yellowCard = $this->usersRepository->getYellowCard($userId);
+       if ($yellowCard > 2) {
+
+       }
+   }
 
     /**
      * ランダムに30名取得。
@@ -621,5 +637,69 @@ class UserService
         if (isset($result)) {
             throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
+    }
+
+    /**
+     * match結果を取得
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getResult(Request $request): array
+    {
+        $userInfo = $this->getCalculation($request);
+        if ($request->input('gender') === 'male') {
+            $genderSort = 'female';
+        } else {
+            $genderSort = 'male';
+        }
+        $params = ['genderSort' => $genderSort, 'height2' => $userInfo['height2'], 'weight' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2']];
+        $place = $request->input('place');
+
+        $result = $this->usersRepository->getMatchResult($params, $place);
+
+        return $result;
+
+    }
+
+    /**
+     * 診断指標の計算関数
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getCalculation(Request $request): array
+    {
+        $gender = $request->input('gender');
+        $height = (int) $request->input('height');
+        $weight = (int) $request->input('weight');
+        $age = (int) $request->input('age');
+        $salary = (int) $request->input('salary');
+        $salary2 = $salary / 10 - 30;
+        $facePoint = (int) $request->input('facePoint');
+        $facePoint2 = $facePoint * 2;
+
+        if ($gender === 'male') {
+            $height2 = ($height - 150) * 2;
+            $weight2 = abs($weight / ($height*$height/10000) - 20) * 3;
+            $age2 = abs($age - 27);
+        } else {
+            $height2 = 30;
+            $weight2 = ($weight / ($height*$height/10000) - 20) * 3;
+            $age2 = $age - 23;
+        }
+
+        return [
+            'height' => $height,
+            'weight' => $weight,
+            'age' => $age,
+            'salary' => $salary,
+            'facePoint' => $facePoint,
+            'height2' => $height2,
+            'weight2' => $weight2,
+            'age2' => $age2,
+            'salary2' => $salary2,
+            'facePoint2' => $facePoint2
+        ];
     }
 }

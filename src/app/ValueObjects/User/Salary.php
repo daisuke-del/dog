@@ -9,7 +9,7 @@ class Salary
 {
     private $salary;
 
-    public function __construct(string $salary)
+    public function __construct(int $salary)
     {
         if ($this->isSalary($salary) === false) {
             throw new MATCHException('validation.salary', 422);
@@ -28,10 +28,10 @@ class Salary
     /**
      * salaryのValidationチェック
      *
-     * @param string $salary
+     * @param int $salary
      * @return bool
      */
-    private function isSalary(string $salary): bool
+    private function isSalary(int $salary): bool
     {
         return Validator::make([$salary], ['required|integer'])->passes();
     }

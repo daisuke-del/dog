@@ -45,6 +45,7 @@ class UsersRepository implements UsersRepositoryInterface
             $user['yellow_card'],
             $user['update_face_at'],
             $user['create_date'],
+            $user['order_number']
         );
     }
 
@@ -104,6 +105,7 @@ class UsersRepository implements UsersRepositoryInterface
             'yellow_card' => $user->getYellowCard(),
             'update_face_at' => $user->getUpdateFaceAt(),
             'created_date' => $user->getCreateDate(),
+            'order_number' => $user->getOrderNumber()
         ]))->save();
     }
 
@@ -118,24 +120,29 @@ class UsersRepository implements UsersRepositoryInterface
         DB::beginTransaction();
         DB::connection('users')->beginTransaction();
         $isSaveUsers = (new User([
-            'age' => $user->getAge(),
-            'auth_code' => $user->getAuthCode(),
-            'created_date' => $user->getCreateDate(),
+            'user_id' => $user->getUserId(),
+            'name' => $user->getName(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
-            'user_id' => $user->getUserId(),
+            'gender' => $user->getGender(),
+            'height' => $user->getHeight(),
+            'weight' => $user->getWeight(),
+            'age' => $user->getAge(),
+            'salary' => $user->getSalary(),
+            'face_point' => $user->getFacePoint(),
+            'height2' => $user->getHeight2(),
+            'weight2' => $user->getWeight2(),
+            'age2' => $user->getAge2(),
+            'salary2' => $user->getSalary2(),
+            'face_point2' => $user->getFacePoint2(),
+            'face_image' => $user->getFaceImage(),
             'facebook_id' => $user->getFacebookId(),
             'instagram_id' => $user->getInstagramId(),
             'twitter_id' => $user->getUserId(),
-            'face_point' => $user->getFacePoint(),
-            'face_image' => $user->getFaceImage(),
-            'gender' => $user->getGender(),
-            'height' => $user->getHeight(),
-            'salary' => $user->getSalary(),
-            'weight' => $user->getWeight(),
             'yellow_card' => $user->getYellowCard(),
+            'created_date' => $user->getCreateDate(),
             'update_face_at' => $user->getUpdateFaceAt(),
-            'name' => $user->getName(),
+            'order_number' => $user->getOrderNumber()
         ]))->save();
         if ($isSaveUsers) {
             DB::commit();
@@ -158,24 +165,29 @@ class UsersRepository implements UsersRepositoryInterface
         return (new User())
             ->where('user_id', $user->getUserId())
             ->update([
-                'age' => $user->getAge(),
-                'auth_code' => $user->getAuthCode(),
-                'created_date' => $user->getCreateDate(),
+                'user_id' => $user->getUserId(),
+                'name' => $user->getName(),
                 'email' => $user->getEmail(),
                 'password' => $user->getPassword(),
-                'user_id' => $user->getUserId(),
+                'gender' => $user->getGender(),
+                'height' => $user->getHeight(),
+                'weight' => $user->getWeight(),
+                'age' => $user->getAge(),
+                'salary' => $user->getSalary(),
+                'face_point' => $user->getFacePoint(),
+                'height2' => $user->getHeight2(),
+                'weight2' => $user->getWeight2(),
+                'age2' => $user->getAge2(),
+                'salary2' => $user->getSalary2(),
+                'face_point2' => $user->getFacePoint2(),
+                'face_image' => $user->getFaceImage(),
                 'facebook_id' => $user->getFacebookId(),
                 'instagram_id' => $user->getInstagramId(),
                 'twitter_id' => $user->getUserId(),
-                'face_point' => $user->getFacePoint(),
-                'face_image' => $user->getFaceImage(),
-                'gender' => $user->getGender(),
-                'height' => $user->getHeight(),
-                'salary' => $user->getSalary(),
-                'weight' => $user->getWeight(),
                 'yellow_card' => $user->getYellowCard(),
                 'update_face_at' => $user->getUpdateFaceAt(),
-                'name' => $user->getName(),
+                'created_date' => $user->getCreateDate(),
+                'order_number' => $user->getOrderNumber()
             ]);
     }
 
@@ -327,6 +339,25 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
+     * face_pointの最大値を取得
+     *
+     * @param int $facePoint
+     * @param string $gender
+     * @return array
+     */
+    public function getMaxFacePoint(string $gender): array
+    {
+        $facePoint = DB::table('users')
+            ->where('gender', $gender)
+            ->select('face_point')
+            ->orderBy('face_point', 'desc')
+            ->limit(1)
+            ->get();
+
+        return $facePoint->toArray();
+    }
+
+    /**
      * face_pointを1上げる
      *
      * @param string $userId
@@ -451,5 +482,81 @@ class UsersRepository implements UsersRepositoryInterface
             ->orderBy('order_number', $sort)
             ->limit($num)
             ->get();
+    }
+
+    /**
+     * match結果を取得
+     *
+     * @param aray $matchInfo
+     * @param string $place
+     * @return array
+     */
+    public function getMatchResult($matchInfo, $place): array
+    {
+
+        if ($matchInfo['genderSort'] === 'male') {
+            //requestユーザーはfemale
+            if ($place === 'workplace') {
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (4 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'introduction') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (3.5 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3 * T1.face_point2 + 2 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3 * T1.face_point2 + 2 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'jointparty') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (4 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'club') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (8 * :facePoint2 - 2 * :age + :height2 - :weight2) > (6 * T1.face_point2 + 2 * T1.salary2 - 2 * T1.age2 + 4 * T1.height2 -2 * T1.weight2) ORDER BY (6 * T1.face_point2 + 2 * T1.salary2 - 2 * T1.age2 + 4 * T1.height2 -2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'pairs') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (6.5 * :facePoint2 + 4 * :salary2 - 3 * :age + 3 * :height2 - :weight2) > (8 * T1.face_point2 + T1.salary2 - 4 * T1.age2 + 2 * T1.height2 - 4 * T1.weight2) ORDER BY (8 * T1.face_point2 + T1.salary2 - 4 * T1.age2 + 2 * T1.height2 - 4 * T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'tinder') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (9 * :facePoint2 + :salary2 - 2 * :age + 2 * :height2 - 2 * :weight2) > (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (4 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            }
+
+        } else {
+            //requestユーザーはmale
+            if ($place === 'workplace') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (3.5 * :facePoint2 + 3 * :salary2 - 1.5 * :age + 2 * :height2 - :weight2) > (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'introduction') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (3 * :facePoint2 + 2 * :salary2 - 1.5 * :age + 2 * :height2 - :weight2) > (3.5 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + T1.height2 - T1.weight) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'jointparty') {
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (6.5 * :facePoint2 + 1.5 * :salary2 - 4 * :age + 3 * :height2 - 2 * :weight2) > (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) ORDER BY (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'club') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (6 * :facePoint2 + 2 * :salary2 - 2 * :age + 4 * :height2 - 2 * :weight2) > (8 * T1.face_point2 - 2 * T1.age2 + T1.height2 - T1.weight2) ORDER BY (8 * T1.face_point2 - 2 * T1.age2 + T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'pairs') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (7 * :facePoint2 + :salary2 - 2 * :age + 2 * :height2 - :weight2) > (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) ORDER BY (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else if ($place === 'tinder') {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (7 * :facePoint2 + :salary2 - 2 * :age + 2 * :height2 - :weight2) > (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) ORDER BY (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            } else {
+
+                $result = DB::select("SELECT * FROM users AS T1 WHERE (3.5 * :facePoint2 + 3 * :salary2 - 1.5 * :age + 2 * :height2 - :weight2) > (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+
+            }
+
+            return $result;
+        }
     }
 }

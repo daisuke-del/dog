@@ -9,7 +9,7 @@ class FacePoint
 {
     private $facePoint;
 
-    public function __construct(string $facePoint)
+    public function __construct(int $facePoint)
     {
         if ($this->isFacePoint($facePoint) === false) {
             throw new MATCHException('validation.face_point', 422);
@@ -28,10 +28,10 @@ class FacePoint
     /**
      * facePointのValidationチェック
      *
-     * @param string $facePoint
+     * @param int $facePoint
      * @return bool
      */
-    private function isFacePoint(string $facePoint): bool
+    private function isFacePoint(int $facePoint): bool
     {
         return Validator::make([$facePoint], ['required|integer'])->passes();
     }

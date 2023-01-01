@@ -9,7 +9,7 @@ class Height2
 {
     private $height2;
 
-    public function __construct(string $height2)
+    public function __construct(int $height2)
     {
         if ($this->isHeight2($height2) === false) {
             throw new MATCHException('validation.height2', 422);
@@ -28,10 +28,10 @@ class Height2
     /**
      * height2のValidationチェック
      *
-     * @param string $height2
+     * @param int $height2
      * @return bool
      */
-    private function isHeight2(string $height2): bool
+    private function isHeight2(int $height2): bool
     {
         return Validator::make([$height2], ['required|integer'])->passes();
     }

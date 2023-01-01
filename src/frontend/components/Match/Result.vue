@@ -1,16 +1,16 @@
 <template>
   <div>
       <v-row>
-        <v-col cols="12" v-for="MATCH in MATCHs" :key="MATCH.img" class="card-wrap">
+        <v-col cols="12" v-for="match in matchResults" :key="match.img" class="card-wrap">
           <v-card
               class="result-card"
           >
             <v-img
-                :src="'@/assets/faceimages/nface_image/' + MATCH.img"
+                :src="'@/assets/faceimages/nface_image/' + match.img"
                 class="result-img"
             />
-            <p class="name-text">{{ MATCH.name }}</p>
-            <p class="salary-text">{{ MATCH.salary }}</p>
+            <p class="name-text">{{ match.name }}</p>
+            <p class="salary-text">{{ match.salary }}</p>
             <div class="icon-wrap">
               <v-btn
                   icon
@@ -59,14 +59,14 @@
 <script>
 export default {
   name: 'MatchResult',
-  data() {
+  props: {
+    matchResults: {
+      type: Array,
+      requred: true
+    }
+  },
+  data () {
     return {
-      MATCHs: [
-        { name: '田中姫', img: 'face_image/99.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'},
-        { name: '遠藤香織', img: 'face_image/90.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'},
-        { name: '小田公子', img: 'face_image/83.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'},
-        { name: '坂田英里', img: 'face_image/80.jpeg', twitter: 'https://twitter.com/hirox246', salary: '500万円'}
-      ]
     }
   }
 }

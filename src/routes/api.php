@@ -34,8 +34,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // マッチング診断
 Route::prefix('match')->name('match.')->group(function () {
   Route::post('result', [MatchController::class, 'result']);
-  Route::get('slider', [MatchController::class, 'slider']);
   Route::post('choice', [MatchController::class, 'choice']);
+  Route::post('alert', [MatchController::class, 'alert']);
 });
 
 // スライダー用画像を取得
