@@ -193,7 +193,7 @@ input[type="file"] {
   margin-top: 10%;
   padding: 30px 0;
   border-radius: 20px;
-  background: url("~assets/backGrounds/default750.png") top center no-repeat;
+  background: url("~assets/image/backGrounds/default750.png") top center no-repeat;
 }
 
 .crop-area {

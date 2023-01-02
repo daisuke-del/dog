@@ -62,11 +62,11 @@ html {
 }
 
 .bg {
-  background: url("~assets/backGrounds/default750.png") top center no-repeat;
+  background: url("~assets/image/backGrounds/default750.png") top center no-repeat;
 }
 
 .menu {
-  background: url("~assets/backGrounds/menu-background.png");
+  background: url("/image/backGrounds/menu-background.png");
 }
 
 .menu-logo {
@@ -80,12 +80,12 @@ html {
   z-index: 5;
   width: 40px;
   height: 40px;
-  background: url('~assets/icons/menuIconOrange.png') center center;
+  background: url('~assets/image/icons/menuIconOrange.png') center center;
 }
 
 @media screen and (min-width: 750px) {
   .bg {
-    background: url("~assets/backGrounds/default3000.png") top center no-repeat;
+    background: url("~assets/image/backGrounds/default3000.png") top center no-repeat;
   }
 
   .header-btn {
@@ -99,7 +99,7 @@ html {
 
 @media screen and (min-width: 1499px) {
   .bg {
-    background: url("~assets/backGrounds/default4500.png") top center no-repeat;
+    background: url("~assets/image/backGrounds/default4500.png") top center no-repeat;
   }
 }
 </style>

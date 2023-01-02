@@ -85,9 +85,7 @@
                   <v-row>
                     <v-col>
                       <v-img
-                        :src="
-                          require('@/assets/faceimages/nface_image/mface_image/'+ n + '.jpeg')
-                        "
+                        :src="require('store/image/faceimages/'+ n + '.jpeg')"
                         max-height="100"
                         contain
                         rounded
@@ -132,9 +130,7 @@
         >
           <v-card light @click="showProfile(n)" height="250px" width="200px">
             <v-img
-              :src="
-                require('@/assets/faceimages/nface_image/mface_image/' + n + '.jpeg')
-              "
+              :src="require('store/image/faceimages/' + n + '.jpeg')"
               height="150px"
               contain
               rounded
