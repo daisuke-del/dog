@@ -19,7 +19,7 @@
             <v-card light class="face-card">
               <div class="image-wrap">
                 <v-img
-                  :src="require('@/storage/image/faceimages/99.jpeg')"
+                  src="storage/99.jpeg'"
                 />
                 <v-btn
                   class="image-icon"
@@ -39,25 +39,25 @@
                 <p class="big-text">総合ランク</p>
                 <v-img
                   v-if="rank > 80 && score === 'A'"
-                  :src="require('@/storage/image/rank/gold.png')"
+                  src='~assets/image/rank/gold.png'
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else-if="rank > 50 && score === 'B'"
-                  :src="require('@/storage/image/rank/silver.png')"
+                  src='~assets/image/rank/silver.png'
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else-if="score !== 'C'"
-                  :src="require('@/storage/image/rank/blond.png')"
+                  src='~assets/image/rank/blond.png'
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else
-                  :src="require('@/storage/image/rank/nomal.png')"
+                  src='~assets/image/rank/nomal.png'
                   class="rank-icon"
                   contain
                 />
@@ -85,7 +85,7 @@
                   <v-row>
                     <v-col>
                       <v-img
-                        :src="require('store/image/faceimages/'+ n + '.jpeg')"
+                        :src="require('@/../storage/image/faceimages/'+ n + '.jpeg')"
                         max-height="100"
                         contain
                         rounded
@@ -130,7 +130,7 @@
         >
           <v-card light @click="showProfile(n)" height="250px" width="200px">
             <v-img
-              :src="require('store/image/faceimages/' + n + '.jpeg')"
+              :src="require('@/../storage/image/faceimages/' + n + '.jpeg')"
               height="150px"
               contain
               rounded
@@ -262,7 +262,7 @@ h1 {
   position: absolute;
   bottom: -5%;
   right: -5%;
-  background: url('~/assets/icons/icon60.png');
+  background: url('~assets/image/icons/icon60.png');
   background-size: contain;
 }
 
@@ -273,7 +273,7 @@ h1 {
   position: absolute;
   bottom: -5%;
   right: -5%;
-  background: url('~/assets/icons/icon20.png') no-repeat;
+  background: url('~assets/image/icons/icon20.png') no-repeat;
   background-size: contain;
 }
 

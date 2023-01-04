@@ -6,7 +6,7 @@
               class="result-card"
           >
             <v-img
-                :src="'storage/faceimages/nface_image/' + match.img"
+                :src="require('@/../storage/image/faceimages/' + match.img)"
                 class="result-img"
             />
             <p class="name-text">{{ match.name }}</p>

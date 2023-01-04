@@ -3,10 +3,10 @@
       <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
       <div class="card-wrap">
       <v-card hover class="card" @click="clickGender('male')">
-        <v-img :src="male_image" />
+        <v-img :src="require('@/../storage/image/faceimages/male.jpeg')" />
       </v-card>
         <v-card hover class="card" @click="clickGender('female')">
-        <v-img :src="female_image" />
+        <v-img :src="require('@/../storage/image/faceimages/female.jpeg')" />
       </v-card>
       </div>
   </div>
@@ -17,8 +17,6 @@ export default {
   name: 'MatchGender',
   data() {
     return {
-      male_image: require("@/storage/image/faceimages/male.jpeg"),
-      female_image: require("@/storage/image/faceimages/female.jpeg"),
       gender: null
     }
   },

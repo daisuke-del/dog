@@ -77,7 +77,7 @@ export default {
   auth: {
     plugins: ['~/plugins/auth'],
     redirect: {
-      login: '/user/login',
+      login: '/login',
       logout: '/',
       callback: false,
       home: false

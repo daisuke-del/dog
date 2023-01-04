@@ -3,15 +3,15 @@
     <div class="main-wrapper justify-center">
       <div class="top-text-wrap">
         <v-img
-          :src="image_src_logo"
+          :src="require('@/assets/image/logo/logotouka.png')"
         />
         <v-img
-          :src="subtext"
+          :src="require('@/assets/texts/understandMyself-touka.png')"
           class="top-text"
           contain
         />
         <v-img
-          :src="maintext"
+          :src="require('@/assets/texts/No1-topText2.png')"
           contain
           width="100%"
           class="text-No1"
@@ -48,13 +48,7 @@
 <script>
 export default {
   name: 'TopPage',
-  data() {
-    return {
-      image_src_logo: require("@/storage/image/logo/logotouka.png"),
-      subtext: require("@/assets/texts/understandMyself-touka.png"),
-      maintext: require("@/assets/texts/No1-topText2.png")
-    }
-  },
+  auth: false,
 }
 </script>
 <style scoped>

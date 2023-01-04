@@ -3,7 +3,7 @@
     <p class="big-text d-flex justify-center mb-6">どっちがイケメン？</p>
     <div class="face-wrap d-flex justify-center">
       <v-card hover class="face-card">
-        <v-img src="/faceimages/nface_image/face_image/99.jpeg" />
+        <v-img :src="require('@/../storage/image/faceimages/99.jpeg')" />
       </v-card>
     </div>
     <div class="d-flex justify-center mr-8 ml-8">

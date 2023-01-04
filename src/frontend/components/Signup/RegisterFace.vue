@@ -29,12 +29,12 @@
           :aspect-ratio="1"
         />
       </div>
-      <img
+      <v-img
         v-show="cropImg"
         :src="cropImg"
         alt="Cropped Image"
         class="crop-img"
-      >
+      />
       <div class="btn-wrap">
         <v-btn
           v-if="imgSrc != '' && !cropImg"

@@ -30,12 +30,12 @@ export default {
     return {
       model: null,
       matches: [
-        { name: 'club', img: require('@/storage/image/match/club.jpeg') },
-        { name: 'introduction', img: require('@/storage/image/match/introduction.jpeg') },
-        { name: 'jointparty', img: require('@/storage/image/match/jointparty.jpeg') },
-        { name: 'pairs', img: require('@/storage/image/match/pairs.jpeg') },
-        { name: 'tinder', img: require('@/storage/image/match/tinder.jpeg') },
-        { name: 'workplace', img: require('@/storage/image/match/workplace.jpeg') },
+        { name: 'club', img: '~assets/image/match/club.jpeg' },
+        { name: 'introduction', img: '~assets/image/match/introduction.jpeg' },
+        { name: 'jointparty', img: '~assets/image/match/jointparty.jpeg' },
+        { name: 'pairs', img: '~assets/image/match/pairs.jpeg' },
+        { name: 'tinder', img: '~assets/image/match/tinder.jpeg' },
+        { name: 'workplace', img: '~assets/image/match/workplace.jpeg' },
       ],
       place: null
     }

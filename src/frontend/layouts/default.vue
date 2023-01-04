@@ -8,16 +8,18 @@
       </v-btn>
       <Nuxt />
       <v-navigation-drawer v-model="drawer" class="menu" fixed temporary right width="210px">
-          <v-list-item @click="$router.push('/mypage')" light>
-            <account-avatar/>
-            <v-icon @click.stop="drawer = !drawer">
-                mdi-close-thick
-            </v-icon>
-          </v-list-item>
-
-        <menu-drawer />
+        <login-menu
+          v-if="$store.$auth.loggedIn"
+          :drawer="drawer"
+          @click-close="closeDrawer"
+        />
+        <guest-menu
+          v-else
+          :drawer="drawer"
+          @click-close="closeDrawer"
+        />
         <v-list-item @click=$router.push(home) class="menu-logo" link>
-          <v-img :src="require('@/storage/image/logo/logotouka.png')" />
+          <v-img :src="require('@/assets/image/logo/logotouka.png')" />
         </v-list-item>
       </v-navigation-drawer>
     </v-sheet>
@@ -26,17 +28,15 @@
 
 <script>
 import user from '@/plugins/modules/user'
-import AccountAvatar from '@/components/Menu/AccountAvatar'
-import MenuDrawer from '@/components/Menu/MenuDrawer'
+import LoginMenu from '@/components/Menu/LoginMenu'
+import GuestMenu from '@/components/Menu/GuestMenu'
 export default {
   name: 'DefaultLayout',
   components: {
-    MenuDrawer,
-    AccountAvatar,
-    MenuDrawer,
-    AccountAvatar
+    LoginMenu,
+    GuestMenu
   },
-  data() {
+  data () {
     return {
       drawer: null,
       title: '',
@@ -44,6 +44,9 @@ export default {
     }
   },
   methods: {
+    closeDrawer (value) {
+      this.drawer = value
+    },
     clickLogout() {
       user.logout.then((response) => {
         alert('ログアウトしました')
@@ -66,7 +69,7 @@ html {
 }
 
 .menu {
-  background: url("/image/backGrounds/menu-background.png");
+  background: url("~assets/image/backGrounds/menu-background.png");
 }
 
 .menu-logo {
@@ -80,12 +83,12 @@ html {
   z-index: 5;
   width: 40px;
   height: 40px;
-  background: url('~assets/image/icons/menuIconOrange.png') center center;
+  background: url('@/assets/image/icons/menuIconOrange.png') center center;
 }
 
 @media screen and (min-width: 750px) {
   .bg {
-    background: url("~assets/image/backGrounds/default3000.png") top center no-repeat;
+    background: url("@/assets/image/backGrounds/default3000.png") top center no-repeat;
   }
 
   .header-btn {

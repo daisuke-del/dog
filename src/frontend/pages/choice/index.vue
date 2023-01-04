@@ -3,11 +3,11 @@
     <p class="big-text d-flex justify-center mt-6 mb-6">どっちが好み？</p>
     <div class="card-wrap d-flex justify-center">
       <v-card hover class="card">
-        <v-img src="/faceimages/nface_image/face_image/100.jpeg" />
+        <v-img :src="require('@/../storage/image/faceimages/100.jpeg')" />
       </v-card>
       <p class="big-text vs-text">VS</p>
       <v-card hover class="card">
-        <v-img src="/faceimages/nface_image/face_image/99.jpeg" />
+        <v-img :src="require('@/../storage/image/faceimages/99.jpeg')" />
       </v-card>
     </div>
     <div class="btn-wrap">

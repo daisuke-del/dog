@@ -44,6 +44,7 @@ export default {
   components: {
     SendUserInfoButton
   },
+  auth: false,
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(10) },

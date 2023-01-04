@@ -1,5 +1,17 @@
 <template>
     <div>
+        <v-list-item light>
+            <v-list-item-avatar @click="$router.push('/mypage')">
+                <v-img :src="require('@/../storage/image/faceimages/99.jpeg')" />
+            </v-list-item-avatar>
+
+            <v-list-item-content @click="$router.push('/mypage')">
+                <v-list-item-title>Name</v-list-item-title>
+            </v-list-item-content>
+            <v-icon @click.stop="clickClose" :value="drawer" class="close">
+                mdi-close-thick
+            </v-icon>
+        </v-list-item>
         <v-list dense light>
             <v-list-item v-for="item in items" @click=$router.push(item.link) :key="item.title" link>
                 <v-list-item-icon>
@@ -20,13 +32,21 @@
 <script>
 export default {
     name: 'LoginMenu',
-    date() {
+    props: {
+        drawer: Boolean
+    },
+    data () {
         return {
             items: [
                 { title: 'マッチング診断', icon: 'mdi-face-recognition', link: '/match' },
                 { title: 'ログイン', icon: 'mdi-door-open', link: '/login' },
                 { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' }
             ],
+        }
+    },
+    methods: {
+        clickClose () {
+            this.$emit('click-close', !this.drawer)
         }
     }
 }

@@ -3,7 +3,7 @@
     <div id="modal-content" class="modal">
       <v-card>
         <v-img
-            :src='"~/faceimages/nface_image/mface_image/" + this.n + ".jpeg"'
+            :src='"storage/" + this.n + ".jpeg"'
             height="300px"
             contain
         />
