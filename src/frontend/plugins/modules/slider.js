@@ -1,11 +1,14 @@
 import { request } from "~/plugins/axios";
 
 export default {
-  sliderImage() {
-    return request('get', '/api/slider')
+  sliderImage(gender) {
+    return request('post', '/api/slider/match', {
+      gender
+    })
   },
-  signupSliderImage(mail) {
+  signupSliderImage(gender, mail) {
     return request('post', '/api/slider/signup', {
+      gender: gender,
       email: mail
     })
   }

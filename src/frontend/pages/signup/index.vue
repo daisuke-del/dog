@@ -1,8 +1,8 @@
-7y<template>
+<template>
   <div class="content mx-auto">
     <h1 v-if="position > 2">自分の顔を評価</h1>
     <h1 v-else-if="position > 1">顔写真をアップロード</h1>
-    <h1 v-else>新規会員登録（無料）</h1>
+    <h1 v-else>無料会員登録</h1>
     <v-stepper
       v-model="position"
       class="register-wrap"
@@ -46,7 +46,7 @@
             :min-pass-length="minPassLength"
             :max-pass-length="maxPassLength"
             :send-loading="postUserInfoLoading"
-            @store-user-info="getSignupSliderImage"
+            @store-user-info="signupSliderImage"
           />
         </div>
       </v-stepper-content>
@@ -176,20 +176,20 @@ export default {
     clickForm () {
       this.transitionContent(2)
     },
-    getSignupSliderImage (userInfo) {
+    signupSliderImage (userInfo) {
       this.postUserInfoLoading = true
-      if (!this.validationMail(userInfo.mail)) {
-        this.postUserInfoLoading = false
-        this.store.dispatch('snackbar/setMessage', 'メールアドレスを入力しなおしてください')
-        this.store.dispatch('snackbar/snackOn')
-        return
-      }
-      if (!this.validationPass(userInfo.password)) {
-        this.postUserInfoLoading = false
-        this.store.dispatch('snackbar/setMessage', 'パスワードを入力しなおしてください')
-        this.store.dispatch('snackbar/snackOn')
-        return
-      }
+      // if (!this.validationMail(userInfo.mail)) {
+      //   this.postUserInfoLoading = false
+      //   this.$store.dispatch('snackbar/setMessage', 'メールアドレスを入力しなおしてください')
+      //   this.$store.dispatch('snackbar/snackOn')
+      //   return
+      // }
+      // if (!this.validationPass(userInfo.password)) {
+      //   this.postUserInfoLoading = false
+      //   this.$store.dispatch('snackbar/setMessage', 'パスワードを入力しなおしてください')
+      //   this.$store.dispatch('snackbar/snackOn')
+      //   return
+      // }
       this.gender = userInfo.gender
       this.name = userInfo.name
       this.email = userInfo.email
@@ -198,7 +198,7 @@ export default {
       this.weight = userInfo.weight
       this.age = userInfo.age
       this.salary = userInfo.salary
-      slider.signupSliderImage(this.email).then((response) => {
+      slider.signupSliderImage(this.gender, this.email).then((response) => {
         console.log(response)
         this.sliderImages = response.data
         this.position = 2
@@ -210,8 +210,8 @@ export default {
       if (this.faceImage) {
         this.position = 3
       }
-      this.store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
-      this.store.dispatch('snackbar/snackOn')
+      this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
+      this.$store.dispatch('snackbar/snackOn')
     },
     async storeFacePoint (sliderValue) {
       console.log(this.sliderImages[sliderValue])
@@ -261,8 +261,8 @@ export default {
 
 <style scoped>
 .content {
-  max-width: 600px;
-  min-width: 350px;
+  max-width: 480px;
+  min-width: 300px;
 }
 
 .register-wrap {

@@ -32,7 +32,8 @@ export default {
     {
       src: '@/plugins/toggle-button',
       mode: 'client'
-    }
+    },
+    '~/plugins/axios',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -61,17 +62,17 @@ export default {
 
   proxy: {
     '/api/': {
-      target: 'http://localhost:80'
+      target: 'http://localhost:80/'
+    },
+    '/sanctum/': {
+      target: 'http://localhost:80/'
     }
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     proxy: true,
-    retry: {
-      retries: 2
-    },
-    prefix: 'http://localhost:80',
+    prefix: 'http://localhost:3000',
     credentials: true
   },
   auth: {

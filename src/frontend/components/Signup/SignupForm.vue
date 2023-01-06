@@ -1,52 +1,46 @@
 <template>
-  <div> 
-    <form>
+  <div>
+    <div class="gender">
+      <toggle-button
+        v-model="whichGender"
+        :color="{checked: '#99ccff', unchecked: '#ECA5B2'}"
+        :labels="{checked: '男性', unchecked: '女性'}"
+        :switch-color="{checked: '#0099ff', unchecked: '#FFC0CB'}"
+        :font-size="15"
+        :width="80"
+        :height="30"
+      />
+    </div>
+    <v-form ref="signupForm" class="signup-form-wrap">
       <div class="main-wrap">
-        <div class="gender">
-          <toggle-button 
-            v-model="whichGender"
-            :color="{checked: '#99ccff', unchecked: '#ECA5B2'}"
-            :labels="{checked: '男性', unchecked: '女性'}"
-            :switch-color="{checked: '#0099ff', unchecked: '#FFC0CB'}"
-            :font-size="15"
-            :width="80"
-            :height="30"
-          />
-        </div>
         <v-text-field
           v-model="name"
-          :error-messages="nameErrors"
+          :rules="nameRules"
           :counter="10"
           class="name form-content"
           label="ニックネーム(ヤマダユウキ)"
           required
           light
-          @input="$v.name.$touch()"
-          @blur="$v.name.$touch()"
-        ></v-text-field>
+        />
         <v-text-field
           v-model="email"
-          :error-messages="emailErrors"
+          :rules="emailRules"
           class="mail form-content"
           label="メールアドレス(example@gmail.com)"
           required
           light
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-        ></v-text-field>
+        />
         <v-text-field
           v-model="password"
-          :error-messages="passwordErrors"
+          :rules="passwordRules"
           :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="isShowPassword ? 'text' : 'password'"
           class="password form-content"
           label="パスワード"
           required
           light
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
-        ></v-text-field>
-        <div class="height d-flex justify-center form-content">
+        />
+        <div class="height form-content">
           <label>
             <span>身長</span>
             <input
@@ -62,12 +56,14 @@
               required
               oninput="value = value.replace(/[^0-9]+/i,'');"
               @keyup="heightHandleInputFocus(index, $event)"
-              @input="heightNumberInput('height')"
             >
             <span>cm</span>
           </label>
+          <p v-if="heightErrorShow" class="error-message">
+            身長は３桁の半角数字で入力してください。例:180
+          </p>
         </div>
-        <div class="weight d-flex justify-center form-content">
+        <div class="weight form-content">
           <label>
             <span>体重</span>
             <input
@@ -83,12 +79,14 @@
               required
               oninput="value = value.replace(/[^0-9]+/i,'');"
               @keyup="weightHandleInputFocus(index, $event)"
-              @input="weightNumberInput()"
             >
             <span>kg</span>
           </label>
+          <p v-if="weightErrorShow" class="error-message">
+            体重は３桁の半角数字で入力してください。例:060
+          </p>
         </div>
-        <div class="age d-flex justify-center form-content">
+        <div class="age form-content">
           <label>
             <span>年齢</span>
             <input
@@ -104,10 +102,12 @@
               required
               oninput="value = value.replace(/[^0-9]+/i,'');"
               @keyup="ageHandleInputFocus(index, $event)"
-              @input="ageNumberInput()"
             >
             <span>歳</span>
-          </label> 
+          </label>
+          <p v-if="ageErrorShow" class="error-message">
+            年齢は３桁の半角数字で入力してください。例:030
+          </p>
         </div>
         <label class="salary-wrap d-flex justify-center form-content">
           <span>
@@ -123,70 +123,61 @@
           </span>
           <span class="salary-text">万円</span>
         </label>
+        <p v-if="salaryErrorShow" class="error-message">
+          年収を選択してください。
+        </p>
         <div class="support-wrap d-flex justify-center">
           <v-btn text to="/support/terms" class="small-text" target="_blank">
-          利用規約を確認
+            利用規約を確認
           </v-btn>
         </div>
         <div class="d-flex justify-center">
           <v-checkbox
             v-model="checkbox"
-            :error-messages="checkboxErrors"
             class="checkbox"
             label="利用規約に同意します"
             required
             light
-            @change="$v.checkbox.$touch()"
-            @blur="$v.checkbox.$touch()"
-          ></v-checkbox>
-        </div>
-        <div class="btn-wrap">
-          <send-user-info-button
-            :send-loading="sendLoading"
-            @send-user-info="storeUserInfo"
+            hide-details=false
           />
         </div>
+        <p v-if="agreeErrorShow" class="error-message">
+          利用規約に同意が必須です。
+        </p>
+        <v-btn
+          block
+          dark
+          height="40px"
+          elevation="0"
+          color="#fd7e00"
+          class="font-weight-bold"
+          @click="storeUserInfo"
+        >
+          入力項目を送信
+        </v-btn>
       </div>
-    </form>
+    </v-form>
   </div>
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, maxLength, email } from 'vuelidate/lib/validators'
-import SendUserInfoButton from '~/components/Common/SendUserInfoButton'
+import constants from '@/utils/constants'
 export default {
   name: 'SignupForm',
-  components: {
-    SendUserInfoButton
-  },
-  mixins: [validationMixin],
-  validations: {
-    name: { required, maxLength: maxLength(10) },
-    email: { required, email },
-    password: { required },
-    select: { required },
-    checkbox: {
-      checked(val) {
-        return val
-      }
-    }
-  },
   data () {
     return {
       isToggled: false,
       whichGender: true,
-      gender: '',
-      name: '',
-      email: '',
-      password: '',
+      gender: null,
+      name: null,
+      email: null,
+      password: null,
       isShowPassword: true,
       heightValues: [1],
       weightValues: [0],
       ageValues: [0],
-      salaryValues: [],
       select: null,
-      checkbox: false,
+      checkbox: null,
       title: '無料会員登録',
       sendLoading: false,
       salaryRange: [
@@ -201,35 +192,23 @@ export default {
         ],
       item: null,
       salary: null,
-    }
-  },
-  computed: {
-    checkboxErrors () {
-      const errors = []
-      if (!this.$v.checkbox.$dirty) return errors
-      !this.$v.checkbox.checked && errors.push('利用規約の同意は必須項目です。')
-      return errors
-    },
-    nameErrors () {
-      const errors = []
-      if (!this.$v.name.$dirty) return errors
-      !this.$v.name.maxLength &&
-        errors.push('ニックネーム10文字以内です。')
-      !this.$v.name.required && errors.push('ニックネームは必須項目です。')
-      return errors
-    },
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('メールアドレスの形式に誤りがあります。')
-      !this.$v.email.required && errors.push('メールアドレスは必須項目です。')
-      return errors
-    },
-    passwordErrors () {
-      const errors = []
-      if (!this.$v.password.$dirty) return errors
-      !this.$v.password.required && errors.push('パスワードは必須項目です。')
-      return errors
+      nameRules: [
+        v => !!v || 'ニックネームは必須項目です',
+        v => v == null || (v.length <= constants.maxNameLength) || 'ニックネームは10文字以内で入力して下さい。'
+      ],
+      emailRules: [
+        v => !!v || 'メールアドレスが入力されていません。',
+        v => v == null || v.match(constants.mailValidation) != null || 'メールアドレスの形式ではありません。',
+      ],
+      passwordRules: [
+        v => !!v || 'パスワードが入力されていません。',
+        v => v == null || (v.length >= constants.minPasswordLength && v.length <= constants.maxPasswordLength) || 'パスワードは6～32文字で設定して下さい。'
+      ],
+      heightErrorShow: false,
+      weightErrorShow: false,
+      ageErrorShow: false,
+      salaryErrorShow: false,
+      agreeErrorShow: false
     }
   },
   methods: {
@@ -263,15 +242,6 @@ export default {
         previusInput.focus()
       }
     },
-    heightNumberInput () {
-      this.$emit('input-height', this.heightValues.join(''))
-    },
-    weightNumberInput () {
-      this.$emit('input-weight', this.weightValues.join(''))
-    },
-    ageNumberInput () {
-      this.$emit('input-age', this.ageValues.join(''))
-    },
     clickSalary () {
       if (this.item === '〜 199') {
         this.salary = 150
@@ -290,25 +260,45 @@ export default {
       } else if (this.item === '3000 〜') {
         this.salary = 1500
       }
-      this.$emit('click-salary', this.salary)
     },
     storeUserInfo () {
-      console.log('a')
-      if (this.gender === true) {
-        this.gender = 'male'
-      } else {
-        this.gender = 'female'
+      if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
+        if (this.gender === true) {
+          this.gender = 'male'
+        } else {
+          this.gender = 'female'
+        }
+        this.$emit('store-user-info', {
+          gender: this.gender,
+          name: this.name,
+          mail: this.email,
+          password: this.password,
+          height: this.heightValues.join(''),
+          weight: this.weightValues.join(''),
+          age: this.ageValues.join(''),
+          salary: this.salary
+        })
       }
-      this.$emit('store-user-info', {
-        gender: this.gender,
-        name: this.name,
-        mail: this.email,
-        password: this.password,
-        height: this.height,
-        weight: this.weight, 
-        age: this.age, 
-        salary: this.salary
-      })
+      if (this.heightValues.length != 3) {
+        console.log(this.heightValues.length)
+        this.heightErrorShow = true
+      }
+      if (this.weightValues.length != 3) {
+        console.log(this.weightValues.length)
+        this.weightErrorShow = true
+      }
+      if (this.ageValues.length != 3) {
+        console.log(this.ageValues.length)
+        this.ageErrorShow = true
+      }
+      if (this.item === null) {
+        console.log(this.item)
+        this.salaryErrorShow = true
+      }
+      if (this.checkbox != true) {
+        console.log(this.checkbox)
+        this.agreeErrorShow = true
+      }
     }
   }
 }
@@ -319,9 +309,14 @@ span {
   font-size: 20px;
 }
 
+.signup-form-wrap {
+  padding-bottom: 30px;
+  text-align: center;
+}
+
 .main-wrap {
   margin: 0 auto;
-  max-width: 480px;
+  max-width: 400px;
 }
 
 .form-content {
@@ -372,5 +367,10 @@ span {
 
 .btn-wrap {
   margin-bottom: 30px;
+}
+
+.error-message {
+  color: #DD2C00;
+  font-size: 12px;
 }
 </style>

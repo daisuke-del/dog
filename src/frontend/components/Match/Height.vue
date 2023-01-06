@@ -3,7 +3,7 @@
     <p class="big-text d-flex justify-center">身長を入力してください</p>
     <div class="height-wrap">
       <label>
-        <input 
+        <input
           v-for="(input, index) in length"
           :id="generateInputNum(index)"
           :ref="generateInputNum(index)"

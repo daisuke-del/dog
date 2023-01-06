@@ -1,56 +1,68 @@
 <template>
-  <div>
-    <h1>{{ title }}</h1>
-    <form>
+  <div class="login-wrap mx-auto">
+    <h1>ログイン</h1>
+    <v-form ref="loginForm">
       <div class="main-wrap">
         <v-text-field
           v-model="email"
-          :error-messages="emailErrors"
-          class="mail form-content"
-          label="メールアドレス(example@gmail.com)"
+          :rules="emailRules"
+          label="メールアドレス"
+          background-color="white"
           required
+          outlined
           light
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
+          class="mail form-content"
         />
         <v-text-field
           v-model="password"
-          :error-messages="passwordErrors"
+          :rules="passwordRules"
           :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="isShowPassword ? 'text' : 'password'"
           class="password form-content"
           label="パスワード"
+          background-color="white"
           required
+          outlined
           light
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
         />
-        <div class="btn-wrap">
-          <send-user-info-button
-            :send-loading="sendLoading"
-            @send-user-info="clickLogin"
-          />
+        <v-btn
+          block
+          height="40px"
+          elevation="0"
+          color="#fd7e00"
+          class="font-weight-bold mb-1"
+          @click="clickLogin"
+        >
+          ログイン
+        </v-btn>
+        <div class="d-flex justify-center">
+          <v-btn
+            text
+            light
+            class="mb-3"
+          >
+            パスワードを忘れた方
+          </v-btn>
         </div>
+        <v-btn
+          block
+          height="40px"
+          elevation="0"
+          color="#0067c0"
+          class="font-weight-bold"
+          @click="$router.push('signup')"
+        >
+          会員登録
+        </v-btn>
       </div>
-    </form>
+    </v-form>
   </div>
 </template>
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, maxLength, email } from 'vuelidate/lib/validators'
 import user from '@/plugins/modules/user'
 export default {
   name: 'LoginForm',
-  components: {
-    SendUserInfoButton
-  },
   auth: false,
-  mixins: [validationMixin],
-  validations: {
-    name: { required, maxLength: maxLength(10) },
-    email: { required, email },
-    password: { required },
-  },
   asyncData ({ app, $auth, redirect }) {
     if ($auth.loggedIn) {
       if (app.store.state.redirect.pageUrl) {
@@ -70,42 +82,38 @@ export default {
     return {
       email: null,
       password: null,
-      isShowPassword: true,
-      title: 'ログイン',
+      isShowPassword: false,
       sendLoading: false,
+      emailRules: [
+        v => !!v || 'メールアドレスが入力されていません。',
+        v => v == null || v.match(constants.mailValidation) != null || 'メールアドレスの形式ではありません。',
+      ],
+      passwordRules: [
+        v => !!v || 'パスワードが入力されていません。',
+        v => v == null || (v.length >= constants.minPasswordLength && v.length <= constants.maxPasswordLength) || 'パスワードは6～32文字で設定して下さい。'
+      ]
     }
   },
-  computed: {
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('メールアドレスの形式に誤りがあります。')
-      !this.$v.email.required && errors.push('メールアドレスは必須項目です。')
-      return errors
-    },
-    passwordErrors () {
-      const errors = []
-      if (!this.$v.password.$dirty) return errors
-      !this.$v.password.required && errors.push('パスワードは必須項目です。')
-      return errors
-    }
-  },
-  clickLogin () {
-    this.loginLoading = true
-    try {
-      const response = user.login.then(() => {
-        window.alert('ログインしました');
-        const redirectUrl = this.$store.state.redirect.pageUrl
-        if (redirectUrl) {
-          this.$router.replace(redirectUrl)
-          this.$store.dispatch('redirect/deletePageUrl')
+  methods: {
+    clickLogin () {
+      if (this.$refs.loginForm.validate()) {
+        this.loginLoading = true
+        try {
+          const response = user.login.then(() => {
+            window.alert('ログインしました');
+            const redirectUrl = this.$store.state.redirect.pageUrl
+            if (redirectUrl) {
+              this.$router.replace(redirectUrl)
+              this.$store.dispatch('redirect/deletePageUrl')
+            }
+            });
+          console.log(response);
+        } catch (error) {
+          window.alert("ログイン失敗");
+          console.log(error);
+          this.loginLoading = false
         }
-        });
-      console.log(response);
-    } catch (error) {
-      window.alert("ログイン失敗");
-      console.log(error);
-      this.loginLoading = false
+      }
     }
   }
 }
@@ -117,6 +125,11 @@ h1 {
   color: dimgrey;
   margin: 20px;
   text-align: center;
+}
+
+.login-wrap {
+  padding: 10px 20px;
+  max-width: 450px;
 }
 
 .btn-wrap {

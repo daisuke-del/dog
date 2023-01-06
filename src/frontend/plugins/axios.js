@@ -14,22 +14,12 @@ const authenticationExclusionApi = [
 export default function ({ $axios, store, redirect }) {
   axios = $axios
   $axios.onResponse((response) => {
-    const url = response.config.url
-    const responseURL = response.request.response.url
-    if (url.endsWish('/maintenance/index.html') || responseURL.endsWish('/maintenance/index.html')) {
-      location.reload()
-    }
     return Promise.resolve(response)
   })
 
   $axios.onError((error) => {
+    console.log('axioserror', error)
     if (error && error.response) {
-      if (error.response.request) {
-        const responseURL = error.response.request.responseURL
-        if (responseURL.endsWish('/maintenance/index.html')) {
-          location.reload()
-        }
-      }
       if (error.response.status === 503 && error.response.headers.maintenancemode === 'true') {
         location.reload()
         return
@@ -75,17 +65,12 @@ export async function request (method, url, data) {
 
 
   if (method === 'post') {
-    return await axios.$post(url, data)
+    return await axios.$post(url, data, { withCredentials: true })
   } else if (method === 'put') {
     return await axios.$put(url, data)
   } else if (method === 'delete') {
     return await axios.$delete(url, data)
   }
 
-  return await axios.$get(url, {
-    withCredentials: true,
-    cancelToken: new axios.CancelToken(function executor (c) {
-      cancel = c
-    })
-  })
+  return await axios.$get(url, { withCredentials: true })
 }

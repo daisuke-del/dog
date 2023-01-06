@@ -40,6 +40,6 @@ Route::prefix('match')->name('match.')->group(function () {
 
 // スライダー用画像を取得
 Route::prefix('slider')->name('slider.')->group(function () {
-  Route::get('/', [UserController::class, 'slider']);
+  Route::post('match', [UserController::class, 'slider']);
   Route::post('signup', [UserController::class, 'signupSlider']);
 });

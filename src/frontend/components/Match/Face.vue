@@ -66,7 +66,7 @@
       </v-card>
     </div>
     <div class="d-flex justify-center mr-8 ml-8">
-      <v-slider max="29" min="0" v-model="face" thumb-color="primary" class="face-slider"
+      <v-slider max="29" min="0" v-model="sliderValue" thumb-color="primary" class="face-slider"
         background-color="blue-grey lighten-5" />
     </div>
     <div class="btn-wrap">
@@ -85,39 +85,22 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
-      face: 15,
+      sliderValue: 15
     }
   },
   methods: {
-    clickFace() {
+    clickFace () {
       this.$emit('click-face', this.face)
     },
-    clickBack() {
+    clickBack () {
       this.$emit('click-back', 5)
     },
-    resetFace() {
+    resetFace () {
       this.face = 50
     }
-    // getFaceSliderList() {
-    //   const url = this.url + 'match/slider'
-    //   axios
-    //     .get(url, {
-    //       timeout: 5000,
-    //     })
-    //     .then((response) => {
-    //       console.log(response.data)
-    //     })
-    //     .catch(() => {
-    //       this.errored = true
-    //     })
-    //     .finally(() => (this.loading = false))
-    // },
-  },
-  mounted() {
-    // this.getFaceSliderList()
-  },
+  }
 }
 </script>
 

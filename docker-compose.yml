@@ -21,7 +21,7 @@ services:
       dockerfile: ./docker/nginx/Dockerfile
     container_name: match_nginx
     volumes:
-      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
   database:

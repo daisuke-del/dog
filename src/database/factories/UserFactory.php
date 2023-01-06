@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name('female'),
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password,
-            'face_image' => $num + '.jpeg',
+            'face_image' => $num . '.jpeg',
             'gender' => 'female',
             'height' => $height,
             'weight' => $weight,
@@ -73,7 +73,7 @@ class UserFactory extends Factory
             return [
                 'name' => $this->faker->name('male'),
                 'email' => $this->faker->safeEmail,
-                'face_image' => 'm' + $num + '.jpeg',
+                'face_image' => 'm' . $num . '.jpeg',
                 'gender' => 'male',
                 'height' => $height,
                 'weight' => $weight,

@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->integer('weight2');
             $table->integer('age2');
             $table->integer('salary2');
+            $table->integer('face_point2')->default(0);
             $table->string('twitter_id')->nullable();
             $table->string('instagram_id')->nullable();
             $table->string('facebook_id')->nullable();

@@ -142,7 +142,7 @@ class UserService
             throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $users = $this->getUsersById($userId);
-        $users['auth_code'] = rand(100000, 999999);
+        $users['auth_code'] = mt_rand(100000, 999999);
         $now = new Carbon();
         $users = $this->usersRepository->new($users);
         $this->usersRepository->updateUsers($users);
@@ -353,7 +353,7 @@ class UserService
             $user = $this->usersRepository->selectUsersById($users['uid']);
             $users = array_merge($user->toArray(), $users);
             $now = new Carbon();
-            $authCode = rand(100000, 999999);
+            $authCode = mt_rand(100000, 999999);
             $users['auth_code'] = $authCode;
             $userEntity = $this->usersRepository->new($users);
             $this->usersRepository->updateUsers($userEntity);
@@ -386,7 +386,7 @@ class UserService
             $userId = $this->createUserId();
         }
         $now = new Carbon();
-        $orderNumber = rand(0, 10000);
+        $orderNumber = mt_rand(0, 10000);
         return [
             'user_id' => $userId,
             'name' => $request['name'],
@@ -564,7 +564,7 @@ class UserService
      */
     public function decideOrderProcess(): string
     {
-        $randomNumber = rand(1,2);
+        $randomNumber = mt_rand(1,2);
         switch ($randomNumber) {
             case 1:
                 return 'desc';
@@ -610,13 +610,15 @@ class UserService
     public function getFace(Request $request): array
     {
         $gender = $request->input('gender');
-        $sort = rand('asc', 'desc');
-        $response = $this->usersRepository->getFace($gender, $sort, 30);
+        $sort = ['asc', 'desc'];
+        $key = array_rand($sort, 1);
+        $response = $this->usersRepository->getFace($gender, $sort[$key], 30);
 
         if (!$response) {
             throw new MATCHException(config('スライダー画像の取得に失敗しました'), 400);
         }
 
+        Log::debug($response);
         return $response->toArray();
     }
 

@@ -205,19 +205,6 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * 引数のuidがuser_idに一致するusersテーブル情報の有無を確認する
-     *
-     * @param string $uid
-     * @return bool
-     */
-    public function existsUid(string $uid): bool
-    {
-        return (new User)
-            ->where('user_id', $uid)
-            ->exists();
-    }
-
-    /**
      * 引数のメールアドレスが自身以外に存在するか確認する
      *
      * @param string $email
@@ -363,7 +350,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param string $userId
      * @return void
      */
-    public function upFacePoint(string $userId)
+    public function upFacePoint(string $userId): void
     {
         DB::table('users')
             ->where('user_id', $userId)
@@ -376,7 +363,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param string $userId
      * @return void
      */
-    public function downFacePoint(string $userId)
+    public function downFacePoint(string $userId): void
     {
         DB::table('users')
             ->where('user_id', $userId)
@@ -389,7 +376,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param string $userId
      * @return void
      */
-    public function upYellowCard(string $userId)
+    public function upYellowCard(string $userId): void
     {
         DB::table('users')
             ->where('user_id', $userId)
@@ -411,42 +398,31 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * face_imageをupdate
-     *
-     * @param string $userId
-     * @param string $faceImage
-     */
-    public function updateFaceImage(string $userId, string $faceImage = 'public/default_face.jpeg')
-    {
-
-    }
-
-    /**
      * userIdを引数にupdate_face_atを取得
      *
      * @param string $userId
-     * @return string
+     * @return User
      */
-    public function getUpdateFaceAt(string $userId): string
+    public function getUpdateFaceAt(string $userId): User
     {
         return (new User)
             ->where('user_id', $userId)
             ->select('update_face_at')
-            ->get();
+            ->first();
     }
 
     /**
      * userIdを引数にface_image_void_flgを取得
      *
      * @param string $userId
-     * @return array
+     * @return User
      */
-    public function getFaceImageVoidFlg(string $userId): array
+    public function getFaceImageVoidFlg(string $userId): User
     {
         return (new User)
             ->where('user_id', $userId)
             ->select('face_image_void_flg')
-            ->get();
+            ->first();
     }
 
     /**
@@ -469,9 +445,9 @@ class UsersRepository implements UsersRepositoryInterface
      * @param string $gender
      * @param string $sort
      * @param int $num
-     * @return User
+     * @return Collection
      */
-    public function getFace(string $gender, string $sort, int $num): User
+    public function getFace(string $gender, string $sort, int $num): Collection
     {
         $dt = new Carbon();
         $date = $dt->subDay(30);

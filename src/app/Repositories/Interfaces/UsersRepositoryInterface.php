@@ -59,14 +59,6 @@ interface UsersRepositoryInterface
     public function existsUsers(string $userId): bool;
 
     /**
-     * 引数のuidがuser_idに一致するusersテーブル情報の有無を確認する
-     *
-     * @param string $uid
-     * @return bool
-     */
-    public function existsUid(string $uid): bool;
-
-    /**
      * 引数のメールアドレスが自身以外に存在するか確認する
      *
      * @param string $email
@@ -90,14 +82,6 @@ interface UsersRepositoryInterface
      * @return Collection
      */
     public function getEmailByIds(array $userIds): Collection;
-
-//    /**
-//     * usersのemail_confirm_flgを更新する
-//     *
-//     * @param UserEntity $user
-//     * @return bool
-//     */
-//    public function updateUserConfirm(UserEntity $user): bool;
 
     /**
      * usersのemailを更新する
@@ -124,6 +108,14 @@ interface UsersRepositoryInterface
     public function updateName(UserEntity $user): bool;
 
     /**
+     * 引数のemailが一致するusersテーブル情報を取得する
+     *
+     * @param string $email
+     * @return User
+     */
+    public function getUserByMail(string $email): ?User;
+
+    /**
      * face_pointを引数にランダムなユーザーを取得
      *
      * @param int $facePoint
@@ -133,14 +125,89 @@ interface UsersRepositoryInterface
     public function getTwoUsersByFacePoint(int $facePoint, string $gender): User;
 
     /**
+     * face_pointの最大値を取得
+     *
+     * @param int $facePoint
+     * @param string $gender
+     * @return array
+     */
+    public function getMaxFacePoint(string $gender): array;
+
+    /**
+     * face_pointを1上げる
+     *
+     * @param string $userId
+     * @return void
+     */
+    public function upFacePoint(string $userId): void;
+
+    /**
+     * face_pointを1下げる
+     *
+     * @param string $userId
+     * @return void
+     */
+    public function downFacePoint(string $userId): void;
+
+    /**
+     * yellow_cardを1増加
+     *
+     * @param string $userId
+     * @return void
+     */
+    public function upYellowCard(string $userId): void;
+
+    /**
+     * yellow_cardを取得
+     *
+     * @param string $userId
+     * @return User
+     */
+    public function getYellowCard(string $userId): User;
+
+    /**
+     * userIdを引数にupdate_face_atを取得
+     *
+     * @param string $userId
+     * @return User
+     */
+    public function getUpdateFaceAt(string $userId): User;
+
+    /**
+     * userIdを引数にface_image_void_flgを取得
+     *
+     * @param string $userId
+     * @return User
+     */
+    public function getFaceImageVoidFlg(string $userId): User;
+
+    /**
+     * face_image_void_flgをupdateする
+     *
+     * @param string $userId
+     * @param int $num
+     * @return void
+     */
+    public function updateFaceImageVoidFlg(string $userId, int $num): void;
+
+    /**
      * 引数の数値分のface_imageとface_pointを取得
      *
      * @param string $gender
      * @param string $sort
      * @param int $num
-     * @return User
+     * @return Collection
      */
-    public function getFace(string $gender, string $sort, int $num): User
+    public function getFace(string $gender, string $sort, int $num): Collection;
+
+    /**
+     * match結果を取得
+     *
+     * @param aray $matchInfo
+     * @param string $place
+     * @return array
+     */
+    public function getMatchResult($matchInfo, $place): array;
 }
 
 

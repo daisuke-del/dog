@@ -1,14 +1,14 @@
 <template>
   <div class="all">
-      <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
-      <div class="card-wrap">
+    <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
+    <div class="card-wrap">
       <v-card hover class="card" @click="clickGender('male')">
         <v-img :src="require('@/../storage/image/faceimages/male.jpeg')" />
       </v-card>
-        <v-card hover class="card" @click="clickGender('female')">
+      <v-card hover class="card" @click="clickGender('female')">
         <v-img :src="require('@/../storage/image/faceimages/female.jpeg')" />
       </v-card>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -21,11 +21,11 @@ export default {
     }
   },
   methods: {
-    clickGender (gender) {
+    clickGender(gender) {
       this.gender = gender
       this.$emit('click-gender', this.gender)
     },
-    resetGender () {
+    resetGender() {
       this.gender = null
     }
   }
