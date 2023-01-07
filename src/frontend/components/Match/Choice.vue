@@ -1,41 +1,29 @@
 <template>
-    <div>
-        <p class="big-text d-flex justify-center mt-6 mb-6">どっちが好み？</p>
+    <div class="choice-wrap">
         <div class="card-wrap d-flex justify-center">
-            <v-card
-                hover
-                class="card"
-                @click="choiceLeft"
-            >
-                <v-img :src="require(`@/../storage/image/faceimages/${leftImage}`)" />
-            </v-card>
-            <v-btn
-                @click="clickAlertLeft"
-            >
-                <v-icon>
-                    mdi-alert
-                </v-icon>
-                写真が適切でない
-            </v-btn>
+            <div>
+                <v-card hover class="card" @click="choiceLeft">
+                    <v-img :src="require(`@/../storage/image/faceimages/${leftImage}`)" />
+                </v-card>
+                <v-btn block @click="clickAlertLeft">
+                    <v-icon>
+                        mdi-alert
+                    </v-icon>
+                    写真が適切でない
+                </v-btn>
+            </div>
             <p class="big-text vs-text">VS</p>
-            <v-card
-                hover
-                class="card"
-                @click="choiceRight"
-            >
-                <v-img :src="require(`@/../storage/image/faceimages/${rightImage}`)" />
-            </v-card>
-            <v-btn
-            @click="clickAlertRight"
-            >
-                <v-icon>
-                    mdi-alert
-                </v-icon>
-                写真が適切でない
-            </v-btn>
-        </div>
-        <div class="btn-wrap">
-            <button class="back-btn">戻る</button>
+            <div>
+                <v-card hover class="card" @click="choiceRight">
+                    <v-img :src="require(`@/../storage/image/faceimages/${rightImage}`)" />
+                </v-card>
+                <v-btn block @click="clickAlertRight">
+                    <v-icon>
+                        mdi-alert
+                    </v-icon>
+                    写真が適切でない
+                </v-btn>
+            </div>
         </div>
     </div>
 </template>
@@ -54,24 +42,24 @@ export default {
         }
     },
     methods: {
-        choiceLeft () {
-            this.$emit('choiceLeft')
+        choiceLeft() {
+            this.$emit('choice-left')
         },
-        choiceRight () {
-            this.$emit('choiceRight')
+        choiceRight() {
+            this.$emit('choice-right')
         },
-        clickAlertLeft () {
-            this.$emit('alertLeft');
+        clickAlertLeft() {
+            this.$emit('alert-left');
         },
-        clickAlertRight () {
-            this.$emit('alertRight');
+        clickAlertRight() {
+            this.$emit('alert-right');
         }
     }
 }
 </script>
 <style scoped>
 .big-text {
-    font-size: 1.5em;
+    font-size: 2em;
     font-family: 'Noto Sans JP', sans-serif;
     color: slategray;
 }
@@ -79,14 +67,13 @@ export default {
 .card-wrap {
     text-align: center;
     align-items: center;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 .card {
     display: inline-block;
-    width: 35%;
     max-width: 250px;
-    margin: 10px;
+    margin: 20px;
 }
 
 .btn-wrap {
@@ -111,13 +98,14 @@ export default {
     border: 2px solid #b9c9ce;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 600px) {
     .big-text {
-        font-size: 2em;
+        font-size: 1.5em;
     }
 
     .card {
-        margin: 20px;
+        max-width: 150px;
+        margin: 10px;
     }
 }
 </style>

@@ -60,6 +60,7 @@
 </template>
 <script>
 import user from '@/plugins/modules/user'
+import constants from '@/utils/constants'
 export default {
   name: 'LoginForm',
   auth: false,
@@ -107,10 +108,8 @@ export default {
               this.$store.dispatch('redirect/deletePageUrl')
             }
             });
-          console.log(response);
         } catch (error) {
           window.alert("ログイン失敗");
-          console.log(error);
           this.loginLoading = false
         }
       }

@@ -3,7 +3,7 @@
     <p class="big-text d-flex justify-center">年齢を入力してください</p>
     <div class="age-wrap">
       <label>
-        <input 
+        <input
           v-for="(input, index) in length"
           :id="generateInputNum(index)"
           :ref="generateInputNum(index)"
@@ -55,7 +55,7 @@ export default {
       this.$emit('click-back', 1)
     },
     resetAge () {
-      this.inputValues = []
+      this.inputValues = [0]
     },
     focusInput () {
       this.$refs.item_2[0].focus()
@@ -82,9 +82,9 @@ export default {
 .number {
   border: 2px solid #b9c9ce;
   border-radius: 5px;
-  height: 60px;
-  max-width: 60px;
-  margin: 10px;
+  height: 50px;
+  max-width: 50px;
+  margin: 3px;
   font-size: 1.7em;
   text-align: center;
   font-family: 'Noto Sans JP', sans-serif;
@@ -129,9 +129,8 @@ export default {
   .number {
     height: 100px;
     max-width: 100px;
-    margin: 15px;
+    margin: 10px;
     font-size: 2.5em;
-    text-align: center;
   }
 
   .age-text {
@@ -143,7 +142,7 @@ export default {
     width: 200px;
     height: 50px;
   }
-  
+
   .btn-wrap {
     margin-top: 30px;
     margin-right: 25px;

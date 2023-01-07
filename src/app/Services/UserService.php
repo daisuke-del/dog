@@ -480,12 +480,12 @@ class UserService
     */
    public function upDownFacePoint(Request $request): array
    {
-        $this->usersRepository->upFacePoint($request->input('upFaceId'));
-        $this->usersRepository->downFacePoint($request->input('downFaceId'));
+        $this->usersRepository->upFacePoint($request->input('upUser'));
+        $this->usersRepository->downFacePoint($request->input('downUser'));
 
         $responseInfo = [];
         $gender = $request->input('gender');
-        while(!$responseInfo) {
+        while(count($responseInfo) < 2) {
             $responseInfo = $this->getChoiceInfo($gender);
         }
 
@@ -504,7 +504,7 @@ class UserService
         $randNum = mt_rand(1, $maxNum['face_point']);
         $response = $this->usersRepository->getTwoUsersByFacePoint($randNum, $gender);
 
-        return $response->array();
+        return $response->toArray();
     }
 
    /**
@@ -537,24 +537,6 @@ class UserService
 
        }
    }
-
-    /**
-     * ランダムに30名取得。
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function getFaceList(Request $request): array
-    {
-        $gender = $request->session()->get('gender');
-        Log::debug($gender);
-        $order = $this->decideOrderProcess();
-        $num = 30;
-        $faceList = $this->usersRepository->getFaceAndFacePoint($gender, $num, $order);
-        array_multisort(array_column($faceList, 'face_point'), SORT_ASC, $faceList);
-        return $faceList;
-    }
 
     /**
      * order方法をランダムに決定。
@@ -612,14 +594,19 @@ class UserService
         $gender = $request->input('gender');
         $sort = ['asc', 'desc'];
         $key = array_rand($sort, 1);
-        $response = $this->usersRepository->getFace($gender, $sort[$key], 30);
+        $response = $this->usersRepository->getFace($gender, $sort[$key], 30)->toArray();
 
         if (!$response) {
             throw new MATCHException(config('スライダー画像の取得に失敗しました'), 400);
         }
 
+        $sortFacePoint = array_column($response, 'face_point');
+
+        array_multisort($sortFacePoint, SORT_ASC, $response);
+
         Log::debug($response);
-        return $response->toArray();
+
+        return $response;
     }
 
     /**
@@ -655,12 +642,19 @@ class UserService
         } else {
             $genderSort = 'male';
         }
-        $params = ['genderSort' => $genderSort, 'height2' => $userInfo['height2'], 'weight' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2']];
+        $params = ['genderSort' => $genderSort, 'height2' => $userInfo['height2'], 'weight2' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2'], 'facePoint2' => $userInfo['facePoint2']];
         $place = $request->input('place');
 
-        $result = $this->usersRepository->getMatchResult($params, $place);
+        $result = $this->usersRepository->getMatchResult($params, $place)->toArray();
 
-        return $result;
+        $choice = [];
+        while(count($choice) < 2) {
+            $choice = $this->getChoiceInfo($genderSort);
+        }
+
+        $response = ['result' => $result, 'choice' => $choice];
+
+        return $response;
 
     }
 

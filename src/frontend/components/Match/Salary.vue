@@ -9,7 +9,6 @@
         hide-details
         solo
         flat
-        height="80px"
         class="salary-box"
       />
       <p class="salary-text big-text">万円</p>

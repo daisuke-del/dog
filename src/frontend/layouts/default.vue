@@ -50,10 +50,8 @@ export default {
     clickLogout() {
       user.logout.then((response) => {
         alert('ログアウトしました')
-        console.log(response)
       }).catch((error) => {
         alert('ログアウトに失敗しました')
-        console.log(error)
       })
     }
   }
@@ -65,11 +63,11 @@ html {
 }
 
 .bg {
-  background: url("~assets/image/backGrounds/default750.png") top center no-repeat;
+  background: url("~/assets/image/backGrounds/default750.png") top center no-repeat;
 }
 
 .menu {
-  background: url("~assets/image/backGrounds/menu-background.png");
+  background: url("~/assets/image/backGrounds/menu-background.png");
 }
 
 .menu-logo {
@@ -102,7 +100,7 @@ html {
 
 @media screen and (min-width: 1499px) {
   .bg {
-    background: url("~assets/image/backGrounds/default4500.png") top center no-repeat;
+    background: url("~/assets/image/backGrounds/default4500.png") top center no-repeat;
   }
 }
 </style>

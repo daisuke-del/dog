@@ -280,23 +280,18 @@ export default {
         })
       }
       if (this.heightValues.length != 3) {
-        console.log(this.heightValues.length)
         this.heightErrorShow = true
       }
       if (this.weightValues.length != 3) {
-        console.log(this.weightValues.length)
         this.weightErrorShow = true
       }
       if (this.ageValues.length != 3) {
-        console.log(this.ageValues.length)
         this.ageErrorShow = true
       }
       if (this.item === null) {
-        console.log(this.item)
         this.salaryErrorShow = true
       }
       if (this.checkbox != true) {
-        console.log(this.checkbox)
         this.agreeErrorShow = true
       }
     }
@@ -347,9 +342,9 @@ span {
 .number {
   border: 2px solid #b9c9ce;
   border-radius: 5px;
-  height: 60px;
-  max-width: 60px;
-  margin: 8px;
+  height: 50px;
+  max-width: 50px;
+  margin: 3px;
   font-size: 1.7em;
   text-align: center;
   font-family: 'Noto Sans JP', sans-serif;
@@ -372,5 +367,14 @@ span {
 .error-message {
   color: #DD2C00;
   font-size: 12px;
+}
+
+@media screen and (min-width: 600px) {
+  .number {
+    height: 70px;
+    max-width: 70px;
+    margin: 10px;
+    font-size: 2em;
+  }
 }
 </style>

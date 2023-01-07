@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\UsersRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 class UsersRepository implements UsersRepositoryInterface
 {
@@ -313,14 +314,14 @@ class UsersRepository implements UsersRepositoryInterface
      *
      * @param int $facePoint
      * @param string $gender
-     * @return User
+     * @return Collection
      */
-    public function getTwoUsersByFacePoint(int $facePoint, string $gender): User
+    public function getTwoUsersByFacePoint(int $facePoint, string $gender): Collection
     {
         return (new User)
             ->where('gender', $gender)
-            ->where('face_point', $facePoint)
-            ->orderBy('face_point', 'desc')
+            ->where('face_point', '>=', $facePoint)
+            ->orderBy('face_point')
             ->limit(2)
             ->get();
     }
@@ -336,12 +337,10 @@ class UsersRepository implements UsersRepositoryInterface
     {
         $facePoint = DB::table('users')
             ->where('gender', $gender)
-            ->select('face_point')
             ->orderBy('face_point', 'desc')
-            ->limit(1)
-            ->get();
+            ->first();
 
-        return $facePoint->toArray();
+        return json_decode(json_encode($facePoint), true);
     }
 
     /**
@@ -465,39 +464,74 @@ class UsersRepository implements UsersRepositoryInterface
      *
      * @param aray $matchInfo
      * @param string $place
-     * @return array
+     * @return object
      */
-    public function getMatchResult($matchInfo, $place): array
+    public function getMatchResult($matchInfo, $place): object
     {
 
         if ($matchInfo['genderSort'] === 'male') {
             //requestユーザーはfemale
             if ($place === 'workplace') {
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (4 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(4 * ?+ 2 * ?- ?+ ?- ?) > (3.5 * face_point2 + 3 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'introduction') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (3.5 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3 * T1.face_point2 + 2 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3 * T1.face_point2 + 2 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(3.5 * ?+ 2 * ?- ?+ ?- ?) > (3 * face_point2 + 2 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'jointparty') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (4 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(4 * ?+ 2 * ?- ?+ ?- ?) > (3.5 * face_point2 + 3 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'club') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (8 * :facePoint2 - 2 * :age + :height2 - :weight2) > (6 * T1.face_point2 + 2 * T1.salary2 - 2 * T1.age2 + 4 * T1.height2 -2 * T1.weight2) ORDER BY (6 * T1.face_point2 + 2 * T1.salary2 - 2 * T1.age2 + 4 * T1.height2 -2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(8 * ?- 2 * ?+ ?- ?) > (6 * face_point2 + 2 * salary2 - 2 * age2 + 4 * height2 -2 * weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'pairs') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (6.5 * :facePoint2 + 4 * :salary2 - 3 * :age + 3 * :height2 - :weight2) > (8 * T1.face_point2 + T1.salary2 - 4 * T1.age2 + 2 * T1.height2 - 4 * T1.weight2) ORDER BY (8 * T1.face_point2 + T1.salary2 - 4 * T1.age2 + 2 * T1.height2 - 4 * T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(6.5 * ?+ 4 * ?- 3 * ?+ 3 * ?- ?) > (8 * face_point2 + salary2 - 4 * age2 + 2 * height2 - 4 * weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'tinder') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (9 * :facePoint2 + :salary2 - 2 * :age + 2 * :height2 - 2 * :weight2) > (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(9 * ?+ ?- 2 * ?+ 2 * ?- 2 * ?) > (7 * face_point2 + salary2 - 2 * age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (4 * :facePoint2 + 2 * :salary2 - :age + :height2 - :weight2) > (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 3 * T1.salary2 - 1.5 * T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(4 * ?+ 2 * ?- ?+ ?- ?) > (3.5 * face_point2 + 3 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             }
 
@@ -505,34 +539,69 @@ class UsersRepository implements UsersRepositoryInterface
             //requestユーザーはmale
             if ($place === 'workplace') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (3.5 * :facePoint2 + 3 * :salary2 - 1.5 * :age + 2 * :height2 - :weight2) > (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(3.5 * ? + 3 * ? - 1.5 * ? + 2 * ? - ?) > (4 * face_point2 + 2 * salary2 - age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'introduction') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (3 * :facePoint2 + 2 * :salary2 - 1.5 * :age + 2 * :height2 - :weight2) > (3.5 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + T1.height2 - T1.weight2) ORDER BY (3.5 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + T1.height2 - T1.weight) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(3 * ?+ 2 * ?- 1.5 * ?+ 2 * ?- ?) > (3.5 * face_point2 + 2 * salary2 - age2 + height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'jointparty') {
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (6.5 * :facePoint2 + 1.5 * :salary2 - 4 * :age + 3 * :height2 - 2 * :weight2) > (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) ORDER BY (7 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(6.5 * ?+ 1.5 * ?- 4 * ?+ 3 * ?- 2 * ?) > (7 * face_point2 + salary2 - 2 * age2 + 2 * height2 - 2 * weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'club') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (6 * :facePoint2 + 2 * :salary2 - 2 * :age + 4 * :height2 - 2 * :weight2) > (8 * T1.face_point2 - 2 * T1.age2 + T1.height2 - T1.weight2) ORDER BY (8 * T1.face_point2 - 2 * T1.age2 + T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(6 * ?+ 2 * ?- 2 * ?+ 4 * ?- 2 * ?) > (8 * face_point2 - 2 * age2 + height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'pairs') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (7 * :facePoint2 + :salary2 - 2 * :age + 2 * :height2 - :weight2) > (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) ORDER BY (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(7 * ?+ ?- 2 * ?+ 2 * ?- ?) > (9 * face_point2 + salary2 - 2 * age2 + 2 * height2 - 2 * weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else if ($place === 'tinder') {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (7 * :facePoint2 + :salary2 - 2 * :age + 2 * :height2 - :weight2) > (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) ORDER BY (9 * T1.face_point2 + T1.salary2 - 2 * T1.age2 + 2 * T1.height2 - 2 * T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(7 * ?+ ?- 2 * ?+ 2 * ?- ?) > (9 * face_point2 + salary2 - 2 * age2 + 2 * height2 - 2 * weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             } else {
 
-                $result = DB::select("SELECT * FROM users AS T1 WHERE (3.5 * :facePoint2 + 3 * :salary2 - 1.5 * :age + 2 * :height2 - :weight2) > (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) ORDER BY (4 * T1.face_point2 + 2 * T1.salary2 - T1.age2 + 2 * T1.height2 - T1.weight2) DESC LIMIT 10", $matchInfo);
+                $result = DB::table('users')
+                ->where('gender', $matchInfo['genderSort'])
+                ->whereRaw("(3.5 * ?+ 3 * ?- 1.5 * ?+ 2 * ?- ?) > (4 * face_point2 + 2 * salary2 - age2 + 2 * height2 - weight2)", [$matchInfo['facePoint2'], $matchInfo['salary2'], $matchInfo['age2'], $matchInfo['height2'], $matchInfo['weight2']])
+                ->orderBy('face_point', 'desc')
+                ->limit(10)
+                ->get();
 
             }
-
-            return $result;
         }
+
+        return $result;
     }
 }

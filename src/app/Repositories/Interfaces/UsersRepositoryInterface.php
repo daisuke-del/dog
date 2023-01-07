@@ -120,9 +120,9 @@ interface UsersRepositoryInterface
      *
      * @param int $facePoint
      * @param string $gender
-     * @return User
+     * @return Collection
      */
-    public function getTwoUsersByFacePoint(int $facePoint, string $gender): User;
+    public function getTwoUsersByFacePoint(int $facePoint, string $gender): Collection;
 
     /**
      * face_pointの最大値を取得
@@ -205,9 +205,9 @@ interface UsersRepositoryInterface
      *
      * @param aray $matchInfo
      * @param string $place
-     * @return array
+     * @return object
      */
-    public function getMatchResult($matchInfo, $place): array;
+    public function getMatchResult($matchInfo, $place): object;
 }
 
 

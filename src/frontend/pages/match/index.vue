@@ -1,10 +1,12 @@
 <template>
   <div class="all">
-    <h1>マッチング診断</h1>
-    <match-result v-if="choiceCount < 3 && position === 3" :matchResults="matchResults" />
-    <match-choice v-else-if="position === 8" :leftImage="choiceFaces[0]" :rightImage="choiceFaces[1]"
+    <h1 v-if="choiceCount < 3 && position === 8">どっちが好み？</h1>
+    <h1 v-else-if="position === 8">マッチング結果</h1>
+    <h1 v-else>マッチング診断</h1>
+    <match-choice v-if="choiceCount < 3 && position === 8" :leftImage="choiceFaces[0].face_image" :rightImage="choiceFaces[1].face_image"
       @choice-left="choiceLeft" @choice-right="choiceRight" @alert-left="clickAlertLeft"
       @alert-right="clickAlertRight" />
+    <match-result v-else-if="position === 8" :matchResults="matchResults" />
     <v-stepper v-else v-model="position" class="ma-4" vertical light>
       <v-stepper-step :complete="position > 1" step="1">
         性別
@@ -19,10 +21,7 @@
       </v-stepper-step>
 
       <v-stepper-content step="2">
-        <MatchAge
-          ref="age"
-          @click-age="inputAge"
-          @click-back="backContent" />
+        <MatchAge ref="age" @click-age="inputAge" @click-back="backContent" />
       </v-stepper-content>
 
       <v-stepper-step :complete="position > 3" step="3">
@@ -80,6 +79,7 @@ import MatchFace from '@/components/Match/Face'
 import MatchPlace from '@/components/Match/Place'
 import MatchCoice from '@/components/Match/Choice'
 import MatchResult from '@/components/Match/Result'
+import { thisExpression } from '@babel/types'
 export default {
   auth: false,
   name: 'PagesMatch',
@@ -111,48 +111,50 @@ export default {
       face: null,
       place: null,
       sliderFaces: [
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 },
-        { faceImage: '0.jpeg', facePint: 0 }
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 },
+        { face_image: '0.jpeg', face_point: 0 }
       ],
       choiceFaces: [],
-      matchResults: []
+      matchResults: [],
+      genderSort: null
     }
   },
   methods: {
     inputGender(value) {
       this.gender = value
-      slider.sliderImage(this.gender).then((respose) => {
-      console.log('res',respose)
-      this.position = 2
-      this.$refs.age.focusInput()
+      slider.sliderImage(this.gender).then((response) => {
+        this.sliderFaces.splice(0, response.length)
+        this.sliderFaces.push(...response)
+        this.position = 2
+        this.$refs.age.focusInput()
       }).catch((error) => {
         console.log(error)
       })
@@ -187,22 +189,14 @@ export default {
     },
     inputPlace(value) {
       this.place = value
-      this.$store.dispatch('match/setMatch', {
-        gender: this.gender,
-        age: this.age,
-        height: this.height,
-        weight: this.weight,
-        salary: this.salary,
-        face: this.face,
-        place: this.place
-      })
-      match.result.then((respose) => {
-        this.matchResults = respose.data
-        console.log(respose)
+      match.result(this.gender, this.height, this.weight, this.age, this.salary, this.face, this.place).then((respose) => {
+        this.matchResults.splice(0, respose['result'].length)
+        this.matchResults.push(...respose['result'])
+        this.choiceFaces = respose['choice']
+        this.position = 8
       }).catch((error) => {
         console.log(error)
       })
-      this.position = 8
     },
     backContent(num) {
       if (num === 1) {
@@ -230,16 +224,14 @@ export default {
     },
     choiceLeft() {
       if (this.gender === 'male') {
-        const gender = 'female'
+        this.genderSort = 'female'
       } else {
-        const gender = 'male'
+        this.genderSort = 'male'
       }
-      match.choice(this.choiceFaces[0].userId, this.choiceFaces[1].userId, gender).then((response) => {
+      match.choice(this.choiceFaces[0].user_id, this.choiceFaces[1].user_id, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceFaces = response
-        } else {
-          this.position = 8
         }
       }).catch((error) => {
         console.log(error)
@@ -247,11 +239,11 @@ export default {
     },
     choiceRight() {
       if (this.gender === 'male') {
-        const gender = 'female'
+        this.genderSort = 'female'
       } else {
-        const gender = 'male'
+        this.genderSort = 'male'
       }
-      match.choice(this.choiceFaces[1].userId, this.choiceFaces[0].userId, gender).then((response) => {
+      match.choice(this.choiceFaces[1].user_id, this.choiceFaces[0].user_id, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceFaces = response
@@ -264,11 +256,11 @@ export default {
     },
     clickAlertLeft() {
       if (this.gender === 'male') {
-        const gender = 'female'
+        this.genderSort = 'female'
       } else {
-        const gender = 'male'
+        this.genderSort = 'male'
       }
-      match.alert(this.choiceFaces[0].userId, gender).then((response) => {
+      match.alert(this.choiceFaces[0].userId, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceFaces = response
@@ -281,11 +273,11 @@ export default {
     },
     clickAlertRight() {
       if (this.gender === 'male') {
-        const gender = 'female'
+        this.genderSort = 'female'
       } else {
-        const gender = 'male'
+        this.genderSort = 'male'
       }
-      match.alert(this.choiceFaces[1].userId, gender).then((response) => {
+      match.alert(this.choiceFaces[1].userId, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceFaces = response

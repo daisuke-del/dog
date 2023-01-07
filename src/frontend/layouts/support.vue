@@ -32,12 +32,12 @@ html {
 }
 
 .bg {
-  background: url("~assets/image/backGrounds/default750.png") top center no-repeat;
+  background: url("~/assets/image/backGrounds/default750.png") top center no-repeat;
 }
 
 @media screen and (min-width: 750px) {
   .bg {
-    background: url("~assets/image/backGrounds/default3000.png") top center no-repeat;
+    background: url("~/assets/image/backGrounds/default3000.png") top center no-repeat;
   }
 
   .header-btn {
@@ -51,7 +51,7 @@ html {
 
 @media screen and (min-width: 1499px) {
   .bg {
-    background: url("~assets/image/backGrounds/default4500.png") top center no-repeat;
+    background: url("~/assets/image/backGrounds/default4500.png") top center no-repeat;
   }
 }
 </style>

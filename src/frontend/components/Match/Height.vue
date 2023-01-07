@@ -3,28 +3,15 @@
     <p class="big-text d-flex justify-center">身長を入力してください</p>
     <div class="height-wrap">
       <label>
-        <input
-          v-for="(input, index) in length"
-          :id="generateInputNum(index)"
-          :ref="generateInputNum(index)"
-          :key="index"
-          v-model="inputValues[index]"
-          class="number"
-          type="tel"
-          maxlength="1"
-          autocomplete="off"
-          oninput="value = value.replace(/[^0-9]+/i,'');"
-          @keyup="handleInputFocus(index, $event)"
-          @input="numberInput()"
-        >
+        <input v-for="(input, index) in length" :id="generateInputNum(index)" :ref="generateInputNum(index)"
+          :key="index" v-model="inputValues[index]" class="number" type="tel" maxlength="1" autocomplete="off"
+          oninput="value = value.replace(/[^0-9]+/i,'');" @keyup="handleInputFocus(index, $event)"
+          @input="numberInput()">
       </label>
       <p class="height-text big-text">cm</p>
     </div>
     <div class="btn-wrap">
-      <button
-        class="back-btn"
-        @click="clickBack()"
-      >戻る</button>
+      <button class="back-btn" @click="clickBack()">戻る</button>
     </div>
   </div>
 </template>
@@ -32,18 +19,18 @@
 <script>
 export default {
   name: 'MatchHeight',
-  data () {
+  data() {
     return {
       inputValues: [1],
       length: 3
     }
   },
   methods: {
-    generateInputNum (index) {
+    generateInputNum(index) {
       return `item_${index + 1}`
     },
-    handleInputFocus (index, event) {
-      if (this.inputValues[index] && this.inputValues[index] !== '' && index < this.length -1) {
+    handleInputFocus(index, event) {
+      if (this.inputValues[index] && this.inputValues[index] !== '' && index < this.length - 1) {
         const [nextInput] = this.$refs[`item_${index + 2}`]
         nextInput.focus()
       } else if (index > 0 && (!this.inputValues[index] || this.inputValues[index] === '') && event.key === 'Backspace') {
@@ -51,16 +38,16 @@ export default {
         previusInput.focus()
       }
     },
-    numberInput () {
+    numberInput() {
       this.$emit('click-height', this.inputValues.join(''))
     },
-    clickBack () {
+    clickBack() {
       this.$emit('click-back', 2)
     },
-    resetHeight () {
+    resetHeight() {
       this.inputValues = [1]
     },
-    focusInput () {
+    focusInput() {
       this.$refs.item_2[0].focus()
     }
   }
@@ -84,11 +71,11 @@ export default {
 
 .number {
   border: 2px solid #B9C9CE;
-  border-radius:5px;
+  border-radius: 5px;
   height: 50px;
   max-width: 50px;
-  margin: 5px;
-  font-size: 1.5em;
+  margin: 3px;
+  font-size: 1.7em;
   text-align: center;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
@@ -132,14 +119,14 @@ export default {
   .number {
     height: 100px;
     max-width: 100px;
-    margin: 15px;
+    margin: 10px;
     font-size: 2.5em;
   }
 
   .height-text {
     margin-left: 10px;
   }
-  
+
   .back-btn {
     font-size: 1.5em;
     width: 200px;

@@ -178,18 +178,6 @@ export default {
     },
     signupSliderImage (userInfo) {
       this.postUserInfoLoading = true
-      // if (!this.validationMail(userInfo.mail)) {
-      //   this.postUserInfoLoading = false
-      //   this.$store.dispatch('snackbar/setMessage', 'メールアドレスを入力しなおしてください')
-      //   this.$store.dispatch('snackbar/snackOn')
-      //   return
-      // }
-      // if (!this.validationPass(userInfo.password)) {
-      //   this.postUserInfoLoading = false
-      //   this.$store.dispatch('snackbar/setMessage', 'パスワードを入力しなおしてください')
-      //   this.$store.dispatch('snackbar/snackOn')
-      //   return
-      // }
       this.gender = userInfo.gender
       this.name = userInfo.name
       this.email = userInfo.email
@@ -199,8 +187,8 @@ export default {
       this.age = userInfo.age
       this.salary = userInfo.salary
       slider.signupSliderImage(this.gender, this.email).then((response) => {
-        console.log(response)
-        this.sliderImages = response.data
+        this.sliderFaces.splice(0, respose.length)
+        this.sliderFaces.push(...response)
         this.position = 2
       }).catch(() => {})
       this.postUserInfoLoading = false

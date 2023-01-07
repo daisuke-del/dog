@@ -3,7 +3,7 @@
     <p class="big-text d-flex justify-center">体重を入力してください</p>
     <div class="weight-wrap">
       <label>
-        <input 
+        <input
           v-for="(input, index) in length"
           :id="generateInputNum(index)"
           :ref="generateInputNum(index)"
@@ -81,10 +81,10 @@ export default {
 
 .number {
   border: 2px solid #B9C9CE;
-  border-radius:5px;
+  border-radius: 5px;
   height: 50px;
   max-width: 50px;
-  margin: 5px;
+  margin: 3px;
   font-size: 1.5em;
   text-align: center;
   font-family: 'Noto Sans JP', sans-serif;
@@ -129,7 +129,7 @@ export default {
   .number {
     height: 100px;
     max-width: 100px;
-    margin: 15px;
+    margin: 10px;
     font-size: 2.5em;
   }
 

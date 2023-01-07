@@ -1,58 +1,37 @@
 <template>
   <div>
-      <v-row>
-        <v-col cols="12" v-for="match in matchResults" :key="match.img" class="card-wrap">
-          <v-card
-              class="result-card"
-          >
-            <v-img
-                :src="require('@/../storage/image/faceimages/' + match.img)"
-                class="result-img"
-            />
-            <p class="name-text">{{ match.name }}</p>
-            <p class="salary-text">{{ match.salary }}</p>
-            <div class="icon-wrap">
-              <v-btn
-                  icon
-              >
-                <v-icon
-                    size="2em"
-                >
-                  mdi-twitter
-                </v-icon>
-              </v-btn>
-              <v-btn
-                  icon
-              >
-                <v-icon
-                    size="2em"
-                >
-                  mdi-instagram
-                </v-icon>
-              </v-btn>
-              <v-btn
-                  icon
-              >
-                <v-icon
-                    size="2em"
-                >
-                  mdi-facebook
-                </v-icon>
-              </v-btn>
-              <v-btn
-                  icon
-                  class="icon-right"
-              >
-                <v-icon
-                    size="2.5em"
-                >
-                  mdi-heart
-                </v-icon>
-              </v-btn>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+    <v-row>
+      <v-col cols="12" v-for="match in matchResults" :key="match.face_image" class="card-wrap">
+        <v-card light class="result-card">
+          <v-img :src="require(`@/../storage/image/faceimages/${match.face_image}`)" class="result-img" />
+          <p class="name-text">{{ match.name }}</p>
+          <p class="salary-text">年収</p>
+          <p class="salary-text mb-3">{{ match.salary }}万円</p>
+          <div class="icon-wrap">
+            <v-btn icon>
+              <v-icon size="2em">
+                mdi-twitter
+              </v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon size="2em">
+                mdi-instagram
+              </v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon size="2em">
+                mdi-facebook
+              </v-icon>
+            </v-btn>
+            <v-btn icon class="icon-right">
+              <v-icon size="2.5em">
+                mdi-heart
+              </v-icon>
+            </v-btn>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -64,10 +43,6 @@ export default {
       type: Array,
       requred: true
     }
-  },
-  data () {
-    return {
-    }
   }
 }
 </script>
@@ -76,6 +51,7 @@ export default {
 .name-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
+  font-weight: bolder;
   color: slategray;
   margin-top: 16px;
   margin-left: 10px;
@@ -85,10 +61,9 @@ export default {
 .salary-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
+  font-weight: bolder;
   color: slategray;
-  margin-top: 16px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-bottom: 0;
 }
 
 .card-wrap {
@@ -96,8 +71,8 @@ export default {
 }
 
 .result-card {
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .icon-wrap {
@@ -112,16 +87,20 @@ export default {
   margin-bottom: 5px;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 400px) {
   .result-card {
-    margin-left: 35%;
-    margin-right: 35%;
+    margin-left: 20%;
+    margin-right: 20%;
   }
 }
 
 @media screen and (min-width: 600px) {
   .big-text {
     font-size: 2em;
+  }
+  .result-card {
+    margin-left: 30%;
+    margin-right: 30%;
   }
 }
 </style>

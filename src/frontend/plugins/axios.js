@@ -18,7 +18,6 @@ export default function ({ $axios, store, redirect }) {
   })
 
   $axios.onError((error) => {
-    console.log('axioserror', error)
     if (error && error.response) {
       if (error.response.status === 503 && error.response.headers.maintenancemode === 'true') {
         location.reload()

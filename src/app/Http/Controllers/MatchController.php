@@ -48,7 +48,7 @@ class MatchController extends Controller
      */
     public function alert(Request $request)
     {
-        $response = $this->userService->upYellowCard($request);
+        $response = $this->userService->updateYellowAndGetFace($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 }

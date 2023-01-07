@@ -1,19 +1,77 @@
 <template>
   <div class="all">
-    <p class="big-text d-flex justify-center">出会う方法を選択してください</p>
+    <p class="big-text d-flex justify-center">出会う方法を選択</p>
     <v-row class="place-wrap">
       <v-col
-        v-for="match in matches"
-        :key="match.name"
         cols="6"
         sm="4"
         class="place-box"
       >
         <v-card
           class="place-card"
-          @click="clickPlace(match.name)"
+          @click="clickPlace('club')"
         >
-          <v-img :src="match.img" />
+          <v-img :src="require('~/assets/image/match/club.jpeg')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('introduction')"
+        >
+          <v-img :src="require('~/assets/image/match/introduction.jpeg')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('jointparty')"
+        >
+          <v-img :src="require('~/assets/image/match/jointparty.jpeg')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('pairs')"
+        >
+          <v-img :src="require('~/assets/image/match/pairs.jpeg')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('tinder')"
+        >
+          <v-img :src="require('~/assets/image/match/tinder.jpeg')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('workplace')"
+        >
+          <v-img :src="require('~/assets/image/match/workplace.jpeg')" />
         </v-card>
       </v-col>
     </v-row>
@@ -28,15 +86,6 @@ export default {
   name: 'MatchPlace',
   data() {
     return {
-      model: null,
-      matches: [
-        { name: 'club', img: '~assets/image/match/club.jpeg' },
-        { name: 'introduction', img: '~assets/image/match/introduction.jpeg' },
-        { name: 'jointparty', img: '~assets/image/match/jointparty.jpeg' },
-        { name: 'pairs', img: '~assets/image/match/pairs.jpeg' },
-        { name: 'tinder', img: '~assets/image/match/tinder.jpeg' },
-        { name: 'workplace', img: '~assets/image/match/workplace.jpeg' },
-      ],
       place: null
     }
   },

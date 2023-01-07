@@ -39,25 +39,25 @@
                 <p class="big-text">総合ランク</p>
                 <v-img
                   v-if="rank > 80 && score === 'A'"
-                  src='~assets/image/rank/gold.png'
+                  src='~/assets/image/rank/gold.png'
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else-if="rank > 50 && score === 'B'"
-                  src='~assets/image/rank/silver.png'
+                  src='~/assets/image/rank/silver.png'
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else-if="score !== 'C'"
-                  src='~assets/image/rank/blond.png'
+                  src='~/assets/image/rank/blond.png'
                   class="rank-icon"
                   contain
                 />
                 <v-img
                   v-else
-                  src='~assets/image/rank/nomal.png'
+                  src='~/assets/image/rank/nomal.png'
                   class="rank-icon"
                   contain
                 />
@@ -262,7 +262,7 @@ h1 {
   position: absolute;
   bottom: -5%;
   right: -5%;
-  background: url('~assets/image/icons/icon60.png');
+  background: url('~/assets/image/icons/icon60.png');
   background-size: contain;
 }
 
@@ -273,7 +273,7 @@ h1 {
   position: absolute;
   bottom: -5%;
   right: -5%;
-  background: url('~assets/image/icons/icon20.png') no-repeat;
+  background: url('~/assets/image/icons/icon20.png') no-repeat;
   background-size: contain;
 }
 
