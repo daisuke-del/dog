@@ -20,7 +20,7 @@ class Gender
     /**
      * @return int
      */
-    public function get(): int
+    public function get(): string
     {
         return $this->gender;
     }

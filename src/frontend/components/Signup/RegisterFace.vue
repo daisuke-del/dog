@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="face-image">
-      <label class="btn mt-2 mb-4">
+      <label  v-if="!cropImg" class="btn mt-2 mb-4">
         <input
           type="file"
           name="image"
@@ -11,6 +11,17 @@
         >
         <v-icon color="white"> mdi-image-multiple </v-icon>
         写真を選ぶ
+      </label>
+      <label  v-else class="btn mt-2 mb-4">
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          class="input-box"
+          @change="setImageAgain"
+        >
+        <v-icon color="white"> mdi-image-multiple </v-icon>
+        写真を選びなおす
       </label>
       <div
         v-show="!cropImg"
@@ -29,12 +40,12 @@
           :aspect-ratio="1"
         />
       </div>
-      <v-img
-        v-show="cropImg"
-        :src="cropImg"
-        alt="Cropped Image"
-        class="crop-img"
-      />
+      <div v-show="cropImg" class="crop-img">
+        <v-img
+          :src="cropImg"
+          alt="Cropped Image"
+        />
+      </div>
       <div class="btn-wrap">
         <v-btn
           v-if="imgSrc != '' && !cropImg"
@@ -135,6 +146,25 @@ export default {
         alert("Sorry, FileReader API not supported");
       }
     },
+    setImageAgain (e) {
+      this.cropImg = ''
+      const file = e.target.files[0];
+      if (!file.type.includes("image/")) {
+        alert("Please select an image file");
+        return;
+      }
+      if (typeof FileReader === "function") {
+        const reader = new FileReader();
+        reader.onload = event => {
+          this.imgSrc = event.target.result;
+          // rebuild cropperjs with the updated source
+          this.$refs.cropper.replace(event.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Sorry, FileReader API not supported");
+      }
+    },
     cropImage () {
       // get image data for post processing, e.g. upload or setting image src
       this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
@@ -191,6 +221,7 @@ input[type="file"] {
   width: 300px;
   height:300px;
   border: none;
+  display: inline-block;
 }
 
 .btn-wrap {

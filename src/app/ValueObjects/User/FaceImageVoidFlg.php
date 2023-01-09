@@ -9,7 +9,7 @@ class FaceImageVoidFlg
 {
     private $faceImageVoidFlg;
 
-    public function __construct(string $faceImageVoidFlg)
+    public function __construct(?string $faceImageVoidFlg)
     {
         if ($this->isFaceImageVoidFlg($faceImageVoidFlg) === false) {
             throw new MATCHException('validation.face_image_void_flg', 422);
@@ -31,8 +31,8 @@ class FaceImageVoidFlg
      * @param string $faceImageVoidFlg
      * @return bool
      */
-    private function isFaceImageVoidFlg(string $faceImageVoidFlg): bool
+    private function isFaceImageVoidFlg(?string $faceImageVoidFlg): bool
     {
-        return Validator::make([$faceImageVoidFlg], ['required|integer'])->passes();
+        return Validator::make([$faceImageVoidFlg], ['integer'])->passes();
     }
 }

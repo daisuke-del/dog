@@ -9,7 +9,7 @@ class OrderNumber
 {
     private $orderNumber;
 
-    public function __construct(int $orderNumber)
+    public function __construct(?int $orderNumber)
     {
         if ($this->isOrderNumber($orderNumber) === false) {
             throw new MATCHException('validation.face_point', 422);
@@ -31,7 +31,7 @@ class OrderNumber
      * @param int $orderNumber
      * @return bool
      */
-    private function isOrderNumber(int $orderNumber): bool
+    private function isOrderNumber(?int $orderNumber): bool
     {
         return Validator::make([$orderNumber], ['integer'])->passes();
     }

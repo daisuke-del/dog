@@ -189,10 +189,10 @@ export default {
     },
     inputPlace(value) {
       this.place = value
-      match.result(this.gender, this.height, this.weight, this.age, this.salary, this.face, this.place).then((respose) => {
-        this.matchResults.splice(0, respose['result'].length)
-        this.matchResults.push(...respose['result'])
-        this.choiceFaces = respose['choice']
+      match.result(this.gender, this.height, this.weight, this.age, this.salary, this.face, this.place).then((response) => {
+        this.matchResults.splice(0, response['result'].length)
+        this.matchResults.push(...response['result'])
+        this.choiceFaces = response['choice']
         this.position = 8
       }).catch((error) => {
         console.log(error)

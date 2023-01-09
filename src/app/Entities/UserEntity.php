@@ -30,8 +30,6 @@ use App\ValueObjects\User\OrderNumber;
 
 class UserEntity
 {
-
-    // users
     private $userId;
     private $name;
     private $email;
@@ -51,11 +49,11 @@ class UserEntity
     private $facebookId;
     private $instagramId;
     private $twitterId;
+    private $yellowCard;
     private $updateFaceAt;
     private $createDate;
-    private $yellowCard;
     private $faceImageVoidFlg;
-    private $order_number;
+    private $orderNumber;
 
     private function __construct()
     {
@@ -83,9 +81,9 @@ class UserEntity
      * @param FacebookId $facebookId
      * @param InstagramId $instagramId
      * @param TwitterId $twitterId
+     * @param YellowCard $yellowCard
      * @param UpdateFaceAt $updateFaceAt
      * @param createDate $createDate
-     * @param YellowCard $yellowCard
      * @param FaceImageVoidFlg $faceImageVoidFlg
      * @param OrderNumber $orderNumber
      * @return UserEntity
@@ -106,15 +104,15 @@ class UserEntity
         Age2 $age2,
         Salary2 $salary2,
         FacePoint2 $facePoint2,
-        FaceImage $faceImage,
-        FacebookId $facebookId,
-        InstagramId $instagramId,
-        TwitterId $twitterId,
-        UpdateFaceAt $updateFaceAt,
-        createDate $createDate,
+        ?FaceImage $faceImage,
+        ?FacebookId $facebookId,
+        ?InstagramId $instagramId,
+        ?TwitterId $twitterId,
         YellowCard $yellowCard,
+        ?UpdateFaceAt $updateFaceAt,
+        createDate $createDate,
         FaceImageVoidFlg $faceImageVoidFlg,
-        OrderNumber $orderNumber
+        ?OrderNumber $orderNumber
     ) {
         $user = new self();
         $user->userId = $userId;
@@ -136,9 +134,9 @@ class UserEntity
         $user->facebookId = $facebookId;
         $user->instagramId = $instagramId;
         $user->twitterId = $twitterId;
+        $user->yellowCard = $yellowCard;
         $user->updateFaceAt = $updateFaceAt;
         $user->createDate = $createDate;
-        $user->yellowCard = $yellowCard;
         $user->faceImageVoidFlg = $faceImageVoidFlg;
         $user->orderNumber = $orderNumber;
         return $user;
@@ -197,9 +195,9 @@ class UserEntity
     /**
      * facebook_idを取得する
      *
-     * @return string
+     * @return ?string
      */
-    public function getFacebookId(): string
+    public function getFacebookId(): ?string
     {
         return $this->facebookId->get();
     }
@@ -207,9 +205,9 @@ class UserEntity
     /**
      * face_imageを取得する
      *
-     * @return string
+     * @return ?string
      */
-    public function getFaceImage(): string
+    public function getFaceImage(): ?string
     {
         return $this->faceImage->get();
     }
@@ -268,9 +266,9 @@ class UserEntity
     /**
      * instagram_idを取得する
      *
-     * @return string
+     * @return ?string
      */
-    public function getInstagramId(): string
+    public function getInstagramId(): ?string
     {
         return $this->instagramId->get();
     }
@@ -308,9 +306,9 @@ class UserEntity
     /**
      * twitter_idを取得する
      *
-     * @return string
+     * @return ?string
      */
-    public function getTwitterId(): string
+    public function getTwitterId(): ?string
     {
         return $this->twitterId->get();
     }
@@ -318,9 +316,9 @@ class UserEntity
     /**
      * update_face_atを取得する
      *
-     * @return string
+     * @return ?string
      */
-    public function getUpdateFaceAt(): string
+    public function getUpdateFaceAt(): ?string
     {
         return $this->updateFaceAt->get();
     }
@@ -378,9 +376,9 @@ class UserEntity
     /**
      * order_numberを取得する
      *
-     * @return int
+     * @return ?int
      */
-    public function getOrderNumber(): int
+    public function getOrderNumber(): ?int
     {
         return $this->orderNumber->get();
     }

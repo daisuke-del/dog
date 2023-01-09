@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     public $incrementing = false;
 
@@ -32,34 +31,29 @@ class User extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'password',
-        'face_image',
         'gender',
         'height',
         'weight',
         'age',
         'salary',
         'face_point',
-        'update_face_at',
-        'create_date',
-        'yellow_card',
-        'twitter_id',
-        'instagram_id',
+        'height2',
+        'weight2',
+        'age2',
+        'salary2',
+        'face_point2',
+        'face_image',
         'facebook_id',
-        'auth_code',
-        'email_confirm_flg',
-        'face_image_void_flg'
+        'instagram_id',
+        'twitter_id',
+        'yellow_card',
+        'create_date',
+        'update_face_at',
+        'face_image_void_flg',
+        'order_number'
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-    ];
-
 }

@@ -71,10 +71,10 @@ class UserService
             'age2' => $storeInfo['age2'],
             'salary2' => $storeInfo['salary2'],
             'face_point2' => $storeInfo['facePoint2'],
-            'faceImage' => $faceImage,
-            'facebookId' => $request->input('facebook_id'),
-            'instagramId' => $request->input('instagram_id'),
-            'twitterId' => $request->input('twitter_id'),
+            'face_image' => $faceImage,
+            'facebook_id' => $request->input('facebook_id'),
+            'instagram_id' => $request->input('instagram_id'),
+            'twitter_id' => $request->input('twitter_id'),
         ];
 
         $response = $this->insertUsers($requestArr);
@@ -397,19 +397,20 @@ class UserService
             'weight' => $request['weight'],
             'age' => $request['age'],
             'salary' => $request['salary'],
-            'face_point' => $request['facePoint'],
+            'face_point' => $request['face_point'],
             'height2' => $request['height2'],
             'weight2' => $request['weight2'],
             'age2' => $request['age2'],
             'salary2' => $request['salary2'],
-            'face_point2' => $request['facePoint2'],
-            'face_image' => $request['faceImage'],
-            'facebook_id' => $request['facebookId'],
-            'instagram_id' => $request['instagramId'],
-            'twitter_id' => $request['twitterId'],
-            'create_date' => $now->format('Y-m-d\TH:i:s.u\Z'),
-            'update_face_at' => $now->format('Y-m-d H:i:s.u'),
+            'face_point2' => $request['face_point2'],
+            'face_image' => $request['face_image'],
+            'facebook_id' => $request['facebook_id'],
+            'instagram_id' => $request['instagram_id'],
+            'twitter_id' => $request['twitter_id'],
             'yellow_card' => 0,
+            'create_date' => $now->format('Y-m-d H:i:s.u'),
+            'update_face_at' => $now->format('Y-m-d H:i:s.u'),
+            'face_image_void_flg' => 0,
             'order_number' => $orderNumber
         ];
     }
@@ -564,7 +565,8 @@ class UserService
     public function storeFaceImage($faceImage): string
     {
         try {
-            preg_match('/data:image\/(\w+);base64./', $faceImage, $matches);
+            $matches = $faceImage;
+            preg_match('/data:image\/(\w+);base64./', $matches);
             $extension = $matches[1];
 
             $img = preg_replace('/^data:image.*base64,/', '', $faceImage);
@@ -579,7 +581,7 @@ class UserService
             return $path;
         } catch (Exception $e) {
             Log::error($e);
-            throw new MATCHException(config('画像の保存に失敗しました'), 400);
+            throw new MATCHException('画像の保存に失敗しました', 400);
         }
     }
 
@@ -603,8 +605,6 @@ class UserService
         $sortFacePoint = array_column($response, 'face_point');
 
         array_multisort($sortFacePoint, SORT_ASC, $response);
-
-        Log::debug($response);
 
         return $response;
     }

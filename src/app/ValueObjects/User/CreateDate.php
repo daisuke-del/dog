@@ -35,6 +35,6 @@ class CreateDate
      */
     private function isCreateDate(string $createDate): bool
     {
-        return Validator::make([$createDate], ['required|date_format:Y-m-d\TH:i:s.u\Z'])->passes();
+        return Validator::make([$createDate], ['required|date_format:Y-m-d H:i:s.u'])->passes();
     }
 }

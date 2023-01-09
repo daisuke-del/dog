@@ -1,100 +1,69 @@
 <template>
   <div class="all">
-    <p class="big-text d-flex justify-center">あなたの顔はどのくらい？</p>
+    <p class="big-text d-flex justify-center mb-0">あなたの顔はどのくらい？</p>
     <div class="face-wrap d-flex justify-center">
       <v-card hover class="face-card">
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[0].faceImage}`)"
-          v-if="sliderValue === 0" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[1].faceImage}`)"
-          v-if="sliderValue === 1" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[2].faceImage}`)"
-          v-if="sliderValue === 2" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[3].faceImage}`)"
-          v-if="sliderValue === 3" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[4].faceImage}`)"
-          v-if="sliderValue === 4" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[5].faceImage}`)"
-          v-if="sliderValue === 5" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[6].faceImage}`)"
-          v-if="sliderValue === 6" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[7].faceImage}`)"
-          v-if="sliderValue === 7" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[8].faceImage}`)"
-          v-if="sliderValue === 8" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[9].faceImage}`)"
-          v-if="sliderValue === 9" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[10].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[0].face_image}`)" v-if="sliderValue === 0" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[1].face_image}`)" v-if="sliderValue === 1" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[2].face_image}`)" v-if="sliderValue === 2" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[3].face_image}`)" v-if="sliderValue === 3" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[4].face_image}`)" v-if="sliderValue === 4" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[5].face_image}`)" v-if="sliderValue === 5" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[6].face_image}`)" v-if="sliderValue === 6" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[7].face_image}`)" v-if="sliderValue === 7" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[8].face_image}`)" v-if="sliderValue === 8" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[9].face_image}`)" v-if="sliderValue === 9" />
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[10].face_image}`)"
           v-if="sliderValue === 10" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[11].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[11].face_image}`)"
           v-if="sliderValue === 11" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[12].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[12].face_image}`)"
           v-if="sliderValue === 12" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[13].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[13].face_image}`)"
           v-if="sliderValue === 13" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[14].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[14].face_image}`)"
           v-if="sliderValue === 14" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[15].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[15].face_image}`)"
           v-if="sliderValue === 15" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[16].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[16].face_image}`)"
           v-if="sliderValue === 16" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[17].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[17].face_image}`)"
           v-if="sliderValue === 17" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[18].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[18].face_image}`)"
           v-if="sliderValue === 18" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[19].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[19].face_image}`)"
           v-if="sliderValue === 19" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[20].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[20].face_image}`)"
           v-if="sliderValue === 20" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[21].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[21].face_image}`)"
           v-if="sliderValue === 21" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[22].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[22].face_image}`)"
           v-if="sliderValue === 22" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[23].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[23].face_image}`)"
           v-if="sliderValue === 23" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[24].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[24].face_image}`)"
           v-if="sliderValue === 24" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[25].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[25].face_image}`)"
           v-if="sliderValue === 25" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[26].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[26].face_image}`)"
           v-if="sliderValue === 26" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[27].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[27].face_image}`)"
           v-if="sliderValue === 27" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[28].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[28].face_image}`)"
           v-if="sliderValue === 28" />
-        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[29].faceImage}`)"
+        <v-img :src="require(`@/../storage/image/faceimages/${sliderFaces[29].face_image}`)"
           v-if="sliderValue === 29" />
       </v-card>
     </div>
     <div class="d-flex justify-center">
-      <v-slider
-        max="29"
-        min="0"
-        v-model="sliderValue"
-        thumb-color="primary"
-        hide-details
-        class="face-slider"
-        background-color="blue-grey lighten-5"
-      />
+      <v-slider max="29" min="0" v-model="sliderValue" thumb-color="primary" hide-details class="face-slider"
+        background-color="blue-grey lighten-5" />
     </div>
     <div class="btn-wrap">
-      <v-btn
-        block
-        depressed
-        color="primary"
-        height="50px"
-        class="btn"
-        @click="saveFacePoint"
-      >
+      <v-btn block depressed color="primary" height="50px" class="btn" @click="saveFacePoint">
         次へ
       </v-btn>
-      <v-btn
-        block
-        depressed
-        color="#c4c4c4"
-        height="50px"
-        class="btn mt-3"
-        @click="clickBack()"
-      >
+      <v-btn block depressed color="#c4c4c4" height="50px" class="btn mt-3" @click="clickBack()">
         戻る
       </v-btn>
     </div>
@@ -110,19 +79,19 @@ export default {
       require: true
     }
   },
-  data () {
+  data() {
     return {
       sliderValue: 15
     }
   },
   methods: {
-    saveFacePoint () {
-      this.$emit('store-face-point',this.sliderValue)
+    saveFacePoint() {
+      this.$emit('store-face-point', this.sliderValue)
     },
-    clickBack () {
+    clickBack() {
       this.$emit('click-back', 2)
     },
-    resetFace () {
+    resetFace() {
       this.face = 15
     }
   }
@@ -135,6 +104,10 @@ export default {
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;
 }
+
+.face-wrap {
+    margin-top: 10px;
+  }
 
 .face-card {
   max-width: 300px;
@@ -163,7 +136,7 @@ export default {
   }
 
   .face-wrap {
-    margin-top: 50px;
+    margin-top: 25px;
   }
 
   .face-card {

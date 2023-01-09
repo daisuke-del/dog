@@ -1,7 +1,7 @@
 <template>
   <div class="content mx-auto">
-    <h1 v-if="position > 2">自分の顔を評価</h1>
-    <h1 v-else-if="position > 1">顔写真をアップロード</h1>
+    <h1 v-if="position === 3">自分の顔を評価</h1>
+    <h1 v-else-if="position === 2">顔写真をアップロード</h1>
     <h1 v-else>無料会員登録</h1>
     <v-stepper
       v-model="position"
@@ -134,37 +134,38 @@ export default {
       facePoint: null,
       faceImage: null,
       sliderFaces: [
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0},
-        { faceImage: '0.jpeg', facePint: 0}
-      ]
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0},
+        { face_image: '0.jpeg', face_point: 0}
+      ],
+      genderSort: null
     }
   },
   mounted () {
@@ -176,7 +177,8 @@ export default {
     clickForm () {
       this.transitionContent(2)
     },
-    signupSliderImage (userInfo) {
+    async signupSliderImage (userInfo) {
+      console.log('start', userInfo)
       this.postUserInfoLoading = true
       this.gender = userInfo.gender
       this.name = userInfo.name
@@ -186,11 +188,19 @@ export default {
       this.weight = userInfo.weight
       this.age = userInfo.age
       this.salary = userInfo.salary
-      slider.signupSliderImage(this.gender, this.email).then((response) => {
-        this.sliderFaces.splice(0, respose.length)
+      if (this.gender = 'male') {
+        this.genderSort = 'female'
+      } else {
+        this.genderSort = 'male'
+      }
+      await slider.signupSliderImage(this.genderSort, this.email).then((response) => {
+        console.log('success', response)
+        this.sliderFaces.splice(0, response.length)
         this.sliderFaces.push(...response)
         this.position = 2
-      }).catch(() => {})
+      }).catch((error) => {
+        console.log('error', error)
+      })
       this.postUserInfoLoading = false
     },
     storeFaceImage (faceImage) {
@@ -202,25 +212,27 @@ export default {
       this.$store.dispatch('snackbar/snackOn')
     },
     async storeFacePoint (sliderValue) {
-      console.log(this.sliderImages[sliderValue])
-      await user.signup(
-        this.gender,
-        this.name,
-        this.email,
-        this.password,
-        this.height,
-        this.weight,
-        this.age,
-        this.salary,
-        this.facePoint,
-        this.faceImage
-      ).then(async (response) => {
-        console.log('signup', response)
-        await this.$auth.setUserToken('200')
-        setTimeout(this.redirect, 2000)
-        this.position = 4
-      }).catch(() => {})
-
+      this.facePoint = this.sliderFaces[sliderValue].face_point
+      await this.$axios.get('/sanctum/csrf-cookie').then(() => {
+        user.signup(
+          this.gender,
+          this.name,
+          this.email,
+          this.password,
+          this.height,
+          this.weight,
+          this.age,
+          this.salary,
+          this.facePoint,
+          this.faceImage
+        ).then((response) => {
+          console.log('signup', response)
+          setTimeout(this.redirect, 2000)
+          this.position = 4
+        }).catch((error) => {
+          console.log(error)
+        })
+      });
     },
     redirect () {
       const redirectUrl = this.$store.state.redirect.pageUrl

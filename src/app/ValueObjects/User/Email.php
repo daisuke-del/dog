@@ -11,7 +11,7 @@ class Email
 
     public function __construct(?string $email)
     {
-        if ($this->email($email) === false) {
+        if ($this->isEmail($email) === false) {
             throw new MATCHException('validation.pc_email', 422);
         }
         $this->email = $email;
@@ -33,14 +33,14 @@ class Email
      * @param string $email
      * @return bool
      */
-    private function isemail(?string $email): bool
+    private function isEmail(?string $email): bool
     {
         return Validator::make(
             [$email],
             [
                 [
                     'nullable',
-                    'regex:' . config('const.REGEX_EMAIL_INCLUDING_WITHDRAWN_USERS')
+                    'regex:' . config('const.REGEX_PASSWORD')
                 ]
             ]
         )->passes();

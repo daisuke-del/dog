@@ -6,7 +6,7 @@
       </p>
       <div class="icon-wrap d-flex justify-center">
         <v-img
-          :src="check_icon"
+          :src="require('~/assets/image/icons/check.png')"
           max-width="100px"
         />
       </div>
@@ -29,11 +29,6 @@
 <script>
 export default {
   name: 'SignupCompletion',
-  data () {
-    return {
-      check_icon: "~/assets/image/icons/check.png"
-    }
-  },
   methods: {
     mypageClick () {
       this.$emit('mypage')

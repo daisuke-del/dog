@@ -13,10 +13,10 @@ export default {
   async logout () {
     return await auth.logout()
   },
-  async signup (gender, name, email, password, height, weight, age, salary, faceImage, facePoint) {
+  async signup (gender, name, email, password, height, weight, age, salary, facePoint, faceImage) {
     return await auth.loginWith('signUp', {
       data: {
-        gender, name, email, password, height, weight, age, salary, faceImage, facePoint
+        gender, name, email, password, height, weight, age, salary, facePoint, faceImage
       }
     })
   }

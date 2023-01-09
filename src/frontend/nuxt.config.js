@@ -53,7 +53,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
@@ -62,6 +62,9 @@ export default {
 
   proxy: {
     '/api/': {
+      target: 'http://localhost:80/'
+    },
+    '/user/': {
       target: 'http://localhost:80/'
     },
     '/sanctum/': {
@@ -85,6 +88,8 @@ export default {
     },
     strategies: {
       login: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost:80',
         scheme: 'local',
         endpoints: {
           login: {
@@ -101,6 +106,8 @@ export default {
         }
       },
       signUp: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost:80',
         scheme: 'local',
         endpoints: {
           login: {

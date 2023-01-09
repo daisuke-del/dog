@@ -9,30 +9,16 @@ class InstagramId
 {
     private $instagramId;
 
-    public function __construct(string $instagramId)
+    public function __construct(?string $instagramId)
     {
-        if ($this->isInstagramId($instagramId) === false) {
-            throw new MATCHException('validation.instagram_id', 422);
-        }
         $this->instagramId = $instagramId;
     }
 
     /**
      * @return string
      */
-    public function get(): string
+    public function get(): ?string
     {
         return $this->instagramId;
-    }
-
-    /**
-     * facebook_idのValidationチェック
-     *
-     * @param string $instagramId
-     * @return bool
-     */
-    private function isInstagramId(string $instagramId): bool
-    {
-        return Validator::make([$instagramId], ['required|string'])->passes();
     }
 }

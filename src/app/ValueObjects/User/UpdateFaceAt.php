@@ -35,6 +35,6 @@ class UpdateFaceAt
      */
     private function isUpdateFaceAt(string $updateFaceAt): bool
     {
-        return Validator::make([$updateFaceAt], ['required|date_format:Y-m-d\TH:i:s.u\Z'])->passes();
+        return Validator::make([$updateFaceAt], ['required|date_format:Y-m-d H:i:s.u'])->passes();
     }
 }

@@ -23,12 +23,12 @@ class UsersRepository implements UsersRepositoryInterface
      */
     public function new(array $user): UserEntity
     {
-        return (new User())->make(
+        return (new UsersFactory)->make(
             $user['user_id'],
-            $user['gender'],
             $user['name'],
             $user['email'],
             $user['password'],
+            $user['gender'],
             $user['height'],
             $user['weight'],
             $user['age'],
@@ -46,6 +46,7 @@ class UsersRepository implements UsersRepositoryInterface
             $user['yellow_card'],
             $user['update_face_at'],
             $user['create_date'],
+            $user['face_image_void_flg'],
             $user['order_number']
         );
     }
@@ -119,7 +120,7 @@ class UsersRepository implements UsersRepositoryInterface
     public function save(UserEntity $user): bool
     {
         DB::beginTransaction();
-        DB::connection('users')->beginTransaction();
+        DB::connection('mysql')->beginTransaction();
         $isSaveUsers = (new User([
             'user_id' => $user->getUserId(),
             'name' => $user->getName(),
@@ -147,11 +148,11 @@ class UsersRepository implements UsersRepositoryInterface
         ]))->save();
         if ($isSaveUsers) {
             DB::commit();
-            DB::connection('users')->commit();
+            DB::connection('mysql')->commit();
             return true;
         }
         DB::rollBack();
-        DB::connection('users')->rollBack();
+        DB::connection('mysql')->rollBack();
         return false;
     }
 

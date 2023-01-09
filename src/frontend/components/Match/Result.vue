@@ -8,17 +8,17 @@
           <p class="salary-text">年収</p>
           <p class="salary-text mb-3">{{ match.salary }}万円</p>
           <div class="icon-wrap">
-            <v-btn icon>
+            <v-btn @click="clickTwitter(match.twitter_id)" icon>
               <v-icon size="2em">
                 mdi-twitter
               </v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn @click="clickInstagram(match.instagram_id)" icon>
               <v-icon size="2em">
                 mdi-instagram
               </v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn @click="clickFacebook(match.facebook_id)" icon>
               <v-icon size="2em">
                 mdi-facebook
               </v-icon>
@@ -42,6 +42,17 @@ export default {
     matchResults: {
       type: Array,
       requred: true
+    }
+  },
+  methods: {
+    clickTwitter(url) {
+      window.open(url, '_blank')
+    },
+    clickInstagram(url) {
+      window.open(url, '_blank')
+    },
+    clickFacebook(url) {
+      window.open(url, '_blank')
     }
   }
 }

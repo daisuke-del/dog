@@ -262,16 +262,18 @@ export default {
       }
     },
     storeUserInfo () {
+      console.log('signupform', this.witchGender)
       if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
-        if (this.gender === true) {
+        if (this.whitchGender === true) {
           this.gender = 'male'
         } else {
           this.gender = 'female'
         }
+        console.log('signupform', this.gender)
         this.$emit('store-user-info', {
           gender: this.gender,
           name: this.name,
-          mail: this.email,
+          email: this.email,
           password: this.password,
           height: this.heightValues.join(''),
           weight: this.weightValues.join(''),
