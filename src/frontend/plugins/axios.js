@@ -64,7 +64,7 @@ export async function request (method, url, data) {
 
 
   if (method === 'post') {
-    return await axios.$post(url, data, { withCredentials: true })
+    return await axios.$post(url, data)
   } else if (method === 'put') {
     return await axios.$put(url, data)
   } else if (method === 'delete') {

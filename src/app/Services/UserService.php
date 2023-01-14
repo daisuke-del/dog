@@ -80,11 +80,12 @@ class UserService
         $response = $this->insertUsers($requestArr);
 
         if (empty($response)) {
-            throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
+            throw new MATCHException('すでに登録済', 400);
         }
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+            throw new MATCHException('会員登録認証に失敗', 401);
         }
+
         return $response;
     }
 
@@ -100,16 +101,15 @@ class UserService
     {
         // userをemailとpasswordで検索
         $email = (new Email($request->input('email')))->get();
-        $password = (new Password($request->input('password'), $email))->get();
-        $user = $this->usersRepository->getUser($email, $password);
+        $user = $this->usersRepository->getUser($email);
         if (is_null($user)) {
-            throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+            throw new MATCHException('登録されてません', 401);
         }
 
         if (Auth::attempt($request->only(['email', 'password']))) {
             return $user->toArray();
         }
-        throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+        throw new MATCHException('ログイン認証エラー', 401);
     }
 
     /**
@@ -565,8 +565,7 @@ class UserService
     public function storeFaceImage($faceImage): string
     {
         try {
-            $matches = $faceImage;
-            preg_match('/data:image\/(\w+);base64./', $matches);
+            preg_match('/data:image\/(\w+);base64,/', $faceImage, $matches);
             $extension = $matches[1];
 
             $img = preg_replace('/^data:image.*base64,/', '', $faceImage);
@@ -624,7 +623,7 @@ class UserService
 
         $result = $this->usersRepository->getUserByMail($checkedEmail);
         if (isset($result)) {
-            throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
+            throw new MATCHException('すでに登録済です', 400);
         }
     }
 

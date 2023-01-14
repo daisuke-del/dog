@@ -1,11 +1,11 @@
 <template>
     <div>
         <v-list-item light>
-            <v-list-item-avatar @click="$router.push('/mypage')">
+            <v-list-item-avatar @click="clickMypage">
                 <v-img :src="require('@/../storage/image/faceimages/99.jpeg')" />
             </v-list-item-avatar>
 
-            <v-list-item-content @click="$router.push('/mypage')">
+            <v-list-item-content @click="clickMypage">
                 <v-list-item-title>Name</v-list-item-title>
             </v-list-item-content>
             <v-icon @click.stop="clickClose" :value="drawer" class="close">
@@ -13,15 +13,41 @@
             </v-icon>
         </v-list-item>
         <v-list dense light>
-            <v-list-item v-for="item in items" @click=$router.push(item.link) :key="item.title" link>
+            <v-list-item @click="clickMatch" link>
                 <v-list-item-icon>
                     <v-icon>
-                        {{ item.icon }}
+                        mdi-face-recognition
                     </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title color="accent">
-                        {{ item.title }}
+                        マッチング診断
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click="clickMypage" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        mdi-home-account
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title color="accent">
+                        マイページ
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click=clickLogout link>
+                <v-list-item-icon>
+                    <v-icon>
+                        mdi-door-open
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title color="accent">
+                        ログアウト
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
@@ -30,23 +56,26 @@
 </template>
 
 <script>
+import user from '~/plugins/modules/user'
 export default {
     name: 'LoginMenu',
     props: {
         drawer: Boolean
     },
-    data () {
-        return {
-            items: [
-                { title: 'マッチング診断', icon: 'mdi-face-recognition', link: '/match' },
-                { title: 'ログイン', icon: 'mdi-door-open', link: '/login' },
-                { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' }
-            ],
-        }
-    },
     methods: {
-        clickClose () {
+        clickClose() {
             this.$emit('click-close', !this.drawer)
+        },
+        clickLogout() {
+            user.logout().then(() => {
+                this.clickClose()
+            })
+        },
+        clickMypage() {
+            this.$router.push('/mypage')
+        },
+        clickMatch() {
+            this.$router.push('/match')
         }
     }
 }

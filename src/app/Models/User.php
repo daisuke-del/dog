@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-
     public $incrementing = false;
 
     public $timestamps = false;
@@ -56,4 +53,6 @@ class User extends Authenticatable
         'face_image_void_flg',
         'order_number'
     ];
+
+    protected $hidden = ['password'];
 }

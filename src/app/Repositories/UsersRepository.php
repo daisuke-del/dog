@@ -65,13 +65,11 @@ class UsersRepository implements UsersRepositoryInterface
      * ログイン情報からusersテーブル情報を取得する
      *
      * @param string $email
-     * @param string $password
      * @return User
      */
-    public function getUser(string $email, string $password): User
+    public function getUser(string $email): User
     {
         return (new User)
-            ->where('password', $password)
             ->where('email', $email)
             ->first();
     }

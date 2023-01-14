@@ -3,55 +3,21 @@
     <h1>ログイン</h1>
     <v-form ref="loginForm">
       <div class="main-wrap">
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="メールアドレス"
-          background-color="white"
-          required
-          outlined
-          light
-          class="mail form-content"
-        />
-        <v-text-field
-          v-model="password"
-          :rules="passwordRules"
-          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="isShowPassword ? 'text' : 'password'"
-          class="password form-content"
-          label="パスワード"
-          background-color="white"
-          required
-          outlined
-          light
-        />
-        <v-btn
-          block
-          height="40px"
-          elevation="0"
-          color="#fd7e00"
-          class="font-weight-bold mb-1"
-          @click="clickLogin"
-        >
+        <v-text-field v-model="email" :rules="emailRules" label="メールアドレス" background-color="white" required outlined
+          light class="mail form-content" />
+        <v-text-field v-model="password" :rules="passwordRules"
+          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
+          class="password form-content" label="パスワード" background-color="white" required outlined light />
+        <v-btn block height="40px" elevation="0" color="#fd7e00" class="font-weight-bold mb-1" @click="clickLogin">
           ログイン
         </v-btn>
         <div class="d-flex justify-center">
-          <v-btn
-            text
-            light
-            class="mb-3"
-          >
+          <v-btn text light class="mb-3">
             パスワードを忘れた方
           </v-btn>
         </div>
-        <v-btn
-          block
-          height="40px"
-          elevation="0"
-          color="#0067c0"
-          class="font-weight-bold"
-          @click="$router.push('signup')"
-        >
+        <v-btn block height="40px" elevation="0" color="#0067c0" class="font-weight-bold"
+          @click="$router.push('signup')">
           会員登録
         </v-btn>
       </div>
@@ -64,22 +30,22 @@ import constants from '@/utils/constants'
 export default {
   name: 'LoginForm',
   auth: false,
-  asyncData ({ app, $auth, redirect }) {
+  asyncData({ app, $auth, redirect }) {
     if ($auth.loggedIn) {
       if (app.store.state.redirect.pageUrl) {
-        redirect(app.store.state.redirect.pageUrl)
+        redirect(app.store.redirect.pageUrl)
         app.store.dispatch('redirect/deletePageUrl')
       } else {
-        app.router.replace('/my')
+        app.router.replace('/mypage')
       }
     }
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.previousPage = from.fullPath
+      vm.previousPage = from.path
     })
   },
-  data () {
+  data() {
     return {
       email: null,
       password: null,
@@ -96,24 +62,28 @@ export default {
     }
   },
   methods: {
-    clickLogin () {
+    clickLogin() {
       if (this.$refs.loginForm.validate()) {
         this.loginLoading = true
-        try {
-          const response = user.login.then(() => {
-            window.alert('ログインしました');
-            const redirectUrl = this.$store.state.redirect.pageUrl
-            if (redirectUrl) {
-              this.$router.replace(redirectUrl)
-              this.$store.dispatch('redirect/deletePageUrl')
-            }
-            });
-        } catch (error) {
-          window.alert("ログイン失敗");
+        user.login(this.email, this.password).then(() => {
+          this.$auth.setUserToken('200')
+          this.$router.push('/mypage')
+        }).catch((error) => {
+          console.log(error)
+          window.alert("ログイン失敗")
           this.loginLoading = false
-        }
+        })
       }
-    }
+    },
+    redirect() {
+      const redirectUrl = this.$store.state.redirect.pageUrl
+      if (redirectUrl) {
+        this.$router.replace(redirectUrl)
+      } else {
+        this.$route.replace("/")
+      }
+      this.$store.dispatch('redirect/deletePageUrl')
+    },
   }
 }
 </script>

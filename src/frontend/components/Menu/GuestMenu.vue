@@ -1,11 +1,11 @@
 <template>
     <div>
         <v-list-item light>
-            <v-list-item-avatar @click="$router.push('/mypage')">
+            <v-list-item-avatar @click="clickMypage">
                 <v-img :src="require('@/../storage/image/faceimages/no-user-image-icon.jpeg')" />
             </v-list-item-avatar>
 
-            <v-list-item-content @click="$router.push('/mypage')">
+            <v-list-item-content @click="clickMypage">
                 <v-list-item-title>Guest</v-list-item-title>
             </v-list-item-content>
             <v-icon @click.stop="clickClose" :value="drawer" class="close">
@@ -39,7 +39,7 @@ export default {
         return {
             items: [
                 { title: 'マッチング診断', icon: 'mdi-face-recognition', link: '/match' },
-                { title: 'ログイン', icon: 'mdi-door-open', link: '/login' },
+                { title: 'ログイン', icon: 'mdi-login', link: '/login' },
                 { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' }
             ],
         }
@@ -47,6 +47,12 @@ export default {
     methods: {
         clickClose () {
             this.$emit('click-close', !this.drawer)
+        },
+        clickMypage() {
+            this.$router.push('/mypage')
+        },
+        clickMatch() {
+            this.$router.push('/match')
         }
     }
 }

@@ -2,7 +2,7 @@
   <div>
     <div class="gender">
       <toggle-button
-        v-model="whichGender"
+        v-model="whitchGender"
         :color="{checked: '#99ccff', unchecked: '#ECA5B2'}"
         :labels="{checked: '男性', unchecked: '女性'}"
         :switch-color="{checked: '#0099ff', unchecked: '#FFC0CB'}"
@@ -167,7 +167,7 @@ export default {
   data () {
     return {
       isToggled: false,
-      whichGender: true,
+      whitchGender: true,
       gender: null,
       name: null,
       email: null,
@@ -259,6 +259,8 @@ export default {
         this.salary = 1300
       } else if (this.item === '3000 〜') {
         this.salary = 1500
+      } else {
+        this.salary = 50
       }
     },
     storeUserInfo () {
@@ -269,7 +271,26 @@ export default {
         } else {
           this.gender = 'female'
         }
-        console.log('signupform', this.gender)
+
+        if (this.item === '〜 199') {
+          this.salary = 150
+        } else if (this.item === '200 〜 399') {
+          this.salary = 300
+        } else if (this.item === '400 〜 599') {
+          this.salary = 500
+        } else if (this.item === '600 〜 799') {
+          this.salary = 700
+        } else if (this.item === '800 〜 999') {
+          this.salary = 900
+        } else if (this.item === '1000 〜 1999') {
+          this.salary = 1100
+        } else if (this.item === '2000 〜 2999') {
+          this.salary = 1300
+        } else if (this.item === '3000 〜') {
+          this.salary = 1500
+        } else {
+          this.salary = 50
+        }
         this.$emit('store-user-info', {
           gender: this.gender,
           name: this.name,

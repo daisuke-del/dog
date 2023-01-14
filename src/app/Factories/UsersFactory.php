@@ -91,7 +91,7 @@ class UsersFactory
             new UserId($userId),
             new Name($name),
             new Email($email),
-            new Password($password, $email),
+            new Password($password),
             new Gender($gender),
             new Height($height),
             new Weight($weight),

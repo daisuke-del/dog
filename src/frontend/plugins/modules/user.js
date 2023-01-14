@@ -2,8 +2,8 @@
 import { auth } from "../auth";
 
 export default {
-  async login (email, password) {
-    return await auth.loginWith('login', {
+  login (email, password) {
+    return auth.loginWith('login', {
       data: {
         email,
         password
@@ -13,8 +13,8 @@ export default {
   async logout () {
     return await auth.logout()
   },
-  async signup (gender, name, email, password, height, weight, age, salary, facePoint, faceImage) {
-    return await auth.loginWith('signUp', {
+  signup (gender, name, email, password, height, weight, age, salary, facePoint, faceImage) {
+    return auth.loginWith('signUp', {
       data: {
         gender, name, email, password, height, weight, age, salary, facePoint, faceImage
       }

@@ -75,7 +75,6 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     proxy: true,
-    prefix: 'http://localhost:3000',
     credentials: true
   },
   auth: {
@@ -83,42 +82,32 @@ export default {
     redirect: {
       login: '/login',
       logout: '/',
-      callback: false,
-      home: false
     },
     strategies: {
       login: {
-        provider: 'laravel/sanctum',
-        url: 'http://localhost:80',
         scheme: 'local',
         endpoints: {
           login: {
             url: '/user/login',
             method: 'post',
-            propertyName: false
           },
           logout: {
             url: '/user/logout',
             method: 'post',
-            propertyName: false
           },
           user: false
         }
       },
       signUp: {
-        provider: 'laravel/sanctum',
-        url: 'http://localhost:80',
         scheme: 'local',
         endpoints: {
           login: {
             url: '/user/signup',
             method: 'post',
-            propertyName: false
           },
           logout: {
             url: '/user/logout',
             method: 'post',
-            propertyName: false
           },
           user: false
         }

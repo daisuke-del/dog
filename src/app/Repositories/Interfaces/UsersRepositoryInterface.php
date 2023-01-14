@@ -29,10 +29,9 @@ interface UsersRepositoryInterface
      * ログイン情報からusersテーブル情報を取得する
      *
      * @param string $email
-     * @param string $password
      * @return User
      */
-    public function getUser(string $email, string $password): User;
+    public function getUser(string $email): User;
 
     /**
      * usersテーブルにレコードを挿入する

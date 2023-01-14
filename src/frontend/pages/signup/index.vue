@@ -188,13 +188,7 @@ export default {
       this.weight = userInfo.weight
       this.age = userInfo.age
       this.salary = userInfo.salary
-      if (this.gender = 'male') {
-        this.genderSort = 'female'
-      } else {
-        this.genderSort = 'male'
-      }
-      await slider.signupSliderImage(this.genderSort, this.email).then((response) => {
-        console.log('success', response)
+      await slider.signupSliderImage(this.gender, this.email).then((response) => {
         this.sliderFaces.splice(0, response.length)
         this.sliderFaces.push(...response)
         this.position = 2
@@ -225,10 +219,10 @@ export default {
           this.salary,
           this.facePoint,
           this.faceImage
-        ).then((response) => {
-          console.log('signup', response)
-          setTimeout(this.redirect, 2000)
+        ).then(() => {
           this.position = 4
+          this.$auth.setUserToken('200')
+          setTimeout(this.$router.push('/mypage'), 2000)
         }).catch((error) => {
           console.log(error)
         })
