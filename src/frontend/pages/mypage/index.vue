@@ -2,32 +2,16 @@
   <div>
     <h1>{{ title }}</h1>
     <div class="main-all">
-      <common-cropperjs
-        v-show="modalCropper"
-        @close-image-modal="closeModalCrop"
-        @save-crop-image="saveCropImage"
-      />
-      <common-modal
-        :n="num"
-        v-show="modal"
-        @summary-method="summaryMethod"
-      />
+      <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
+      <common-modal :n="num" v-show="modal" @summary-method="summaryMethod" />
       <div class="main-wrap">
         <p class="name-text">{{ name }}</p>
         <v-row>
           <v-col cols="6">
             <v-card light class="face-card">
               <div class="image-wrap">
-                <v-img
-                :src="require('@/../storage/image/faceimages/99.jpeg')"
-                />
-                <v-btn
-                  class="image-icon"
-                  elevation="5"
-                  fab
-                  small
-                  @click="modalCroppers"
-                >
+                <v-img :src="require(`@/../storage/image/faceimages/${faceImage}`)" />
+                <v-btn class="image-icon" elevation="5" fab small @click="modalCroppers">
                   <v-icon color="white"> mdi-image-size-select-actual </v-icon>
                 </v-btn>
               </div>
@@ -37,30 +21,13 @@
             <v-card light class="my-card ml-auto">
               <div class="rank-wrap">
                 <p class="big-text">総合ランク</p>
-                <v-img
-                  v-if="rank > 80 && score === 'A'"
-                  :src="require('~/assets/image/rank/gold.png')"
-                  class="rank-icon"
-                  contain
-                />
-                <v-img
-                  v-else-if="rank > 50 && score === 'B'"
-                  :src="require('~/assets/image/rank/silver.png')"
-                  class="rank-icon"
-                  contain
-                />
-                <v-img
-                  v-else-if="score !== 'C'"
-                  :src="require('~/assets/image/rank/blond.png')"
-                  class="rank-icon"
-                  contain
-                />
-                <v-img
-                  v-else
-                  :src="require('~/assets/image/rank/nomal.png')"
-                  class="rank-icon"
-                  contain
-                />
+                <v-img v-if="rank > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
+                  class="rank-icon" contain />
+                <v-img v-else-if="rank > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
+                  class="rank-icon" contain />
+                <v-img v-else-if="score !== 'C'" :src="require('~/assets/image/rank/blond.png')" class="rank-icon"
+                  contain />
+                <v-img v-else :src="require('~/assets/image/rank/nomal.png')" class="rank-icon" contain />
               </div>
               <div class="point-wrap">
                 <p class="point-text">美女レベル：{{ rank }}</p>
@@ -76,29 +43,13 @@
           <v-sheet light class="mx-auto" elevation="8">
             <v-slide-group v-model="model" active-class="success" show-arrows>
               <v-slide-item v-for="n in 15" :key="n">
-                <v-card
-                  @click="showProfile(n)"
-                  class="mt-3 mb-3 mr-2"
-                  height="150"
-                  width="100"
-                >
+                <v-card @click="showProfile(n)" class="mt-3 mb-3 mr-2" height="150" width="100">
                   <v-row>
                     <v-col>
-                      <v-img
-                        :src="require('@/../storage/image/faceimages/'+ n + '.jpeg')"
-                        max-height="100"
-                        contain
-                        rounded
-                      />
+                      <v-img :src="require('@/../storage/image/faceimages/' + n + '.jpeg')" max-height="100" contain
+                        rounded />
                       <p class="card-summary-text mt-2 ml-2">田中タロウ</p>
-                      <v-btn
-                        class="delete-icon"
-                        elevation="5"
-                        fab
-                        height="20px"
-                        width="20px"
-                        color="primary"
-                      >
+                      <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary">
                         <v-icon small dark> mdi-close-thick </v-icon>
                       </v-btn>
                     </v-col>
@@ -108,33 +59,16 @@
             </v-slide-group>
           </v-sheet>
           <div class="btn-wrap">
-            <v-btn
-              class="small-text show-friend-btn mt-8"
-              text
-              light
-              @click="isShowFriend = !isShowFriend"
-            >
+            <v-btn class="small-text show-friend-btn mt-8" text light @click="isShowFriend = !isShowFriend">
               全てのフレンド
             </v-btn>
           </div>
         </v-col>
       </v-row>
       <v-row v-show="isShowFriend">
-        <v-col
-          v-for="n in 15"
-          :key="n"
-          cols="6"
-          md="3"
-          lg="2"
-          class="d-flex justify-center"
-        >
+        <v-col v-for="n in 15" :key="n" cols="6" md="3" lg="2" class="d-flex justify-center">
           <v-card light @click="showProfile(n)" height="250px" width="200px">
-            <v-img
-              :src="require('@/../storage/image/faceimages/' + n + '.jpeg')"
-              height="150px"
-              contain
-              rounded
-            />
+            <v-img :src="require('@/../storage/image/faceimages/' + n + '.jpeg')" height="150px" contain rounded />
             <p class="card-summary-text">田中タロウ</p>
             <div class="icon-wrap">
               <v-btn icon class="sns-icon">
@@ -147,14 +81,7 @@
                 <v-icon> mdi-facebook </v-icon>
               </v-btn>
             </div>
-            <v-btn
-              class="delete-icon"
-              elevation="5"
-              fab
-              height="20px"
-              width="20px"
-              color="primary"
-            >
+            <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary">
               <v-icon small dark> mdi-close-thick </v-icon>
             </v-btn>
           </v-card>
@@ -167,25 +94,39 @@
 <script>
 import CommonModal from '@/components/Common/Modal'
 import CommonCropperjs from '@/components/Common/Cropper'
+import user from '@/plugins/modules/user'
 export default {
   components: {
     CommonModal,
     CommonCropperjs
   },
   name: 'MyPage',
+  // async asyncData() {
+  //   return user.getUserInfo().then((response) => {
+  //     return {
+  //       name: response['name'],
+  //       faceStatus: response['status'],
+  //       faceImage: response['face_image'],
+  //       rank: response['face_point'],
+  //       score: response['score'],
+  //       friends: response['friends']
+  //     }
+  //   })
+  // },
   data() {
     return {
       title: 'マイページ',
       model: null,
-      name: '花澤美里',
       modal: false,
       modalfile: false,
       message: 'よろしいですか？',
       num: null,
-      rank: 100,
-      score: 'A',
       isShowFriend: false,
-      modalCropper: false
+      modalCropper: false,
+      name: 'test',
+      rank: 100,
+      faceImage: '99.jpeg',
+      score: 'A'
     }
   },
   props: {
@@ -202,13 +143,14 @@ export default {
     summaryMethod(status) {
       this.modal = status
     },
-    closeModalCrop () {
+    closeModalCrop() {
       this.modalCropper = false
     },
-    saveCropImage () {
-      if(confirm('写真を変更すると継続スコアがリセットされます。\n変更しますか？')){
+    saveCropImage() {
+      if (confirm('写真を変更すると継続スコアがリセットされます。\n変更しますか？')) {
         this.modalCropper = false
         // face_imageとupdate_at を更新
+        user.updateFaceImage()
       }
     }
   },

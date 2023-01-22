@@ -151,6 +151,7 @@
           elevation="0"
           color="#fd7e00"
           class="font-weight-bold"
+          :loading="sendLoading"
           @click="storeUserInfo"
         >
           入力項目を送信
@@ -164,6 +165,12 @@
 import constants from '@/utils/constants'
 export default {
   name: 'SignupForm',
+  props: {
+    sendLoading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       isToggled: false,
@@ -179,7 +186,6 @@ export default {
       select: null,
       checkbox: null,
       title: '無料会員登録',
-      sendLoading: false,
       salaryRange: [
           '〜 199',
           '200 〜 399',

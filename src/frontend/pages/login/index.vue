@@ -8,7 +8,7 @@
         <v-text-field v-model="password" :rules="passwordRules"
           :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
           class="password form-content" label="パスワード" background-color="white" required outlined light />
-        <v-btn block height="40px" elevation="0" color="#fd7e00" class="font-weight-bold mb-1" @click="clickLogin">
+        <v-btn block height="40px" elevation="0" color="#fd7e00" :loading="loginLoading" class="font-weight-bold mb-1" @click="clickLogin">
           ログイン
         </v-btn>
         <div class="d-flex justify-center">
@@ -50,7 +50,6 @@ export default {
       email: null,
       password: null,
       isShowPassword: false,
-      sendLoading: false,
       emailRules: [
         v => !!v || 'メールアドレスが入力されていません。',
         v => v == null || v.match(constants.mailValidation) != null || 'メールアドレスの形式ではありません。',
@@ -58,16 +57,19 @@ export default {
       passwordRules: [
         v => !!v || 'パスワードが入力されていません。',
         v => v == null || (v.length >= constants.minPasswordLength && v.length <= constants.maxPasswordLength) || 'パスワードは6～32文字で設定して下さい。'
-      ]
+      ],
+      loginLoading: false
     }
   },
   methods: {
-    clickLogin() {
+    async clickLogin() {
       if (this.$refs.loginForm.validate()) {
         this.loginLoading = true
-        user.login(this.email, this.password).then(() => {
+        await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
+        await user.login(this.email, this.password).then((res) => {
+          console.log(res)
           this.$auth.setUserToken('200')
-          this.$router.push('/mypage')
+          this.$router.replace('/mypage')
         }).catch((error) => {
           console.log(error)
           window.alert("ログイン失敗")

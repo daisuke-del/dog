@@ -90,10 +90,12 @@ export default {
           login: {
             url: '/user/login',
             method: 'post',
+            propertyName: false
           },
           logout: {
             url: '/user/logout',
             method: 'post',
+            propertyName: false
           },
           user: false
         }
@@ -104,10 +106,12 @@ export default {
           login: {
             url: '/user/signup',
             method: 'post',
+            propertyName: false
           },
           logout: {
             url: '/user/logout',
             method: 'post',
+            propertyName: false
           },
           user: false
         }

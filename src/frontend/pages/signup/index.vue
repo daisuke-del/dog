@@ -118,7 +118,6 @@ export default {
       minPassLength: constants.minPassLength,
       maxPassLength: constants.maxNameLength,
       postUserInfoLoading: false,
-      authSendLoading: false,
       showErrorMessage: false,
       errorMessage: '',
       previousPage: null,

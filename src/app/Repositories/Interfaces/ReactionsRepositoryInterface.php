@@ -26,6 +26,6 @@ interface ReactionsRepositoryInterface
      * @param string $userId
      * @return Reaction
      */
-    public function selectMATCHById(string $userId): Reaction;
+    public function selectMatchById(string $userId): Reaction;
 
 }

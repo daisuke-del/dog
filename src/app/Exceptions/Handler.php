@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use App\Exceptions\MATCHException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -85,15 +86,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if (env('BASE_URL') === env('BASE_URL_PAYMENT')) {
-            if ($exception instanceof MATCHExeption) {
-                $param = $exception->getParam();
-                if (isset($param['retry_notification']) && $param['retry_notification'] === true) {
-                    return $this->retryForPayment();
-                }
-            }
-            return $this->renderForPayment();
-        }
         if ($exception instanceof MATCHExeption) {
             $res = ['error' => $exception->getMessage()];
             $param = $exception->getParam();

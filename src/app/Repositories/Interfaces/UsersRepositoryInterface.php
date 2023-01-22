@@ -61,10 +61,9 @@ interface UsersRepositoryInterface
      * 引数のメールアドレスが自身以外に存在するか確認する
      *
      * @param string $email
-     * @param string $userId
      * @return bool
      */
-    public function existsEmail(string $email, string $userId): bool;
+    public function existsEmail(string $email): bool;
 
     /**
      * UserIDでusersテーブルのレコードを取得する
@@ -80,7 +79,7 @@ interface UsersRepositoryInterface
      * @param array $userIds
      * @return Collection
      */
-    public function getEmailByIds(array $userIds): Collection;
+    public function getUserByIds(array $userIds): Collection;
 
     /**
      * usersのemailを更新する

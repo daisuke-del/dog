@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\UsersRepositoryInterface;
+use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\Facades\Log;
 
 class UsersRepository implements UsersRepositoryInterface
@@ -208,17 +209,12 @@ class UsersRepository implements UsersRepositoryInterface
      * 引数のメールアドレスが自身以外に存在するか確認する
      *
      * @param string $email
-     * @param string $userId
      * @return bool
      */
-    public function existsEmail(string $email, string $userId): bool
+    public function existsEmail(string $email): bool
     {
         return (new User)
-            ->where(function ($query) use ($email) {
-                $query->where('pc_email', $email)
-                    ->orWhere('mobile_email', $email);
-            })
-            ->where('uid', '<>', $userId)
+            ->where('email', $email)
             ->exists();
     }
 
@@ -241,11 +237,10 @@ class UsersRepository implements UsersRepositoryInterface
      * @param array $userIds
      * @return Collection
      */
-    public function getEmailByIds(array $userIds): Collection
+    public function getUserByIds(array $userIds): Collection
     {
         return (new User)
             ->whereIn('user_id', $userIds)
-            ->select('email')
             ->get();
     }
 
@@ -292,6 +287,23 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('user_id', $user->getUserId())
             ->update([
                 'name' => $user->getName()
+            ]);
+    }
+
+    /**
+     * face_imageとupdate_face_atを更新する
+     *
+     * @param stirng $userId
+     * @return bool
+     */
+    public function updateFace($userId, $faceImage): bool
+    {
+        $now = new Carbon();
+        return (new User())
+            ->where('user_id', $userId)
+            ->update([
+                'face_image' => $faceImage,
+                'update_face_at' => $now->format('Y-m-d H:i:s.u'),
             ]);
     }
 

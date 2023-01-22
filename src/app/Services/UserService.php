@@ -29,18 +29,22 @@ use Throwable;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
+use App\Services\MypageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 
 class UserService
 {
     use ValidateEmail;
 
+    private $mypageService;
     private $usersRepository;
 
     public function __construct()
     {
+        $this->mypageService = new MypageService;
         $this->usersRepository = new UsersRepository;
     }
 
@@ -48,11 +52,19 @@ class UserService
      * 会員登録
      *
      * @param Request $request
-     * @return array
      * @throws Exception
      */
-    public function signup(Request $request): array
+    public function signup(Request $request)
     {
+        // userをemailで検索
+        $email = (new Email($request->input('email')))->get();
+        if ($this->containUppercase($email)) {
+            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+        }
+        // emailが登録済かどうかチェック
+        if ($this->usersRepository->existsEmail($email)) {
+            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+        }
         $storeInfo = $this->getCalculation($request);
         $faceImage = $this->storeFaceImage($request->input('faceImage'));
 
@@ -80,36 +92,40 @@ class UserService
         $response = $this->insertUsers($requestArr);
 
         if (empty($response)) {
-            throw new MATCHException('すでに登録済', 400);
+            throw new MATCHException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            throw new MATCHException('会員登録認証に失敗', 401);
+            throw new MATCHException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
 
-        return $response;
+        $request->session()->regenerate();
+
+        if (Auth::check()) {
+            return Auth::user();
+        }
     }
 
     /**
      * ログイン
      *
      * @param Request $request
-     * @return array
      * @throws Exception
      * @throws Throwable
      */
-    public function login(Request $request): array
+    public function login(Request $request)
     {
-        // userをemailとpasswordで検索
+        // userをemailで検索
         $email = (new Email($request->input('email')))->get();
         $user = $this->usersRepository->getUser($email);
         if (is_null($user)) {
-            throw new MATCHException('登録されてません', 401);
+            throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
 
         if (Auth::attempt($request->only(['email', 'password']))) {
-            return $user->toArray();
+            $request->session()->regenerate();
+            return Auth::user();
         }
-        throw new MATCHException('ログイン認証エラー', 401);
+        throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -606,6 +622,51 @@ class UserService
         array_multisort($sortFacePoint, SORT_ASC, $response);
 
         return $response;
+    }
+
+    /**
+     * 顔写真を更新
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function updateFaceImage(Request $request): array
+    {
+        $user = Auth::user();
+        $oldImage = $user->face_image;
+        $userId = $user->user_id;
+        try {
+            $newImage = $this->storeFaceImage($request->input('faceImage'));
+            if ($this->usersRepository->updateFace($userId, $newImage)) {
+                if (!$this->deleteFaceImage($oldImage)) {
+                    throw new MATCHException('画像の更新に失敗しました', 400);
+                }
+            }
+            $status = $this->mypageService->getFaceStatus($userId);
+            $continuationScore = $this->mypageService->getContinuationScore($user->userId);
+            return [
+                'status' => $status,
+                'face_image' => $newImage,
+                'face_point' => $user->face_point,
+                'score' => $continuationScore,
+            ];
+        } catch (Exception $e) {
+            Log::error($e);
+            throw new MATCHException('画像の更新に失敗しました', 400);
+        }
+    }
+
+    /**
+     * @param string $imagePath
+     * @return bool
+     */
+    public function deleteFaceImage($imagePath): bool
+    {
+        if (Storage::exists($imagePath)) {
+            Storage::delete($imagePath);
+            return true;
+        }
+        return false;
     }
 
     /**

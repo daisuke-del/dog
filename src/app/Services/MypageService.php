@@ -6,8 +6,11 @@ use App\Exceptions\MATCHException;
 use Carbon\Carbon;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
+use Illuminate\Support\Facades\Auth;
 use Exceptions;
+use Illuminate\Support\Facades\Log;
 
+use function Psy\debug;
 
 class MypageService {
 
@@ -32,18 +35,25 @@ class MypageService {
      */
     public function index(): array
     {
-        $userId = auth()->id();
-        $user = $this->usersRepository->selectUsersById($userId);
-        $status = $this->getFaceStatus($userId);
-        $continuationScore = $this->getContinuationScore($userId);
-        $friends = $this->getMATCHAll($userId);
-        return [
-            'name' => $user['name'],
-            'status' => $status,
-            'face_image' => $user['face_image'],
-            'score' => $continuationScore,
-            'friends' => $friends
-        ];
+        $userId = Auth::user();
+        Log::debug($userId);
+        return [$userId];
+        // if (is_null($userInfo) || is_null($userId)) {
+        //     throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+        // }
+
+        // $status = $this->getFaceStatus($userId);
+        // $continuationScore = $this->getContinuationScore($userId);
+        // $friendIds = $this->getMatchAll($userId);
+        // $friends = $this->usersRepository->getUserByIds($friendIds);
+        // return [
+        //     'name' => $userInfo->name,
+        //     'status' => $status,
+        //     'face_image' => $userInfo->face_image,
+        //     'face_point' => $userInfo->face_point,
+        //     'score' => $continuationScore,
+        //     'friends' => $friends
+        // ];
     }
 
 
@@ -55,9 +65,9 @@ class MypageService {
      * @return array
      * @throw Exception
      */
-    private function getMATCHAll(string $userId): array
+    private function getMatchAll(string $userId): array
     {
-        return $this->reactionsRepository->selectMATCHById($userId)->toArray();
+        return $this->reactionsRepository->selectMatchById($userId)->toArray();
     }
 
     /**
@@ -67,9 +77,9 @@ class MypageService {
      * @return string
      * @throw Exception
      */
-    private function getFaceStatus(string $userId): string
+    public function getFaceStatus(string $userId): string
     {
-        $user = $this->usersRepository->selectUserById($userId);
+        $user = Auth::user();
         if (empty($user)) {
             // ユーザー情報が取得できない
             $error = [
@@ -100,7 +110,7 @@ class MypageService {
      * @return string
      * @throw Exception
      */
-    private function getContinuationScore(string $userId): string
+    public function getContinuationScore(string $userId): string
     {
         $updateFaceAt = $this->usersRepository->getUpdateFaceAt($userId);
         if (empty($updateFaceAt)) {

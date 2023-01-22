@@ -31,7 +31,7 @@ return [
 //
 //    'supports_credentials' => false,
 
-    'paths' => ['api/*', 'user/*', 'slider/*', 'login', 'logout', 'signup', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'user/*', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['*'],
     'allowed_origins_patterns' => [],

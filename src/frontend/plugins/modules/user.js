@@ -1,4 +1,4 @@
-// import { request } from "../axios";
+import { request } from "../axios";
 import { auth } from "../auth";
 
 export default {
@@ -19,5 +19,11 @@ export default {
         gender, name, email, password, height, weight, age, salary, facePoint, faceImage
       }
     })
+  },
+  getUserInfo() {
+    return request('get', '/api/my')
+  },
+  updateFaceImage() {
+    return request('put', '/api/update/face')
   }
 }

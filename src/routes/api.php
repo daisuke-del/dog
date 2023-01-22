@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\MypageController;
@@ -17,18 +16,17 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function () {
-  // マイページ
-  Route::prefix('my')->name('my.')->group(function () {
-    Route::get('/', [MypageController::class, 'index']);
-  });
+// マイページ
+Route::prefix('my')->name('my.')->group(function () {
+  Route::get('/', [MypageController::class, 'index']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
-  Route::put('update/name', [UserController::class, 'updateHandleName']);
-  Route::put('update/password', [UserController::class, 'updatePassword']);
-  Route::put('update/email', [UserController::class, 'updateeEmail']);
-  Route::put('update/email/auth', [UserController::class, 'updateEmailAuth']);
+Route::prefix('update')->name('update.')->group(function () {
+  Route::put('name', [UserController::class, 'updateHandleName']);
+  Route::put('password', [UserController::class, 'updatePassword']);
+  Route::put('email', [UserController::class, 'updateeEmail']);
+  Route::put('email/auth', [UserController::class, 'updateEmailAuth']);
+  Route::put('face', [UserController::class, 'updateFaceImage']);
 });
 
 // マッチング診断

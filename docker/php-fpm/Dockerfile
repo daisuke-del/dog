@@ -3,6 +3,9 @@ RUN docker-php-ext-install opcache
 RUN apk --no-cache add autoconf make g++ gcc
 RUN pecl install redis
 RUN docker-php-ext-install pdo_mysql
+RUN apk add autoconf build-base
+RUN pecl install xdebug-2.9.1
+RUN docker-php-ext-enable xdebug
 
 #タイムゾーンをJSTに設定
 RUN apk --update add tzdata && \

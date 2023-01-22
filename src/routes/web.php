@@ -16,10 +16,10 @@ use App\Http\Controllers\UserController;
 
 // 会員登録・ログイン・更新
 Route::prefix('user')->name('user.')->group(function () {
-    Route::post('login', [UserController::class, 'login']);
-    Route::post('logout', [UserController::class, 'logout']);
-    Route::post('signup', [UserController::class, 'signup']);
-    // Route::post('foreget/password/email', [UserController::class, 'foregetPasswordEmail']);
-    // Route::post('foreget/password/auth', [UserController::class, 'foregetPasswordAuth']);
-    // Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
-  });
+  Route::post('login', [UserController::class, 'login'])->name('login');
+  Route::post('logout', [UserController::class, 'logout']);
+  Route::post('signup', [UserController::class, 'signup']);
+  Route::post('foreget/password/email', [UserController::class, 'foregetPasswordEmail']);
+  Route::post('foreget/password/auth', [UserController::class, 'foregetPasswordAuth']);
+  Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
+
