@@ -94,11 +94,9 @@ class UserService
         if (empty($response)) {
             throw new MATCHException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
-        if (!Auth::attempt($request->only(['email', 'password']))) {
+        if (!Auth::attempt($request->only(['email', 'password']), true)) {
             throw new MATCHException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
-
-        $request->session()->regenerate();
 
         if (Auth::check()) {
             return Auth::user();
@@ -121,8 +119,9 @@ class UserService
             throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
 
-        if (Auth::attempt($request->only(['email', 'password']))) {
-            $request->session()->regenerate();
+        if (Auth::attempt($request->only(['email', 'password']), true)) {
+            Log::debug(Auth::check());
+            Log::debug(Auth::user());
             return Auth::user();
         }
         throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
@@ -137,7 +136,7 @@ class UserService
     {
         // ログアウトする
         Auth::logout();
-        return [];
+        return Auth::user();
     }
 
     /**

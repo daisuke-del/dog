@@ -53,7 +53,8 @@ class UserFactory extends Factory
             'instagram_id' => 'https://www.instagram.com/steinberg_fan/',
             'facebook_id' => 'https://www.facebook.com/y.kai1',
             'face_image_void_flg' => 0,
-            'order_number' => $this->faker->numberBetween(1, 10000)
+            'order_number' => $this->faker->numberBetween(1, 10000),
+            'remember_token' => null
         ];
     }
 

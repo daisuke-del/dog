@@ -39,6 +39,7 @@ class CreateUsersTable extends Migration
             $table->integer('face_image_void_flg')->default(0);
             $table->integer('yellow_card')->default(0);
             $table->integer('order_number')->nullable()->default(0);
+            $table->string('remember_token')->nullable();
         });
     }
 

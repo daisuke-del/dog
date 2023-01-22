@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>{{ title }}</h1>
+    <v-btn @click="test">test</v-btn>
+    <v-btn @click="test2">test2</v-btn>
     <div class="main-all">
       <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
       <common-modal :n="num" v-show="modal" @summary-method="summaryMethod" />
@@ -101,18 +103,19 @@ export default {
     CommonCropperjs
   },
   name: 'MyPage',
-  // async asyncData() {
-  //   return user.getUserInfo().then((response) => {
-  //     return {
-  //       name: response['name'],
-  //       faceStatus: response['status'],
-  //       faceImage: response['face_image'],
-  //       rank: response['face_point'],
-  //       score: response['score'],
-  //       friends: response['friends']
-  //     }
-  //   })
-  // },
+  async asyncData() {
+    return user.getUserInfo().then((response) => {
+      console.log(response)
+      // return {
+      //   name: response['name'],
+      //   faceStatus: response['status'],
+      //   faceImage: response['face_image'],
+      //   rank: response['face_point'],
+      //   score: response['score'],
+      //   friends: response['friends']
+      // }
+    })
+  },
   data() {
     return {
       title: 'マイページ',
@@ -133,7 +136,27 @@ export default {
     msg: String,
   },
   methods: {
-    modalCroppers () {
+    async test() {
+      await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true }).then((response) => {
+        console.log(response)
+        user.getUserInfo().then((response) => {
+          console.log('success', response)
+        }).catch((error) => {
+          console.log('error', error)
+        })
+      })
+    },
+    async test2() {
+      await this.$axios.get('user/put-data').then((response) => {
+        console.log('success', response)
+        this.$axios.get('user/list-data').then((response) => {
+          console.log('res2', response)
+        })
+      }).catch((error) => {
+        console.log('error', error)
+      })
+    },
+    modalCroppers() {
       this.modalCropper = true
     },
     showProfile(num) {

@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Exceptions;
 use Illuminate\Support\Facades\Log;
 
-use function Psy\debug;
-
 class MypageService {
 
     private $usersRepository;
@@ -35,9 +33,12 @@ class MypageService {
      */
     public function index(): array
     {
-        $userId = Auth::user();
-        Log::debug($userId);
-        return [$userId];
+        $userInfo = Auth::user();
+        $session = session()->all();
+        Log::info('$userInfo');
+        Log::debug($userInfo);
+        return [$userInfo, $session];
+        // $userId = Auth::id();
         // if (is_null($userInfo) || is_null($userId)) {
         //     throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
         // }

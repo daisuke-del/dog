@@ -21,9 +21,9 @@ export default {
     })
   },
   getUserInfo() {
-    return request('get', '/api/my')
+    return request('get', '/user/my')
   },
   updateFaceImage() {
-    return request('put', '/api/update/face')
+    return request('put', '/user/update/face')
   }
 }

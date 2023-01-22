@@ -16,6 +16,8 @@ class User extends Authenticatable
 
     protected $keyType = 'string';
 
+    protected $primaryKey = 'user_id';
+
     protected static function boot()
     {
         parent::boot();
