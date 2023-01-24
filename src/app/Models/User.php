@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,11 @@ class User extends Authenticatable
     protected $keyType = 'string';
 
     protected $primaryKey = 'user_id';
+
+    public function reactions(): BelongsToMany
+    {
+        return $this->belongsToMany(Reaction::class);
+    }
 
     protected static function boot()
     {
@@ -59,5 +65,8 @@ class User extends Authenticatable
         'order_number'
     ];
 
-    protected $hidden = ['password'];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
 }

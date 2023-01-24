@@ -14,8 +14,6 @@ export const state = () => ({
     twitterId: null,
     instagramId: null,
     facebookId: null,
-    authCode: null,
-    emailConfirmFlg: 0,
     agree: false
   }
 })

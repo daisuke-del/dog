@@ -79,7 +79,7 @@ interface UsersRepositoryInterface
      * @param array $userIds
      * @return Collection
      */
-    public function getUserByIds(array $userIds): Collection;
+    public function getUsersByIds(array $userIds): Collection;
 
     /**
      * usersのemailを更新する

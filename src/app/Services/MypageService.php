@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Exceptions;
 use Illuminate\Support\Facades\Log;
 
-class MypageService {
+class MypageService
+{
 
     private $usersRepository;
     private $reactionsRepository;
@@ -22,7 +23,6 @@ class MypageService {
     {
         $this->usersRepository = new UsersRepository;
         $this->reactionsRepository = new ReactionsRepository;
-
     }
 
     /**
@@ -33,28 +33,29 @@ class MypageService {
      */
     public function index(): array
     {
-        $userInfo = Auth::user();
-        $session = session()->all();
-        Log::info('$userInfo');
-        Log::debug($userInfo);
-        return [$userInfo, $session];
-        // $userId = Auth::id();
-        // if (is_null($userInfo) || is_null($userId)) {
-        //     throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
-        // }
+        $userId = Auth::id();
+        if (is_null($userId)) {
+            throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+        }
 
-        // $status = $this->getFaceStatus($userId);
-        // $continuationScore = $this->getContinuationScore($userId);
-        // $friendIds = $this->getMatchAll($userId);
-        // $friends = $this->usersRepository->getUserByIds($friendIds);
-        // return [
-        //     'name' => $userInfo->name,
-        //     'status' => $status,
-        //     'face_image' => $userInfo->face_image,
-        //     'face_point' => $userInfo->face_point,
-        //     'score' => $continuationScore,
-        //     'friends' => $friends
-        // ];
+        $userInfo = $this->usersRepository->selectUsersById($userId)->toArray();
+        if (is_null($userInfo)) {
+            throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+        }
+        $continuationScore = $this->getContinuationScore($userInfo['update_face_at']);
+        $rank = $this->getFaceStatus($userInfo['face_point'], $continuationScore);
+        $friendIds = $this->getMatchAll($userId);
+        $friends = $this->usersRepository->getUsersByIds($friendIds);
+        return [
+            'gender' => $userInfo['gender'],
+            'name' => $userInfo['name'],
+            'rank' => $rank,
+            'face_image' => $userInfo['face_image'],
+            'face_point' => $userInfo['face_point'],
+            'score' => $continuationScore,
+            'void_flg' => $userInfo['face_image_void_flg'],
+            'friends' => $friends
+        ];
     }
 
 
@@ -74,30 +75,18 @@ class MypageService {
     /**
      * face_pointとupdate_face_atからステータスを取得
      *
-     * @param string $userId
+     * @param int $facePoint
+     * @param string $continuationScore
      * @return string
      * @throw Exception
      */
-    public function getFaceStatus(string $userId): string
+    public function getFaceStatus($facePoint, $continuationScore): string
     {
-        $user = Auth::user();
-        if (empty($user)) {
-            // ユーザー情報が取得できない
-            $error = [
-                'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
-                'user_id' => $userId
-            ];
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
-        }
-
-        $facePoint = $user['face_point'];
-        $continuationScore = $this->getContinuationScore($userId);
-
-        if ( $facePoint >= 90 && $continuationScore === 'S' | 'A' ) {
-            return 'gold' ;
-        }  elseif ( $facePoint >= 70 && $continuationScore === 'S' | 'A' | 'B' ) {
+        if ($facePoint >= 90 && ($continuationScore === 'S' || $continuationScore ==='A')) {
+            return 'gold';
+        } elseif ($facePoint >= 70 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B')) {
             return 'silver';
-        } elseif ( $facePoint >= 30 && $continuationScore === 'S' | 'A' | 'B' | 'C'  ) {
+        } elseif ($facePoint >= 30 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B' || $continuationScore === 'C')) {
             return 'blond';
         } else {
             return 'normal';
@@ -111,28 +100,27 @@ class MypageService {
      * @return string
      * @throw Exception
      */
-    public function getContinuationScore(string $userId): string
+    public function getContinuationScore($updateFaceAt): string
     {
-        $updateFaceAt = $this->usersRepository->getUpdateFaceAt($userId);
+        $oldDay = new Carbon($updateFaceAt);
         if (empty($updateFaceAt)) {
             // ユーザー情報が取得できない
             $error = [
-                'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
-                'user_id' => $userId
+                'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER')
             ];
             throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
 
         $now = Carbon::now();
-        $continuationDate = $updateFaceAt->diffInDays($now);
+        $continuationDate = $oldDay->diffInDays($now);
 
-        if ( $continuationDate > 90 ) {
-            return 'S' ;
-        }  elseif ( $continuationDate >= 60 ) {
+        if ($continuationDate > 90) {
+            return 'S';
+        } elseif ($continuationDate >= 60) {
             return 'A';
-        } elseif ( $continuationDate >= 30 ) {
+        } elseif ($continuationDate >= 30) {
             return 'B';
-        } elseif ( $continuationDate >= 10 ) {
+        } elseif ($continuationDate >= 10) {
             return 'C';
         } else {
             return 'N';
@@ -148,7 +136,7 @@ class MypageService {
      */
     public function getFriendDetail(string $userId): array
     {
-        $friendDetail = $this->usersRepository->selectUserById($userId);
+        $friendDetail = $this->usersRepository->selectUsersById($userId);
         return [
             'name' => $friendDetail['name'],
             'face_image' => $friendDetail['face_image'],
@@ -160,4 +148,3 @@ class MypageService {
         ];
     }
 }
-

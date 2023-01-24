@@ -66,9 +66,10 @@ export default {
       if (this.$refs.loginForm.validate()) {
         this.loginLoading = true
         await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
-        await user.login(this.email, this.password).then((res) => {
-          console.log(res)
+        await user.login(this.email, this.password).then((response) => {
+          console.log(response)
           this.$auth.setUserToken('200')
+          this.$store.dispatch('authInfo/setAuthInfo', response)
           this.$router.replace('/mypage')
         }).catch((error) => {
           console.log(error)

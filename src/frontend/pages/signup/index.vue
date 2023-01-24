@@ -80,7 +80,6 @@
 import SignupForm from '~/components/Signup/SignupForm'
 import RegisterFace from '~/components/Signup/RegisterFace'
 import EvaluateFace from '~/components/Signup/EvaluateFace'
-import AuthCode from '~/components/Signup/AuthCode'
 import SignupCompletion from '~/components/Signup/SignupCompletion'
 import constants from '~/utils/constants'
 import user from '~/plugins/modules/user'
@@ -92,17 +91,11 @@ export default {
     SignupForm,
     RegisterFace,
     EvaluateFace,
-    AuthCode,
     SignupCompletion
   },
   asyncData ({ app, $auth, redirect }) {
     if ($auth.loggedIn) {
-      if (app.store.state.redirect.pageUrl) {
-        redirect(app.store.redirect.pageUrl)
-        app.store.dispatch('redirect/deletePageUrl')
-      } else {
-        app.router.replace('/mypage')
-      }
+      app.router.replace('/mypage')
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -218,9 +211,10 @@ export default {
           this.salary,
           this.facePoint,
           this.faceImage
-        ).then(() => {
+        ).then((response) => {
           this.position = 4
           this.$auth.setUserToken('200')
+          this.$store.dispatch('authInfo/setAuthInfo', response)
           setTimeout(this.$router.push('/mypage'), 2000)
         }).catch((error) => {
           console.log(error)

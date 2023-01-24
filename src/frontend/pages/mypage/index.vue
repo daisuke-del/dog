@@ -1,8 +1,6 @@
 <template>
   <div>
     <h1>{{ title }}</h1>
-    <v-btn @click="test">test</v-btn>
-    <v-btn @click="test2">test2</v-btn>
     <div class="main-all">
       <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
       <common-modal :n="num" v-show="modal" @summary-method="summaryMethod" />
@@ -20,20 +18,24 @@
             </v-card>
           </v-col>
           <v-col cols="6">
-            <v-card light class="my-card ml-auto">
-              <div class="rank-wrap">
-                <p class="big-text">総合ランク</p>
-                <v-img v-if="rank > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
-                  class="rank-icon" contain />
-                <v-img v-else-if="rank > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
-                  class="rank-icon" contain />
-                <v-img v-else-if="score !== 'C'" :src="require('~/assets/image/rank/blond.png')" class="rank-icon"
-                  contain />
-                <v-img v-else :src="require('~/assets/image/rank/nomal.png')" class="rank-icon" contain />
-              </div>
-              <div class="point-wrap">
-                <p class="point-text">美女レベル：{{ rank }}</p>
-                <p class="point-text">継続スコア：{{ score }}</p>
+            <v-card light class="my-card">
+              <div class="info-wrap">
+                <div class="rank-wrap">
+                  <p class="big-text">総合ランク</p>
+                  <v-img v-if="rank > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
+                    class="rank-icon" contain />
+                  <v-img v-else-if="rank > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
+                    class="rank-icon" contain />
+                  <v-img v-else-if="score !== 'C'" :src="require('~/assets/image/rank/blond.png')" class="rank-icon"
+                    contain />
+                  <v-img v-else :src="require('~/assets/image/rank/nomal.png')" class="rank-icon" contain />
+                </div>
+                <div class="point-wrap">
+                  <p v-if="gender === 'female'" class="point-text">美女度：Lv.{{ facePoint }}</p>
+                  <p v-else-if="gender === 'male'" class="point-text">イケメン度：Lv.{{ facePoint }}</p>
+                  <p v-else class="point-text">性別不明</p>
+                  <p class="point-text">継続スコア：{{ score }}</p>
+                </div>
               </div>
             </v-card>
           </v-col>
@@ -41,7 +43,7 @@
       </div>
       <v-row>
         <v-col cols="12" class="list-all">
-          <p class="name-text">フレンドリスト</p>
+          <p class="small-text mb-2">フレンドリスト</p>
           <v-sheet light class="mx-auto" elevation="8">
             <v-slide-group v-model="model" active-class="success" show-arrows>
               <v-slide-item v-for="n in 15" :key="n">
@@ -61,7 +63,10 @@
             </v-slide-group>
           </v-sheet>
           <div class="btn-wrap">
-            <v-btn class="small-text show-friend-btn mt-8" text light @click="isShowFriend = !isShowFriend">
+            <v-btn v-if="isShowFriend" class="small-text show-friend-btn mt-8" light @click="isShowFriend = !isShowFriend">
+              閉じる
+            </v-btn>
+            <v-btn v-else class="small-text show-friend-btn mt-8" light @click="isShowFriend = !isShowFriend">
               全てのフレンド
             </v-btn>
           </div>
@@ -70,7 +75,7 @@
       <v-row v-show="isShowFriend">
         <v-col v-for="n in 15" :key="n" cols="6" md="3" lg="2" class="d-flex justify-center">
           <v-card light @click="showProfile(n)" height="250px" width="200px">
-            <v-img :src="require('@/../storage/image/faceimages/' + n + '.jpeg')" height="150px" contain rounded />
+            <v-img :src="require('@/../storage/image/faceimages/' + n + '.jpeg')" width="200px" contain rounded />
             <p class="card-summary-text">田中タロウ</p>
             <div class="icon-wrap">
               <v-btn icon class="sns-icon">
@@ -103,17 +108,20 @@ export default {
     CommonCropperjs
   },
   name: 'MyPage',
-  async asyncData() {
+  asyncData({ app }) {
     return user.getUserInfo().then((response) => {
       console.log(response)
-      // return {
-      //   name: response['name'],
-      //   faceStatus: response['status'],
-      //   faceImage: response['face_image'],
-      //   rank: response['face_point'],
-      //   score: response['score'],
-      //   friends: response['friends']
-      // }
+      app.store.dispatch('authInfo/setAuthInfo', response)
+      return {
+        gender: response['gender'],
+        name: response['name'] ? response['name'] : '名無しさん',
+        rank: response['rank'] ? response['rank'] : 'N',
+        faceImage: response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg',
+        facePoint: response['face_point'] ? response['face_point'] : 0,
+        score: response['rank'] ? response['score'] : 0,
+        voidFlg: response['face_image_void_flg'] ? response['face_image_void_flg'] : 0,
+        friends: response['friends'] ? response['friends'] : ''
+      }
     })
   },
   data() {
@@ -126,36 +134,12 @@ export default {
       num: null,
       isShowFriend: false,
       modalCropper: false,
-      name: 'test',
-      rank: 100,
-      faceImage: '99.jpeg',
-      score: 'A'
     }
   },
   props: {
     msg: String,
   },
   methods: {
-    async test() {
-      await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true }).then((response) => {
-        console.log(response)
-        user.getUserInfo().then((response) => {
-          console.log('success', response)
-        }).catch((error) => {
-          console.log('error', error)
-        })
-      })
-    },
-    async test2() {
-      await this.$axios.get('user/put-data').then((response) => {
-        console.log('success', response)
-        this.$axios.get('user/list-data').then((response) => {
-          console.log('res2', response)
-        })
-      }).catch((error) => {
-        console.log('error', error)
-      })
-    },
     modalCroppers() {
       this.modalCropper = true
     },
@@ -207,7 +191,8 @@ h1 {
 .name-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
+  color: dimgrey;
+  font-weight: bolder;
   margin-top: 16px;
 }
 
@@ -245,12 +230,16 @@ h1 {
 .my-card {
   max-width: 300px;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .big-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
+  color: dimgrey;
+  font-weight: bolder;
   text-align: center;
   margin-bottom: 0;
 }
@@ -259,17 +248,18 @@ h1 {
   font-size: 0.75em;
   font-weight: bolder;
   font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
+  color: dimgrey;
 }
 
 .rank-icon {
-  height: 100px;
+  height: 70px;
 }
 
 .point-text {
   font-size: 0.9em;
   font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
+  color: dimgrey;
+  font-weight: bolder;
   margin-bottom: 0;
   text-align: center;
 }
@@ -284,7 +274,7 @@ h1 {
   font-family: 'Noto Sans JP', sans-serif;
   padding-bottom: 0;
   margin-bottom: 0;
-  color: slategray;
+  color: dimgrey;
 }
 
 .btn-wrap {
@@ -293,11 +283,6 @@ h1 {
 
 .sns-icon {
   margin-right: 5px;
-}
-
-.show-friend-btn {
-  font-weight: bolder;
-  font-size: large;
 }
 
 @media screen and (min-width: 450px) {
@@ -312,23 +297,12 @@ h1 {
     font-size: 1.5em;
   }
 
-  .rank-wrap {
-    padding-top: 10px;
+  .name-text {
+    font-size: 1.5em;
   }
 
   .rank-icon {
-    margin-top: 20px;
-  }
-}
-
-@media screen and (min-width: 1000px) {
-  .point-text {
-    font-size: 1.5em;
-    margin-top: 10px;
-  }
-
-  .point-wrap {
-    padding-top: 30px;
+    height: 100px;
   }
 }
 </style>

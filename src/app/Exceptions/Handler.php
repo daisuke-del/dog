@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if ($exception instanceof MATCHExeption) {
+        if ($exception instanceof MATCHException) {
             $log = '[' . $exception->getCode() . '] ' . $exception->getMessage();
             $param = $exception->getParam();
             if (empty($param) === false) {
@@ -86,7 +86,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof MATCHExeption) {
+        if ($exception instanceof MATCHException) {
             $res = ['error' => $exception->getMessage()];
             $param = $exception->getParam();
             foreach ($param as $key => $value) {

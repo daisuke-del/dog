@@ -2,11 +2,11 @@
     <div>
         <v-list-item light>
             <v-list-item-avatar @click="clickMypage">
-                <v-img :src="require('@/../storage/image/faceimages/99.jpeg')" />
+                <v-img :src="require(`@/../storage/image/faceimages/${$store.getters['authInfo/auth'].faceImage}`)" />
             </v-list-item-avatar>
 
             <v-list-item-content @click="clickMypage">
-                <v-list-item-title>Name</v-list-item-title>
+                <v-list-item-title>{{ $store.getters['authInfo/auth'].name }}</v-list-item-title>
             </v-list-item-content>
             <v-icon @click.stop="clickClose" :value="drawer" class="close">
                 mdi-close-thick
@@ -61,6 +61,11 @@ export default {
     name: 'LoginMenu',
     props: {
         drawer: Boolean
+    },
+    computed: {
+        faceImage() {
+            return require(`@/../storage/image/faceimages/${this.$store.getters['authInfo/auth'].faceImage}`)
+        }
     },
     methods: {
         clickClose() {

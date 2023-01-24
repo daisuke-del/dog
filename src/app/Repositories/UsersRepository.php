@@ -237,7 +237,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param array $userIds
      * @return Collection
      */
-    public function getUserByIds(array $userIds): Collection
+    public function getUsersByIds(array $userIds): Collection
     {
         return (new User)
             ->whereIn('user_id', $userIds)

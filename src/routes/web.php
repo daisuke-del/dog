@@ -25,10 +25,6 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::prefix('my')->name('my.')->group(function () {
       Route::get('/', [MypageController::class, 'index']);
     });
-    // 更新
-    Route::post('foreget/password/email', [UserController::class, 'foregetPasswordEmail']);
-    Route::post('foreget/password/auth', [UserController::class, 'foregetPasswordAuth']);
-    Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
   });
 });
 

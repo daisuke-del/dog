@@ -18,7 +18,7 @@
         />
       </div>
       <div class="btn-wrap">
-        <a class="btn-text" href="/joinleave/join">無料登録して始める</a>
+        <a class="btn-text" @click="clickSignup">無料登録して始める</a>
       </div>
       <div class="intro-wrap">
         <div class="intro-small-wrap">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <a class="btn-text" href="/MATCH/gender">マッチング診断を開始</a>
+        <a class="btn-text" @click="clickMatch">マッチング診断を開始</a>
       </div>
     </div>
   </div>
@@ -49,6 +49,14 @@
 export default {
   name: 'TopPage',
   auth: false,
+  methods: {
+    clickSignup() {
+      this.$router.push('signup')
+    },
+    clickMatch() {
+      this.$router.push('match')
+    }
+  }
 }
 </script>
 <style scoped>
