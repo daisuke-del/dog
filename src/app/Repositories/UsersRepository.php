@@ -66,9 +66,9 @@ class UsersRepository implements UsersRepositoryInterface
      * ログイン情報からusersテーブル情報を取得する
      *
      * @param string $email
-     * @return User
+     * @return User|null
      */
-    public function getUser(string $email): User
+    public function getUser(string $email): ?User
     {
         return (new User)
             ->where('email', $email)

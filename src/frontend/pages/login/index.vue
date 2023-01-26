@@ -67,13 +67,10 @@ export default {
         this.loginLoading = true
         await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
         await user.login(this.email, this.password).then((response) => {
-          console.log(response)
           this.$auth.setUserToken('200')
           this.$store.dispatch('authInfo/setAuthInfo', response)
           this.$router.replace('/mypage')
-        }).catch((error) => {
-          console.log(error)
-          window.alert("ログイン失敗")
+        }).catch(() => {
           this.loginLoading = false
         })
       }

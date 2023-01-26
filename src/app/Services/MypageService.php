@@ -123,7 +123,7 @@ class MypageService
         } elseif ($continuationDate >= 10) {
             return 'C';
         } else {
-            return 'N';
+            return 'D';
         }
     }
 

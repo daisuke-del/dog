@@ -122,24 +122,4 @@ class Handler extends ExceptionHandler
         }
         return response(null, $status);
     }
-
-    /**
-     * 決済サーバーの例外処理
-     *
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function renderForPayment()
-    {
-        return response(0, 200)->header('Content-Type', 'text/plain');
-    }
-
-    /**
-     * 決済サーバーの返却値で再通知をリクエスト
-     *
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function retryForPayment()
-    {
-        return response(1, 200)->header('Content-Type', 'text/plain');
-    }
 }

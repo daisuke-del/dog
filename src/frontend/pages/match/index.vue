@@ -79,7 +79,6 @@ import MatchFace from '@/components/Match/Face'
 import MatchPlace from '@/components/Match/Place'
 import MatchCoice from '@/components/Match/Choice'
 import MatchResult from '@/components/Match/Result'
-import { thisExpression } from '@babel/types'
 export default {
   auth: false,
   name: 'PagesMatch',
@@ -155,8 +154,7 @@ export default {
         this.sliderFaces.push(...response)
         this.position = 2
         this.$refs.age.focusInput()
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
       })
     },
     inputAge(value) {
@@ -194,8 +192,7 @@ export default {
         this.matchResults.push(...response['result'])
         this.choiceFaces = response['choice']
         this.position = 8
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
       })
     },
     backContent(num) {
@@ -233,8 +230,7 @@ export default {
           this.choiceCount++
           this.choiceFaces = response
         }
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
       })
     },
     choiceRight() {
@@ -250,8 +246,6 @@ export default {
         } else {
           this.position = 8
         }
-      }).catch((error) => {
-        console.log(error)
       })
     },
     clickAlertLeft() {
@@ -267,8 +261,6 @@ export default {
         } else {
           this.position = 8
         }
-      }).catch((error) => {
-        console.log(error)
       })
     },
     clickAlertRight() {
@@ -284,8 +276,6 @@ export default {
         } else {
           this.position = 8
         }
-      }).catch((error) => {
-        console.log(error)
       })
     }
   }

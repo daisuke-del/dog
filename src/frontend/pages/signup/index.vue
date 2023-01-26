@@ -170,7 +170,6 @@ export default {
       this.transitionContent(2)
     },
     async signupSliderImage (userInfo) {
-      console.log('start', userInfo)
       this.postUserInfoLoading = true
       this.gender = userInfo.gender
       this.name = userInfo.name
@@ -184,18 +183,17 @@ export default {
         this.sliderFaces.splice(0, response.length)
         this.sliderFaces.push(...response)
         this.position = 2
-      }).catch((error) => {
-        console.log('error', error)
       })
       this.postUserInfoLoading = false
     },
     storeFaceImage (faceImage) {
       this.faceImage = faceImage
-      if (this.faceImage) {
+      if (this.faceImage === null) {
+        this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
+        this.$store.dispatch('snackbar/snackOn')
+      } else {
         this.position = 3
       }
-      this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
-      this.$store.dispatch('snackbar/snackOn')
     },
     async storeFacePoint (sliderValue) {
       this.facePoint = this.sliderFaces[sliderValue].face_point
@@ -216,10 +214,8 @@ export default {
           this.$auth.setUserToken('200')
           this.$store.dispatch('authInfo/setAuthInfo', response)
           setTimeout(this.$router.push('/mypage'), 2000)
-        }).catch((error) => {
-          console.log(error)
         })
-      });
+      })
     },
     redirect () {
       const redirectUrl = this.$store.state.redirect.pageUrl

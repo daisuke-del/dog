@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
     <div class="main-all">
+      <h1>{{ title }}</h1>
       <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
       <common-modal :n="num" v-show="modal" @summary-method="summaryMethod" />
       <div class="main-wrap">
@@ -20,8 +20,8 @@
           <v-col cols="6">
             <v-card light class="my-card">
               <div class="info-wrap">
+                <p class="big-text">総合ランク</p>
                 <div class="rank-wrap">
-                  <p class="big-text">総合ランク</p>
                   <v-img v-if="rank > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
                     class="rank-icon" contain />
                   <v-img v-else-if="rank > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
@@ -30,11 +30,40 @@
                     contain />
                   <v-img v-else :src="require('~/assets/image/rank/nomal.png')" class="rank-icon" contain />
                 </div>
-                <div class="point-wrap">
-                  <p v-if="gender === 'female'" class="point-text">美女度：Lv.{{ facePoint }}</p>
-                  <p v-else-if="gender === 'male'" class="point-text">イケメン度：Lv.{{ facePoint }}</p>
-                  <p v-else class="point-text">性別不明</p>
-                  <p class="point-text">継続スコア：{{ score }}</p>
+                <div class="point-wrap d-flex justify-center">
+                  <p class="point-text">Lv.
+                    <span v-if="facePoint > 90" class="text-S">
+                      {{ facePoint }}
+                    </span>
+                    <span v-else-if="facePoint > 70" class="text-A">
+                      {{ facePoint }}
+                    </span>
+                    <span v-else-if="facePoint > 50" class="text-B">
+                      {{ facePoint }}
+                    </span>
+                    <span v-else-if="facePoint > 30" class="text-C">
+                      {{ facePoint }}
+                    </span>
+                    <span v-else class="text-D">
+                      {{ facePoint }}
+                    </span>
+                     / 
+                    <span v-if="score === 'S'" class="text-S">
+                      {{ score }}
+                    </span>
+                    <span v-else-if="score === 'A'" class="text-A">
+                      {{ score }}
+                    </span>
+                    <span v-else-if="score === 'B'" class="text-B">
+                      {{ score }}
+                    </span>
+                    <span v-else-if="score === 'C'" class="text-C">
+                      {{ score }}
+                    </span>
+                    <span v-else class="text-D">
+                      {{ score }}
+                    </span>
+                  </p>
                 </div>
               </div>
             </v-card>
@@ -43,7 +72,7 @@
       </div>
       <v-row>
         <v-col cols="12" class="list-all">
-          <p class="small-text mb-2">フレンドリスト</p>
+          <p class="small-text mb-1">フレンドリスト</p>
           <v-sheet light class="mx-auto" elevation="8">
             <v-slide-group v-model="model" active-class="success" show-arrows>
               <v-slide-item v-for="n in 15" :key="n">
@@ -63,7 +92,8 @@
             </v-slide-group>
           </v-sheet>
           <div class="btn-wrap">
-            <v-btn v-if="isShowFriend" class="small-text show-friend-btn mt-8" light @click="isShowFriend = !isShowFriend">
+            <v-btn v-if="isShowFriend" class="small-text show-friend-btn mt-8" light
+              @click="isShowFriend = !isShowFriend">
               閉じる
             </v-btn>
             <v-btn v-else class="small-text show-friend-btn mt-8" light @click="isShowFriend = !isShowFriend">
@@ -110,7 +140,6 @@ export default {
   name: 'MyPage',
   asyncData({ app }) {
     return user.getUserInfo().then((response) => {
-      console.log(response)
       app.store.dispatch('authInfo/setAuthInfo', response)
       return {
         gender: response['gender'],
@@ -118,7 +147,7 @@ export default {
         rank: response['rank'] ? response['rank'] : 'N',
         faceImage: response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg',
         facePoint: response['face_point'] ? response['face_point'] : 0,
-        score: response['rank'] ? response['score'] : 0,
+        score: response['score'] ? response['score'] : 0,
         voidFlg: response['face_image_void_flg'] ? response['face_image_void_flg'] : 0,
         friends: response['friends'] ? response['friends'] : ''
       }
@@ -175,6 +204,7 @@ h1 {
 .main-all {
   align-items: center;
   margin: 10px;
+  min-width: 350px;
 }
 
 .main-wrap {
@@ -193,7 +223,7 @@ h1 {
   font-family: 'Noto Sans JP', sans-serif;
   color: dimgrey;
   font-weight: bolder;
-  margin-top: 16px;
+  margin: 5px 0;
 }
 
 .face-card {
@@ -235,6 +265,10 @@ h1 {
   align-items: center;
 }
 
+.point-wrap {
+  text-align: center;
+}
+
 .big-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
@@ -251,21 +285,16 @@ h1 {
   color: dimgrey;
 }
 
-.rank-icon {
-  height: 70px;
-}
-
 .point-text {
-  font-size: 0.9em;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1.2em;
+  font-family: 'Rampart One', cursive;
   color: dimgrey;
   font-weight: bolder;
-  margin-bottom: 0;
-  text-align: center;
+  margin: 5px;
 }
 
-.point-wrap {
-  padding-top: 10px;
+.rank-icon {
+  height: 85px
 }
 
 .card-summary-text {
@@ -282,27 +311,67 @@ h1 {
 }
 
 .sns-icon {
-  margin-right: 5px;
+  margin-right: 0 5px;
+}
+
+.text-S {
+  color: purple;
+}
+
+.text-A {
+  color: red;
+}
+
+.text-B {
+  color: blue;
+}
+
+.text-C {
+  color: green;
+}
+
+.text-D {
+  color: brown;
 }
 
 @media screen and (min-width: 450px) {
-  .point-text {
-    font-size: 1.2em;
-    margin-top: 10px;
+  .rank-icon {
+    height: 120px;
+    margin: 5px
   }
-}
 
-@media screen and (min-width: 600px) {
   .big-text {
     font-size: 1.5em;
   }
 
+  .point-text {
+    font-size: 1.5em;
+    margin: 0 15px;
+  }
+
+  .name-text {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+}
+
+@media screen and (min-width: 600px) {
   .name-text {
     font-size: 1.5em;
   }
 
   .rank-icon {
-    height: 100px;
+    height: 150px;
+    margin: 10px;
+  }
+
+  .big-text {
+    font-size: 2em;
+  }
+
+  .point-text {
+    font-size: 2em;
+    margin: 0 25px;
   }
 }
 </style>

@@ -43,7 +43,7 @@ export default function ({ $axios, store, redirect }) {
       error.response.data &&
       error.response.data.error
     ) {
-      if (error.response.data.error_code === constants.errorCode.no_user) {
+      if (error.response.data.status === constants.errorCode.no_user) {
         store.dispatch('snackbar/setMessage', error.response.data.error)
         store.dispatch('snackbar/snackOn')
         user.logout()

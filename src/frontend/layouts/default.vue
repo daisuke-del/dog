@@ -6,18 +6,13 @@
           mdi-menu
         </v-icon>
       </v-btn>
+      <v-snackbar v-model="snackbarVisible" color="red">
+        {{ this.$store.getters['snackbar/message'] }}
+      </v-snackbar>
       <Nuxt />
       <v-navigation-drawer v-model="drawer" class="menu" fixed temporary right width="210px">
-        <login-menu
-          v-if="$store.$auth.loggedIn"
-          :drawer="drawer"
-          @click-close="closeDrawer"
-        />
-        <guest-menu
-          v-else
-          :drawer="drawer"
-          @click-close="closeDrawer"
-        />
+        <login-menu v-if="$store.$auth.loggedIn" :drawer="drawer" @click-close="closeDrawer" />
+        <guest-menu v-else :drawer="drawer" @click-close="closeDrawer" />
         <v-list-item @click=$router.push(home) class="menu-logo" link>
           <v-img :src="require('@/assets/image/logo/logotouka.png')" />
         </v-list-item>
@@ -36,15 +31,25 @@ export default {
     LoginMenu,
     GuestMenu
   },
-  data () {
+  data() {
     return {
       drawer: null,
       title: '',
       home: '/'
     }
   },
+  computed: {
+    snackbarVisible: {
+      get() {
+        return this.$store.state.snackbar.isEnable
+      },
+      set() {
+        return this.$store.dispatch('snackbar/snackOff')
+      }
+    }
+  },
   methods: {
-    closeDrawer (value) {
+    closeDrawer(value) {
       this.drawer = value
     },
     clickLogout() {

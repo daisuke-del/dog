@@ -270,7 +270,6 @@ export default {
       }
     },
     storeUserInfo () {
-      console.log('signupform', this.witchGender)
       if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
         if (this.whitchGender === true) {
           this.gender = 'male'
