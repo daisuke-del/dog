@@ -1,45 +1,34 @@
 <template>
   <div id="modal">
     <div id="modal-content" class="modal">
-      <v-card>
+      <v-card light width="300px">
         <v-img
-            :src='"storage/" + this.n + ".jpeg"'
-            height="300px"
+            :src="require(`@/../storage/image/faceimages/${modalUser.faceImage}`)"
             contain
         />
-        <p class="name-text">田中タロウ</p>
-        <p class="name-text">身長：180cm</p>
-        <p class="salary-text">年収：500万円</p>
-        <div class="icon-wrap">
-          <v-btn
-              icon
-          >
-            <v-icon
-                size="2em"
-            >
+        <div class="mt-3 text-wrap">
+          <p class="card-text mb-2">名前：{{ modalUser.name}}</p>
+          <p class="card-text mb-2">年収：約{{ modalUser.salary }}万円</p>
+          <p class="card-text mb-2">身長：{{ modalUser.height }}cm</p>
+        </div>
+        <div class="icon-wrap my-2">
+          <v-btn icon class="mx-2" @click="clickTwitter(modalUser.twitterId)">
+            <v-icon large :color="modalUser.twitterId ? '#1DA1F2' : 'slategray'">
               mdi-twitter
             </v-icon>
           </v-btn>
-          <v-btn
-              icon
-          >
-            <v-icon
-                size="2em"
-            >
+          <v-btn icon class="mx-2" @click="clickInstagram(modalUser.instagramId)">
+            <v-icon large :color="modalUser.instagramId ? '#C13584' : 'slategray'">
               mdi-instagram
             </v-icon>
           </v-btn>
-          <v-btn
-              icon
-          >
-            <v-icon
-                size="2em"
-            >
+          <v-btn icon class="mx-2" @click="clickFacebook(modalUser.facebookId)">
+            <v-icon large :color="modalUser.facebookId ? '#4267B2' : 'slategray'">
               mdi-facebook
             </v-icon>
           </v-btn>
         </div>
-        <button class="modal__btn" @click="closeCard()">閉じる</button>
+        <v-btn class="mt-2 mb-4" @click="closeCard">閉じる</v-btn>
       </v-card>
     </div>
     <div id="modal-overlay"></div>
@@ -50,11 +39,22 @@
 export default {
   name: "PartsModal",
   props: {
-    n: Number
+    modalUser: {
+      type: Object
+    }
   },
   methods: {
     closeCard() {
       this.$emit("summary-method", false);
+    },
+    clickTwitter(url){
+      window.open(url, '_blank')
+    },
+    clickInstagram(url){
+      window.open(url, '_blank')
+    },
+    clickFacebook(url){
+      window.open(url, '_blank')
     },
   },
 };
@@ -70,38 +70,19 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.modal-btn {
-  display: inline-block;
-  margin: 30px auto;
-  text-decoration: none;
-  width: 80px;
-  height: 30px;
-  border-radius: 3px;
-  transition: 0.4s;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 15px;
-  font-family: 'Noto Sans JP', sans-serif;
-}
-
 #modal-overlay {
-  z-index: 1;
-  display: block;
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #696969da;
+  z-index: 1;
 }
 
-.name-text {
-  font-size: 1.2em;
-  font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
-  margin-top: 16px;
-}
-
-.salary-text {
+.card-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
   color: slategray;

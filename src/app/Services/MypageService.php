@@ -45,7 +45,13 @@ class MypageService
         $continuationScore = $this->getContinuationScore($userInfo['update_face_at']);
         $rank = $this->getFaceStatus($userInfo['face_point'], $continuationScore);
         $friendIds = $this->getMatchAll($userId);
-        $friends = $this->usersRepository->getUsersByIds($friendIds);
+        if (isset($friendIds)) {
+            $userIds = [];
+            foreach($friendIds as $friendId) {
+                $userIds[] = $friendId['from_user_id'];
+            }
+            $friends = $this->usersRepository->getUsersByIds($userIds);
+        }
         return [
             'gender' => $userInfo['gender'],
             'name' => $userInfo['name'],
@@ -54,7 +60,7 @@ class MypageService
             'face_point' => $userInfo['face_point'],
             'score' => $continuationScore,
             'void_flg' => $userInfo['face_image_void_flg'],
-            'friends' => $friends
+            'friends' => $friends ? $friends : null
         ];
     }
 
@@ -64,12 +70,20 @@ class MypageService
      * userIdから全てのマッチングを取得
      *
      * @param string $userId
-     * @return array
+     * @return ?array
      * @throw Exception
      */
-    private function getMatchAll(string $userId): array
+    private function getMatchAll(string $userId): ?array
     {
-        return $this->reactionsRepository->selectMatchById($userId)->toArray();
+        $onsideLove = $this->reactionsRepository->selectMatchById($userId)->toArray();
+        $result = [];
+        foreach($onsideLove as $friend) {
+            $friendInfo = $this->reactionsRepository->checkMatchById($friend['to_user_id'], $userId)->toArray();
+            if ($friendInfo) {
+                $result[] = $friendInfo;
+            }
+        }
+        return $result;
     }
 
     /**

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="all">
     <div class="main-all">
       <h1>{{ title }}</h1>
       <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
-      <common-modal :n="num" v-show="modal" @summary-method="summaryMethod" />
+      <common-modal :modalUser="modalUser" v-show="modal" @summary-method="summaryMethod" />
       <div class="main-wrap">
         <p class="name-text">{{ name }}</p>
         <v-row>
@@ -73,15 +73,15 @@
       <v-row>
         <v-col cols="12" class="list-all">
           <p class="small-text mb-1">フレンドリスト</p>
-          <v-sheet light class="mx-auto" elevation="8">
+          <v-sheet light class="mx-auto" elevation="2">
             <v-slide-group v-model="model" active-class="success" show-arrows>
-              <v-slide-item v-for="n in 15" :key="n">
-                <v-card @click="showProfile(n)" class="mt-3 mb-3 mr-2" height="150" width="100">
+              <v-slide-item v-for="(friend, index) in friends" :key="index">
+                <v-card @click="showProfile(friend)" class="mt-3 mb-3 mr-2" height="150" width="130">
                   <v-row>
                     <v-col>
-                      <v-img :src="require('@/../storage/image/faceimages/' + n + '.jpeg')" max-height="100" contain
+                      <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" contain
                         rounded />
-                      <p class="card-summary-text mt-2 ml-2">田中タロウ</p>
+                      <p class="card-summary-text ml-2">{{ friend['name'] }}</p>
                       <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary">
                         <v-icon small dark> mdi-close-thick </v-icon>
                       </v-btn>
@@ -103,10 +103,10 @@
         </v-col>
       </v-row>
       <v-row v-show="isShowFriend">
-        <v-col v-for="n in 15" :key="n" cols="6" md="3" lg="2" class="d-flex justify-center">
-          <v-card light @click="showProfile(n)" height="250px" width="200px">
-            <v-img :src="require('@/../storage/image/faceimages/' + n + '.jpeg')" width="200px" contain rounded />
-            <p class="card-summary-text">田中タロウ</p>
+        <v-col v-for="(friend, index) in friends" :key="index" cols="6" sm="3" lg="2" class="d-flex justify-center">
+          <v-card light @click="showProfile(friend)" width="200px">
+            <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" width="200px" contain rounded />
+            <p class="card-summary-text">{{ friend['name'] }}</p>
             <div class="icon-wrap">
               <v-btn icon class="sns-icon">
                 <v-icon> mdi-twitter </v-icon>
@@ -140,6 +140,7 @@ export default {
   name: 'MyPage',
   asyncData({ app }) {
     return user.getUserInfo().then((response) => {
+      console.log('userInfo', response)
       app.store.dispatch('authInfo/setAuthInfo', response)
       return {
         gender: response['gender'],
@@ -163,6 +164,15 @@ export default {
       num: null,
       isShowFriend: false,
       modalCropper: false,
+      modalUser: {
+        name: '名無しさん',
+        faceImage: '99.jpeg',
+        salary: '100',
+        height: '150',
+        facebookId: null,
+        instagramId: null,
+        twitterId: null
+      }
     }
   },
   props: {
@@ -172,8 +182,16 @@ export default {
     modalCroppers() {
       this.modalCropper = true
     },
-    showProfile(num) {
-      this.num = num
+    showProfile(userInfo) {
+      this.modalUser = {
+        name: userInfo['name'],
+        faceImage: userInfo['face_image'],
+        salary: userInfo['salary'],
+        height: userInfo['height'],
+        facebookId: userInfo['facebook_id'] ? userInfo['facebook_id'] : null,
+        instagramId: userInfo['instagram_id'] ? userInfo['instagram_id'] : null,
+        twitterId: userInfo['twitter_id'] ? userInfo['twitter_id'] : null
+      }
       this.modal = true
     },
     summaryMethod(status) {
@@ -197,24 +215,15 @@ export default {
 h1 {
   font-family: 'Rampart One', cursive;
   color: dimgrey;
-  margin: 20px;
+  margin: 10px;
   text-align: center;
 }
 
-.main-all {
-  align-items: center;
-  margin: 10px;
+.all {
+  padding: 10px 10px 30px 10px;
   min-width: 350px;
-}
-
-.main-wrap {
   max-width: 650px;
-  margin: 0 auto;
-}
-
-.list-all {
   align-items: center;
-  max-width: 650px;
   margin: 0 auto;
 }
 
@@ -334,6 +343,9 @@ h1 {
   color: brown;
 }
 
+.v-slide-group >>> .v-slide-group__next {
+  width: 20px;
+}
 @media screen and (min-width: 450px) {
   .rank-icon {
     height: 120px;

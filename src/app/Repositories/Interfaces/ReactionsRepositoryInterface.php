@@ -21,11 +21,19 @@ interface ReactionsRepositoryInterface
     public function new(array $reaction): ReactionEntity;
 
     /**
-     * マッチを全てを取得する
+     * 自分からのいいねを全てを取得する
      *
      * @param string $userId
-     * @return Reaction
+     * @return Collection|null
      */
-    public function selectMatchById(string $userId): Reaction;
+    public function selectMatchById(string $userId): ?Collection;
 
+    /**
+     * マッチングしているかチェック
+     *
+     * @param string $toUserId
+     * @param string $fromUserId
+     * @return Reaction|null
+     */
+    public function checkMatchById(string $toUserId, string $fromUserId): ?Reaction;
 }

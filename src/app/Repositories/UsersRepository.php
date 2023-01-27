@@ -235,9 +235,9 @@ class UsersRepository implements UsersRepositoryInterface
      * usersテーブルを複数のuidで検索し、退会していないユーザーのメールアドレスを取得する
      *
      * @param array $userIds
-     * @return Collection
+     * @return Collection|null
      */
-    public function getUsersByIds(array $userIds): Collection
+    public function getUsersByIds(array $userIds): ?Collection
     {
         return (new User)
             ->whereIn('user_id', $userIds)

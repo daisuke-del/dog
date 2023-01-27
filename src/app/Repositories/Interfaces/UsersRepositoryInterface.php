@@ -77,9 +77,9 @@ interface UsersRepositoryInterface
      * usersテーブルを複数のuidで検索し、退会していないユーザーのメールアドレスを取得する
      *
      * @param array $userIds
-     * @return Collection
+     * @return Collection|null
      */
-    public function getUsersByIds(array $userIds): Collection;
+    public function getUsersByIds(array $userIds): ?Collection;
 
     /**
      * usersのemailを更新する
