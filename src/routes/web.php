@@ -35,3 +35,11 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
 });
 
+// お気に入り
+Route::middleware('auth:sanctum')->group(function () {
+  Route::prefix('favorite')->name('favorite.')->group(function () {
+    Route::post('add', [MypageController::class, 'addFavorite']);
+    Route::delete('delete', [MypageController::class, 'deleteFavorite']);
+  });
+});
+

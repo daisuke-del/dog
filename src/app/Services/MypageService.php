@@ -7,8 +7,9 @@ use Carbon\Carbon;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
 use Illuminate\Support\Facades\Auth;
-use Exceptions;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+
 
 class MypageService
 {
@@ -53,6 +54,7 @@ class MypageService
             $friends = $this->usersRepository->getUsersByIds($userIds);
         }
         return [
+            'user_id' => $userInfo['user_id'],
             'gender' => $userInfo['gender'],
             'name' => $userInfo['name'],
             'rank' => $rank,
@@ -160,5 +162,45 @@ class MypageService
             'instagram_id' => $friendDetail['instagram_id'],
             'twitter_id' => $friendDetail['twitter_id']
         ];
+    }
+
+    /**
+     * お気に入りに追加
+     *
+     * @param Request $request
+     * @return object|null
+     */
+    public function addFavorite(Request $request): ?object
+    {
+        $toUserId = $request->input('toUserId');
+        $fromUserId = $request->input('fromUserId');
+        $addRecode = $this->reactionsRepository->addFavorite($toUserId, $fromUserId);
+        if (!$addRecode) {
+            throw new MATCHException('お気に入り追加に失敗しました。', 500);
+        }
+        $friend = $this->usersRepository->selectUsersById($toUserId);
+        return $friend;
+    }
+
+    /**
+     * お気に入りから削除
+     *
+     * @param Request $request
+     * @return object|null
+     */
+    public function deleteFavorite(Request $request): ?object
+    {
+        $toUserId = $request->input('toUserId');
+        $fromUserId = $request->input('fromUserId');
+        $this->reactionsRepository->deleteFavorite($toUserId, $fromUserId);
+        $friendIds = $this->getMatchAll($fromUserId);
+        if (isset($friendIds)) {
+            $userIds = [];
+            foreach($friendIds as $friendId) {
+                $userIds[] = $friendId['from_user_id'];
+            }
+            $friends = $this->usersRepository->getUsersByIds($userIds);
+        }
+        return $friends;
     }
 }

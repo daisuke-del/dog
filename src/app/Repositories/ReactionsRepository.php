@@ -6,6 +6,7 @@ use App\Entities\UserEntity;
 use App\Entities\ReactionEntity;
 use App\Exceptions\MATCHException;
 use App\Factories\UsersFactory;
+use App\Factories\ReactionsFactory;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Reaction;
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\UsersRepositoryInterface;
 use App\Repositories\Interfaces\ReactionsRepositoryInterface;
+use Collator;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class ReactionsRepository implements ReactionsRepositoryInterface
 {
@@ -57,5 +60,39 @@ class ReactionsRepository implements ReactionsRepositoryInterface
             ->where('to_user_id', $fromUserId)
             ->where('from_user_id', $toUserId)
             ->first();
+    }
+
+    /**
+     * お気に入りに追加
+     *
+     * @param string $toUserId
+     * @param string $fromUserId
+     * @return ReactionEntity
+     * @throws MATCHException
+     */
+    public function addFavorite($toUserId, $fromUserId): ReactionEntity
+    {
+        return (new ReactionsFactory)->make(
+            $toUserId,
+            $fromUserId
+        );
+    }
+
+    /**
+     * お気に入りから削除
+     *
+     * @param string $toUserId
+     * @param string $fromUserId
+     * @return void
+     * @throws MATCHException
+     */
+    public function deleteFavorite($toUserId, $fromUserId): void
+    {
+        // return (new Reaction)
+        //     ->where('to_user_id', $toUserId)
+        //     ->where('from_user_id', $fromUserId)
+        //     ->delete();
+
+        Reaction::where('to_user_id', $toUserId)->where('from_user_id', $fromUserId)->delete();
     }
 }

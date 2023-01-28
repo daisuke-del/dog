@@ -1,5 +1,6 @@
 export const state = () => ({
   auth: {
+    userId: null,
     name: null,
     email: null,
     password: null,
@@ -24,10 +25,14 @@ export const getters = {
   auth: (state) => {
     return state.auth
   },
+  userId: (state) => {
+    return state.auth.userId
+  }
 }
 
 export const mutations = {
   setAuthInfo(state, userInfo) {
+    state.auth.userId = userInfo.user_id
     state.auth.gender = userInfo.gender ? userInfo.gender : null
     state.auth.name = userInfo.name ? userInfo.name : '名無しさん'
     state.auth.faceImage = userInfo.face_image ? userInfo.face_image : 'no-user-image-icon.jpeg'

@@ -120,8 +120,6 @@ class UserService
         }
 
         if (Auth::attempt($request->only(['email', 'password']), true)) {
-            Log::debug(Auth::check());
-            Log::debug(Auth::user());
             return Auth::user();
         }
         throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);

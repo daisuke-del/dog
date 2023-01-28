@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use http\Encoding\Stream\Inflate;
-use Throwable;
-use App\Http\Requests\UserRequest;
-use App\Services\UserService;
 use App\Services\MypageService;
+use Illuminate\Http\Request;
 
 class MypageController extends Controller
 {
@@ -41,5 +38,27 @@ class MypageController extends Controller
     {
         $details = $this->mypageService->getFriendDetail($userId);
         return json_encode($details, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * お気に入りに追加
+     *
+     * @param Request
+     * @return void
+     */
+    public function addFavorite(Request $request)
+    {
+        $this->mypageService->addFavorite($request);
+    }
+
+    /**
+     * お気に入りに削除
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function deleteFavorite(Request $request)
+    {
+        $this->mypageService->deleteFavorite($request);
     }
 }

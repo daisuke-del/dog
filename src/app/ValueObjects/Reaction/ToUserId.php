@@ -18,9 +18,9 @@ class ToUserId
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function get(): int
+    public function get(): string
     {
         return $this->toUserId;
     }

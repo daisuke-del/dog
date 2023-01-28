@@ -22,9 +22,9 @@
               <div class="info-wrap">
                 <p class="big-text">総合ランク</p>
                 <div class="rank-wrap">
-                  <v-img v-if="rank > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
+                  <v-img v-if="facePoint > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
                     class="rank-icon" contain />
-                  <v-img v-else-if="rank > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
+                  <v-img v-else-if="facePoint > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
                     class="rank-icon" contain />
                   <v-img v-else-if="score !== 'C'" :src="require('~/assets/image/rank/blond.png')" class="rank-icon"
                     contain />
@@ -47,7 +47,7 @@
                     <span v-else class="text-D">
                       {{ facePoint }}
                     </span>
-                     / 
+                    /
                     <span v-if="score === 'S'" class="text-S">
                       {{ score }}
                     </span>
@@ -76,13 +76,14 @@
           <v-sheet light class="mx-auto" elevation="2">
             <v-slide-group v-model="model" active-class="success" show-arrows>
               <v-slide-item v-for="(friend, index) in friends" :key="index">
-                <v-card @click="showProfile(friend)" class="mt-3 mb-3 mr-2" height="150" width="130">
+                <v-card class="mt-3 mb-3 mr-2" height="150" width="130">
                   <v-row>
                     <v-col>
-                      <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" contain
-                        rounded />
+                      <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" contain rounded
+                        @click="showProfile(friend)" />
                       <p class="card-summary-text ml-2">{{ friend['name'] }}</p>
-                      <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary">
+                      <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary"
+                        @click="clickNotFavorite(friend['user_id'], friend['name'], index)">
                         <v-icon small dark> mdi-close-thick </v-icon>
                       </v-btn>
                     </v-col>
@@ -91,6 +92,7 @@
               </v-slide-item>
             </v-slide-group>
           </v-sheet>
+          <p v-if="friends.length === 0" class="not-friend mt-5">現在フレンドはいません</p>
           <div class="btn-wrap">
             <v-btn v-if="isShowFriend" class="small-text show-friend-btn mt-8" light
               @click="isShowFriend = !isShowFriend">
@@ -104,24 +106,29 @@
       </v-row>
       <v-row v-show="isShowFriend">
         <v-col v-for="(friend, index) in friends" :key="index" cols="6" sm="3" lg="2" class="d-flex justify-center">
-          <v-card light @click="showProfile(friend)" width="200px">
-            <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" width="200px" contain rounded />
+          <v-card light width="200px">
+            <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" width="200px" contain rounded
+              @click="showProfile(friend)" />
             <p class="card-summary-text">{{ friend['name'] }}</p>
             <div class="icon-wrap">
-              <v-btn icon class="sns-icon">
-                <v-icon> mdi-twitter </v-icon>
+              <v-btn icon class="sns-icon" :disabled="!friend['twitter_id']">
+                <v-icon color="#1DA1F2"> mdi-twitter </v-icon>
               </v-btn>
-              <v-btn icon class="sns-icon">
-                <v-icon> mdi-instagram </v-icon>
+              <v-btn icon class="sns-icon" :disabled="!friend['instagram_id']">
+                <v-icon color="#C13584"> mdi-instagram </v-icon>
               </v-btn>
-              <v-btn icon class="sns-icon">
-                <v-icon> mdi-facebook </v-icon>
+              <v-btn icon class="sns-icon" :disabled="!friend['facebook_id']">
+                <v-icon color="#4267B2"> mdi-facebook </v-icon>
               </v-btn>
             </div>
-            <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary">
+            <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary"
+              @click="clickNotFavorite(friend['user_id'], friend['name'], index)">
               <v-icon small dark> mdi-close-thick </v-icon>
             </v-btn>
           </v-card>
+        </v-col>
+        <v-col cols="12">
+          <p v-if="friends.length === 0" class="not-friend">現在フレンドはいません</p>
         </v-col>
       </v-row>
     </div>
@@ -132,27 +139,48 @@
 import CommonModal from '@/components/Common/Modal'
 import CommonCropperjs from '@/components/Common/Cropper'
 import user from '@/plugins/modules/user'
+import favorite from '@/plugins/modules/favorite'
 export default {
   components: {
     CommonModal,
     CommonCropperjs
   },
   name: 'MyPage',
-  asyncData({ app }) {
-    return user.getUserInfo().then((response) => {
+  async asyncData({ app }) {
+    let userId = null
+    let gender = null
+    let name = null
+    let rank = 'nomal'
+    let faceImage = 'no-user-image-icon.jpeg'
+    let facePoint = 0
+    let score = 'E'
+    let voidFlg = 0
+    let friends = []
+    await user.getUserInfo().then((response) => {
       console.log('userInfo', response)
       app.store.dispatch('authInfo/setAuthInfo', response)
-      return {
-        gender: response['gender'],
-        name: response['name'] ? response['name'] : '名無しさん',
-        rank: response['rank'] ? response['rank'] : 'N',
-        faceImage: response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg',
-        facePoint: response['face_point'] ? response['face_point'] : 0,
-        score: response['score'] ? response['score'] : 0,
-        voidFlg: response['face_image_void_flg'] ? response['face_image_void_flg'] : 0,
-        friends: response['friends'] ? response['friends'] : ''
-      }
+      userId = response['user_id']
+      gender = response['gender']
+      name = response['name']
+      rank = response['rank'] ? response['rank'] : 'nomal'
+      faceImage = response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg'
+      facePoint = response['face_point'] ? response['face_point'] : 0
+      score = response['score'] ? response['score'] : 'E'
+      voidFlg = response['face_image_void_flg'] ? response['face_image_void_flg'] : 0
+      friends = response['friends']
     })
+
+    return {
+      userId,
+      gender,
+      name,
+      rank,
+      faceImage,
+      facePoint,
+      score,
+      voidFlg,
+      friends
+    }
   },
   data() {
     return {
@@ -172,7 +200,16 @@ export default {
         facebookId: null,
         instagramId: null,
         twitterId: null
-      }
+      },
+      userId: null,
+      gender: null,
+      name: '名無しさん',
+      rank: 'nomal',
+      faceImage: 'no-user-image-icon.jpeg',
+      facePoint: 0,
+      score: 'E',
+      voidFlg: 0,
+      friends: []
     }
   },
   props: {
@@ -205,6 +242,14 @@ export default {
         this.modalCropper = false
         // face_imageとupdate_at を更新
         user.updateFaceImage()
+      }
+    },
+    clickNotFavorite(toUserId, userName, index) {
+      if (confirm(userName + 'のお気に入りを解除してもいいですか？')) {
+        favorite.deleteFavorite(toUserId, this.$store.getters['authInfo/userId']).then((response) => {
+          console.log(response)
+          this.friends.splice(index, 1)
+        })
       }
     }
   },
@@ -343,9 +388,17 @@ h1 {
   color: brown;
 }
 
-.v-slide-group >>> .v-slide-group__next {
+.v-slide-group>>>.v-slide-group__next {
   width: 20px;
 }
+
+.not-friend {
+  font-size: 1em;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: dimgrey;
+  text-align: center;
+}
+
 @media screen and (min-width: 450px) {
   .rank-icon {
     height: 120px;

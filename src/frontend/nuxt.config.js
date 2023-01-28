@@ -67,6 +67,12 @@ export default {
     '/user/': {
       target: 'http://localhost:80/'
     },
+    '/favorite/': {
+      target: 'http://localhost:80/'
+    },
+    '/forget/': {
+      target: 'http://localhost:80/'
+    },
     '/sanctum/': {
       target: 'http://localhost:80/'
     }

@@ -36,4 +36,24 @@ interface ReactionsRepositoryInterface
      * @return Reaction|null
      */
     public function checkMatchById(string $toUserId, string $fromUserId): ?Reaction;
+
+    /**
+     * お気に入りに追加
+     *
+     * @param string $toUserId
+     * @param string $fromUserId
+     * @return ReactionEntity
+     * @throws MATCHException
+     */
+    public function addFavorite($toUserId, $fromUserId): ReactionEntity;
+
+    /**
+     * お気に入りから削除
+     *
+     * @param string $toUserId
+     * @param string $fromUserId
+     * @return void
+     * @throws MATCHException
+     */
+    public function deleteFavorite($toUserId, $fromUserId): void;
 }

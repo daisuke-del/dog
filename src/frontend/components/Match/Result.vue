@@ -7,7 +7,7 @@
           <p class="name-text">{{ match.name }}</p>
           <p class="salary-text">年収</p>
           <p class="salary-text mb-3">{{ match.salary }}万円</p>
-          <div class="icon-wrap">
+          <div v-if="$auth.loggedIn" class="icon-wrap">
             <v-btn @click="clickTwitter(match.twitter_id)" icon>
               <v-icon size="2em">
                 mdi-twitter
@@ -23,7 +23,7 @@
                 mdi-facebook
               </v-icon>
             </v-btn>
-            <v-btn icon class="icon-right">
+            <v-btn @click="updateFavorite" icon class="icon-right">
               <v-icon size="2.5em">
                 mdi-heart
               </v-icon>
@@ -53,6 +53,9 @@ export default {
     },
     clickFacebook(url) {
       window.open(url, '_blank')
+    },
+    updateFavorite() {
+      
     }
   }
 }

@@ -12,18 +12,18 @@
           <p class="card-text mb-2">身長：{{ modalUser.height }}cm</p>
         </div>
         <div class="icon-wrap my-2">
-          <v-btn icon class="mx-2" @click="clickTwitter(modalUser.twitterId)">
-            <v-icon large :color="modalUser.twitterId ? '#1DA1F2' : 'slategray'">
+          <v-btn icon class="mx-2" :disabled="!modalUser.twitterId" @click="clickTwitter(modalUser.twitterId)">
+            <v-icon large color="#1DA1F2">
               mdi-twitter
             </v-icon>
           </v-btn>
-          <v-btn icon class="mx-2" @click="clickInstagram(modalUser.instagramId)">
-            <v-icon large :color="modalUser.instagramId ? '#C13584' : 'slategray'">
+          <v-btn icon class="mx-2" :disabled="!modalUser.instagramId" @click="clickInstagram(modalUser.instagramId)">
+            <v-icon large color="#C13584">
               mdi-instagram
             </v-icon>
           </v-btn>
-          <v-btn icon class="mx-2" @click="clickFacebook(modalUser.facebookId)">
-            <v-icon large :color="modalUser.facebookId ? '#4267B2' : 'slategray'">
+          <v-btn icon class="mx-2" :disabled="!modalUser.facebookId" @click="clickFacebook(modalUser.facebookId)">
+            <v-icon large color="#4267B2">
               mdi-facebook
             </v-icon>
           </v-btn>
@@ -31,7 +31,7 @@
         <v-btn class="mt-2 mb-4" @click="closeCard">閉じる</v-btn>
       </v-card>
     </div>
-    <div id="modal-overlay"></div>
+    <div id="modal-overlay" @click="closeCard"></div>
   </div>
 </template>
 
