@@ -25,78 +25,51 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->is('api/user/signup')) {
+        if ($this->is('user/signup')) {
             return [
                 'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')],
-                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:8', 'max:32'],
+                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
+                'name' => ['required', 'string'],
             ];
-        } elseif ($this->is('api/user/auth')) {
-            return [
-                'auth_code' => ['required', 'digits:6']
-            ];
-        } elseif ($this->is('api/user/login')) {
+        } elseif ($this->is('user/login')) {
             return [
                 'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')],
-                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:4', 'max:32'],
+                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
             ];
-        } elseif ($this->is('api/user/logout')) {
+        } elseif ($this->is('user/logout')) {
             return [];
-        } elseif ($this->is('api/user/update/email')) {
+        } elseif ($this->is('user/update/email')) {
             return [
                 'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')]
             ];
-        } elseif ($this->is('api/user/update/email/auth')) {
+        } elseif ($this->is('user/update/email/auth')) {
             return [
-                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:4', 'max:32'],
-                'auth_code' => ['required', 'digits:6'],
+                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
                 'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')]
             ];
-        } elseif ($this->is('api/user/update/password')) {
+        } elseif ($this->is('user/update/password')) {
             return [
-                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:4', 'max:32'],
-                'new_password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:8', 'max:32'],
-                'new_password_again' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:8', 'max:32']
+                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
+                'new_password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
+                'new_password_again' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32']
             ];
-        } elseif ($this->is('api/user/update/name')) {
+        } elseif ($this->is('user/update/name')) {
             return [
                 'name' => ['required', 'string']
             ];
-        } elseif ($this->is('api/user/forget/password/email')) {
+        } elseif ($this->is('user/forget/password/email')) {
             return [
                 'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')]
             ];
-        } elseif ($this->is('api/user/forget/password/auth')) {
+        } elseif ($this->is('user/forget/password/update')) {
             return [
-                'auth_code' => ['required', 'digits:6']
-            ];
-        } elseif ($this->is('api/user/forget/password/update')) {
-            return [
-                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:8', 'max:32'],
-                'password_again' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:8', 'max:32']
+                'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
+                'password_again' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32']
             ];
         } elseif ($this->is('api/match/gender')) {
             return [
                 'gender' => ['required', 'string'],
-            ];
-        } elseif ($this->is('api/match/age')) {
-            return [
-                'ager' => ['required', 'int'],
-            ];
-        } elseif ($this->is('api/match/height')) {
-            return [
-                'height' => ['required', 'int'],
-            ];
-        } elseif ($this->is('api/match/weight')) {
-            return [
-                'weight' => ['required', 'int'],
-            ];
-        } elseif ($this->is('api/match/salary')) {
-            return [
-                'salary' => ['required', 'int'],
-            ];
-        } elseif ($this->is('api/match/facePoint')) {
-            return [
-                'facePoint' => ['required', 'int'],
+                'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')]
             ];
         }
         return [false];
@@ -109,7 +82,7 @@ class UserRequest extends FormRequest
      */
     public function messages(): array
     {
-        if ($this->is('api/user/signup')) {
+        if ($this->is('user/signup')) {
             return [
                 'email.required' => 'email required',
                 'email.regex' => 'email regex',
@@ -118,22 +91,18 @@ class UserRequest extends FormRequest
                 'password.min' => 'password min',
                 'password.max' => 'password max',
             ];
-        } elseif ($this->is('api/user/auth')) {
-            return [
-                'auth_code.*' => 'auth_code validate'
-            ];
-        } elseif ($this->is('api/user/login')) {
+        } elseif ($this->is('user/login')) {
             return [
                 'email.*' => 'email validate',
                 'password.*' => 'password validate',
             ];
-        } elseif ($this->is('api/user/logout')) {
+        } elseif ($this->is('user/logout')) {
             return [];
-        } elseif ($this->is('api/user/update/email')) {
+        } elseif ($this->is('user/update/email')) {
             return [
                 'email.*' => 'email validate',
             ];
-        } elseif ($this->is('api/user/update/email/auth')) {
+        } elseif ($this->is('user/update/email/auth')) {
             return [
                 'password.*' => 'password validate',
                 'email.*' => 'email validate',

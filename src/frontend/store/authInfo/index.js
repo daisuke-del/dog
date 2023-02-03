@@ -27,6 +27,9 @@ export const getters = {
   },
   userId: (state) => {
     return state.auth.userId
+  },
+  gender: (state) => {
+    return state.auth.gender
   }
 }
 

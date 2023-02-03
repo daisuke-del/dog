@@ -2,8 +2,8 @@
 
 namespace App\Entities;
 
-use App\ValueObjects\Reaction\toUserId;
-use App\ValueObjects\Reaction\fromUserId;
+use App\ValueObjects\Reaction\ToUserId;
+use App\ValueObjects\Reaction\FromUserId;
 
 
 class ReactionEntity

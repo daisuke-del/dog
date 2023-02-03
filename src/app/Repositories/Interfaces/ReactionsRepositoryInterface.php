@@ -38,16 +38,6 @@ interface ReactionsRepositoryInterface
     public function checkMatchById(string $toUserId, string $fromUserId): ?Reaction;
 
     /**
-     * お気に入りに追加
-     *
-     * @param string $toUserId
-     * @param string $fromUserId
-     * @return ReactionEntity
-     * @throws MATCHException
-     */
-    public function addFavorite($toUserId, $fromUserId): ReactionEntity;
-
-    /**
      * お気に入りから削除
      *
      * @param string $toUserId
@@ -56,4 +46,30 @@ interface ReactionsRepositoryInterface
      * @throws MATCHException
      */
     public function deleteFavorite($toUserId, $fromUserId): void;
+
+    /**
+     * Resultのマッチ状況を取得
+     *
+     * @param string $userId
+     * @param array $results
+     * @return Collection|null
+     */
+    public function getResultFavorite(string $userId, array $results): ?Collection;
+
+    /**
+     * 相手からいいねをもらっているかどうか状況を取得
+     *
+     * @param string $userId
+     * @param array $results
+     * @return Collection|null
+     */
+    public function getResultBeFavorited(string $userId, array $results): ?Collection;
+
+    /**
+     * reactionsテーブルにユーザー情報を登録する
+     *
+     * @param ReactionEntity $user
+     * @return bool
+     */
+    public function save(ReactionEntity $user): bool;
 }

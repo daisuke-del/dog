@@ -57,12 +57,19 @@ class MypageService
             'user_id' => $userInfo['user_id'],
             'gender' => $userInfo['gender'],
             'name' => $userInfo['name'],
+            'height' => $userInfo['height'],
+            'weight' => $userInfo['weight'],
+            'age' => $userInfo['age'],
+            'salary' => $userInfo['salary'],
             'rank' => $rank,
             'face_image' => $userInfo['face_image'],
             'face_point' => $userInfo['face_point'],
             'score' => $continuationScore,
             'void_flg' => $userInfo['face_image_void_flg'],
-            'friends' => $friends ? $friends : null
+            'friends' => $friends ? $friends : null,
+            'facebook_id' => $userInfo['facebook_id'],
+            'instagram_id' => $userInfo['instagram_id'],
+            'twitter_id' => $userInfo['twitter_id']
         ];
     }
 
@@ -75,14 +82,17 @@ class MypageService
      * @return ?array
      * @throw Exception
      */
-    private function getMatchAll(string $userId): ?array
+    public function getMatchAll(string $userId): ?array
     {
-        $onsideLove = $this->reactionsRepository->selectMatchById($userId)->toArray();
+        $onesideLove = $this->reactionsRepository->selectMatchById($userId);
         $result = [];
-        foreach($onsideLove as $friend) {
-            $friendInfo = $this->reactionsRepository->checkMatchById($friend['to_user_id'], $userId)->toArray();
+        if (empty($onesideLove)) {
+            return $result;
+        }
+        foreach($onesideLove->toArray() as $friend) {
+            $friendInfo = $this->reactionsRepository->checkMatchById($friend['to_user_id'], $userId);
             if ($friendInfo) {
-                $result[] = $friendInfo;
+                $result[] = $friendInfo->toArray();
             }
         }
         return $result;
@@ -168,18 +178,17 @@ class MypageService
      * お気に入りに追加
      *
      * @param Request $request
-     * @return object|null
+     * @return array
      */
-    public function addFavorite(Request $request): ?object
+    public function addFavorite(Request $request): array
     {
         $toUserId = $request->input('toUserId');
-        $fromUserId = $request->input('fromUserId');
-        $addRecode = $this->reactionsRepository->addFavorite($toUserId, $fromUserId);
-        if (!$addRecode) {
-            throw new MATCHException('お気に入り追加に失敗しました。', 500);
-        }
-        $friend = $this->usersRepository->selectUsersById($toUserId);
-        return $friend;
+        $fromUserId = Auth::id();
+        $requestArr = [
+            'to_user_id' => $toUserId,
+            'from_user_id' => $fromUserId ];
+        $this->insertRections($requestArr);
+        return [];
     }
 
     /**
@@ -191,7 +200,7 @@ class MypageService
     public function deleteFavorite(Request $request): ?object
     {
         $toUserId = $request->input('toUserId');
-        $fromUserId = $request->input('fromUserId');
+        $fromUserId = Auth::id();
         $this->reactionsRepository->deleteFavorite($toUserId, $fromUserId);
         $friendIds = $this->getMatchAll($fromUserId);
         if (isset($friendIds)) {
@@ -202,5 +211,22 @@ class MypageService
             $friends = $this->usersRepository->getUsersByIds($userIds);
         }
         return $friends;
+    }
+
+    /**
+     * reactionsにレコードを登録する
+     *
+     * @param array $request
+     * @return array
+     * @throws Exception
+     * @throws Throwable
+     */
+    private function insertRections(array $request): array
+    {
+        $users = $this->reactionsRepository->new($request);
+        // usersテーブルに新規追加
+        $this->reactionsRepository->save($users);
+        // レスポンス
+        return [];
     }
 }

@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\UsersRepositoryInterface;
 use App\Repositories\Interfaces\ReactionsRepositoryInterface;
-use Collator;
-use PhpParser\Node\Expr\Cast\Object_;
 
 class ReactionsRepository implements ReactionsRepositoryInterface
 {
@@ -28,7 +26,7 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      */
     public function new(array $reaction): ReactionEntity
     {
-        return (new Reaction())->make(
+        return (new ReactionsFactory)->make(
             $reaction['to_user_id'],
             $reaction['from_user_id']
         );
@@ -63,22 +61,6 @@ class ReactionsRepository implements ReactionsRepositoryInterface
     }
 
     /**
-     * お気に入りに追加
-     *
-     * @param string $toUserId
-     * @param string $fromUserId
-     * @return ReactionEntity
-     * @throws MATCHException
-     */
-    public function addFavorite($toUserId, $fromUserId): ReactionEntity
-    {
-        return (new ReactionsFactory)->make(
-            $toUserId,
-            $fromUserId
-        );
-    }
-
-    /**
      * お気に入りから削除
      *
      * @param string $toUserId
@@ -94,5 +76,59 @@ class ReactionsRepository implements ReactionsRepositoryInterface
         //     ->delete();
 
         Reaction::where('to_user_id', $toUserId)->where('from_user_id', $fromUserId)->delete();
+    }
+
+    /**
+     * 自分がいいねをしているかどうか状況を取得
+     *
+     * @param string $userId
+     * @param array $results
+     * @return Collection|null
+     */
+    public function getResultFavorite(string $userId, array $results): ?Collection
+    {
+        return (new Reaction())
+            ->where('from_user_id', $userId)
+            ->whereIn('to_user_id', $results)
+            ->get();
+    }
+
+    /**
+     * 相手からいいねをもらっているかどうか状況を取得
+     *
+     * @param string $userId
+     * @param array $results
+     * @return Collection|null
+     */
+    public function getResultBeFavorited(string $userId, array $results): ?Collection
+    {
+        return (new Reaction())
+            ->whereIn('from_user_id', $results)
+            ->where('to_user_id', $userId)
+            ->get();
+    }
+
+    /**
+     * reactionsテーブルにユーザー情報を登録する
+     *
+     * @param ReactionEntity $user
+     * @return bool
+     */
+    public function save(ReactionEntity $user): bool
+    {
+        DB::beginTransaction();
+        DB::connection('mysql')->beginTransaction();
+        $isSaveReactions = (new Reaction([
+            'to_user_id' => $user->getToUserId(),
+            'from_user_id' => $user->getFromUserId(),
+        ]))->save();
+        if ($isSaveReactions) {
+            DB::commit();
+            DB::connection('mysql')->commit();
+            return true;
+        }
+        DB::rollBack();
+        DB::connection('mysql')->rollBack();
+        return false;
     }
 }

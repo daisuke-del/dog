@@ -1,17 +1,15 @@
 import { request } from '@/plugins/axios'
 
 export default {
-  addFavorite (toUserId, fromUserId) {
+  addFavorite (toUserId) {
     return request('post', '/favorite/add', {
       toUserId,
-      fromUserId
     })
   },
-  deleteFavorite (toUserId, fromUserId) {
+  deleteFavorite (toUserId) {
     return request('delete', '/favorite/delete', {
       data: {
         toUserId,
-        fromUserId
       }
     })
   }

@@ -3,10 +3,11 @@
     <h1 v-if="choiceCount < 3 && position === 8">どっちが好み？</h1>
     <h1 v-else-if="position === 8">マッチング結果</h1>
     <h1 v-else>マッチング診断</h1>
-    <match-choice v-if="choiceCount < 3 && position === 8" :leftImage="choiceFaces[0].face_image" :rightImage="choiceFaces[1].face_image"
-      @choice-left="choiceLeft" @choice-right="choiceRight" @alert-left="clickAlertLeft"
-      @alert-right="clickAlertRight" />
-    <match-result v-else-if="position === 8" :matchResults="matchResults" />
+    <match-choice v-if="choiceCount < 3 && position === 8" :leftImage="choiceFaces[0].face_image"
+      :rightImage="choiceFaces[1].face_image" @choice-left="choiceLeft" @choice-right="choiceRight"
+      @alert-left="clickAlertLeft" @alert-right="clickAlertRight" />
+    <match-result v-else-if="position === 8" :matchResults="matchResults" @add-favorite="addFavorite"
+      @delete-favorite="deleteFavorite" />
     <v-stepper v-else v-model="position" class="ma-4" vertical light>
       <v-stepper-step :complete="position > 1" step="1">
         性別
@@ -70,6 +71,7 @@
 <script>
 import slider from '@/plugins/modules/slider'
 import match from '@/plugins/modules/match'
+import favorite from '@/plugins/modules/favorite'
 import MatchGender from '@/components/Match/Gender'
 import MatchAge from '@/components/Match/Age'
 import MatchHeight from '@/components/Match/Height'
@@ -188,6 +190,7 @@ export default {
     inputPlace(value) {
       this.place = value
       match.result(this.gender, this.height, this.weight, this.age, this.salary, this.face, this.place).then((response) => {
+        console.log(response)
         this.matchResults.splice(0, response['result'].length)
         this.matchResults.push(...response['result'])
         this.choiceFaces = response['choice']
@@ -276,6 +279,17 @@ export default {
         } else {
           this.position = 8
         }
+      })
+    },
+    addFavorite(friendId, index) {
+      favorite.addFavorite(friendId).then(() => {
+        console.log(friendId, this.matchResults[index].onesideLove)
+        this.matchResults[index].onesideLove = 1
+      })
+    },
+    deleteFavorite(friendId, index) {
+      favorite.deleteFavorite(friendId).then(() => {
+        this.matchResults[index].onesideLove = 0
       })
     }
   }

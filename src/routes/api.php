@@ -28,3 +28,8 @@ Route::prefix('slider')->name('slider.')->group(function () {
   Route::post('match', [UserController::class, 'slider']);
   Route::post('signup', [UserController::class, 'signupSlider']);
 });
+
+// 確認系
+Route::prefix('check')->name('check.')->group(function () {
+  Route::post('email', [UserController::class, 'checkEmail']);
+});

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MypageController;
+use App\Http\Controllers\MatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,10 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::prefix('my')->name('my.')->group(function () {
       Route::get('/', [MypageController::class, 'index']);
     });
+  });
+  // マッチング診断結果取得
+  Route::prefix('match')->name('match.')->group(function () {
+    Route::post('result', [MatchController::class, 'result']);
   });
 });
 

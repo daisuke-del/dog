@@ -2,7 +2,7 @@ import { request } from '@/plugins/axios'
 
 export default {
   result (gender, height, weight, age, salary, facePoint, place) {
-    return request('post', '/api/match/result', {
+    return request('post', '/user/match/result', {
       gender,
       height,
       weight,

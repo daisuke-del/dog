@@ -3,8 +3,8 @@
 namespace App\Factories;
 
 use App\Entities\ReactionEntity;
-use App\ValueObjects\Reaction\toUserId;
-use App\ValueObjects\Reaction\fromUserId;
+use App\ValueObjects\Reaction\ToUserId;
+use App\ValueObjects\Reaction\FromUserId;
 use Exception;
 
 class ReactionsFactory
@@ -19,7 +19,7 @@ class ReactionsFactory
      */
     public function make(
         string $toUserId,
-        string $fromUserId,
+        string $fromUserId
     ): ReactionEntity {
         return ReactionEntity::getReactionEntityInstance(
             new ToUserId($toUserId),

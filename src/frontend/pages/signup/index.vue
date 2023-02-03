@@ -197,24 +197,23 @@ export default {
     },
     async storeFacePoint (sliderValue) {
       this.facePoint = this.sliderFaces[sliderValue].face_point
-      await this.$axios.get('/sanctum/csrf-cookie').then(() => {
-        user.signup(
-          this.gender,
-          this.name,
-          this.email,
-          this.password,
-          this.height,
-          this.weight,
-          this.age,
-          this.salary,
-          this.facePoint,
-          this.faceImage
-        ).then((response) => {
-          this.position = 4
-          this.$auth.setUserToken('200')
-          this.$store.dispatch('authInfo/setAuthInfo', response)
-          setTimeout(this.$router.push('/mypage'), 2000)
-        })
+      await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
+      await user.signup(
+        this.gender,
+        this.name,
+        this.email,
+        this.password,
+        this.height,
+        this.weight,
+        this.age,
+        this.salary,
+        this.facePoint,
+        this.faceImage
+      ).then((response) => {
+        this.position = 4
+        this.$auth.setUserToken('200')
+        this.$store.dispatch('authInfo/setAuthInfo', response)
+        setTimeout(this.$router.push('/mypage'), 2000)
       })
     },
     redirect () {

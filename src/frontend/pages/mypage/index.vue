@@ -157,7 +157,6 @@ export default {
     let voidFlg = 0
     let friends = []
     await user.getUserInfo().then((response) => {
-      console.log('userInfo', response)
       app.store.dispatch('authInfo/setAuthInfo', response)
       userId = response['user_id']
       gender = response['gender']
@@ -169,7 +168,6 @@ export default {
       voidFlg = response['face_image_void_flg'] ? response['face_image_void_flg'] : 0
       friends = response['friends']
     })
-
     return {
       userId,
       gender,
@@ -247,7 +245,6 @@ export default {
     clickNotFavorite(toUserId, userName, index) {
       if (confirm(userName + 'のお気に入りを解除してもいいですか？')) {
         favorite.deleteFavorite(toUserId, this.$store.getters['authInfo/userId']).then((response) => {
-          console.log(response)
           this.friends.splice(index, 1)
         })
       }
