@@ -15,7 +15,7 @@ export const state = () => ({
     twitterId: null,
     instagramId: null,
     facebookId: null,
-    score: 'N',
+    score: 'D',
     rank: 'Nomal',
     voidFlg: 0,
   },
@@ -41,7 +41,7 @@ export const mutations = {
     state.auth.faceImage = userInfo.face_image ? userInfo.face_image : 'no-user-image-icon.jpeg'
     state.auth.facePoint = userInfo.face_point ? userInfo.face_point : 0
     state.auth.rank = userInfo.rank ? userInfo.rank : 'Nomal'
-    state.auth.score = userInfo.score ? userInfo.score : 'N'
+    state.auth.score = userInfo.score ? userInfo.score : 'D'
     state.auth.voidFlg = userInfo.void_flg ? userInfo.void_flg : 0
   },
 }

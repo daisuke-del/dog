@@ -38,7 +38,7 @@ class Password
     {
         return Validator::make(
             [$password],
-            ['required|between:4,32|regex:' . config('const.REGEX_PASSWORD')]
+            ['required']
         )->passes();
     }
 }

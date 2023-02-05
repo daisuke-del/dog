@@ -9,19 +9,19 @@
           <edit-email
             ref="editEmail"
             class="my-5 mx-2 mx-sm-0"
-            :email="email"
+            :input-email.sync="email"
             :position="stepperPosition"
             :email-rules="emailRules"
             :email-loading="emailLoading"
             :password-rules="passwordRules"
             @clickUpdateEmail="clickUpdateEmail"
-            @onClick="editEmail"
+            @okClick="editEmail"
             @backClick="backClick"
           />
           <edit-name
             ref="editName"
             class="my-5 mx-2 mx-sm-0"
-            :name="name"
+            :input-name.sync="name"
             :name-rules="nameRules"
             :loading="nameSendLoading"
             :show-tooltip="showNameTooltip"
@@ -54,9 +54,9 @@
           <edit-sns
             ref="editSns"
             class="my-5 mx-2 mx-sm-0"
-            :facebookId="facebookId"
-            :instagramId="instagramId"
-            :twitterId="twitterId"
+            :input-facebook.sync="facebookId"
+            :input-instagram.sync="instagramId"
+            :input-twitter.sync="twitterId"
             :facebook-rules="facebookRules"
             :instagram-rules="instagramRules"
             :twitter-rules="twitterRules"
@@ -85,7 +85,6 @@
 import EditEmail from '@/components/MyPage/EditEmail'
 import EditName from '@/components/MyPage/EditName'
 import EditProfile from '@/components/MyPage/EditProfile'
-// import EditImage from '@/components/MyPage/EditImage'
 import EditSns from '@/components/MyPage/EditSns'
 import constants from '@/utils/constants'
 import user from '~/plugins/modules/user'
@@ -95,8 +94,7 @@ export default {
     EditEmail,
     EditName,
     EditProfile,
-    EditSns,
-    // EditImage
+    EditSns
   },
   name: 'Mypageaccount',
   async asyncData({ app }) {
@@ -155,7 +153,7 @@ export default {
       ],
       passwordRules: [
         value => !!value || 'パスワードが入力されていません。',
-        value => (value || '').length >= constants.minPasswordLength || '8文字以上で入力してください',
+        value => (value || '').length >= constants.minPasswordLength || '6文字以上で入力してください',
         value => (value || '').length <= constants.maxPasswordLength || '32文字以内で入力してください'
       ],
       nameRules: [
@@ -190,6 +188,7 @@ export default {
         value => !!value || 'twitterのIDが入力されていません。',
       ],
       newEmail: '',
+      salary2: null,
       showPasswordTooltip: false,
       showNameTooltip: false,
       showHeightTooltip: false,
@@ -217,119 +216,141 @@ export default {
       }).catch(() => {
       })
     },
-    async editEmail(mail) {
-      await user.checkEmail(mail).then((response) => {
-        this.stepperPosition = 2
-        this.newEmail = mail
+    async editEmail(password) {
+      await user.updateEmail(this.newEmail, password).then(() => {
+        this.stepperPosition = 3
+        setTimeout(this.backClick, 3000)
       }).catch(() => {
+        this.stepperPosition = 1
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
     },
     async editName(name) {
       this.nameSendLoading = true
-      await user.updateName(name).then((response) => {
-        this.name = response.name
+      await user.updateName(name).then(() => {
         this.showNameTooltip = true
         setTimeout(() => {
           this.showNameTooltip = false
         }, 3000)
-        this.$refs.editName.$refs.form.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.nameSendLoading = false
     },
     async editHeight(height) {
       this.heightLoading = true
-      await user.updateHeight(height).then((response) => {
-        this.height = response.height
+      await user.updateHeight(height).then(() => {
         this.showHeightTooltip = true
         setTimeout(() => {
           this.showHeightTooltip = false
         }, 3000)
-        this.$refs.editProfile.$refs.heightForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.heightLoading = false
     },
     async editWeight(weight) {
       this.weightLoading = true
-      await user.updateWeight(weight).then((response) => {
-        this.weight = response.weight
+      await user.updateWeight(weight).then(() => {
         this.showWeightTooltip = true
         setTimeout(() => {
           this.showWeightTooltip = false
         }, 3000)
-        his.$refs.editProfile.$refs.weightForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.weightLoading = false
     },
     async editAge(age) {
       this.ageLoading = true
-      await user.updateAge(age).then((response) => {
-        this.age = response.age
+      await user.updateAge(age).then(() => {
         this.showAgeTooltip = true
         setTimeout(() => {
           this.showAgeTooltip = false
         }, 3000)
-        his.$refs.editProfile.$refs.ageForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.ageLoading = false
     },
     async editSalary(salary) {
+      if (salary < 200) {
+        this.salary2 = 150
+      } else if (salary < 400 ) {
+        this.salary2 = 300
+      } else if (salary < 600) {
+        this.salary2 = 500
+      } else if (salary < 800) {
+        this.salary2 = 700
+      } else if (salary < 900) {
+        this.salary2 = 900
+      } else if (salary < 2000) {
+        this.salary2 = 1100
+      } else if (salary < 3000) {
+        this.salary2 = 1300
+      } else if (salary > 3000) {
+        this.salary2 = 1500
+      } else {
+        this.salary2 = 50
+      }
       this.salaryLoading = true
-      await user.updateSalary(salary).then((response) => {
-        this.salary = response.salary
+      await user.updateSalary(salary, this.salary2).then(() => {
         this.showSalaryTooltip = true
         setTimeout(() => {
           this.showSalaryTooltip = false
         }, 3000)
-        his.$refs.editProfile.$refs.salaryForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.salaryLoading = false
     },
     async editFacebook(facebook) {
       this.facebookLoading = true
-      await user.updateFacebook(facebook).then((response) => {
-        this.facebookId = response.facebookId
+      await user.updateFacebook(facebook).then(() => {
         this.showFacebookTooltip = true
         setTimeout(() => {
           this.showFacebookTooltip = false
         }, 3000)
-        this.$refs.editSns.$refs.facebookForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.facebookLoading = false
     },
     async editInstagram(instagram) {
       this.instagramLoading = true
-      await user.updateInstagram(instagram).then((response) => {
-        this.instagramId = response.instagramId
+      await user.updateInstagram(instagram).then(() => {
         this.showInstagramTooltip = true
         setTimeout(() => {
           this.showInstagramTooltip = false
         }, 3000)
-        this.$refs.editSns.$refs.instagramForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.instagramLoading = false
     },
     async editTwitter(twitter) {
       this.twitterLoading = true
-      await user.updateTwitter(twitter).then((response) => {
-        this.twitterId = response.twitterId
+      await user.updateTwitter(twitter).then(() => {
         this.showTwitterTooltip = true
         setTimeout(() => {
           this.showTwitterTooltip = false
         }, 3000)
-        this.$refs.editSns.$refs.twitterForm.reset()
       }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
       })
       this.twitterLoading = false
     },
     leaveClick() {
-      window.location.href = 'https://www.mgstage.com/joinleave/leave.php?agef=1'
+      window.location.href = ''
     }
   },
 }

@@ -9,7 +9,7 @@
                                 ニックネーム
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                {{ name }}
+                                {{ inputName }}
                             </p>
                         </div>
                     </div>
@@ -22,8 +22,16 @@
                         </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
-                                <v-text-field v-model="inputName" placeholder="ニックネーム" :rules="nameRules"
-                                    autocomplete="off" outlined required dense />
+                                <v-text-field
+                                    placeholder="ニックネーム"
+                                    :value="inputName"
+                                    :rules="nameRules"
+                                    autocomplete="off"
+                                    outlined
+                                    required
+                                    dense
+                                    @input="$emit('update:inputName', $event)"
+                                />
                             </div>
                             <v-tooltip v-model="showTooltip" top>
                                 <template v-slot:activator="{ attrs }">
@@ -45,7 +53,7 @@
 <script>
 export default {
     props: {
-        name: {
+        inputName: {
             type: String,
             default: ''
         },
@@ -60,11 +68,6 @@ export default {
         loading: {
             type: Boolean,
             default: false
-        }
-    },
-    data() {
-        return {
-            inputName: ''
         }
     },
     methods: {

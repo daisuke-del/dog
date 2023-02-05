@@ -55,6 +55,7 @@ class MypageService
         }
         return [
             'user_id' => $userInfo['user_id'],
+            'email' => $userInfo['email'],
             'gender' => $userInfo['gender'],
             'name' => $userInfo['name'],
             'height' => $userInfo['height'],
@@ -109,13 +110,13 @@ class MypageService
     public function getFaceStatus($facePoint, $continuationScore): string
     {
         if ($facePoint >= 90 && ($continuationScore === 'S' || $continuationScore ==='A')) {
-            return 'gold';
+            return 'gold.png';
         } elseif ($facePoint >= 70 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B')) {
-            return 'silver';
+            return 'silver.png';
         } elseif ($facePoint >= 30 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B' || $continuationScore === 'C')) {
-            return 'blond';
+            return 'blond.png';
         } else {
-            return 'normal';
+            return 'nomal.png';
         }
     }
 

@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ReactionsTableSeeder::class);
+        // $this->call(ReactionsTableSeeder::class);
 
         // \App\Models\User::factory()->count(101)->create();
-        // \App\Models\User::factory()->count(101)->male()->create();
+        \App\Models\User::factory()->count(101)->male()->create();
     }
 }

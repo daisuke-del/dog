@@ -41,7 +41,7 @@
                                         変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
@@ -61,7 +61,7 @@
                                         変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
@@ -81,7 +81,7 @@
                                         変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
@@ -101,7 +101,7 @@
                                         変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
@@ -190,21 +190,21 @@ export default {
     methods: {
         submitHeight() {
             if (this.$refs.heightForm.validate()) {
-                this.$emit('editheight', this.inputHeight)
+                this.$emit('editHeight', this.inputHeight)
             }
         },
         submitWeight() {
-            if (this.$refs.formWeight.validate()) {
+            if (this.$refs.weightForm.validate()) {
                 this.$emit('editWeight', this.inputWeight)
             }
         },
         submitAge() {
-            if (this.$refs.formAge.validate()) {
+            if (this.$refs.ageForm.validate()) {
                 this.$emit('editAge', this.inputAge)
             }
         },
         submitSalary() {
-            if (this.$refs.formSalary.validate()) {
+            if (this.$refs.salaryForm.validate()) {
                 this.$emit('editSalary', this.inputSalary)
             }
         }

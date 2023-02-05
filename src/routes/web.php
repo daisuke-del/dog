@@ -35,9 +35,16 @@ Route::prefix('user')->name('user.')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
   // 更新
-  Route::post('foreget/password/email', [UserController::class, 'foregetPasswordEmail']);
-  Route::post('foreget/password/auth', [UserController::class, 'foregetPasswordAuth']);
   Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
+  Route::post('update/email', [UserController::class, 'updateEmail']);
+  Route::post('update/name', [UserController::class, 'updateName']);
+  Route::post('update/height', [UserController::class, 'updateHeight']);
+  Route::post('update/weight', [UserController::class, 'updateWeight']);
+  Route::post('update/age', [UserController::class, 'updateAge']);
+  Route::post('update/salary', [UserController::class, 'updateSalary']);
+  Route::post('update/facebook', [UserController::class, 'updateFacebook']);
+  Route::post('update/instagram', [UserController::class, 'updateInstagram']);
+  Route::post('update/twitter', [UserController::class, 'updatetwitter']);
 });
 
 // お気に入り

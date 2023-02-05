@@ -206,6 +206,21 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
+     * email, password一致するusersテーブル情報の有無を確認する
+     *
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    public function existsUsersByPass(string $email, string $password): bool
+    {
+        return (new User)
+            ->where('email', $email)
+            ->where('password', $password)
+            ->exists();
+    }
+
+    /**
      * 引数のメールアドレスが自身以外に存在するか確認する
      *
      * @param string $email
@@ -287,6 +302,111 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('user_id', $user->getUserId())
             ->update([
                 'name' => $user->getName()
+            ]);
+    }
+
+    /**
+     * usersのheightを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateHeight(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'height' => $user->getHeight()
+            ]);
+    }
+
+    /**
+     * usersのweightを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateWeight(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'weight' => $user->getWeight()
+            ]);
+    }
+
+    /**
+     * usersのageを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateAge(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'age' => $user->getAge()
+            ]);
+    }
+
+    /**
+     * usersのsalaryを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateSalary(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'salary' => $user->getSalary()
+            ]);
+    }
+
+    /**
+     * usersのfacebook_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateFacebook(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'facebook_id' => $user->getFacebookId()
+            ]);
+    }
+
+    /**
+     * usersのinstagram_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateInstagram(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'instagram_id' => $user->getInstagramId()
+            ]);
+    }
+
+    /**
+     * usersのtwitter_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateTwitter(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'twitter_id' => $user->getTwitterId()
             ]);
     }
 

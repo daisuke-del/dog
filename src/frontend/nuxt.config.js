@@ -73,6 +73,9 @@ export default {
     '/forget/': {
       target: 'http://localhost:80/'
     },
+    '/update/': {
+      target: 'http://localhost:80/'
+    },
     '/sanctum/': {
       target: 'http://localhost:80/'
     }

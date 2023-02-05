@@ -50,13 +50,16 @@ export default {
   },
   methods: {
     clickTwitter(url) {
-      window.open(url, '_blank')
+      const link = 'https://www.twitter.com/' + url
+      window.open(link, '_blank')
     },
     clickInstagram(url) {
+      const link = 'https://www.instagram.com/' + url
       window.open(url, '_blank')
     },
     clickFacebook(url) {
-      window.open(url, '_blank')
+      const link = 'https://ja-jp.facebook.com/' + url
+      window.open(link, '_blank')
     },
     addFavorite(friendId, index) {
       console.log(friendId, index)

@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Auth;
 use App\Entities\UserEntity;
 use App\Exceptions\MATCHException;
+use App\Repositories\ReactionsRepository;
 use App\ValueObjects\User\Age;
 use App\ValueObjects\User\AuthCode;
 use App\ValueObjects\User\CreateDate;
@@ -41,11 +42,13 @@ class UserService
 
     private $mypageService;
     private $usersRepository;
+    private $reactionsRepository;
 
     public function __construct()
     {
         $this->mypageService = new MypageService;
         $this->usersRepository = new UsersRepository;
+        $this->reactionsRepository = new ReactionsRepository;
     }
 
     /**
@@ -62,7 +65,8 @@ class UserService
             throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
         // emailが登録済かどうかチェック
-        if ($this->usersRepository->existsEmail($email)) {
+        $registerd = $this->checkEmailRegisterd($email);
+        if (!$registerd) {
             throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $storeInfo = $this->getCalculation($request);
@@ -104,6 +108,20 @@ class UserService
     }
 
     /**
+     * メールアドレスが登録済かどうか確認
+     *
+     * @param $email
+     * @return bool
+     */
+    public function checkEmailRegisterd(String $email)
+    {
+        if ($this->usersRepository->existsEmail($email)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * ログイン
      *
      * @param Request $request
@@ -134,7 +152,6 @@ class UserService
     {
         // ログアウトする
         Auth::logout();
-        return Auth::user();
     }
 
     /**
@@ -146,69 +163,29 @@ class UserService
      */
     public function updateEmail(Request $request): array
     {
-        $userId = auth()->id();
+        $userId = Auth::id();
+        $password = $request->input('password');
         $email = (new Email($request->input('email')))->get();
         if ($this->containUppercase($email)) {
             throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
-        if ($this->usersRepository->existsEmail($email, $userId)) {
+        if ($this->usersRepository->existsEmail($email)) {
             throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
-        $users = $this->getUsersById($userId);
-        $users['auth_code'] = mt_rand(100000, 999999);
-        $now = new Carbon();
-        $users = $this->usersRepository->new($users);
-        $this->usersRepository->updateUsers($users);
-        // メール送信
-        Mail::to($email)->send(new UpdateAddressAuthCodeEmail($users->getAuthCode()));
-        // セッションにメールアドレスを保持
-        $request->session()->put('email', $email);
-        return [];
-    }
-
-    /**
-     * 会員情報変更 - email - 認証
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function updateEmailAuth(Request $request): array
-    {
-        $userId = auth()->id();
-        $authCode = (new AuthCode($request->input('auth_code')))->get();
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $sessionEmail = $request->session()->get('email');
-        // 前回入力して認証コード送信したメールアドレスとリクエストのメールアドレスが一致しなければException
-        if ($email !== $sessionEmail) {
-            throw new MATCHException(config('const.ERROR.USER.SESSION_EMAIL_NO_MATCH'), 400);
-        }
-        if ($this->usersRepository->existsEmail($sessionEmail, $userId)) {
-            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
-        }
-        $user = $this->checkAuthCode($userId, $authCode);
-        $users = $this->usersRepository->selectusersById($userId);
-        if (is_null($user) || is_null($users)) {
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
             // ユーザーが取得できない
             throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
         }
-        $users = $users->toArray();
-        if (is_null($this->getEmail($users, $password))) {
+        if (!$this->checkPassword($user, $password)) {
             // パスワードが異なる
             throw new MATCHException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
         }
-        $users['email'] = $email;
-        $users['password'] = $password;
-        $users = $this->usersRepository->new($users);
+        $user['email'] = $email;
+        $user['password'] = $password;
+        $users = $this->usersRepository->new($user);
         $this->usersRepository->updateEmail($users);
-        // 新メールアドレスにメールアドレス変更しましたメール送信
-        $sendEmail = $users->getEmail();
-        Mail::to($sendEmail)->send(new UpdateAddressEmail($email));
-        $request->session()->forget('email');
-        return [
-            'email' => $email
-        ];
+        return [];
     }
 
     /**
@@ -255,13 +232,207 @@ class UserService
      */
     public function updateName(Request $request): array
     {
-        $userId = auth()->id();
-        $users = $this->getUsersById($userId);
-        $users['name'] = $request->input('name');
-        $users = $this->usersRepository->new($users);
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['name'] = $request->input('name');
+        $users = $this->usersRepository->new($user);
         $this->usersRepository->updateName($users);
         return [
             'name' => $users->getName()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - height
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateHeight(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $height = $request->input('height');
+        if ($user['gender'] === 'male') {
+            $height2 = ($height - 150) * 2;
+        } else {
+            $height2 = 30;
+        }
+        $user['height'] = $height;
+        $user['height2'] = $height2;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateHeight($users);
+        return [
+            'height' => $users->getHeight(),
+            'height2' => $users->getHeight2()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - weight
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateWeight(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $weight = $request->input('weight');
+        $height = $user['height'];
+        if ($user['gender'] === 'male') {
+            $weight2 = abs($weight / ($height*$height/10000) - 20) * 3;
+        } else {
+            $weight2 = ($weight / ($height*$height/10000) - 20) * 3;
+        }
+        $user['weight'] = $weight;
+        $user['weight2'] = $weight2;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateWeight($users);
+        return [
+            'weight' => $users->getWeight(),
+            'weight2' => $users->getWeight2()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - age
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateAge(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $age = $request->input('age');
+        if ($user['gender'] === 'male') {
+            $age2 = abs($age - 27);
+        } else {
+            $age2 = $age - 23;
+        }
+        $user['age'] = $age;
+        $user['age2'] = $age2;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateAge($users);
+        return [
+            'age' => $users->getAge(),
+            'age2' => $users->getAge2()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - salary
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateSalary(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $salary2 = $request->input('salary2');
+        $salary2 = $salary2 / 10 - 30;
+        $user['salary'] = $request->input('salary');
+        $user['salary2'] = $salary2;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateSalary($users);
+        return [
+            'salary' => $users->getSalary(),
+            'salary2' => $users->getSalary2()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - facebook_id
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateFacebook(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['facebook_id'] = $request->input('facebook');
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateFacebook($users);
+        return [
+            'facebook_id' => $users->getFacebookId()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - instagram_id
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateInstagram(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['instagram_id'] = $request->input('instagram');
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateInstagram($users);
+        return [
+            'instagram_id' => $users->getInstagramId()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - twitter_id
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateTwitter(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['twitter_id'] = $request->input('twitter');
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateTwitter($users);
+        return [
+            'twitter_id' => $users->getTwitterId()
         ];
     }
 
@@ -472,17 +643,17 @@ class UserService
      *
      * @param array $users
      * @param string $password
-     * @return string|null
+     * @return bool
      * @throws Exception
      */
-    private function getEmail(array $users, string $password): ?string
+    private function checkPassword(array $users, string $password): bool
     {
         $email = $users['email'];
-        $hashPass = (new Password($password, $email))->get();
-        if ($hashPass === $users['password']) {
-            return $email;
+        $hashPass = (new Password($password))->get();
+        if (is_null($this->usersRepository->existsUsersByPass($email, $hashPass))) {
+            return false;
         }
-        return null;
+        return true;
     }
 
     /**
@@ -632,6 +803,7 @@ class UserService
         $user = Auth::user();
         $oldImage = $user->face_image;
         $userId = $user->user_id;
+        $userInfo = $this->usersRepository->selectUsersById($userId);
         try {
             $newImage = $this->storeFaceImage($request->input('faceImage'));
             if ($this->usersRepository->updateFace($userId, $newImage)) {
@@ -639,12 +811,13 @@ class UserService
                     throw new MATCHException('画像の更新に失敗しました', 400);
                 }
             }
-            $status = $this->mypageService->getFaceStatus($userId);
-            $continuationScore = $this->mypageService->getContinuationScore($user->userId);
+            $continuationScore = $this->mypageService->getContinuationScore($userInfo['update_face_at']);
+            $status = $this->mypageService->getFaceStatus($userId, $continuationScore);
+            $continuationScore = $this->mypageService->getContinuationScore($userId);
             return [
                 'status' => $status,
                 'face_image' => $newImage,
-                'face_point' => $user->face_point,
+                'face_point' => $userInfo->face_point,
                 'score' => $continuationScore,
             ];
         } catch (Exception $e) {
@@ -702,14 +875,37 @@ class UserService
         $params = ['genderSort' => $genderSort, 'height2' => $userInfo['height2'], 'weight2' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2'], 'facePoint2' => $userInfo['facePoint2']];
         $place = $request->input('place');
 
-        $result = $this->usersRepository->getMatchResult($params, $place)->toArray();
+        $results = $this->usersRepository->getMatchResult($params, $place)->toArray();
+        $arrayResults = json_decode(json_encode($results), true);
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $resultAddFavorite = $this->checkFavorite($userId, $arrayResults);
+            if (isset($resultAddFavorite['onesideLoveId'])) {
+                $i = 0;
+                foreach($arrayResults as $result) {
+                    $i ++;
+                    $n = $i-1;
+                    if (in_array($result['user_id'], $resultAddFavorite['onesideLoveId'])) {
+                        $arrayResults[$n]['onesideLove'] = 1;
+                        if (in_array($result['user_id'], $resultAddFavorite['mutualLoveId'])) {
+                            $arrayResults[$n]['mutualLove'] = 1;
+                        } else {
+                            $arrayResults[$n]['mutualLove'] = 0;
+                        }
+                    } else {
+                        $arrayResults[$n]['onesideLove'] = 0;
+                        $arrayResults[$n]['mutualLove'] = 0;
+                    }
+                }
+            }
+        }
 
         $choice = [];
         while(count($choice) < 2) {
             $choice = $this->getChoiceInfo($genderSort);
         }
 
-        $response = ['result' => $result, 'choice' => $choice];
+        $response = ['result' => $arrayResults, 'choice' => $choice];
 
         return $response;
 
@@ -754,5 +950,47 @@ class UserService
             'salary2' => $salary2,
             'facePoint2' => $facePoint2
         ];
+    }
+
+    /**
+     * お気に入りしているか確認
+     *
+     * @param array $users
+     * @return array
+     */
+    private function checkFavorite($userId, $results): array
+    {
+        $onesideLoversIds = [];
+        $mutualLoversIds = [];
+        foreach($results as $result) {
+            $resultIds[] = $result['user_id'];
+        }
+        $onesideLovers = $this->reactionsRepository->getResultFavorite($userId, $resultIds);
+        if (isset($onesideLovers)) {
+            $onesideLoversIds = [];
+            foreach($onesideLovers as $onesideLover) {
+                $onesideLoversIds[] = $onesideLover['to_user_id'];
+            }
+            $mutualLovers = $this->reactionsRepository->getResultBeFavorited($userId, $onesideLoversIds);
+            if (empty($mutualLovers)) {
+                return [
+                    'onesideLoveId' => $onesideLoversIds
+                ];
+            }
+            foreach($mutualLovers->toArray() as $mutualLover) {
+                $mutualLoversIds[] = $mutualLover['user_id'];
+            }
+            if ($mutualLovers) {
+                return [
+                    'onesideLoveId' => $onesideLoversIds,
+                    'mutualLoveId' => $mutualLoversIds
+                ];
+            }
+            return [
+                'onesideLoveId' => $onesideLoversIds
+            ];
+        }
+
+        return false;
     }
 }

@@ -48,13 +48,16 @@ export default {
       this.$emit("summary-method", false);
     },
     clickTwitter(url){
-      window.open(url, '_blank')
+      const link = 'https://twitter.com/' + url
+      window.open(link, '_blank')
     },
     clickInstagram(url){
-      window.open(url, '_blank')
+      const link = 'https://www.instagram.com/' + url
+      window.open(link, '_blank')
     },
     clickFacebook(url){
-      window.open(url, '_blank')
+      const link = 'https://ja-jp.facebook.com/' + url
+      window.open(link, '_blank')
     },
   },
 };

@@ -39,6 +39,19 @@
                 </v-list-item-content>
             </v-list-item>
 
+            <v-list-item @click="clickAccount" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        mdi-account-outline
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title color="accent">
+                        登録情報
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
             <v-list-item @click=clickLogout link>
                 <v-list-item-icon>
                     <v-icon>
@@ -71,8 +84,9 @@ export default {
         clickClose() {
             this.$emit('click-close', !this.drawer)
         },
-        clickLogout() {
-            user.logout().then(() => {
+        async clickLogout() {
+            await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
+            await user.logout().then(() => {
                 this.clickClose()
             })
         },
@@ -81,6 +95,9 @@ export default {
         },
         clickMatch() {
             this.$router.push('/match')
+        },
+        clickAccount() {
+            this.$router.push('/mypage/account')
         }
     }
 }

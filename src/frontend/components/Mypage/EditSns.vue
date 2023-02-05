@@ -14,53 +14,86 @@
                 <v-expansion-panel-content>
                     <v-divider class="mb-5" />
                     <v-form ref="facebookForm" @submit.prevent>
+                        <p class="mb-2 text-subtitle-2 font-weight-bold">
+                            Facebook
+                        </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
-                                <v-text-field v-model="facebookId" placeholder="Facebook" :rules="facebookRules"
-                                    autocomplete="off" outlined required dense />
+                                <v-text-field
+                                    :value="inputFacebook"
+                                    :rules="facebookRules"
+                                    placeholder="Facebook"
+                                    autocomplete="off"
+                                    outlined
+                                    required
+                                    dense
+                                    @input="$emit('update:inputFacebook', $event)"
+                                />
                             </div>
                             <v-tooltip v-model="showFacebookTooltip" top>
                                 <template v-slot:activator="{ attrs }">
                                     <v-btn depressed color="primary" class="submit-button" :loading="facebookLoading"
                                         v-bind="attrs" @click="submitFacebook">
-                                        登録
+                                        変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
                     <v-form ref="instagramForm" @submit.prevent>
+                        <p class="mb-2 text-subtitle-2 font-weight-bold">
+                            Instagram
+                        </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
-                                <v-text-field v-model="instagramId" placeholder="Instagram" :rules="instagramRules"
-                                    autocomplete="off" outlined required dense />
+                                <v-text-field
+                                    :value="inputInstagram"
+                                    :rules="instagramRules"
+                                    placeholder="Instagram"
+                                    autocomplete="off"
+                                    outlined
+                                    required
+                                    dense
+                                    @input="$emit('update:inputInstagram', $event)"
+                                />
                             </div>
                             <v-tooltip v-model="showInstagramTooltip" top>
                                 <template v-slot:activator="{ attrs }">
-                                    <v-btn depressed color="primary" class="submit-button" :loading="twitterLoading"
+                                    <v-btn depressed color="primary" class="submit-button" :loading="instagramLoading"
                                         v-bind="attrs" @click="submitInstagram">
-                                        登録
+                                        変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
                     <v-form ref="twitterForm" @submit.prevent>
+                        <p class="mb-2 text-subtitle-2 font-weight-bold">
+                            Twitter
+                        </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
-                                <v-text-field v-model="twitterId" placeholder="twitter" :rules="twitterRules"
-                                    autocomplete="off" outlined required dense />
+                                <v-text-field
+                                    :value="inputTwitter"
+                                    :rules="twitterRules"
+                                    placeholder="twitter"
+                                    autocomplete="off"
+                                    outlined
+                                    required
+                                    dense
+                                    @input="$emit('update:inputTwitter', $event)"
+                                />
                             </div>
                             <v-tooltip v-model="showTwitterTooltip" top>
                                 <template v-slot:activator="{ attrs }">
                                     <v-btn depressed color="primary" class="submit-button" :loading="twitterLoading"
                                         v-bind="attrs" @click="submitTwitter">
-                                        登録
+                                        変更
                                     </v-btn>
                                 </template>
-                                <span>更新しました</span>
+                                <span>変更しました</span>
                             </v-tooltip>
                         </div>
                     </v-form>
@@ -73,15 +106,15 @@
 <script>
 export default {
     props: {
-        facebookId: {
+        inputFacebook: {
             type: String,
             default: ''
         },
-        instagramId: {
+        inputInstagram: {
             type: String,
             default: ''
         },
-        twitterId: {
+        inputTwitter: {
             type: String,
             default: ''
         },
@@ -134,27 +167,43 @@ export default {
             default: false
         }
     },
-    data() {
+    data () {
         return {
-            inputFacebook: null,
-            inputInstagram: null,
-            inputTwitter: null
+            facebookAccount: null,
+            instagramAccount: null,
+            twitterAccount: null
         }
     },
     methods: {
         submitFacebook() {
             if (this.$refs.facebookForm.validate()) {
+                if (this.inputFacebook.match(/^https:\/\/(ja-jp.facebook.com\/)/)) {
+                    this.facebookAccount = this.inputFacebook.replace('https://ja-jp.facebook.com/', '')
+                } else {
+                    this.facebookAccount = this.inputFacebook
+                }
                 this.$emit('editFacebook', this.inputFacebook)
             }
         },
         submitInstagram() {
             if (this.$refs.instagarmForm.validate()) {
-                this.$emit('editInstagram', this.inputInstagram)
+                if (this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
+                    this.instagramAccount = this.inputInstagram.replace('https://www.instagram.com/', '')
+                } else {
+                    this.instagramAccount = this.inputInstagram
+                }
+                this.$emit('editInstagram', this.instagramAccount)
             }
         },
         submitTwitter() {
             if (this.$refs.twitterForm.validate()) {
-                this.$emit('editTwitter', this.inputTwitter)
+                if (this.inputTwitter.match(/^https:\/\/(twitter.com\/)/)) {
+                    console.log('a')
+                    this.twitterAccount = this.inputTwitter.replace('https://twitter.com/', '')
+                } else {
+                    this.twitterAccount = this.inputTwitter
+                }
+                this.$emit('editTwitter', this.twitterAccount)
             }
         }
     }

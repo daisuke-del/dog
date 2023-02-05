@@ -9,7 +9,7 @@
                                 メールアドレス
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                {{ email }}
+                                {{ inputEmail }}
                             </p>
                         </div>
                     </div>
@@ -41,12 +41,9 @@
                                     <p class="mb-1 text-subtitle-2 font-weight-bold">
                                         メールアドレスを変更
                                     </p>
-                                    <v-form
-                                        ref="emailForm"
-                                        @submit.prevent
-                                    >
+                                    <v-form ref="emailForm">
                                         <v-text-field
-                                            v-model="inputEmail"
+                                            :value="inputEmail"
                                             :rules="emailRules"
                                             placeholder="メールアドレス"
                                             autocomplete="off"
@@ -54,6 +51,7 @@
                                             required
                                             dense
                                             class="pt-1"
+                                            @input="$emit('update:inputEmail', $event)"
                                         />
                                     </v-form>
                                     <v-btn
@@ -94,7 +92,7 @@
                             </v-stepper-content>
 
                             <v-stepper-content step="3">
-                                <div align="center">
+                                <div align="center" class="font-weight-bold">
                                     <p>メールアドレスの変更が完了しました。</p>
                                 </div>
                             </v-stepper-content>
@@ -109,7 +107,7 @@
 <script>
 export default {
     props: {
-        email: {
+        inputEmail: {
             type: String,
             default: ''
         },
@@ -134,7 +132,6 @@ export default {
         return {
             password: '',
             showPassword: false,
-            inputEmail: ''
         }
     },
     methods: {
@@ -145,7 +142,7 @@ export default {
             this.$emit('backClick')
         },
         okClick() {
-            if (this.$refs.form.validate()) {
+            if (this.$refs.passwordForm.validate()) {
                 this.$emit('okClick', this.password)
             }
         }

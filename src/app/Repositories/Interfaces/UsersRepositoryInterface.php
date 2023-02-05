@@ -58,6 +58,15 @@ interface UsersRepositoryInterface
     public function existsUsers(string $userId): bool;
 
     /**
+     * email, password一致するusersテーブル情報の有無を確認する
+     *
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    public function existsUsersByPass(string $email, string $password): bool;
+
+    /**
      * 引数のメールアドレスが自身以外に存在するか確認する
      *
      * @param string $email
@@ -104,6 +113,62 @@ interface UsersRepositoryInterface
      * @return bool
      */
     public function updateName(UserEntity $user): bool;
+
+    /**
+     * usersのheightを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateHeight(UserEntity $user): bool;
+
+    /**
+     * usersのweightを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateWeight(UserEntity $user): bool;
+
+    /**
+     * usersのageを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateAge(UserEntity $user): bool;
+
+    /**
+     * usersのsalaryを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateSalary(UserEntity $user): bool;
+
+    /**
+     * usersのfacebook_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateFacebook(UserEntity $user): bool;
+
+    /**
+     * usersのinstagram_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateInstagram(UserEntity $user): bool;
+
+    /**
+     * usersのtwitter_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateTwitter(UserEntity $user): bool;
 
     /**
      * 引数のemailが一致するusersテーブル情報を取得する

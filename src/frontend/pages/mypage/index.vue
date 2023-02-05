@@ -22,13 +22,8 @@
               <div class="info-wrap">
                 <p class="big-text">総合ランク</p>
                 <div class="rank-wrap">
-                  <v-img v-if="facePoint > 80 && score === 'A'" :src="require('~/assets/image/rank/gold.png')"
+                  <v-img :src="require(`~/assets/image/rank/${rank}`)"
                     class="rank-icon" contain />
-                  <v-img v-else-if="facePoint > 50 && score === 'B'" :src="require('~/assets/image/rank/silver.png')"
-                    class="rank-icon" contain />
-                  <v-img v-else-if="score !== 'C'" :src="require('~/assets/image/rank/blond.png')" class="rank-icon"
-                    contain />
-                  <v-img v-else :src="require('~/assets/image/rank/nomal.png')" class="rank-icon" contain />
                 </div>
                 <div class="point-wrap d-flex justify-center">
                   <p class="point-text">Lv.

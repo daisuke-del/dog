@@ -34,8 +34,8 @@ class CreateUsersTable extends Migration
             $table->string('twitter_id')->nullable();
             $table->string('instagram_id')->nullable();
             $table->string('facebook_id')->nullable();
-            $table->date('update_face_at')->default(Carbon::now());
-            $table->date('create_date')->default(Carbon::now());
+            $table->dateTime('update_face_at')->default(Carbon::now()->format('Y/m/d H:i:s.u'));
+            $table->dateTime('create_date')->default(Carbon::now()->format('Y/m/d H:i:s.u'));
             $table->integer('face_image_void_flg')->default(0);
             $table->integer('yellow_card')->default(0);
             $table->integer('order_number')->nullable()->default(0);

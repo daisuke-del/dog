@@ -70,19 +70,6 @@ class UserController extends Controller
     }
 
     /**
-     * 会員情報変更 - email - 認証
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function updateEmailAuth(Request $request)
-    {
-        $response = $this->userService->updateEmailAuth($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * 会員情報変更 - password
      *
      * @param Request $request
@@ -96,7 +83,7 @@ class UserController extends Controller
     }
 
     /**
-     * 会員情報変更 - handle_name
+     * 会員情報変更 - name
      *
      * @param Request $request
      * @return false|string
@@ -105,6 +92,97 @@ class UserController extends Controller
     public function updateName(Request $request)
     {
         $response = $this->userService->updateName($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - height
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateHeight(Request $request)
+    {
+        $response = $this->userService->updateHeight($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - weight
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateWeight(Request $request)
+    {
+        $response = $this->userService->updateWeight($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - age
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateAge(Request $request)
+    {
+        $response = $this->userService->updateAge($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - salary
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateSalary(Request $request)
+    {
+        $response = $this->userService->updateSalary($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - facebook
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateFacebook(Request $request)
+    {
+        $response = $this->userService->updateFacebook($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+     /**
+     * 会員情報変更 - instagram
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateInstagram(Request $request)
+    {
+        $response = $this->userService->updateInstagram($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - twitter
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateTwitter(Request $request)
+    {
+        $response = $this->userService->updateTwitter($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
@@ -170,6 +248,21 @@ class UserController extends Controller
         $email = $request->input('email');
         $this->userService->checkEmail($email);
         $response = $this->userService->getFace($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * メールアドレスが登録済か確認
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function checkEmail(Request $request)
+    {
+        $response = $this->userService->checkEmailRegisterd($request->input('email'));
+        if (!$response) {
+            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+        }
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 }
