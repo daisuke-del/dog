@@ -45,7 +45,7 @@
           v-show="cropImg"
           :src="cropImg"
           alt="Cropped Image"
-          style="width: 300px; height:300px; border:none"
+          class="crop-img"
         />
         <div class="btn-wrap">
           <v-btn
@@ -199,6 +199,13 @@ input[type="file"] {
 .crop-area {
   width: 300px;
   height:300px;
+  display: inline-block;
+}
+
+.crop-img {
+  width: 300px;
+  height:300px;
+  border: none;
   display: inline-block;
 }
 
