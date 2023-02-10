@@ -139,7 +139,7 @@ class UsersRepository implements UsersRepositoryInterface
             'face_image' => $user->getFaceImage(),
             'facebook_id' => $user->getFacebookId(),
             'instagram_id' => $user->getInstagramId(),
-            'twitter_id' => $user->getUserId(),
+            'twitter_id' => $user->getTwitterId(),
             'yellow_card' => $user->getYellowCard(),
             'created_date' => $user->getCreateDate(),
             'update_face_at' => $user->getUpdateFaceAt(),

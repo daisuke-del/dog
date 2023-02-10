@@ -88,7 +88,7 @@ class UserService
             'salary2' => $storeInfo['salary2'],
             'face_point2' => $storeInfo['facePoint2'],
             'face_image' => $faceImage,
-            'facebook_id' => $request->input('facebookIdd'),
+            'facebook_id' => $request->input('facebookId'),
             'instagram_id' => $request->input('instagramId'),
             'twitter_id' => $request->input('twitterId'),
         ];
@@ -855,6 +855,8 @@ class UserService
      *
      * @param string $email
      * @return void
+     * @throws Exception
+     * @throws Throwable
      */
     public function checkEmail(string $email): void
     {
@@ -865,7 +867,7 @@ class UserService
 
         $result = $this->usersRepository->getUserByMail($checkedEmail);
         if (isset($result)) {
-            throw new MATCHException('すでに登録済です', 400);
+            throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
     }
 

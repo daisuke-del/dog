@@ -189,6 +189,8 @@ export default {
         this.sliderFaces.splice(0, response.length)
         this.sliderFaces.push(...response)
         this.position = 2
+      }).catch(() => {
+        this.position = 1
       })
       this.postUserInfoLoading = false
     },

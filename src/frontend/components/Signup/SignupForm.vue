@@ -14,7 +14,7 @@
         <v-text-field v-model="password" :rules="passwordRules"
           :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
           class="password form-content" label="パスワード" required light />
-        <div class="height form-content">
+        <div class="height form-content d-flex justify-center">
           <label>
             <span>身長</span>
             <input v-for="(input, index) in 3" :id="generateInputNum('height', index)"
@@ -27,7 +27,7 @@
             身長は３桁の半角数字で入力してください。例:180
           </p>
         </div>
-        <div class="weight form-content">
+        <div class="weight form-content d-flex justify-center">
           <label>
             <span>体重</span>
             <input v-for="(input, index) in 3" :id="generateInputNum('weight', index)"
@@ -40,7 +40,7 @@
             体重は３桁の半角数字で入力してください。例:060
           </p>
         </div>
-        <div class="age form-content">
+        <div class="age form-content d-flex justify-center">
           <label>
             <span>年齢</span>
             <input v-for="(input, index) in 3" :id="generateInputNum('age', index)"
@@ -241,7 +241,7 @@ export default {
           this.salary = 50
         }
         if (this.inputFacebook.match(/^https:\/\/(ja-jp.facebook.com\/)/)) {
-            this.facebookid = this.inputFacebook.replace('https://ja-jp.facebook.com/', '')
+            this.facebookId = this.inputFacebook.replace('https://ja-jp.facebook.com/', '')
         } else {
             this.facebookId = this.inputFacebook
         }

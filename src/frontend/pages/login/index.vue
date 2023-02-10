@@ -8,15 +8,10 @@
         <v-text-field v-model="password" :rules="passwordRules"
           :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
           class="password form-content" label="パスワード" background-color="white" required outlined light />
-        <v-btn block height="40px" elevation="0" color="#fd7e00" :loading="loginLoading" class="font-weight-bold mb-1" @click="clickLogin">
+        <v-btn block height="40px" elevation="0" color="#fd7e00" :loading="loginLoading" class="font-weight-bold mb-8" @click="clickLogin">
           ログイン
         </v-btn>
-        <div class="d-flex justify-center">
-          <v-btn text light class="mb-3">
-            パスワードを忘れた方
-          </v-btn>
-        </div>
-        <v-btn block height="40px" elevation="0" color="#0067c0" class="font-weight-bold"
+        <v-btn block height="40px" elevation="0" color="#0067c0" class="font-weight-bold mb-5"
           @click="$router.push('signup')">
           会員登録
         </v-btn>
