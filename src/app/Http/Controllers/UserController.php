@@ -57,6 +57,17 @@ class UserController extends Controller
     }
 
     /**
+     * 退会
+     *
+     *
+     */
+    public function leave()
+    {
+        $response = $this->userService->leave();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * 会員情報変更 - email
      *
      * @param Request $request
@@ -144,6 +155,19 @@ class UserController extends Controller
     public function updateSalary(Request $request)
     {
         $response = $this->userService->updateSalary($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - face_image
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateFaceImage(Request $request)
+    {
+        $response = $this->userService->updateFaceImage($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 

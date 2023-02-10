@@ -271,6 +271,14 @@ interface UsersRepositoryInterface
      * @return object
      */
     public function getMatchResult($matchInfo, $place): object;
+
+    /**
+     * ユーザーを削除
+     *
+     * @param $userId
+     * @return bool
+     */
+    public function deleteUser($userId): bool;
 }
 
 

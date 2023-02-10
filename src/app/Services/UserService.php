@@ -88,9 +88,9 @@ class UserService
             'salary2' => $storeInfo['salary2'],
             'face_point2' => $storeInfo['facePoint2'],
             'face_image' => $faceImage,
-            'facebook_id' => $request->input('facebook_id'),
-            'instagram_id' => $request->input('instagram_id'),
-            'twitter_id' => $request->input('twitter_id'),
+            'facebook_id' => $request->input('facebookIdd'),
+            'instagram_id' => $request->input('instagramId'),
+            'twitter_id' => $request->input('twitterId'),
         ];
 
         $response = $this->insertUsers($requestArr);
@@ -186,6 +186,18 @@ class UserService
         $users = $this->usersRepository->new($user);
         $this->usersRepository->updateEmail($users);
         return [];
+    }
+
+    /**
+     * 退会
+     *
+     */
+    public function leave(): bool
+    {
+        $userId = Auth::id();
+        Auth::logout();
+        $result = $this->usersRepository->deleteUser($userId);
+        return $result;
     }
 
     /**
@@ -592,8 +604,8 @@ class UserService
             'instagram_id' => $request['instagram_id'],
             'twitter_id' => $request['twitter_id'],
             'yellow_card' => 0,
-            'create_date' => $now->format('Y-m-d H:i:s.u'),
-            'update_face_at' => $now->format('Y-m-d H:i:s.u'),
+            'create_date' => $now->format('Y-m-d H:i:s'),
+            'update_face_at' => $now->format('Y-m-d H:i:s'),
             'face_image_void_flg' => 0,
             'order_number' => $orderNumber
         ];
@@ -800,24 +812,23 @@ class UserService
      */
     public function updateFaceImage(Request $request): array
     {
-        $user = Auth::user();
-        $oldImage = $user->face_image;
-        $userId = $user->user_id;
-        $userInfo = $this->usersRepository->selectUsersById($userId);
+        $userId = Auth::id();
+        $userInfo = $this->usersRepository->selectUsersById($userId)->toArray();
+        $oldImage = $userInfo['face_image'];
         try {
+            $this->deleteFaceImage($oldImage);
             $newImage = $this->storeFaceImage($request->input('faceImage'));
-            if ($this->usersRepository->updateFace($userId, $newImage)) {
-                if (!$this->deleteFaceImage($oldImage)) {
-                    throw new MATCHException('画像の更新に失敗しました', 400);
-                }
-            }
+            $this->usersRepository->updateFace($userId, $newImage);
             $continuationScore = $this->mypageService->getContinuationScore($userInfo['update_face_at']);
-            $status = $this->mypageService->getFaceStatus($userId, $continuationScore);
-            $continuationScore = $this->mypageService->getContinuationScore($userId);
+            $rank = $this->mypageService->getFaceStatus($userId, $continuationScore);
             return [
-                'status' => $status,
-                'face_image' => $newImage,
-                'face_point' => $userInfo->face_point,
+                'user_id' => $userInfo['user_id'],
+                'gender' => $userInfo['gender'],
+                'name' => $userInfo['name'],
+                'void_flg' => $userInfo['face_image_void_flg'],
+                'rank' => $rank,
+                // 'face_image' => $newImage,
+                'face_point' => $userInfo['face_point'],
                 'score' => $continuationScore,
             ];
         } catch (Exception $e) {
@@ -992,5 +1003,15 @@ class UserService
         }
 
         return false;
+    }
+    /**
+     * @param Request $request
+     * @return null|array
+     */
+    public function storeImage($request)
+    {
+        $img = $request->input('faceImage');
+        $newImage = $this->storeFaceImage($img);
+        return ['newImage' => $newImage];
     }
 }

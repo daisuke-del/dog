@@ -1,62 +1,26 @@
 <template>
   <div>
     <div class="gender">
-      <toggle-button
-        v-model="whitchGender"
-        :color="{checked: '#99ccff', unchecked: '#ECA5B2'}"
-        :labels="{checked: '男性', unchecked: '女性'}"
-        :switch-color="{checked: '#0099ff', unchecked: '#FFC0CB'}"
-        :font-size="15"
-        :width="80"
-        :height="30"
-      />
+      <toggle-button v-model="whitchGender" :color="{ checked: '#99ccff', unchecked: '#ECA5B2' }"
+        :labels="{ checked: '男性', unchecked: '女性' }" :switch-color="{ checked: '#0099ff', unchecked: '#FFC0CB' }"
+        :font-size="15" :width="80" :height="30" />
     </div>
     <v-form ref="signupForm" class="signup-form-wrap">
       <div class="main-wrap">
-        <v-text-field
-          v-model="name"
-          :rules="nameRules"
-          :counter="10"
-          class="name form-content"
-          label="ニックネーム(ヤマダユウキ)"
-          required
-          light
-        />
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          class="mail form-content"
-          label="メールアドレス(example@gmail.com)"
-          required
-          light
-        />
-        <v-text-field
-          v-model="password"
-          :rules="passwordRules"
-          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="isShowPassword ? 'text' : 'password'"
-          class="password form-content"
-          label="パスワード"
-          required
-          light
-        />
+        <v-text-field v-model="name" :rules="nameRules" :counter="10" class="name form-content" label="ニックネーム(ヤマダユウキ)"
+          required light />
+        <v-text-field v-model="email" :rules="emailRules" class="mail form-content" label="メールアドレス(example@gmail.com)"
+          required light />
+        <v-text-field v-model="password" :rules="passwordRules"
+          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
+          class="password form-content" label="パスワード" required light />
         <div class="height form-content">
           <label>
             <span>身長</span>
-            <input
-              v-for="(input, index) in 3"
-              :id="generateInputNum('height', index)"
-              :ref="generateInputNum('height', index)"
-              :key="'height' + index"
-              v-model="heightValues[index]"
-              class="number"
-              type="tel"
-              maxlength="1"
-              autocomplete="off"
-              required
-              oninput="value = value.replace(/[^0-9]+/i,'');"
-              @keyup="heightHandleInputFocus(index, $event)"
-            >
+            <input v-for="(input, index) in 3" :id="generateInputNum('height', index)"
+              :ref="generateInputNum('height', index)" :key="'height' + index" v-model="heightValues[index]"
+              class="number" type="tel" maxlength="1" autocomplete="off" required
+              oninput="value = value.replace(/[^0-9]+/i,'');" @keyup="heightHandleInputFocus(index, $event)">
             <span>cm</span>
           </label>
           <p v-if="heightErrorShow" class="error-message">
@@ -66,20 +30,10 @@
         <div class="weight form-content">
           <label>
             <span>体重</span>
-            <input
-              v-for="(input, index) in 3"
-              :id="generateInputNum('weight', index)"
-              :ref="generateInputNum('weight', index)"
-              :key="'weight' + index"
-              v-model="weightValues[index]"
-              class="number"
-              type="tel"
-              maxlength="1"
-              autocomplete="off"
-              required
-              oninput="value = value.replace(/[^0-9]+/i,'');"
-              @keyup="weightHandleInputFocus(index, $event)"
-            >
+            <input v-for="(input, index) in 3" :id="generateInputNum('weight', index)"
+              :ref="generateInputNum('weight', index)" :key="'weight' + index" v-model="weightValues[index]"
+              class="number" type="tel" maxlength="1" autocomplete="off" required
+              oninput="value = value.replace(/[^0-9]+/i,'');" @keyup="weightHandleInputFocus(index, $event)">
             <span>kg</span>
           </label>
           <p v-if="weightErrorShow" class="error-message">
@@ -89,20 +43,10 @@
         <div class="age form-content">
           <label>
             <span>年齢</span>
-            <input
-              v-for="(input, index) in 3"
-              :id="generateInputNum('age', index)"
-              :ref="generateInputNum('age', index)"
-              :key="'age' + index"
-              v-model="ageValues[index]"
-              class="number"
-              type="tel"
-              maxlength="1"
-              autocomplete="off"
-              required
-              oninput="value = value.replace(/[^0-9]+/i,'');"
-              @keyup="ageHandleInputFocus(index, $event)"
-            >
+            <input v-for="(input, index) in 3" :id="generateInputNum('age', index)"
+              :ref="generateInputNum('age', index)" :key="'age' + index" v-model="ageValues[index]" class="number"
+              type="tel" maxlength="1" autocomplete="off" required oninput="value = value.replace(/[^0-9]+/i,'');"
+              @keyup="ageHandleInputFocus(index, $event)">
             <span>歳</span>
           </label>
           <p v-if="ageErrorShow" class="error-message">
@@ -111,49 +55,41 @@
         </div>
         <label class="salary-wrap d-flex justify-center form-content">
           <span>
-            <v-select
-              v-model="item"
-              class="salary-box"
-              :items="salaryRange"
-              label="年収を選択"
-              hide-details
-              prepend-icon="mdi-currency-jpy"
-              outlined
-            />
+            <v-select v-model="item" class="salary-box" :items="salaryRange" label="年収を選択" hide-details
+              prepend-icon="mdi-currency-jpy" outlined />
           </span>
           <span class="salary-text">万円</span>
         </label>
         <p v-if="salaryErrorShow" class="error-message">
           年収を選択してください。
         </p>
+        <div class="pt-4 pb-4">
+          <div>
+            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Facebookアカウントを登録</p>
+            <v-text-field v-model="inputFacebook" placeholder="Facebook" autocomplete="off" hide-details class="form-content" />
+          </div>
+          <div>
+            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Instagramアカウントを登録</p>
+            <v-text-field v-model="inputInstagram" placeholder="Instagram" autocomplete="off" hide-details class="form-content" />
+          </div>
+          <div>
+            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Twitterアカウントを登録</p>
+            <v-text-field v-model="inputTwitter" placeholder="twitter" autocomplete="off" hide-details class="form-content" />
+          </div>
+        </div>
         <div class="support-wrap d-flex justify-center">
           <v-btn text to="/support/terms" class="small-text" target="_blank">
             利用規約を確認
           </v-btn>
         </div>
         <div class="d-flex justify-center">
-          <v-checkbox
-            v-model="checkbox"
-            class="checkbox"
-            label="利用規約に同意します"
-            required
-            light
-            hide-details=false
-          />
+          <v-checkbox v-model="checkbox" class="checkbox" label="利用規約に同意します" required light hide-details=false />
         </div>
         <p v-if="agreeErrorShow" class="error-message">
           利用規約に同意が必須です。
         </p>
-        <v-btn
-          block
-          dark
-          height="40px"
-          elevation="0"
-          color="#fd7e00"
-          class="font-weight-bold"
-          :loading="sendLoading"
-          @click="storeUserInfo"
-        >
+        <v-btn block dark height="40px" elevation="0" color="#fd7e00" class="font-weight-bold" :loading="sendLoading"
+          @click="storeUserInfo">
           入力項目を送信
         </v-btn>
       </div>
@@ -171,7 +107,7 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       isToggled: false,
       whitchGender: true,
@@ -187,15 +123,15 @@ export default {
       checkbox: null,
       title: '無料会員登録',
       salaryRange: [
-          '〜 199',
-          '200 〜 399',
-          '400 〜 599',
-          '600 〜 799',
-          '800 〜 999',
-          '1000 〜 1999',
-          '2000 〜 2999',
-          '3000 〜',
-        ],
+        '〜 199',
+        '200 〜 399',
+        '400 〜 599',
+        '600 〜 799',
+        '800 〜 999',
+        '1000 〜 1999',
+        '2000 〜 2999',
+        '3000 〜',
+      ],
       item: null,
       salary: null,
       nameRules: [
@@ -210,18 +146,26 @@ export default {
         v => !!v || 'パスワードが入力されていません。',
         v => v == null || (v.length >= constants.minPasswordLength && v.length <= constants.maxPasswordLength) || 'パスワードは6～32文字で設定して下さい。'
       ],
+      facebookRules: [
+      ],
       heightErrorShow: false,
       weightErrorShow: false,
       ageErrorShow: false,
       salaryErrorShow: false,
-      agreeErrorShow: false
+      agreeErrorShow: false,
+      facebookId: null,
+      instagramId: null,
+      twitterId: null,
+      inputFacebook: '',
+      inputInstagram: '',
+      inputTwitter: ''
     }
   },
   methods: {
-    generateInputNum (item, index) {
+    generateInputNum(item, index) {
       return `${item}_${index + 1}`
     },
-    heightHandleInputFocus (index, event) {
+    heightHandleInputFocus(index, event) {
       if (this.heightValues[index] && this.heightValues[index] !== '' && index < 2) {
         const [nextInput] = this.$refs[`height_${index + 2}`]
         nextInput.focus()
@@ -230,7 +174,7 @@ export default {
         previusInput.focus()
       }
     },
-    weightHandleInputFocus (index, event) {
+    weightHandleInputFocus(index, event) {
       if (this.weightValues[index] && this.weightValues[index] !== '' && index < 2) {
         const [nextInput] = this.$refs[`weight_${index + 2}`]
         nextInput.focus()
@@ -239,7 +183,7 @@ export default {
         previusInput.focus()
       }
     },
-    ageHandleInputFocus (index, event) {
+    ageHandleInputFocus(index, event) {
       if (this.ageValues[index] && this.ageValues[index] !== '' && index < 2) {
         const [nextInput] = this.$refs[`age_${index + 2}`]
         nextInput.focus()
@@ -248,7 +192,7 @@ export default {
         previusInput.focus()
       }
     },
-    clickSalary () {
+    clickSalary() {
       if (this.item === '〜 199') {
         this.salary = 150
       } else if (this.item === '200 〜 399') {
@@ -269,7 +213,7 @@ export default {
         this.salary = 50
       }
     },
-    storeUserInfo () {
+    storeUserInfo() {
       if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
         if (this.whitchGender === true) {
           this.gender = 'male'
@@ -296,6 +240,21 @@ export default {
         } else {
           this.salary = 50
         }
+        if (this.inputFacebook.match(/^https:\/\/(ja-jp.facebook.com\/)/)) {
+            this.facebookid = this.inputFacebook.replace('https://ja-jp.facebook.com/', '')
+        } else {
+            this.facebookId = this.inputFacebook
+        }
+        if (this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
+            this.instagramId = this.inputInstagram.replace('https://www.instagram.com/', '')
+        } else {
+            this.instagramId = this.inputInstagram
+        }
+        if (this.inputTwitter.match(/^https:\/\/(twitter.com\/)/)) {
+            this.twitterId = this.inputTwitter.replace('https://twitter.com/', '')
+        } else {
+            this.twitterId = this.inputTwitter
+        }
         this.$emit('store-user-info', {
           gender: this.gender,
           name: this.name,
@@ -304,7 +263,10 @@ export default {
           height: this.heightValues.join(''),
           weight: this.weightValues.join(''),
           age: this.ageValues.join(''),
-          salary: this.salary
+          salary: this.salary,
+          facebookId: this.facebookId,
+          instagramId: this.instagramId,
+          twitterId: this.twitterId
         })
       }
       if (this.heightValues.length != 3) {
@@ -334,7 +296,6 @@ span {
 
 .signup-form-wrap {
   padding-bottom: 30px;
-  text-align: center;
 }
 
 .main-wrap {
@@ -395,6 +356,21 @@ span {
 .error-message {
   color: #DD2C00;
   font-size: 12px;
+}
+
+.text-label {
+  color: white;
+  background: slategray;
+  font-size: 16px;
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+.text-sns {
+  display: inline-block;
+  color: slategray;
 }
 
 @media screen and (min-width: 600px) {

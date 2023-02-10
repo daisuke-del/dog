@@ -198,7 +198,6 @@ export default {
         submitTwitter() {
             if (this.$refs.twitterForm.validate()) {
                 if (this.inputTwitter.match(/^https:\/\/(twitter.com\/)/)) {
-                    console.log('a')
                     this.twitterAccount = this.inputTwitter.replace('https://twitter.com/', '')
                 } else {
                     this.twitterAccount = this.inputTwitter

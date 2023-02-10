@@ -735,4 +735,15 @@ class UsersRepository implements UsersRepositoryInterface
 
         return $result;
     }
+
+    /**
+     * ユーザーを削除
+     *
+     * @param $userId
+     * @return bool
+     */
+    public function deleteUser($userId): bool
+    {
+        return User::destroy($userId);
+    }
 }

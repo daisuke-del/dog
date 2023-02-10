@@ -350,7 +350,15 @@ export default {
       this.twitterLoading = false
     },
     leaveClick() {
-      window.location.href = ''
+      if (confirm('本当に退会して良いですか？')) {
+        user.leave().then(() => {
+          this.$auth.logout()
+          this.$router.push('/')
+        }).catch(() => {
+          this.$store.dispatch('snackbar/setMessage', '退会できませんでした')
+          this.$store.dispatch('snackbar/snackOn')
+        })
+      }
     }
   },
 }
@@ -371,5 +379,6 @@ h1 {
 .leave-button {
   color: #000;
   text-decoration: underline;
+  padding-right: 10px;
 }
 </style>

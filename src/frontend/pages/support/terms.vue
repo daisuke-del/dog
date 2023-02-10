@@ -190,6 +190,7 @@
 <script>
 export default {
   name: 'SupportTerms',
+  auth: false,
   layout: 'support'
 }
 </script>

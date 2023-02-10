@@ -93,7 +93,7 @@ export default {
     EvaluateFace,
     SignupCompletion
   },
-  asyncData ({ app, $auth, redirect }) {
+  asyncData ({ app, $auth }) {
     if ($auth.loggedIn) {
       app.router.replace('/mypage')
     }
@@ -123,6 +123,9 @@ export default {
       weight: null,
       age: null,
       salary: null,
+      facebookId: null,
+      instagramId: null,
+      twitterId: null,
       facePoint: null,
       faceImage: null,
       sliderFaces: [
@@ -179,6 +182,9 @@ export default {
       this.weight = userInfo.weight
       this.age = userInfo.age
       this.salary = userInfo.salary
+      this.facebookId = userInfo.facebookId
+      this.instagramId = userInfo.instagramId
+      this.twitterId = userInfo.twitterId
       await slider.signupSliderImage(this.gender, this.email).then((response) => {
         this.sliderFaces.splice(0, response.length)
         this.sliderFaces.push(...response)
@@ -207,6 +213,9 @@ export default {
         this.weight,
         this.age,
         this.salary,
+        this.facebookId,
+        this.instagramId,
+        this.twitterId,
         this.facePoint,
         this.faceImage
       ).then((response) => {

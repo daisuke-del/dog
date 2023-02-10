@@ -1,5 +1,7 @@
 <template>
   <div class="all">
+    <score-dialog :dialog="scoreDialog" @score-close="scoreClose"/>
+    <rank-dialog :dialog="rankDialog" :rank="rankText" @rank-close="rankClose"/>
     <div class="main-all">
       <h1>{{ title }}</h1>
       <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
@@ -10,7 +12,7 @@
           <v-col cols="6">
             <v-card light class="face-card">
               <div class="image-wrap">
-                <v-img :src="require(`@/../storage/image/faceimages/${faceImage}`)" />
+                <v-img :src="userWithImage" />
                 <v-btn class="image-icon" elevation="5" fab small @click="modalCroppers">
                   <v-icon color="white"> mdi-image-size-select-actual </v-icon>
                 </v-btn>
@@ -21,11 +23,11 @@
             <v-card light class="my-card">
               <div class="info-wrap">
                 <p class="big-text">総合ランク</p>
-                <div class="rank-wrap">
+                <div class="rank-wrap" @click="rankClick">
                   <v-img :src="require(`~/assets/image/rank/${rank}`)"
                     class="rank-icon" contain />
                 </div>
-                <div class="point-wrap d-flex justify-center">
+                <div class="point-wrap d-flex justify-center" @click="scoreClick">
                   <p class="point-text">Lv.
                     <span v-if="facePoint > 90" class="text-S">
                       {{ facePoint }}
@@ -133,12 +135,16 @@
 <script>
 import CommonModal from '@/components/Common/Modal'
 import CommonCropperjs from '@/components/Common/Cropper'
+import RankDialog from '@/components/Mypage/RankDialog'
+import ScoreDialog from '~/components/Mypage/ScoreDialog'
 import user from '@/plugins/modules/user'
 import favorite from '@/plugins/modules/favorite'
 export default {
   components: {
     CommonModal,
-    CommonCropperjs
+    CommonCropperjs,
+    ScoreDialog,
+    RankDialog
   },
   name: 'MyPage',
   async asyncData({ app }) {
@@ -156,7 +162,7 @@ export default {
       userId = response['user_id']
       gender = response['gender']
       name = response['name']
-      rank = response['rank'] ? response['rank'] : 'nomal'
+      rank = response['rank'] ? response['rank'] : 'nomal.png'
       faceImage = response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg'
       facePoint = response['face_point'] ? response['face_point'] : 0
       score = response['score'] ? response['score'] : 'E'
@@ -197,16 +203,24 @@ export default {
       userId: null,
       gender: null,
       name: '名無しさん',
-      rank: 'nomal',
+      rank: 'nomal.png',
       faceImage: 'no-user-image-icon.jpeg',
       facePoint: 0,
       score: 'E',
       voidFlg: 0,
-      friends: []
+      friends: [],
+      scoreDialog: false,
+      rankDialog: false,
+      rankText: ''
     }
   },
   props: {
     msg: String,
+  },
+  computed: {
+    userWithImage () {
+      return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+    }
   },
   methods: {
     modalCroppers() {
@@ -230,19 +244,46 @@ export default {
     closeModalCrop() {
       this.modalCropper = false
     },
-    saveCropImage() {
+    saveCropImage(faceImage) {
       if (confirm('写真を変更すると継続スコアがリセットされます。\n変更しますか？')) {
         this.modalCropper = false
-        // face_imageとupdate_at を更新
-        user.updateFaceImage()
+        user.updateFaceImage(faceImage).then((response) => {
+          this.$store.dispatch('authInfo/setAuthInfo', response)
+        }).catch(() => {
+          this.$store.dispatch('snackbar/setMessage', '画像の更新に失敗しました。')
+          this.$store.dispatch('snackbar/snackOn')
+        })
       }
     },
     clickNotFavorite(toUserId, userName, index) {
       if (confirm(userName + 'のお気に入りを解除してもいいですか？')) {
-        favorite.deleteFavorite(toUserId, this.$store.getters['authInfo/userId']).then((response) => {
+        favorite.deleteFavorite(toUserId, this.$store.getters['authInfo/userId']).then(() => {
           this.friends.splice(index, 1)
         })
       }
+    },
+    rankClick() {
+      if (this.rank === 'nomal.png') {
+        this.rankText = 'ノーマル'
+      } else if (this.rank === 'silver.png') {
+        this.rankText = 'シルバー'
+      } else if (this.rank === 'blond.png') {
+        this.rankText = 'ブロンズ'
+      } else if (this.rank === 'silver.png') {
+        this.rankText = 'シルバー'
+      } else if (this.rank === 'gold.png') {
+        this.rankText = 'ゴールド'
+      }
+      this.rankDialog = true
+    },
+    scoreClick() {
+      this.scoreDialog = true
+    },
+    rankClose() {
+      this.rankDialog = false
+    },
+    scoreClose() {
+      this.scoreDialog = false
     }
   },
 }

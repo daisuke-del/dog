@@ -9,16 +9,16 @@
                                 プロフィール
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                {{ height }}cm
+                                身長：{{ height }}cm
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                {{ weight }}kg
+                                体重：{{ weight }}kg
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                {{ age }}歳
+                                年齢：{{ age }}歳
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                {{ salary }}万円
+                                年収：{{ salary }}万円
                             </p>
                         </div>
                     </div>

@@ -21,6 +21,7 @@ Route::prefix('user')->name('user.')->group(function () {
   Route::post('login', [UserController::class, 'login'])->name('login');
   Route::post('logout', [UserController::class, 'logout']);
   Route::post('signup', [UserController::class, 'signup']);
+  Route::post('leave', [UserController::class, 'leave']);
   Route::middleware('auth:sanctum')->group(function () {
     // マイページ
     Route::prefix('my')->name('my.')->group(function () {
@@ -42,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('update/weight', [UserController::class, 'updateWeight']);
   Route::post('update/age', [UserController::class, 'updateAge']);
   Route::post('update/salary', [UserController::class, 'updateSalary']);
+  Route::post('update/face', [UserController::class, 'updateFaceImage']);
   Route::post('update/facebook', [UserController::class, 'updateFacebook']);
   Route::post('update/instagram', [UserController::class, 'updateInstagram']);
   Route::post('update/twitter', [UserController::class, 'updatetwitter']);
