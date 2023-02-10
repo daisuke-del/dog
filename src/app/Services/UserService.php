@@ -33,8 +33,6 @@ use App\Repositories\UsersRepository;
 use App\Services\MypageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 
 class UserService
 {
@@ -150,7 +148,6 @@ class UserService
      */
     public function logout()
     {
-        // ログアウトする
         Auth::logout();
     }
 
@@ -198,41 +195,6 @@ class UserService
         Auth::logout();
         $result = $this->usersRepository->deleteUser($userId);
         return $result;
-    }
-
-    /**
-     * 会員情報変更 - password
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function updatePassword(Request $request): array
-    {
-        $userId = auth()->id();
-        $user = $this->usersRepository->selectUsersById($userId);
-        $users = $this->usersRepository->selectusersById($userId);
-        if (is_null($user) || is_null($users)) {
-            // ユーザー情報を取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        $users = $users->toArray();
-        $email = $users['email'];
-        $passwordNew = $request->input('new_password');
-        // 新パスワードと再入力パスワードが一致しない
-        if ($passwordNew !== $request->input('new_password_again')) {
-            throw new MATCHException(config('const.ERROR.USER.PASSWORD_NOT_MATCH'), 401);
-        }
-        // パスワード生成したメールアドレスでパスワード生成 (メールアドレス自体の更新はしない)
-        $users['password'] = $passwordNew;
-        $users = $this->usersRepository->new($users);
-        $this->usersRepository->updatePassword($users);
-        // メールアドレスにパスワード変更しましたメールを送信 パスワードは返却しない
-        Mail::to($email)->send(new UpdatePasswordEmail($users));
-        // パスワードは返却しない
-        return [
-            'message' => 'パスワードを更新しました'
-        ];
     }
 
     /**
@@ -446,75 +408,6 @@ class UserService
         return [
             'twitter_id' => $users->getTwitterId()
         ];
-    }
-
-    /**
-     * パスワード忘れました - メールアドレス入力
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function forgetPasswordEmail(Request $request)
-    {
-        $email = (new Email($request->input('email')))->get();
-        $users = $this->usersRepository->getUserByMail($email);
-        if (empty($users)) {
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        $response = $this->registerUsers($users->toArray(), [
-            'email' => $email,
-            'password' => $users['password']
-        ]);
-        // メール送信
-        Mail::to($email)->send(new ForgetPasswordAuthCodeEmail($response['auth_code']));
-        $request->session()->put('forget_password_sigunup_user_id', $users['uid']);
-        return [];
-    }
-
-    /**
-     * パスワード忘れました - 認証コード入力
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function forgetPasswordAuth(Request $request)
-    {
-        $userId = $request->session()->get('forget_password_sigunup_user_id');
-        $authCode = (new AuthCode($request->input('auth_code')))->get();
-        $users = $this->checkAuthCode($userId, $authCode);
-        if (is_null($users)) {
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        return [];
-    }
-
-    /**
-     * パスワード忘れました - パスワード更新
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function forgetPasswordUpdate(Request $request)
-    {
-        $userId = $request->session()->get('forget_password_sigunup_user_id');
-        $password = $request->input('password');
-        // 新パスワードと再入力パスワードが一致しない
-        if ($password !== $request->input('password_again')) {
-            throw new MATCHException(config('const.ERROR.USER.PASSWORD_NOT_MATCH'), 400);
-        }
-        $users = $this->getUsersById($userId);
-        $email = $users['email'];
-        // パスワード生成したメールアドレスでパスワード生成 (メールアドレス自体の更新はしない)
-        $users['password'] = $password;
-        $usersEntity = $this->usersRepository->new($users);
-        $this->usersRepository->updatePassword($usersEntity);
-        // メール送信
-        Mail::to($email)->send(new ForgetPasswordEmail($usersEntity));
-        $request->session()->forget('forget_password_sigunup_user_id');
-        return [];
     }
 
     /**

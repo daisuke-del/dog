@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\UsersRepositoryInterface;
-use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\Facades\Log;
 
 class UsersRepository implements UsersRepositoryInterface
