@@ -75,6 +75,19 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
+     * ログイン情報からadminsテーブル情報を取得する
+     *
+     * @param string $email
+     * @return object|null
+     */
+    public function getAdminUser(string $email): ?object
+    {
+        return DB::table('admins')
+            ->where('email', $email)
+            ->first();
+    }
+
+    /**
      * usersテーブルにレコードを挿入する
      *
      * @param UserEntity $user
@@ -410,19 +423,20 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * face_imageとupdate_face_atを更新する
+     * face_image,update_face_at,face_image_void_flgを更新する
      *
      * @param stirng $userId
      * @return bool
      */
-    public function updateFace($userId, $faceImage): bool
+    public function updateFace($userId, $faceImage, $num = 0): bool
     {
         $now = new Carbon();
         return (new User())
             ->where('user_id', $userId)
             ->update([
                 'face_image' => $faceImage,
-                'update_face_at' => $now->format('Y-m-d H:i:s.u'),
+                'update_face_at' => $now->format('Y-m-d H:i:s:u'),
+                'face_image_void_flg' => $num
             ]);
     }
 
@@ -513,6 +527,20 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
+     * yellow_cardを任意の数に更新
+     *
+     * @param string $userId
+     * @param int $num
+     * @return bool
+     */
+    public function updateYellowCard(string $userId, int $num): bool
+    {
+       return DB::table('users')
+            ->where('user_id', $userId)
+            ->update(['yellow_card' => $num]);
+        }
+
+    /**
      * yellow_cardを取得
      *
      * @param string $userId
@@ -565,7 +593,7 @@ class UsersRepository implements UsersRepositoryInterface
     {
         DB::table('users')
             ->where('user_id', $userId)
-            ->update(['face_image_void_flg', $num]);
+            ->update(['face_image_void_flg' => $num]);
     }
 
     /**
@@ -744,5 +772,17 @@ class UsersRepository implements UsersRepositoryInterface
     public function deleteUser($userId): bool
     {
         return User::destroy($userId);
+    }
+
+    /**
+     * 不正な画像のユーザーを取得
+     *
+     * @return object
+     */
+    public function getVoidUsers(): object
+    {
+        return (new User)
+            ->where('face_image_void_flg', 1)
+            ->get();
     }
 }

@@ -46,6 +46,20 @@ class UserController extends Controller
     }
 
     /**
+     * 管理画面ログイン
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     * @throws Throwable
+     */
+    public function adminLogin(Request $request)
+    {
+        $response = $this->userService->adminLogin($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * ログアウト
      *
      * @return false|string
@@ -53,6 +67,17 @@ class UserController extends Controller
     public function logout()
     {
         $response = $this->userService->logout();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 管理者ログアウト
+     *
+     * @return false|string
+     */
+    public function adminLogout()
+    {
+        $response = $this->userService->adminLogout();
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
@@ -77,19 +102,6 @@ class UserController extends Controller
     public function updateEmail(Request $request)
     {
         $response = $this->userService->updateEmail($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * 会員情報変更 - password
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function updatePassword(Request $request)
-    {
-        $response = $this->userService->updatePassword($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
@@ -211,45 +223,6 @@ class UserController extends Controller
     }
 
     /**
-     * パスワード忘れました - メールアドレス入力
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function forgetPasswordEmail(Request $request)
-    {
-        $response = $this->userService->forgetPasswordEmail($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * パスワード忘れました - 認証コード入力
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function forgetPasswordAuth(Request $request)
-    {
-        $response = $this->userService->forgetPasswordAuth($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * パスワード忘れました - パスワード更新
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function forgetPasswordUpdate(Request $request)
-    {
-        $response = $this->userService->forgetPasswordUpdate($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * face_imageとface_pointをorder_number順に30件取得
      *
      * @param Request $request
@@ -287,6 +260,41 @@ class UserController extends Controller
         if (!$response) {
             throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 管理画面から不正な画像を削除
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function deleteVoidImage(Request $request)
+    {
+        $response = $this->userService->deleteVoidImage($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 不正な画像のユーザーを取得
+     *
+     * @return false|string
+     */
+    public function getVoidUsers()
+    {
+        $response = $this->userService->getVoidUsers();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 不正なユーザーをキャンセル
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function updateYellowCard(Request $request)
+    {
+        $response = $this->userService->cancelVoidUser($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 }

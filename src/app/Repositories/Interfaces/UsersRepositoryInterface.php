@@ -34,6 +34,14 @@ interface UsersRepositoryInterface
     public function getUser(string $email): ?User;
 
     /**
+     * ログイン情報からadminsテーブル情報を取得する
+     *
+     * @param string $email
+     * @return object|null
+     */
+    public function getAdminUser(string $email): ?object;
+
+    /**
      * usersテーブルにレコードを挿入する
      *
      * @param UserEntity $user
@@ -171,6 +179,14 @@ interface UsersRepositoryInterface
     public function updateTwitter(UserEntity $user): bool;
 
     /**
+     * face_image,update_face_at,face_image_void_flgを更新する
+     *
+     * @param stirng $userId
+     * @return bool
+     */
+    public function updateFace($userId, $faceImage, $num = 0): bool;
+
+    /**
      * 引数のemailが一致するusersテーブル情報を取得する
      *
      * @param string $email
@@ -279,6 +295,13 @@ interface UsersRepositoryInterface
      * @return bool
      */
     public function deleteUser($userId): bool;
+
+    /**
+     * 不正な画像のユーザーを取得
+     *
+     * @return object
+     */
+    public function getVoidUsers(): object;
 }
 
 

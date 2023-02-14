@@ -142,6 +142,38 @@ class UserService
     }
 
     /**
+     * 管理画面ログイン
+     *
+     * @param Request $request
+     * @throws Exception
+     * @throws Throwable
+     */
+    public function adminLogin(Request $request)
+    {
+        // userをemailで検索
+        $email = $request->input('email');
+        $user = $this->usersRepository->getAdminUser($email);
+        if (is_null($user)) {
+            throw new MATCHException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
+        }
+
+        if (Auth::guard('admin')->attempt($request->only(['email', 'password']), true)) {
+            return Auth::guard('admin')->user();
+        }
+        throw new MATCHException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
+    }
+
+    /**
+     * ログアウト
+     *
+     * @return array
+     */
+    public function adminLogout()
+    {
+        Auth::guard('admin')->logout();
+    }
+
+    /**
      * ログアウト
      *
      * @return array
@@ -269,9 +301,9 @@ class UserService
         $weight = $request->input('weight');
         $height = $user['height'];
         if ($user['gender'] === 'male') {
-            $weight2 = abs($weight / ($height*$height/10000) - 20) * 3;
+            $weight2 = abs($weight / ($height * $height / 10000) - 20) * 3;
         } else {
-            $weight2 = ($weight / ($height*$height/10000) - 20) * 3;
+            $weight2 = ($weight / ($height * $height / 10000) - 20) * 3;
         }
         $user['weight'] = $weight;
         $user['weight2'] = $weight2;
@@ -562,32 +594,32 @@ class UserService
     }
 
     /**
-    * choiceの２画像を取得
-    *
-    * @param Request $request
-    * @return array
-    * @throws Exception
-    */
-   public function upDownFacePoint(Request $request): array
-   {
+     * choiceの２画像を取得
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function upDownFacePoint(Request $request): array
+    {
         $this->usersRepository->upFacePoint($request->input('upUser'));
         $this->usersRepository->downFacePoint($request->input('downUser'));
 
         $responseInfo = [];
         $gender = $request->input('gender');
-        while(count($responseInfo) < 2) {
+        while (count($responseInfo) < 2) {
             $responseInfo = $this->getChoiceInfo($gender);
         }
 
         return $responseInfo;
-   }
+    }
 
-   /**
-    * choice用画像を取得
-    *
-    *@param string $gender
-    *@return array
-    */
+    /**
+     * choice用画像を取得
+     *
+     *@param string $gender
+     *@return array
+     */
     private function getChoiceInfo($gender): array
     {
         $maxNum = $this->usersRepository->getMaxFacePoint($gender);
@@ -597,13 +629,26 @@ class UserService
         return $response->toArray();
     }
 
-   /**
-    * yellow_cardを更新して、choice用画像を取得
-    *
-    * @param Request $request
-    * @return array
-    * @throws Exception
-    */
+    /**
+     * yellow_cardを更新
+     *
+     * @param string $userId
+     * @param int $num
+     * @return bool
+     * @throws Exception
+     */
+    private function updateYellowCard($userId, $num): bool
+    {
+        return $this->usersRepository->updateYellowCard($userId, $num);
+    }
+
+    /**
+     * yellow_cardを更新して、choice用画像を取得
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
     public function updateYellowAndGetFace(Request $request): array
     {
         $this->updateAndCheckYellowCard($request->input('userId'));
@@ -611,22 +656,22 @@ class UserService
         return $this->getChoiceInfo($gender);
     }
 
-   /**
-    * yellowCardを更新して、face_image_void_flgを更新
-    *
-    * @param string $upOrDown
-    * @param string $userId
-    * @return void
-    * @throws Exception
-    */
-   private function updateAndCheckYellowCard(string $userId): void
-   {
-       $this->usersRepository->upYellowCard($userId);
-       $yellowCard = $this->usersRepository->getYellowCard($userId);
-       if ($yellowCard > 2) {
-
-       }
-   }
+    /**
+     * yellowCardを更新して、face_image_void_flgを更新
+     *
+     * @param string $upOrDown
+     * @param string $userId
+     * @return void
+     * @throws Exception
+     */
+    private function updateAndCheckYellowCard(string $userId): void
+    {
+        $this->usersRepository->upYellowCard($userId);
+        $yellowCard = $this->usersRepository->getYellowCard($userId);
+        if ($yellowCard > 2) {
+            $this->usersRepository->updateFaceImageVoidFlg($userId, 1);
+        }
+    }
 
     /**
      * order方法をランダムに決定。
@@ -636,7 +681,7 @@ class UserService
      */
     public function decideOrderProcess(): string
     {
-        $randomNumber = mt_rand(1,2);
+        $randomNumber = mt_rand(1, 2);
         switch ($randomNumber) {
             case 1:
                 return 'desc';
@@ -662,7 +707,7 @@ class UserService
             $fileData = base64_decode($img);
 
             $fileName = md5($img);
-            $path = $fileName. '.'. $extension;
+            $path = $fileName . '.' . $extension;
 
             Storage::disk('local')->put($path, $fileData);
 
@@ -720,7 +765,7 @@ class UserService
                 'name' => $userInfo['name'],
                 'void_flg' => $userInfo['face_image_void_flg'],
                 'rank' => $rank,
-                // 'face_image' => $newImage,
+                'face_image' => $newImage,
                 'face_point' => $userInfo['face_point'],
                 'score' => $continuationScore,
             ];
@@ -788,9 +833,9 @@ class UserService
             $resultAddFavorite = $this->checkFavorite($userId, $arrayResults);
             if (isset($resultAddFavorite['onesideLoveId'])) {
                 $i = 0;
-                foreach($arrayResults as $result) {
-                    $i ++;
-                    $n = $i-1;
+                foreach ($arrayResults as $result) {
+                    $i++;
+                    $n = $i - 1;
                     if (in_array($result['user_id'], $resultAddFavorite['onesideLoveId'])) {
                         $arrayResults[$n]['onesideLove'] = 1;
                         if (in_array($result['user_id'], $resultAddFavorite['mutualLoveId'])) {
@@ -807,14 +852,13 @@ class UserService
         }
 
         $choice = [];
-        while(count($choice) < 2) {
+        while (count($choice) < 2) {
             $choice = $this->getChoiceInfo($genderSort);
         }
 
         $response = ['result' => $arrayResults, 'choice' => $choice];
 
         return $response;
-
     }
 
     /**
@@ -836,11 +880,11 @@ class UserService
 
         if ($gender === 'male') {
             $height2 = ($height - 150) * 2;
-            $weight2 = abs($weight / ($height*$height/10000) - 20) * 3;
+            $weight2 = abs($weight / ($height * $height / 10000) - 20) * 3;
             $age2 = abs($age - 27);
         } else {
             $height2 = 30;
-            $weight2 = ($weight / ($height*$height/10000) - 20) * 3;
+            $weight2 = ($weight / ($height * $height / 10000) - 20) * 3;
             $age2 = $age - 23;
         }
 
@@ -868,13 +912,13 @@ class UserService
     {
         $onesideLoversIds = [];
         $mutualLoversIds = [];
-        foreach($results as $result) {
+        foreach ($results as $result) {
             $resultIds[] = $result['user_id'];
         }
         $onesideLovers = $this->reactionsRepository->getResultFavorite($userId, $resultIds);
         if (isset($onesideLovers)) {
             $onesideLoversIds = [];
-            foreach($onesideLovers as $onesideLover) {
+            foreach ($onesideLovers as $onesideLover) {
                 $onesideLoversIds[] = $onesideLover['to_user_id'];
             }
             $mutualLovers = $this->reactionsRepository->getResultBeFavorited($userId, $onesideLoversIds);
@@ -883,7 +927,7 @@ class UserService
                     'onesideLoveId' => $onesideLoversIds
                 ];
             }
-            foreach($mutualLovers->toArray() as $mutualLover) {
+            foreach ($mutualLovers->toArray() as $mutualLover) {
                 $mutualLoversIds[] = $mutualLover['user_id'];
             }
             if ($mutualLovers) {
@@ -899,14 +943,65 @@ class UserService
 
         return false;
     }
+
     /**
+     * 画像を保存
+     *
      * @param Request $request
      * @return null|array
      */
-    public function storeImage($request)
+    public function storeImage($request): ?array
     {
         $img = $request->input('faceImage');
         $newImage = $this->storeFaceImage($img);
         return ['newImage' => $newImage];
+    }
+
+    /**
+     * 不正な画像を削除してデフォルトの画像パスを設定する
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function deleteVoidImage($request): bool
+    {
+        $userId = $request->input('userId');
+        $userInfo = $this->usersRepository->selectUsersById($userId);
+        $faceImage = $userInfo['face_image'];
+        try {
+            if (!Storage::exists($faceImage)) {
+                throw new MATCHException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+            }
+            $this->usersRepository->updateFace($userId, 'no-user-image-icon.jpeg', 2);
+            Storage::delete($faceImage);
+        } catch (Exception $e) {
+            Log::error($e);
+            throw new MATCHException(config('const.ERROR.ADMIN.FAILED'), 400);
+        }
+        return true;
+    }
+
+    /**
+     * 不正な画像のユーザーを取得
+     *
+     * @return object
+     */
+    public function getVoidUsers(): object
+    {
+        return $this->usersRepository->getVoidUsers();
+    }
+
+    /**
+     * 不正状態をキャンセル
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function cancelVoidUser(Request $request): void
+    {
+        $userId = $request->input('userId');
+        if ($this->updateYellowCard($userId, 0)) {
+            $this->usersRepository->updateFaceImageVoidFlg($userId, 0);
+        }
     }
 }

@@ -57,3 +57,14 @@ Route::middleware('auth:sanctum')->group(function () {
   });
 });
 
+// 管理者
+  Route::prefix('admin')->name('admin.')->group(function () {
+    Route::post('login', [UserController::class, 'adminLogin']);
+    Route::middleware('auth:sanctum')->group(function () {
+      Route::post('logout', [UserController::class, 'adminLogout']);
+      Route::post('delete', [UserController::class, 'deleteVoidImage']);
+      Route::get('users', [UserController::class, 'getVoidUsers']);
+      Route::post('update', [UserController::class, 'updateYellowCard']);
+    });
+  });
+

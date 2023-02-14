@@ -76,6 +76,9 @@ export default {
     '/update/': {
       target: 'http://localhost:80/'
     },
+    '/admin/': {
+      target: 'http://localhost:80/'
+    },
     '/sanctum/': {
       target: 'http://localhost:80/'
     }
@@ -119,6 +122,22 @@ export default {
           },
           logout: {
             url: '/user/logout',
+            method: 'post',
+            propertyName: false
+          },
+          user: false
+        }
+      },
+      admin: {
+        scheme: 'local',
+        endpoints: {
+          login: {
+            url: '/admin/login',
+            method: 'post',
+            propertyName: false
+          },
+          logout: {
+            url: '/admin/logout',
             method: 'post',
             propertyName: false
           },

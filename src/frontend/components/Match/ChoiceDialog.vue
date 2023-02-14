@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" width="400">
+    <v-dialog :value="dialog" @input="$emit('update:dialog', $event)" width="400">
         <v-card light>
             <v-card-title class="text-h7 grey lighten-2">
                 顔写真以外が表示されている？
@@ -11,14 +11,14 @@
 
             <v-img :src="faceImageModal"/>
 
-            <v-divider></v-divider>
+            <v-divider />
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn text class="btn-text" @click="alertClick">
+                <v-btn class="btn-text" @click="alertClick">
                     顔写真ではない！
                 </v-btn>
-                <v-btn color="accent" text @click="choiceClose">
+                <v-btn class="btn-text" color="accent" @click="choiceClose">
                     キャンセル
                 </v-btn>
             </v-card-actions>
@@ -46,6 +46,9 @@ export default {
     computed: {
         faceImageModal () {
             return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+        },
+        changeDialog () {
+            return this.dialog
         }
     },
     methods: {

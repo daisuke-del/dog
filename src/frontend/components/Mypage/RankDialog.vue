@@ -1,16 +1,16 @@
 <template>
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog :value="dialog" @input="$emit('update:dialog', $event)" width="500">
         <v-card light>
             <v-card-title class="text-h7 grey lighten-2">
                 総合ランク: {{ rank }}
             </v-card-title>
 
             <v-card-text>
-                『顔レベル』と『継続レベル』の合計で『総合ランク』が決まります。
-                『総合ランク』はノーマル・ブロンズ・シルバー・ゴールドがあります。
+                ・『顔レベル』と『継続レベル』の合計で『総合ランク』が決まります。<br>
+                ・ ノーマル・ブロンズ・シルバー・ゴールドがあります。
             </v-card-text>
 
-            <v-divider></v-divider>
+            <v-divider />
 
             <v-card-actions>
                 <v-spacer></v-spacer>

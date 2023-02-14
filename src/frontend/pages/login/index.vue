@@ -1,7 +1,8 @@
 <template>
   <div class="login-wrap mx-auto">
-    <h1>ログイン</h1>
-    <v-form ref="loginForm">
+    <h1><a @click="pulsA">ログ</a><a @click="pulsB">イン</a></h1>
+    <admin-login v-if="admin === 'abbaabb'"/>
+    <v-form ref="loginForm" v-else>
       <div class="main-wrap">
         <v-text-field v-model="email" :rules="emailRules" label="メールアドレス" background-color="white" required outlined
           light class="mail form-content" />
@@ -22,7 +23,9 @@
 <script>
 import user from '@/plugins/modules/user'
 import constants from '@/utils/constants'
+import AdminLogin from '@/components/Login/AdminLogin'
 export default {
+  components: { AdminLogin },
   name: 'LoginForm',
   auth: false,
   asyncData({ app, $auth, redirect }) {
@@ -53,7 +56,8 @@ export default {
         v => !!v || 'パスワードが入力されていません。',
         v => v == null || (v.length >= constants.minPasswordLength && v.length <= constants.maxPasswordLength) || 'パスワードは6～32文字で設定して下さい。'
       ],
-      loginLoading: false
+      loginLoading: false,
+      admin: ''
     }
   },
   methods: {
@@ -79,6 +83,12 @@ export default {
       }
       this.$store.dispatch('redirect/deletePageUrl')
     },
+    pulsA() {
+      this.admin = this.admin + 'a'
+    },
+    pulsB() {
+      this.admin = this.admin + 'b'
+    }
   }
 }
 </script>
@@ -89,6 +99,11 @@ h1 {
   color: dimgrey;
   margin: 20px;
   text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: dimgrey;
 }
 
 .login-wrap {

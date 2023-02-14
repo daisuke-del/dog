@@ -1,9 +1,9 @@
 <template>
     <div class="choice-wrap">
-        <choice-dialog :dialog="choiceDialog" :face-image="this.alertImage" :isLeft="this.isLeft" @left-click="clickAlertLeft" @right-click="clickAlertRight" @choice-close="choiceClose"/>
+        <choice-dialog :dialog.sync="choiceDialog" :face-image="this.alertImage" :isLeft="this.isLeft" @left-click="clickAlertLeft" @right-click="clickAlertRight" @choice-close="choiceClose"/>
         <div class="card-wrap d-flex justify-center">
             <div>
-                <v-card hover class="card" @click="choiceLeft">
+                <v-card light hover class="card" @click="choiceLeft">
                     <v-img :src="require(`@/../storage/image/faceimages/${leftImage}`)" />
                     <v-btn fab color="accent" class="alert-btn" @click.stop="leftDialog">
                         <v-icon small>
@@ -14,7 +14,7 @@
             </div>
             <p class="big-text vs-text">VS</p>
             <div>
-                <v-card hover class="card" @click="choiceRight">
+                <v-card light hover class="card" @click="choiceRight">
                     <v-img :src="require(`@/../storage/image/faceimages/${rightImage}`)" />
                     <v-btn fab color="accent" class="alert-btn" @click.stop="rightDialog">
                         <v-icon small>
@@ -139,7 +139,7 @@ export default {
     }
 
     .card {
-        max-width: 150px;
+        max-width: 170px;
         margin: 10px;
     }
 
