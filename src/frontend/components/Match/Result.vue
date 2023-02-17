@@ -1,8 +1,23 @@
 <template>
-  <div>
+  <div class="all">
     <v-row>
       <v-col cols="12" sm="6" v-for="(match, index) in matchResults" :key="index" class="card-wrap">
         <v-card light :class="match.mutualLove === 1 ? 'result-card-match' : 'result-card'">
+          <v-img
+            v-if="index === 0"
+            :src="require('@/assets/image/rank/1st.png')"
+            class="ranking-icon"
+          />
+          <v-img
+            v-else-if="index === 1"
+            :src="require('@/assets/image/rank/2nd.png')"
+            class="ranking-icon"
+          />
+          <v-img
+            v-else-if="index === 2"
+            :src="require('@/assets/image/rank/3rd.png')"
+            class="ranking-icon"
+          />
           <v-img :src="require(`@/../storage/image/faceimages/${match.face_image}`)" class="result-img" />
           <p class="card-text mt-4">{{ match.name }}</p>
           <p class="card-text pb-4">年収 {{ match.salary }}万円</p>
@@ -36,6 +51,16 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-btn
+      block
+      height="40px"
+      elevation="0"
+      color="#fd7e00"
+      class="font-weight-bold mb-10 mt-5"
+      @click="reTry"
+    >
+      もう一度診断する
+    </v-btn>
   </div>
 </template>
 
@@ -67,6 +92,9 @@ export default {
     },
     deleteFavorite(friendId, index) {
       this.$emit('delete-favorite', friendId, index)
+    },
+    reTry() {
+      this.$router.reload()
     }
   }
 }
@@ -87,12 +115,14 @@ export default {
 .result-card {
   margin-left: 10%;
   margin-right: 10%;
+  position: relative;
 }
 
 .result-card-match {
   margin-left: 10%;
   margin-right: 10%;
   background-color: rgb(251, 176, 214);
+  position: relative;
 }
 
 .icon-wrap {
@@ -107,6 +137,14 @@ export default {
   margin-bottom: 5px;
 }
 
+.ranking-icon {
+  z-index: 2;
+  position: absolute;
+  top: -2%;
+  left: -6%;
+  max-width: 50px;
+}
+
 @media screen and (min-width: 600px) {
   .big-text {
     font-size: 2em;
@@ -114,6 +152,10 @@ export default {
 
   .card-text {
     font-size: 1.4em;
+  }
+
+  .ranking-icon {
+    max-width: 70px;
   }
 }
 </style>

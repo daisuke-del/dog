@@ -110,13 +110,13 @@ class MypageService
     public function getFaceStatus($facePoint, $continuationScore): string
     {
         if ($facePoint >= 90 && ($continuationScore === 'S' || $continuationScore ==='A')) {
-            return 'gold.png';
+            return 'Gold';
         } elseif ($facePoint >= 70 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B')) {
-            return 'silver.png';
+            return 'Silver';
         } elseif ($facePoint >= 30 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B' || $continuationScore === 'C')) {
-            return 'blond.png';
+            return 'Blond';
         } else {
-            return 'nomal.png';
+            return 'Nomal';
         }
     }
 

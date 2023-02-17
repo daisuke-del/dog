@@ -297,4 +297,15 @@ class UserController extends Controller
         $response = $this->userService->cancelVoidUser($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
+
+    /**
+     * トップページ用ランキングを取得
+     *
+     * @return false|string
+     */
+    public function getRanking()
+    {
+        $response = $this->userService->getRanking();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
 }

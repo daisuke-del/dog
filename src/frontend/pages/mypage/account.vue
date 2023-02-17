@@ -82,10 +82,10 @@
 </template>
 
 <script>
-import EditEmail from '@/components/MyPage/EditEmail'
-import EditName from '@/components/MyPage/EditName'
-import EditProfile from '@/components/MyPage/EditProfile'
-import EditSns from '@/components/MyPage/EditSns'
+import EditEmail from '@/components/Mypage/EditEmail'
+import EditName from '@/components/Mypage/EditName'
+import EditProfile from '@/components/Mypage/EditProfile'
+import EditSns from '@/components/Mypage/EditSns'
 import constants from '@/utils/constants'
 import user from '~/plugins/modules/user'
 

@@ -282,11 +282,11 @@ interface UsersRepositoryInterface
     /**
      * match結果を取得
      *
-     * @param aray $matchInfo
+     * @param array $matchInfo
      * @param string $place
      * @return object
      */
-    public function getMatchResult($matchInfo, $place): object;
+    public function getMatchResult(array $matchInfo, string $place): object;
 
     /**
      * ユーザーを削除
@@ -294,7 +294,7 @@ interface UsersRepositoryInterface
      * @param $userId
      * @return bool
      */
-    public function deleteUser($userId): bool;
+    public function deleteUser(string $userId): bool;
 
     /**
      * 不正な画像のユーザーを取得
@@ -302,6 +302,14 @@ interface UsersRepositoryInterface
      * @return object
      */
     public function getVoidUsers(): object;
+
+    /**
+     * 顔面レベル上位三名を取得
+     *
+     * @param $gender
+     * @return object
+     */
+    public function getRanking(string $gender): object;
 }
 
 

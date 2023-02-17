@@ -620,11 +620,11 @@ class UsersRepository implements UsersRepositoryInterface
     /**
      * match結果を取得
      *
-     * @param aray $matchInfo
+     * @param array $matchInfo
      * @param string $place
      * @return object
      */
-    public function getMatchResult($matchInfo, $place): object
+    public function getMatchResult(array $matchInfo, string $place): object
     {
 
         if ($matchInfo['genderSort'] === 'male') {
@@ -769,7 +769,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param $userId
      * @return bool
      */
-    public function deleteUser($userId): bool
+    public function deleteUser(string $userId): bool
     {
         return User::destroy($userId);
     }
@@ -783,6 +783,23 @@ class UsersRepository implements UsersRepositoryInterface
     {
         return (new User)
             ->where('face_image_void_flg', 1)
+            ->get();
+    }
+
+    /**
+     * 顔面レベル上位三名を取得
+     *
+     * @param $gender
+     * @return object
+     */
+    public function getRanking(string $gender): object
+    {
+        return (new User)
+            ->where('gender', $gender)
+            ->where('face_image_void_flg', 0)
+            ->orderBy('face_point', 'desc')
+            ->orderBy('update_face_at', 'desc')
+            ->limit(3)
             ->get();
     }
 }

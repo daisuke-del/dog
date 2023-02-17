@@ -21,7 +21,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title color="accent">
-                        マッチング診断
+                        パートナー診断
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>

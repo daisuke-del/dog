@@ -1004,4 +1004,20 @@ class UserService
             $this->usersRepository->updateFaceImageVoidFlg($userId, 0);
         }
     }
+
+    /**
+     * 男女上位3名まだのランキングを取得
+     *
+     * @return array
+     */
+    public function getRanking(): array
+    {
+        $male = $this->usersRepository->getRanking('male');
+        $female = $this->usersRepository->getRanking('female');
+
+        return [
+            'male' => $male,
+            'female' => $female
+        ];
+    }
 }

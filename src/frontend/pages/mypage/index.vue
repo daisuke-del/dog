@@ -24,8 +24,10 @@
               <div class="info-wrap">
                 <p class="big-text">総合ランク</p>
                 <div class="rank-wrap" @click="rankClick">
-                  <v-img :src="require(`~/assets/image/rank/${rank}`)"
-                    class="rank-icon" contain />
+                  <p v-if="rank === 'Gold'" class="rank-text rank-gold">{{ rank }}</p>
+                  <p v-else-if="rank === 'Silver'" class="rank-text rank-silver">{{ rank }}</p>
+                  <p v-else-if="rank === 'Blond'" class="rank-text rank-blond">{{ rank }}</p>
+                  <p v-else class="rank-text">{{ rank }}</p>
                 </div>
                 <div class="point-wrap d-flex justify-center" @click="scoreClick">
                   <p class="point-text">Lv.
@@ -69,7 +71,7 @@
       </div>
       <v-row>
         <v-col cols="12" class="list-all">
-          <p class="small-text mb-1">フレンドリスト</p>
+          <p class="small-text mt-3 mb-1">フレンドリスト</p>
           <v-sheet light class="mx-auto" elevation="2">
             <v-slide-group v-model="model" active-class="success" show-arrows>
               <v-slide-item v-for="(friend, index) in friends" :key="index">
@@ -162,7 +164,7 @@ export default {
       userId = response['user_id']
       gender = response['gender']
       name = response['name']
-      rank = response['rank'] ? response['rank'] : 'nomal.png'
+      rank = response['rank'] ? response['rank'] : 'Nomal'
       faceImage = response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg'
       facePoint = response['face_point'] ? response['face_point'] : 0
       score = response['score'] ? response['score'] : 'E'
@@ -203,7 +205,7 @@ export default {
       userId: null,
       gender: null,
       name: '名無しさん',
-      rank: 'nomal.png',
+      rank: 'Nomal',
       faceImage: 'no-user-image-icon.jpeg',
       facePoint: 0,
       score: 'E',
@@ -352,6 +354,26 @@ h1 {
   align-items: center;
 }
 
+.rank-text {
+  font-family: 'Rampart One', cursive;
+  font-size: 40px;
+  color: dimgrey;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.rank-gold {
+  color: goldenrod;
+}
+
+.rank-silver {
+  color: silver;
+}
+
+.rank-blond {
+  color: brown;
+}
+
 .point-wrap {
   text-align: center;
 }
@@ -373,7 +395,7 @@ h1 {
 }
 
 .point-text {
-  font-size: 1.2em;
+  font-size: 1.4em;
   font-family: 'Rampart One', cursive;
   color: dimgrey;
   font-weight: bolder;
@@ -451,6 +473,10 @@ h1 {
     font-size: 1.5em;
     margin: 10px 0;
   }
+
+  .rank-text {
+    font-size: 60px;
+  }
 }
 
 @media screen and (min-width: 600px) {
@@ -470,6 +496,10 @@ h1 {
   .point-text {
     font-size: 2em;
     margin: 0 25px;
+  }
+
+  .rank-text {
+    font-size: 80px;
   }
 }
 </style>

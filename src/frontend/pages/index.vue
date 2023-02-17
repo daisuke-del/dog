@@ -1,54 +1,174 @@
 <template>
-  <div>
+  <div class="all">
     <div class="main-wrapper justify-center">
       <div class="top-text-wrap">
         <v-img
           :src="require('@/assets/image/logo/logotouka.png')"
         />
-        <v-img
-          :src="require('@/assets/texts/understandMyself-touka.png')"
-          class="top-text"
-          contain
-        />
-        <v-img
-          :src="require('@/assets/texts/No1-topText2.png')"
-          contain
-          width="100%"
-          class="text-No1"
-        />
+      </div>
+      <div class="ranking-wrap">
+        <h2 class="ranking-headline">【男性】人気の顔ランキング</h2>
+        <v-row>
+          <v-col cols="4" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/1st.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="firstMale"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/2nd.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="secondMale"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/3rd.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="thirdMale"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+      <div class="ranking-wrap">
+        <h2 class="ranking-headline">【女性】人気の顔ランキング</h2>
+        <v-row>
+          <v-col cols="4" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/1st.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="firstFemale"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/2nd.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="secondFemale"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/3rd.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="thirdFemale"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
       </div>
       <div class="btn-wrap">
         <a class="btn-text" @click="clickSignup">無料登録して始める</a>
       </div>
       <div class="intro-wrap">
         <div class="intro-small-wrap">
-          <h3 class="intro-headline">特徴I</h3>
-          <p class="intro-text">完全無料 課金したくてもできません</p>
+          <h3 class="intro-headline">完全無料</h3>
+          <p class="intro-text">
+            課金は必要なし！
+          </p>
         </div>
         <div class="intro-small-wrap">
-          <h3 class="intro-headline">特徴II</h3>
-          <p class="intro-text">顔面を重視したマッチングアプリです</p>
+          <h3 class="intro-headline">無料パートナー診断</h3>
+          <p class="intro-text">
+            今の自分のレベルに合った相手を診断
+          </p>
         </div>
         <div class="intro-small-wrap">
-          <h3 class="intro-headline">特徴III</h3>
-          <p class="intro-text">顔面レベルが適した人とマッチします</p>
+          <h3 class="intro-headline">放置するだけ</h3>
+          <p class="intro-text">
+            顔写真を登録して放置するだけで<br>リアルタイムに自分の顔レベルを測定できる！
+          </p>
         </div>
         <div class="intro-small-wrap">
-          <h3 class="intro-headline">特徴IV</h3>
-          <p class="intro-text">自分の顔面レベルが測定できます</p>
+          <h3 class="intro-headline">フレンド機能</h3>
+          <p class="intro-text">
+            気になった相手にはいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
+          </p>
         </div>
       </div>
       <div class="btn-wrap">
-        <a class="btn-text" @click="clickMatch">マッチング診断を開始</a>
+        <a class="btn-text" @click="clickMatch">パートナー診断を開始</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ranking from '@/plugins/modules/ranking'
 export default {
   name: 'TopPage',
   auth: false,
+  async asyncData() {
+    let maleRanking = []
+    let femaleRanking = []
+    await ranking.getRanking().then((response) => {
+      maleRanking = response['male']
+      femaleRanking = response['female']
+    })
+    return {
+      maleRanking,
+      femaleRanking
+    }
+  },
+  data() {
+    return {
+      maleRanking: [
+        {face_image: 'm1.jpeg'},
+        {face_image: 'm2.jpeg'},
+        {face_image: 'm3.jpeg'}
+      ],
+      femaleRanking: [
+        {face_image: '1.jpeg'},
+        {face_image: '2.jpeg'},
+        {face_image: '3.jpeg'}
+      ]
+    }
+  },
+  computed: {
+    firstMale () {
+      return this.maleRanking[0].face_image && require(`@/../storage/image/faceimages/${this.maleRanking[0].face_image}`)
+    },
+    secondMale () {
+      return this.maleRanking[1].face_image && require(`@/../storage/image/faceimages/${this.maleRanking[1].face_image}`)
+    },
+    thirdMale () {
+      return this.maleRanking[2].face_image && require(`@/../storage/image/faceimages/${this.maleRanking[2].face_image}`)
+    },
+    firstFemale () {
+      return this.maleRanking[0].face_image && require(`@/../storage/image/faceimages/${this.femaleRanking[0].face_image}`)
+    },
+    secondFemale () {
+      return this.maleRanking[1].face_image && require(`@/../storage/image/faceimages/${this.femaleRanking[1].face_image}`)
+    },
+    thirdFemale () {
+      return this.maleRanking[2].face_image && require(`@/../storage/image/faceimages/${this.femaleRanking[2].face_image}`)
+    }
+  },
   methods: {
     clickSignup() {
       this.$router.push('signup')
@@ -64,18 +184,51 @@ a {
   text-decoration: none;
 }
 
+h2 {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: dimgrey;
+
+}
+
 h3 {
   font-family: 'Rampart One', cursive;
 }
 
+.all {
+  padding: 20px;
+  min-width: 350px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .main-wrapper {
-  margin-top: 10%;
-  padding-left: 20%;
-  padding-right: 20%;
+  margin: 0 auto;
+  max-width: 1080px;
+}
+
+.ranking-col {
+  position: relative;
+}
+
+.ranking-headline {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 17px;
+}
+
+.ranking-icon {
+  z-index: 2;
+  position: absolute;
+  top: 1%;
+  left: -3%;
+  max-width: 35px;
 }
 
 .top-text-wrap {
-  margin-bottom: 30px;
+  max-width: 500px;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .top-text {
@@ -103,50 +256,48 @@ h3 {
 }
 
 .intro-wrap {
-  margin-top: 30px;
-  margin-bottom: 30px;
   text-align: center;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 .intro-headline {
-  font-size: 17px;
-  margin-top: 10%;
+  font-size: 25px;
+  margin-top: 10px;
   margin-bottom: 10px;
   text-align: left;
-  padding-left: 10%;
   color: black;
+  text-decoration: underline; /* 下線 */
+  text-decoration-thickness: 0.5em; /* 線の太さ */
+  text-decoration-color: rgba(255, 228, 0, 0.4); /* 線の色 */
+  text-underline-offset: -0.2em; /* 線の位置。テキストに重なるようにやや上部にする */
+  text-decoration-skip-ink: none;
 
 }
 
 .intro-text {
-  font-size: 12px;
-  margin-top: 10%;
+  text-align: left;
+  font-size: 15px;
   color: black;
+  padding: 30px 0;
 }
 
-@media screen and (min-width: 500px) {
-  .intro-text {
-    font-size: 15px;
+@media screen and (min-width: 600px) {
+  .intro-wrap {
+    max-width: 400px;
+  }
+
+  .ranking-icon {
+    max-width: 50px;
   }
 }
 
 @media screen and (min-width: 750px) {
-  .main-wrapper {
-    margin-top: 10%;
-    padding-left: 25%;
-    padding-right: 25%;
-  }
-
   .btn-text {
     border-radius: 50px;
     padding: 20px;
-    margin-top: 50px;
     display: inline-block;
     font-size: 20px;
-  }
-
-  .intro-wrap {
-    margin-top: 50px;
   }
 
   .intro-headline {
@@ -155,28 +306,6 @@ h3 {
 
   .intro-text {
     font-size: 20px;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .btn-text {
-    border-radius: 50px;
-    padding: 30px;
-    margin-top: 50px;
-    display: inline-block;
-    font-size: 30px;
-  }
-
-  .intro-wrap {
-    margin-top: 80px;
-  }
-
-  .intro-headline {
-    font-size: 50px;
-  }
-
-  .intro-text {
-    font-size: 30px;
   }
 }
 </style>
