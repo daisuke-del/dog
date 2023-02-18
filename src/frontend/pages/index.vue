@@ -83,36 +83,47 @@
         </v-row>
       </div>
       <div class="btn-wrap">
-        <a class="btn-text" @click="clickSignup">無料登録して始める</a>
+        <a class="btn-text pink-btn" @click="clickSignup">無料登録して始める</a>
+      </div>
+      <div class="how-to-wrap">
+        <v-img
+          :src="require('@/assets/image/other/how-to-use.png')"
+          class="how-to-image"
+        />
       </div>
       <div class="intro-wrap">
-        <div class="intro-small-wrap">
-          <h3 class="intro-headline">完全無料</h3>
-          <p class="intro-text">
-            課金は必要なし！
-          </p>
+        <div class="intro-text-wrap">
+          <div class="intro-small-wrap">
+            <h3 class="intro-headline">完全無料</h3>
+            <p class="intro-text">
+              課金は必要なし！
+            </p>
+          </div>
+          <div class="intro-small-wrap">
+            <h3 class="intro-headline">無料パートナー診断</h3>
+            <p class="intro-text">
+              今の自分のレベルに合った相手を診断
+            </p>
+          </div>
+          <div class="btn-wrap">
+            <a class="btn-text blue-btn" @click="clickMatch">パートナー診断を開始</a>
+          </div>
+          <div class="intro-small-wrap">
+            <h3 class="intro-headline">放置するだけ</h3>
+            <p class="intro-text">
+              顔写真を登録して放置するだけで<br>リアルタイムに自分の顔レベルを測定できる！
+            </p>
+          </div>
+          <div class="intro-small-wrap">
+            <h3 class="intro-headline">フレンド機能</h3>
+            <p class="intro-text">
+              気になった相手にはいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
+            </p>
+          </div>
+          <div class="btn-wrap">
+            <a class="btn-text pink-btn" @click="clickSignup">無料登録して友達を探す</a>
+          </div>
         </div>
-        <div class="intro-small-wrap">
-          <h3 class="intro-headline">無料パートナー診断</h3>
-          <p class="intro-text">
-            今の自分のレベルに合った相手を診断
-          </p>
-        </div>
-        <div class="intro-small-wrap">
-          <h3 class="intro-headline">放置するだけ</h3>
-          <p class="intro-text">
-            顔写真を登録して放置するだけで<br>リアルタイムに自分の顔レベルを測定できる！
-          </p>
-        </div>
-        <div class="intro-small-wrap">
-          <h3 class="intro-headline">フレンド機能</h3>
-          <p class="intro-text">
-            気になった相手にはいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
-          </p>
-        </div>
-      </div>
-      <div class="btn-wrap">
-        <a class="btn-text" @click="clickMatch">パートナー診断を開始</a>
       </div>
     </div>
   </div>
@@ -195,26 +206,22 @@ h3 {
 }
 
 .all {
-  padding: 20px;
   min-width: 350px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.main-wrapper {
-  margin: 0 auto;
-  max-width: 1080px;
 }
 
 .ranking-col {
   position: relative;
 }
 
+.ranking-wrap {
+  margin: 0 20px;
+}
+
 .ranking-headline {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: left;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .ranking-icon {
@@ -226,9 +233,11 @@ h3 {
 }
 
 .top-text-wrap {
-  max-width: 500px;
+  max-width: 400px;
   width: 50%;
   margin: 0 auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .top-text {
@@ -244,7 +253,6 @@ h3 {
 
 .btn-text {
   border-radius: 30px;
-  background-color: #f57ab1;
   color: white;
   padding: 15px;
   display: inline-block;
@@ -255,8 +263,28 @@ h3 {
   min-width: 200px;
 }
 
+.pink-btn {
+  background-color: #f57ab1;
+}
+
+.blue-btn {
+  background-color: #5383c3;
+}
+
+.how-to-wrap {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 100%;
+  background-color: #fffdf3;
+}
+
 .intro-wrap {
   text-align: center;
+  width: 100%;
+  padding-bottom: 50px
+}
+
+.intro-text-wrap {
   max-width: 300px;
   margin: 0 auto;
 }
@@ -281,31 +309,44 @@ h3 {
   color: black;
   padding: 30px 0;
 }
-
 @media screen and (min-width: 600px) {
-  .intro-wrap {
-    max-width: 400px;
+  .ranking-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .ranking-headline {
+    font-size: 25px;
   }
 
   .ranking-icon {
     max-width: 50px;
   }
-}
-
-@media screen and (min-width: 750px) {
-  .btn-text {
-    border-radius: 50px;
-    padding: 20px;
-    display: inline-block;
-    font-size: 20px;
-  }
 
   .intro-headline {
     font-size: 30px;
+    margin-top: 30px;
+  }
+
+  .intro-text-wrap {
+    max-width: 450px;
   }
 
   .intro-text {
     font-size: 20px;
+    letter-spacing: 5px;
+  }
+
+  .how-to-wrap {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 100%;
+    background-color: #fffdf3;
+  }
+
+  .how-to-image {
+    max-width: 800px;
+    margin: 0 auto;
   }
 }
 </style>

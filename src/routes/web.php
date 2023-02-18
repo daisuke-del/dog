@@ -28,7 +28,7 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::get('/', [MypageController::class, 'index']);
     });
   });
-  // マッチング診断結果取得
+  // パートナー診断結果取得
   Route::prefix('match')->name('match.')->group(function () {
     Route::post('result', [MatchController::class, 'result']);
   });

@@ -1,7 +1,7 @@
 <template>
   <div class="all">
-    <score-dialog :dialog="scoreDialog" @score-close="scoreClose"/>
-    <rank-dialog :dialog="rankDialog" :rank="rankText" @rank-close="rankClose"/>
+    <score-dialog :dialog="scoreDialog" :score="score" :facePoint="facePoint" @score-close="scoreClose"/>
+    <rank-dialog :dialog="rankDialog" :rank="rank" @rank-close="rankClose"/>
     <div class="main-all">
       <h1>{{ title }}</h1>
       <common-cropperjs v-show="modalCropper" @close-image-modal="closeModalCrop" @save-crop-image="saveCropImage" />
@@ -388,7 +388,7 @@ h1 {
 }
 
 .small-text {
-  font-size: 0.75em;
+  font-size: 1em;
   font-weight: bolder;
   font-family: 'Noto Sans JP', sans-serif;
   color: dimgrey;

@@ -1,5 +1,6 @@
 <template>
   <div class="all">
+    <p v-if="!$auth.loggedIn" class="result-text"><a class="clickSignup">会員登録</a>するといいね！が送れるよ</p>
     <v-row>
       <v-col cols="12" sm="6" v-for="(match, index) in matchResults" :key="index" class="card-wrap">
         <v-card light :class="match.mutualLove === 1 ? 'result-card-match' : 'result-card'">
@@ -74,13 +75,16 @@ export default {
     }
   },
   methods: {
+    clickSignup() {
+      this.$router.push('signup')
+    },
     clickTwitter(url) {
       const link = 'https://www.twitter.com/' + url
       window.open(link, '_blank')
     },
     clickInstagram(url) {
       const link = 'https://www.instagram.com/' + url
-      window.open(url, '_blank')
+      window.open(link, '_blank')
     },
     clickFacebook(url) {
       const link = 'https://ja-jp.facebook.com/' + url
@@ -94,13 +98,22 @@ export default {
       this.$emit('delete-favorite', friendId, index)
     },
     reTry() {
-      this.$router.reload()
+      this.$router.go({path: this.$router.currentRoute.path, force: true})
     }
   }
 }
 </script>
 
 <style scoped>
+.result-text {
+  color: slategray;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
 .card-text {
   font-size: 1.2em;
   font-family: 'Noto Sans JP', sans-serif;
@@ -142,20 +155,20 @@ export default {
   position: absolute;
   top: -2%;
   left: -6%;
-  max-width: 50px;
+  max-width: 70px;
 }
 
 @media screen and (min-width: 600px) {
+  .result-text {
+    font-size: 1.5em;
+  }
+
   .big-text {
     font-size: 2em;
   }
 
   .card-text {
     font-size: 1.4em;
-  }
-
-  .ranking-icon {
-    max-width: 70px;
   }
 }
 </style>

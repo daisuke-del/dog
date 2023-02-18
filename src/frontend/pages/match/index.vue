@@ -1,7 +1,7 @@
 <template>
   <div class="all">
     <h1 v-if="choiceCount < 3 && position === 8">どっちが好み？</h1>
-    <h1 v-else-if="position === 8">マッチング結果</h1>
+    <h1 v-else-if="position === 8">診断結果</h1>
     <h1 v-else>パートナー診断</h1>
     <match-choice v-if="choiceCount < 3 && position === 8" :leftImage="choiceFaces[0].face_image"
       :rightImage="choiceFaces[1].face_image" @choice-left="choiceLeft" @choice-right="choiceRight"

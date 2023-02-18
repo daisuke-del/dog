@@ -43,7 +43,7 @@ export const mutations = {
     state.auth.name = userInfo.name ? userInfo.name : '名無しさん'
     state.auth.faceImage = userInfo.face_image ? userInfo.face_image : 'no-user-image-icon.jpeg'
     state.auth.facePoint = userInfo.face_point ? userInfo.face_point : 0
-    state.auth.rank = userInfo.rank ? userInfo.rank : 'Nomal.png'
+    state.auth.rank = userInfo.rank ? userInfo.rank : 'Nomal'
     state.auth.score = userInfo.score ? userInfo.score : 'D'
     state.auth.voidFlg = userInfo.void_flg ? userInfo.void_flg : 0
   },

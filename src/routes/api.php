@@ -16,7 +16,7 @@ use App\Http\Controllers\MypageController;
 |
 */
 
-// マッチング診断
+// パートナー診断
 Route::prefix('match')->name('match.')->group(function () {
   Route::post('result', [MatchController::class, 'result']);
   Route::post('choice', [MatchController::class, 'choice']);
@@ -32,4 +32,9 @@ Route::prefix('slider')->name('slider.')->group(function () {
 // 確認系
 Route::prefix('check')->name('check.')->group(function () {
   Route::post('email', [UserController::class, 'checkEmail']);
+});
+
+// ランキングを取得
+Route::prefix('ranking')->name('ranking.')->group(function () {
+  Route::get('get', [UserController::class, 'getRanking']);
 });

@@ -2,7 +2,7 @@
     <v-dialog :value="dialog" @input="$emit('update:dialog', $event)" width="500">
         <v-card light>
             <v-card-title class="text-h7 grey lighten-2">
-                『顔レベル』　/ 『継続レベル』
+                『顔レベル』Lv{{ facePoint }} 『継続レベル』{{ score }}
             </v-card-title>
 
             <v-card-text>
@@ -30,6 +30,14 @@ export default {
         dialog: {
             type: Boolean,
             default: false
+        },
+        score: {
+            type: String,
+            default: 'D'
+        },
+        facePoint: {
+            type: Number,
+            default: 0
         }
     },
     methods: {

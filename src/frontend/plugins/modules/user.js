@@ -108,5 +108,5 @@ export default {
     return request('post', '/update/twitter', {
       twitter,
     })
-  },
+  }
 }

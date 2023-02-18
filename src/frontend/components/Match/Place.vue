@@ -11,7 +11,7 @@
           class="place-card"
           @click="clickPlace('club')"
         >
-          <v-img :src="require('~/assets/image/match/club.jpeg')" />
+          <v-img :src="require('~/assets/image/match/club.png')" />
         </v-card>
       </v-col>
       <v-col
@@ -23,7 +23,7 @@
           class="place-card"
           @click="clickPlace('introduction')"
         >
-          <v-img :src="require('~/assets/image/match/introduction.jpeg')" />
+          <v-img :src="require('~/assets/image/match/introduction.png')" />
         </v-card>
       </v-col>
       <v-col
@@ -35,31 +35,7 @@
           class="place-card"
           @click="clickPlace('jointparty')"
         >
-          <v-img :src="require('~/assets/image/match/jointparty.jpeg')" />
-        </v-card>
-      </v-col>
-      <v-col
-        cols="6"
-        sm="4"
-        class="place-box"
-      >
-        <v-card
-          class="place-card"
-          @click="clickPlace('pairs')"
-        >
-          <v-img :src="require('~/assets/image/match/pairs.jpeg')" />
-        </v-card>
-      </v-col>
-      <v-col
-        cols="6"
-        sm="4"
-        class="place-box"
-      >
-        <v-card
-          class="place-card"
-          @click="clickPlace('tinder')"
-        >
-          <v-img :src="require('~/assets/image/match/tinder.jpeg')" />
+          <v-img :src="require('~/assets/image/match/jointparty.png')" />
         </v-card>
       </v-col>
       <v-col
@@ -71,7 +47,31 @@
           class="place-card"
           @click="clickPlace('workplace')"
         >
-          <v-img :src="require('~/assets/image/match/workplace.jpeg')" />
+          <v-img :src="require('~/assets/image/match/workplace.png')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('pairs')"
+        >
+          <v-img :src="require('~/assets/image/match/pairs.png')" />
+        </v-card>
+      </v-col>
+      <v-col
+        cols="6"
+        sm="4"
+        class="place-box"
+      >
+        <v-card
+          class="place-card"
+          @click="clickPlace('tinder')"
+        >
+          <v-img :src="require('~/assets/image/match/tinder.png')" />
         </v-card>
       </v-col>
     </v-row>

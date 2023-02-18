@@ -93,8 +93,8 @@ export default {
 
 .salary-box {
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1.3em;
-  max-width: 300px;
+  font-size: 1.2em;
+  max-width: 200px;
   min-width: 100px;
   border: 2px solid #b9c9ce;
   border-radius: 5px;
@@ -149,7 +149,6 @@ export default {
   }
 
   .salary-wrap {
-    height: 100px;
     margin-top: 30px;
     margin-bottom: 30px;
   }
