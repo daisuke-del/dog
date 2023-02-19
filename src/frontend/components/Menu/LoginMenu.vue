@@ -2,7 +2,7 @@
     <div>
         <v-list-item light>
             <v-list-item-avatar @click="clickMypage">
-                <v-img :src="require(`@/../storage/image/faceimages/${$store.getters['authInfo/auth'].faceImage}`)" />
+                <v-img :src="userWithImage" />
             </v-list-item-avatar>
 
             <v-list-item-content @click="clickMypage">
@@ -75,9 +75,14 @@ export default {
     props: {
         drawer: Boolean
     },
+    data() {
+        return {
+            faceImage: this.$store.getters['authInfo/auth'].faceImage
+        }
+    },
     computed: {
-        faceImage() {
-            return require(`@/../storage/image/faceimages/${this.$store.getters['authInfo/auth'].faceImage}`)
+        userWithImage () {
+            return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
         }
     },
     methods: {
