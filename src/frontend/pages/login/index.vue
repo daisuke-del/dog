@@ -104,6 +104,7 @@ h1 {
 a {
   text-decoration: none;
   color: dimgrey;
+  cursor: default;
 }
 
 .login-wrap {

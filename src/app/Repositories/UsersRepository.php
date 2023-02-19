@@ -435,7 +435,7 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('user_id', $userId)
             ->update([
                 'face_image' => $faceImage,
-                'update_face_at' => $now->format('Y-m-d H:i:s:u'),
+                'update_face_at' => $now->format('Y-m-d H:i:s'),
                 'face_image_void_flg' => $num
             ]);
     }

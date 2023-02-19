@@ -49,9 +49,9 @@ class UserFactory extends Factory
             'update_face_at' => $date,
             'create_date' => $date,
             'yellow_card' => 0,
-            'twitter_id' => 'https://twitter.com/oo__aru_me',
-            'instagram_id' => 'https://www.instagram.com/steinberg_fan/',
-            'facebook_id' => 'https://www.facebook.com/y.kai1',
+            'twitter_id' => 'oo__aru_me',
+            'instagram_id' => 'steinberg_fan/',
+            'facebook_id' => 'y.kai1',
             'face_image_void_flg' => 0,
             'order_number' => $this->faker->numberBetween(1, 10000),
             'remember_token' => null

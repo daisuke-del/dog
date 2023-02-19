@@ -354,6 +354,10 @@ h1 {
   align-items: center;
 }
 
+.rank-wrap {
+  cursor: pointer;
+}
+
 .rank-text {
   font-family: 'Rampart One', cursive;
   font-size: 40px;
@@ -376,6 +380,7 @@ h1 {
 
 .point-wrap {
   text-align: center;
+  cursor: pointer;
 }
 
 .big-text {
