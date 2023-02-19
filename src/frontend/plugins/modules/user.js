@@ -83,10 +83,9 @@ export default {
       age,
     })
   },
-  updateSalary(salary, salary2) {
+  updateSalary(salary) {
     return request('post', '/update/salary', {
       salary,
-      salary2,
     })
   },
   updateFaceImage(faceImage) {
