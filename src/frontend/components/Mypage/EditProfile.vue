@@ -90,9 +90,17 @@
                             年収を変更
                         </p>
                         <div class="text-field-and-btn">
-                            <div class="text-field">
-                                <v-text-field v-model="inputSalary" placeholder="年収" :rules="salaryRules"
-                                    autocomplete="off" outlined required dense />
+                            <div class="salary-wrap d-flex justify-center">
+                                <v-select
+                                    :items="salaryRange"
+                                    v-model="item"
+                                    label="年収を選択"
+                                    hide-details
+                                    solo
+                                    flat
+                                    light
+                                    class="salary-box"
+                                />
                             </div>
                             <v-tooltip v-model="showSalaryTooltip" top>
                                 <template v-slot:activator="{ attrs }">
@@ -127,7 +135,7 @@ export default {
             default: ''
         },
         salary: {
-            type: Number,
+            type: String,
             default: ''
         },
         heightRules: {
@@ -185,6 +193,17 @@ export default {
             inputWeight: '',
             inputAge: '',
             inputSalary: '',
+            salaryRange: [
+                '〜 199',
+                '200 〜 399',
+                '400 〜 599',
+                '600 〜 799',
+                '800 〜 999',
+                '1000 〜 1999',
+                '2000 〜 2999',
+                '3000 〜',
+            ],
+            item: null
         }
     },
     methods: {
@@ -205,7 +224,7 @@ export default {
         },
         submitSalary() {
             if (this.$refs.salaryForm.validate()) {
-                this.$emit('editSalary', this.inputSalary)
+                this.$emit('editSalary', this.item)
             }
         }
     }
@@ -214,4 +233,12 @@ export default {
 
 <style scoped>
 @import 'assets/style/mypage/account.css';
+
+.salary-box {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1.2em;
+  border: 2px solid #b9c9ce;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
 </style>

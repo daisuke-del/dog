@@ -179,6 +179,8 @@ export default {
             if (this.$refs.facebookForm.validate()) {
                 if (this.inputFacebook.match(/^https:\/\/(ja-jp.facebook.com\/)/)) {
                     this.facebookAccount = this.inputFacebook.replace('https://ja-jp.facebook.com/', '')
+                } else if (this.inputFacebook.match(/^https:\/\/(facebook.com\/)/)) {
+                    this.facebookAccount = this.inputFacebook.replace('https://facebook.com/', '')
                 } else {
                     this.facebookAccount = this.inputFacebook
                 }

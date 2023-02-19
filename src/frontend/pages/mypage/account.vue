@@ -104,6 +104,7 @@ export default {
     let weight = null
     let age = null
     let salary = null
+    let tmpSalary = null
     let faceImage = null
     let facebookId = null
     let instagramId = null
@@ -115,11 +116,28 @@ export default {
       height = response['height']
       weight = response['weight']
       age = response['age']
-      salary = response['salary']
+      tmpSalary = response['salary']
       faceImage = response['face_image']
       facebookId = response['facebook_id']
       instagramId = response['instagram_id']
       twitterId = response['twitter_id']
+      if (tmpSalary < 200) {
+        salary = '〜 199'
+      } else if (tmpSalary < 400) {
+        salary = '200 〜 399'
+      } else if (tmpSalary < 600) {
+        salary = '400 〜 599'
+      } else if (tmpSalary < 800) {
+        salary = '600 〜 799'
+      } else if (tmpSalary < 1000) {
+        salary = '800 〜 999'
+      } else if (tmpSalary < 2000) {
+        salary = '1000 〜 1999'
+      } else if (tmpSalary < 3000) {
+        salary = '2000 〜 2999'
+      } else if (tmpSalary >= 3000) {
+        salary = '3000 〜'
+      }
     })
     return {
       email,
@@ -243,6 +261,7 @@ export default {
       this.heightLoading = true
       await user.updateHeight(height).then(() => {
         this.showHeightTooltip = true
+        this.height = height
         setTimeout(() => {
           this.showHeightTooltip = false
         }, 3000)
@@ -256,6 +275,7 @@ export default {
       this.weightLoading = true
       await user.updateWeight(weight).then(() => {
         this.showWeightTooltip = true
+        this.weight = weight
         setTimeout(() => {
           this.showWeightTooltip = false
         }, 3000)
@@ -269,6 +289,7 @@ export default {
       this.ageLoading = true
       await user.updateAge(age).then(() => {
         this.showAgeTooltip = true
+        this.age = age
         setTimeout(() => {
           this.showAgeTooltip = false
         }, 3000)
@@ -279,28 +300,27 @@ export default {
       this.ageLoading = false
     },
     async editSalary(salary) {
-      if (salary < 200) {
+      if (salary === '〜 199') {
         this.salary2 = 150
-      } else if (salary < 400 ) {
+      } else if (salary === '200 〜 399') {
         this.salary2 = 300
-      } else if (salary < 600) {
+      } else if (salary === '400 〜 599') {
         this.salary2 = 500
-      } else if (salary < 800) {
+      } else if (salary === '600 〜 799') {
         this.salary2 = 700
-      } else if (salary < 900) {
+      } else if (salary === '800 〜 999') {
         this.salary2 = 900
-      } else if (salary < 2000) {
+      } else if (salary === '1000 〜 1999') {
         this.salary2 = 1100
-      } else if (salary < 3000) {
-        this.salary2 = 1300
-      } else if (salary > 3000) {
-        this.salary2 = 1500
-      } else {
-        this.salary2 = 50
+      } else if (salary === '2000 〜 2999') {
+        this.salary2 = 2000
+      } else if (salary === '3000 〜') {
+        this.salary2 = 3000
       }
       this.salaryLoading = true
-      await user.updateSalary(salary, this.salary2).then(() => {
+      await user.updateSalary(this.salary2).then(() => {
         this.showSalaryTooltip = true
+        this.salary = salary
         setTimeout(() => {
           this.showSalaryTooltip = false
         }, 3000)

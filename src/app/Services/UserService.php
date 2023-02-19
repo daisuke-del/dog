@@ -361,7 +361,7 @@ class UserService
             // ユーザーが取得できない
             throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
         }
-        $salary2 = $request->input('salary2');
+        $salary2 = $request->input('salary');
         $salary2 = $salary2 / 10 - 30;
         $user['salary'] = $request->input('salary');
         $user['salary2'] = $salary2;
