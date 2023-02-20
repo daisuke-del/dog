@@ -60,9 +60,11 @@ export default {
         },
         clickAlertLeft() {
             this.$emit('alert-left');
+            this.choiceDialog = false
         },
         clickAlertRight() {
             this.$emit('alert-right');
+            this.choiceDialog = false
         },
         leftDialog() {
             this.alertImage = this.leftImage

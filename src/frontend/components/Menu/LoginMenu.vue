@@ -2,7 +2,7 @@
     <div>
         <v-list-item light>
             <v-list-item-avatar @click="clickMypage">
-                <v-img :src="userWithImage" />
+                <v-img :src="userWithImage" class="my-icon" />
             </v-list-item-avatar>
 
             <v-list-item-content @click="clickMypage">
@@ -107,3 +107,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.my-icon {
+    cursor: pointer;
+}
+</style>
