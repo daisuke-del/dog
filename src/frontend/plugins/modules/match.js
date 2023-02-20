@@ -19,9 +19,10 @@ export default {
       gender
     })
   },
-  alert (userId) {
+  alert (userId, gender) {
     return request('post', '/api/match/alert', {
-      userId
+      userId,
+      gender
     })
   }
 }

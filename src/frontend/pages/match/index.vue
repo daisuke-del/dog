@@ -257,7 +257,8 @@ export default {
       } else {
         this.genderSort = 'male'
       }
-      match.alert(this.choiceFaces[0].userId, this.genderSort).then((response) => {
+      console.log(this.choiceFaces[0].user_id)
+      match.alert(this.choiceFaces[0].user_id, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceFaces = response
@@ -272,7 +273,8 @@ export default {
       } else {
         this.genderSort = 'male'
       }
-      match.alert(this.choiceFaces[1].userId, this.genderSort).then((response) => {
+      console.log(this.choiceFaces[1].user_id)
+      match.alert(this.choiceFaces[1].user_id, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceFaces = response

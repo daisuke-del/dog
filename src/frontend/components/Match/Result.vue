@@ -4,46 +4,49 @@
     <v-row>
       <v-col cols="12" sm="6" v-for="(match, index) in matchResults" :key="index" class="card-wrap">
         <v-card light :class="match.mutualLove === 1 ? 'result-card-match' : 'result-card'">
-          <v-img
-            v-if="index === 0"
-            :src="require('@/assets/image/rank/1st.png')"
-            class="ranking-icon"
-          />
-          <v-img
-            v-else-if="index === 1"
-            :src="require('@/assets/image/rank/2nd.png')"
-            class="ranking-icon"
-          />
-          <v-img
-            v-else-if="index === 2"
-            :src="require('@/assets/image/rank/3rd.png')"
-            class="ranking-icon"
-          />
+          <div class="ranking-icon">
+            <v-img
+              v-if="index === 0"
+              :src="require('@/assets/image/rank/1st.png')"
+            />
+            <v-img
+              v-else-if="index === 1"
+              :src="require('@/assets/image/rank/2nd.png')"
+            />
+            <v-img
+              v-else-if="index === 2"
+              :src="require('@/assets/image/rank/3rd.png')"
+            />
+            <v-img
+              v-if="match.mutualLove === 1"
+              :src="require('@/assets/image/other/friend-icon.png')"
+            />
+          </div>
           <v-img :src="require(`@/../storage/image/faceimages/${match.face_image}`)" class="result-img" />
           <p class="card-text mt-4">{{ match.name }}</p>
           <p class="card-text mb-0 pb-4">年収 {{ match.salary }}万円</p>
           <div v-if="$auth.loggedIn && $store.getters['authInfo/gender'] !== match.gender" class="icon-wrap">
             <v-btn v-if="match.twitter_id && match.mutualLove === 1" @click="clickTwitter(match.twitter_id)" icon>
-              <v-icon size="2em">
+              <v-icon size="2em" color="#1DA1F2">
                 mdi-twitter
               </v-icon>
             </v-btn>
             <v-btn v-if="match.instagram_id && match.mutualLove === 1 " @click="clickInstagram(match.instagram_id)" icon>
-              <v-icon size="2em">
+              <v-icon size="2em" color="#C13584">
                 mdi-instagram
               </v-icon>
             </v-btn>
             <v-btn v-if="match.facebook_id && match.mutualLove === 1 "  @click="clickFacebook(match.facebook_id)" icon>
-              <v-icon size="2em">
+              <v-icon size="2em" color="#4267B2">
                 mdi-facebook
               </v-icon>
             </v-btn>
-            <v-btn v-if="match.onesideLove === 1" @click="deleteFavorite(match.user_id, index)" icon :class="match.mutualLove === 1 ? 'icon-right-match' : 'icon-right'">
+            <v-btn v-if="match.onesideLove === 1" @click="deleteFavorite(match.user_id, index)" icon>
               <v-icon size="2.5em" color="pink">
                 mdi-heart
               </v-icon>
             </v-btn>
-            <v-btn v-else @click="addFavorite(match.user_id, index)" icon :class="match.mutualLove === 1 ? 'icon-right-match' : 'icon-right'">
+            <v-btn v-else @click="addFavorite(match.user_id, index)" icon>
               <v-icon size="2.5em">
                 mdi-heart
               </v-icon>
@@ -134,7 +137,7 @@ export default {
 .result-card-match {
   margin-left: 10%;
   margin-right: 10%;
-  background-color: rgb(251, 176, 214);
+  background-color: #fef9e4;
   position: relative;
 }
 
