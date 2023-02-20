@@ -15,11 +15,11 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn class="btn-text" @click="alertClick">
-                    顔写真ではない！
+                <v-btn class="btn-text" @click="choiceClose">
+                    顔写真
                 </v-btn>
-                <v-btn class="btn-text" color="accent" @click="choiceClose">
-                    キャンセル
+                <v-btn class="btn-text" color="accent" @click="alertClick">
+                    顔写真ではない！
                 </v-btn>
             </v-card-actions>
         </v-card>

@@ -90,7 +90,7 @@
                             年収を変更
                         </p>
                         <div class="text-field-and-btn">
-                            <div class="salary-wrap d-flex justify-center">
+                            <div class="text-field">
                                 <v-select
                                     :items="salaryRange"
                                     v-model="item"

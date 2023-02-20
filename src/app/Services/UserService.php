@@ -668,7 +668,7 @@ class UserService
     {
         $this->usersRepository->upYellowCard($userId);
         $yellowCard = $this->usersRepository->getYellowCard($userId);
-        if ($yellowCard > 2) {
+        if ($yellowCard['yellow_card'] > 2) {
             $this->usersRepository->updateFaceImageVoidFlg($userId, 1);
         }
     }
@@ -928,7 +928,7 @@ class UserService
                 ];
             }
             foreach ($mutualLovers->toArray() as $mutualLover) {
-                $mutualLoversIds[] = $mutualLover['user_id'];
+                $mutualLoversIds[] = $mutualLover['from_user_id'];
             }
             if ($mutualLovers) {
                 return [
