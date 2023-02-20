@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <p v-if="!$auth.loggedIn" class="result-text"><a class="clickSignup">会員登録</a>するといいね！が送れるよ</p>
+    <p v-if="!$auth.loggedIn" class="result-text"><a @click="clickSignup">会員登録</a>するといいね！が送れるよ</p>
     <v-row>
       <v-col cols="12" sm="6" v-for="(match, index) in matchResults" :key="index" class="card-wrap">
         <v-card light :class="match.mutualLove === 1 ? 'result-card-match' : 'result-card'">
@@ -21,29 +21,29 @@
           />
           <v-img :src="require(`@/../storage/image/faceimages/${match.face_image}`)" class="result-img" />
           <p class="card-text mt-4">{{ match.name }}</p>
-          <p class="card-text pb-4">年収 {{ match.salary }}万円</p>
+          <p class="card-text mb-0 pb-4">年収 {{ match.salary }}万円</p>
           <div v-if="$auth.loggedIn && $store.getters['authInfo/gender'] !== match.gender" class="icon-wrap">
-            <v-btn v-if="match.twitter_id" @click="clickTwitter(match.twitter_id)" icon>
+            <v-btn v-if="match.twitter_id && match.mutualLove === 1" @click="clickTwitter(match.twitter_id)" icon>
               <v-icon size="2em">
                 mdi-twitter
               </v-icon>
             </v-btn>
-            <v-btn v-if="match.instagram_id" @click="clickInstagram(match.instagram_id)" icon>
+            <v-btn v-if="match.instagram_id && match.mutualLove === 1 " @click="clickInstagram(match.instagram_id)" icon>
               <v-icon size="2em">
                 mdi-instagram
               </v-icon>
             </v-btn>
-            <v-btn v-if="match.facebook_id"  @click="clickFacebook(match.facebook_id)" icon>
+            <v-btn v-if="match.facebook_id && match.mutualLove === 1 "  @click="clickFacebook(match.facebook_id)" icon>
               <v-icon size="2em">
                 mdi-facebook
               </v-icon>
             </v-btn>
-            <v-btn v-if="match.onesideLove === 1" @click="deleteFavorite(match.user_id, index)" icon class="icon-right">
+            <v-btn v-if="match.onesideLove === 1" @click="deleteFavorite(match.user_id, index)" icon :class="match.mutualLove === 1 ? 'icon-right-match' : 'icon-right'">
               <v-icon size="2.5em" color="pink">
                 mdi-heart
               </v-icon>
             </v-btn>
-            <v-btn v-else @click="addFavorite(match.user_id, index)" icon class="icon-right">
+            <v-btn v-else @click="addFavorite(match.user_id, index)" icon :class="match.mutualLove === 1 ? 'icon-right-match' : 'icon-right'">
               <v-icon size="2.5em">
                 mdi-heart
               </v-icon>
@@ -144,10 +144,10 @@ export default {
   margin-right: 10px;
 }
 
-.icon-right {
+.icon-right-match {
   float: right;
   margin-right: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .ranking-icon {

@@ -1,7 +1,7 @@
 <template>
     <v-dialog :value="dialog" @input="$emit('update:dialog', $event)" width="500">
         <v-card light>
-            <v-card-title class="text-h7 grey lighten-2">
+            <v-card-title class="modal-headline grey lighten-2">
                 『顔レベル』Lv{{ facePoint }} 『継続レベル』{{ score }}
             </v-card-title>
 
@@ -51,5 +51,9 @@ export default {
 <style scoped>
 .v-card__text {
     margin-top: 30px;
+}
+
+.modal-headline {
+    font-size: 1rem !important;
 }
 </style>

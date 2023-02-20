@@ -247,8 +247,8 @@ h3 {
 
 .btn-wrap {
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .btn-text {
@@ -291,7 +291,7 @@ h3 {
 
 .intro-headline {
   font-size: 25px;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
   text-align: left;
   color: black;
@@ -307,7 +307,8 @@ h3 {
   text-align: left;
   font-size: 15px;
   color: black;
-  padding: 30px 0;
+  padding: 10px 0;
+  margin-bottom: 0;
 }
 @media screen and (min-width: 600px) {
   .ranking-wrap {

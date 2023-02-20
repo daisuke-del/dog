@@ -79,7 +79,7 @@
                   <v-row>
                     <v-col>
                       <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" contain rounded
-                        @click="showProfile(friend)" />
+                        @click="showProfile(friend)" class="friend-img" />
                       <p class="card-summary-text ml-2">{{ friend['name'] }}</p>
                       <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary"
                         @click="clickNotFavorite(friend['user_id'], friend['name'], index)">
@@ -107,7 +107,7 @@
         <v-col v-for="(friend, index) in friends" :key="index" cols="6" sm="3" lg="2" class="d-flex justify-center">
           <v-card light width="200px">
             <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" width="200px" contain rounded
-              @click="showProfile(friend)" />
+              @click="showProfile(friend)" class="friend-img" />
             <p class="card-summary-text">{{ friend['name'] }}</p>
             <div class="icon-wrap">
               <v-btn icon class="sns-icon" :disabled="!friend['twitter_id']">
@@ -457,6 +457,10 @@ h1 {
   font-family: 'Noto Sans JP', sans-serif;
   color: dimgrey;
   text-align: center;
+}
+
+.friend-img {
+  cursor: pointer;
 }
 
 @media screen and (min-width: 450px) {
