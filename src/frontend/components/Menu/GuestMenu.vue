@@ -40,7 +40,8 @@ export default {
             items: [
                 { title: 'パートナー診断', icon: 'mdi-face-recognition', link: '/match' },
                 { title: 'ログイン', icon: 'mdi-login', link: '/login' },
-                { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' }
+                { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' },
+                { title: 'サポート', icon: 'mdi-chat-question-outline', link: '/support '}
             ],
         }
     },
@@ -50,9 +51,6 @@ export default {
         },
         clickMypage() {
             this.$router.push('/mypage')
-        },
-        clickMatch() {
-            this.$router.push('/match')
         }
     }
 }

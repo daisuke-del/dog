@@ -9,10 +9,10 @@
         <v-text-field v-model="password" :rules="passwordRules"
           :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
           class="password form-content" label="パスワード" background-color="white" required outlined light />
-        <v-btn block height="40px" elevation="0" color="#fd7e00" :loading="loginLoading" class="font-weight-bold mb-8" @click="clickLogin">
+        <v-btn block height="40px" depressed color="#fd7e00" :loading="loginLoading" class="font-weight-bold mb-8" @click="clickLogin">
           ログイン
         </v-btn>
-        <v-btn block height="40px" elevation="0" color="#0067c0" class="font-weight-bold mb-5"
+        <v-btn block height="40px" depressed color="#0067c0" class="font-weight-bold mb-5"
           @click="$router.push('signup')">
           会員登録
         </v-btn>

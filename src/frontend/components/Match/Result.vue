@@ -58,7 +58,7 @@
     <v-btn
       block
       height="40px"
-      elevation="0"
+      depressed
       color="#fd7e00"
       class="font-weight-bold mb-10 mt-5"
       @click="reTry"

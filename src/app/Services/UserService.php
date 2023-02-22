@@ -30,6 +30,7 @@ use Throwable;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
+use App\Services\SupportService;
 use App\Services\MypageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -39,12 +40,14 @@ class UserService
     use ValidateEmail;
 
     private $mypageService;
+    private $supportService;
     private $usersRepository;
     private $reactionsRepository;
 
     public function __construct()
     {
         $this->mypageService = new MypageService;
+        $this->supportService = new SupportService;
         $this->usersRepository = new UsersRepository;
         $this->reactionsRepository = new ReactionsRepository;
     }
@@ -984,11 +987,16 @@ class UserService
     /**
      * 不正な画像のユーザーを取得
      *
-     * @return object
+     * @return array
      */
-    public function getVoidUsers(): object
+    public function getAdminPageInfo(): array
     {
-        return $this->usersRepository->getVoidUsers();
+        $voidUsers =  $this->usersRepository->getVoidUsers();
+        $supports = $this->supportService->getSupports();
+        return [
+            'voidUsers' => $voidUsers,
+            'supports' => $supports
+        ];
     }
 
     /**

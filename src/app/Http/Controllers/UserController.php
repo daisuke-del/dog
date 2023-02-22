@@ -280,9 +280,9 @@ class UserController extends Controller
      *
      * @return false|string
      */
-    public function getVoidUsers()
+    public function getInfo()
     {
-        $response = $this->userService->getVoidUsers();
+        $response = $this->userService->getAdminPageInfo();
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 

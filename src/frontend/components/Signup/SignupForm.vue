@@ -88,7 +88,7 @@
         <p v-if="agreeErrorShow" class="error-message">
           利用規約に同意が必須です。
         </p>
-        <v-btn block dark height="40px" elevation="0" color="#fd7e00" class="font-weight-bold" :loading="sendLoading"
+        <v-btn block dark height="40px" depressed color="#fd7e00" class="font-weight-bold" :loading="sendLoading"
           @click="storeUserInfo">
           入力項目を送信
         </v-btn>

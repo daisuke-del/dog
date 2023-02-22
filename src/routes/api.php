@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\MypageController;
+use App\Http\Controllers\SupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +37,10 @@ Route::prefix('check')->name('check.')->group(function () {
 // ランキングを取得
 Route::prefix('ranking')->name('ranking.')->group(function () {
   Route::get('get', [UserController::class, 'getRanking']);
+});
+
+// 問い合わせ
+Route::prefix('support')->name('support.')->group(function () {
+  Route::post('send', [SupportController::class, 'send']);
+  Route::post('resolve', [SupportController::class, 'resolve']);
 });

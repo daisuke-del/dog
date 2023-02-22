@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\MatchController;
+use App\Http\Controllers\SupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
       Route::post('logout', [UserController::class, 'adminLogout']);
       Route::post('delete', [UserController::class, 'deleteVoidImage']);
-      Route::get('users', [UserController::class, 'getVoidUsers']);
+      Route::get('info', [UserController::class, 'getInfo']);
       Route::post('update', [UserController::class, 'updateYellowCard']);
     });
   });

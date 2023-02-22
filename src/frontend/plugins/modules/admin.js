@@ -13,8 +13,8 @@ export default {
   async logout() {
     return await auth.logout()
   },
-  getVoidUsers() {
-    return request('get', '/admin/users')
+  getInfo() {
+    return request('get', '/admin/info')
   },
   deleteVoidImage(userId) {
     return request('post', '/admin/delete', {

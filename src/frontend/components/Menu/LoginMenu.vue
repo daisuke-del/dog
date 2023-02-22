@@ -64,6 +64,19 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+
+            <v-list-item @click=clickSupport link>
+                <v-list-item-icon>
+                    <v-icon>
+                        mdi-chat-question-outline
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title color="accent">
+                        サポート
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
         </v-list>
     </div>
 </template>
@@ -103,6 +116,9 @@ export default {
         },
         clickAccount() {
             this.$router.push('/mypage/account')
+        },
+        clickSupport() {
+            this.$router.push('/support')
         }
     }
 }
