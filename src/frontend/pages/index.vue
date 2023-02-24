@@ -100,7 +100,7 @@
             </p>
           </div>
           <div class="intro-small-wrap">
-            <h3 class="intro-headline">無料パートナー診断</h3>
+            <h3 class="intro-headline">パートナー診断</h3>
             <p class="intro-text">
               今の自分のレベルに合った相手を診断
             </p>
@@ -109,15 +109,15 @@
             <a class="btn-text blue-btn" @click="clickMatch">パートナー診断を開始</a>
           </div>
           <div class="intro-small-wrap">
-            <h3 class="intro-headline">放置するだけ</h3>
-            <p class="intro-text">
-              顔写真を登録して放置するだけで<br>リアルタイムに自分の顔レベルを測定できる！
-            </p>
-          </div>
-          <div class="intro-small-wrap">
             <h3 class="intro-headline">フレンド機能</h3>
             <p class="intro-text">
               気になった相手にはいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
+            </p>
+          </div>
+          <div class="intro-small-wrap">
+            <h3 class="intro-headline">放置するだけ</h3>
+            <p class="intro-text">
+              顔写真を登録して放置するだけで<br>リアルタイムに自分の顔レベルを測定できる！
             </p>
           </div>
           <div class="btn-wrap">
@@ -209,6 +209,14 @@ h3 {
   min-width: 350px;
 }
 
+.top-text-wrap {
+  max-width: 400px;
+  width: 50%;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .ranking-col {
   position: relative;
 }
@@ -230,14 +238,6 @@ h3 {
   top: 1%;
   left: -3%;
   max-width: 35px;
-}
-
-.top-text-wrap {
-  max-width: 400px;
-  width: 50%;
-  margin: 0 auto;
-  padding-top: 30px;
-  padding-bottom: 30px;
 }
 
 .top-text {
@@ -311,6 +311,11 @@ h3 {
   margin-bottom: 0;
 }
 @media screen and (min-width: 600px) {
+  .top-text-wrap {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
   .ranking-wrap {
     max-width: 600px;
     margin: 0 auto;

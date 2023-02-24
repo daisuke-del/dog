@@ -81,7 +81,10 @@
       async sendSupport() {
         if (this.$refs.supportForm.validate()) {
           this.supportLoading = true
-          await support.send(this.name, this.email, this.item, this.content).then(() => {}).catch(() => {}).finally(() => {
+          await support.send(this.name, this.email, this.item, this.content).then(() => {
+            this.$refs.supportForm.reset()
+            window.alert('送信が完了しました。')
+          }).finally(() => {
             this.supportLoading = false
           });
         }
@@ -109,9 +112,5 @@
   .support-wrap {
     padding: 10px 20px;
     max-width: 600px;
-  }
-
-  .btn-wrap {
-    margin-bottom: 30px;
   }
   </style>
