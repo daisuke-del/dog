@@ -1,5 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
 
+const environment = process.env.NODE_ENV
+const envSet = require(`./env.${environment}.js`)
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -62,25 +65,25 @@ export default {
 
   proxy: {
     '/api/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     },
     '/user/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     },
     '/favorite/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     },
     '/forget/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     },
     '/update/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     },
     '/admin/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     },
     '/sanctum/': {
-      target: 'http://localhost:80/'
+      target: envSet.apiBaseUrl
     }
   },
 
