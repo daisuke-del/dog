@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class Email
@@ -12,7 +12,7 @@ class Email
     public function __construct(?string $email)
     {
         if ($this->isEmail($email) === false) {
-            throw new MATCHException('validation.pc_email', 422);
+            throw new MARIGOLDException('validation.pc_email', 422);
         }
         $this->email = $email;
     }

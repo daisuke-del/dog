@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class Age2
@@ -12,7 +12,7 @@ class Age2
     public function __construct(string $age2)
     {
         if ($this->isAge2($age2) === false) {
-            throw new MATCHException('validation.age2', 422);
+            throw new MARIGOLDException('validation.age2', 422);
         }
         $this->age2 = $age2;
     }

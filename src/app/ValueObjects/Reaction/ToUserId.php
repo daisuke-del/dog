@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\Reaction;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class ToUserId
@@ -12,7 +12,7 @@ class ToUserId
     public function __construct(string $toUserId)
     {
         if ($this->istoUserId($toUserId) === false) {
-            throw new MATCHException('validation.toUserId', 422);
+            throw new MARIGOLDException('validation.toUserId', 422);
         }
         $this->toUserId = $toUserId;
     }

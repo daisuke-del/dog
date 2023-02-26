@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\UserEntity;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use App\Factories\UsersFactory;
 use Carbon\Carbon;
 use App\Models\User;
@@ -19,7 +19,7 @@ class UsersRepository implements UsersRepositoryInterface
      *
      * @param array $user
      * @return UserEntity
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function new(array $user): UserEntity
     {

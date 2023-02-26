@@ -122,7 +122,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', 'match_'),
+            'prefix' => env('REDIS_PREFIX', 'marigold_'),
         ],
 
         'dev_session' => [

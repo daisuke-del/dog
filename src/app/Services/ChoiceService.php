@@ -2,30 +2,18 @@
 
 namespace App\Services;
 
-use App\Entities\UserEntity;
-use App\Exceptions\MATCHException;
-use Carbon\Carbon;
-use Exception;
-use http\Encoding\Stream\Inflate;
-use Throwable;
-use Ramsey\Uuid\Uuid;
-use Illuminate\Log;
-use App\Http\Requests\UserRequest;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
-use function PHPUnit\Framework\isNull;
 
 
 class ChoiceService
 {
 
     private $usersRepository;
-    private $reactionsRepository;
 
     public function __construct()
     {
         $this->usersRepository = new UsersRepository;
-        $this->reactionsRepository = new ReactionsRepository;
 
     }
 

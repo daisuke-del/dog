@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class InstagramId

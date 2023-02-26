@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if ($exception instanceof MATCHException) {
+        if ($exception instanceof MARIGOLDException) {
             $log = '[' . $exception->getCode() . '] ' . $exception->getMessage();
             $param = $exception->getParam();
             if (empty($param) === false) {
@@ -86,7 +86,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof MATCHException) {
+        if ($exception instanceof MARIGOLDException) {
             $res = ['error' => $exception->getMessage()];
             $param = $exception->getParam();
             foreach ($param as $key => $value) {

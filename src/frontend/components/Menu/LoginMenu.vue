@@ -88,14 +88,9 @@ export default {
     props: {
         drawer: Boolean
     },
-    data() {
-        return {
-            faceImage: this.$store.getters['authInfo/auth'].faceImage
-        }
-    },
     computed: {
         userWithImage () {
-            return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+            return this.$store.getters['authInfo/auth'].faceImage && require(`@/../storage/image/faceimages/${this.$store.getters['authInfo/auth'].faceImage}`)
         }
     },
     methods: {

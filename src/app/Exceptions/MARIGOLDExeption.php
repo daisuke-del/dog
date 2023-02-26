@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class MATCHException extends Exception
+class MARIGOLDException extends Exception
 {
     protected $message;
     protected $code;

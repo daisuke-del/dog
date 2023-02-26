@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class FacePoint
@@ -12,7 +12,7 @@ class FacePoint
     public function __construct(int $facePoint)
     {
         if ($this->isFacePoint($facePoint) === false) {
-            throw new MATCHException('validation.face_point', 422);
+            throw new MARIGOLDException('validation.face_point', 422);
         }
         $this->facePoint = $facePoint;
     }

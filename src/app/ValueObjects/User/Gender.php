@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class Gender
@@ -12,7 +12,7 @@ class Gender
     public function __construct(string $gender)
     {
         if ($this->isGender($gender) === false) {
-            throw new MATCHException('validation.gender', 422);
+            throw new MARIGOLDException('validation.gender', 422);
         }
         $this->gender = $gender;
     }

@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class FaceImage
@@ -12,7 +12,7 @@ class FaceImage
     public function __construct(string $faceImage)
     {
         if ($this->isFaceImage($faceImage) === false) {
-            throw new MATCHException('validation.face_image', 422);
+            throw new MARIGOLDException('validation.face_image', 422);
         }
         $this->faceImage = $faceImage;
     }

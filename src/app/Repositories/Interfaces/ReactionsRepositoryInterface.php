@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Entities\UserEntity;
 use App\Entities\ReactionEntity;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\User;
 use App\Models\Reaction;
@@ -16,7 +16,7 @@ interface ReactionsRepositoryInterface
      *
      * @param array $reaction
      * @return ReactionEntity
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function new(array $reaction): ReactionEntity;
 
@@ -43,7 +43,7 @@ interface ReactionsRepositoryInterface
      * @param string $toUserId
      * @param string $fromUserId
      * @return void
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function deleteFavorite($toUserId, $fromUserId): void;
 

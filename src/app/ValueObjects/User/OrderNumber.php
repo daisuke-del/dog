@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class OrderNumber
@@ -12,7 +12,7 @@ class OrderNumber
     public function __construct(?int $orderNumber)
     {
         if ($this->isOrderNumber($orderNumber) === false) {
-            throw new MATCHException('validation.face_point', 422);
+            throw new MARIGOLDException('validation.face_point', 422);
         }
         $this->orderNumber = $orderNumber;
     }

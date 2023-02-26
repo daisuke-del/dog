@@ -6,7 +6,7 @@ use Exception;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 
 class UserController extends Controller
 {
@@ -258,7 +258,7 @@ class UserController extends Controller
     {
         $response = $this->userService->checkEmailRegisterd($request->input('email'));
         if (!$response) {
-            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }

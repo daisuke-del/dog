@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class Salary2
@@ -12,7 +12,7 @@ class Salary2
     public function __construct(int $salary2)
     {
         if ($this->isSalary2($salary2) === false) {
-            throw new MATCHException('validation.salary2', 422);
+            throw new MARIGOLDException('validation.salary2', 422);
         }
         $this->salary2 = $salary2;
     }

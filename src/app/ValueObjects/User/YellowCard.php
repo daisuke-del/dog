@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class YellowCard
@@ -12,7 +12,7 @@ class YellowCard
     public function __construct(string $yellowCard)
     {
         if ($this->isYellowCard($yellowCard) === false) {
-            throw new MATCHException('validation.yellow_card', 422);
+            throw new MARIGOLDException('validation.yellow_card', 422);
         }
         $this->yellowCard = $yellowCard;
     }

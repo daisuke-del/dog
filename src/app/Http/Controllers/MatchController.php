@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Exceptions\MATCHException;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Log;
 
 class MatchController extends Controller
 {

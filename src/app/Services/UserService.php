@@ -3,26 +3,10 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
-use App\Entities\UserEntity;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use App\Repositories\ReactionsRepository;
-use App\ValueObjects\User\Age;
-use App\ValueObjects\User\AuthCode;
-use App\ValueObjects\User\CreateDate;
 use App\ValueObjects\User\Email;
-use App\ValueObjects\User\FacebookId;
-use App\ValueObjects\User\FaceImage;
-use App\ValueObjects\User\FacePoint;
-use App\ValueObjects\User\Gender;
-use App\ValueObjects\User\Height;
-use App\ValueObjects\User\InstagramId;
 use App\ValueObjects\User\Password;
-use App\ValueObjects\User\Salary;
-use App\ValueObjects\User\TwitterId;
-use App\ValueObjects\User\UpdateFaceAt;
-use App\ValueObjects\User\UserId;
-use App\ValueObjects\User\Weight;
-use App\ValueObjects\User\YellowCard;
 use App\Traits\ValidateEmail;
 use Carbon\Carbon;
 use Exception;
@@ -63,12 +47,12 @@ class UserService
         // userをemailで検索
         $email = (new Email($request->input('email')))->get();
         if ($this->containUppercase($email)) {
-            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
         // emailが登録済かどうかチェック
         $registerd = $this->checkEmailRegisterd($email);
         if (!$registerd) {
-            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $storeInfo = $this->getCalculation($request);
         $faceImage = $this->storeFaceImage($request->input('faceImage'));
@@ -97,10 +81,10 @@ class UserService
         $response = $this->insertUsers($requestArr);
 
         if (empty($response)) {
-            throw new MATCHException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
         if (!Auth::attempt($request->only(['email', 'password']), true)) {
-            throw new MATCHException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
 
         if (Auth::check()) {
@@ -135,13 +119,13 @@ class UserService
         $email = (new Email($request->input('email')))->get();
         $user = $this->usersRepository->getUser($email);
         if (is_null($user)) {
-            throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+            throw new MARIGOLDException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
 
         if (Auth::attempt($request->only(['email', 'password']), true)) {
             return Auth::user();
         }
-        throw new MATCHException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+        throw new MARIGOLDException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -157,13 +141,13 @@ class UserService
         $email = $request->input('email');
         $user = $this->usersRepository->getAdminUser($email);
         if (is_null($user)) {
-            throw new MATCHException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
+            throw new MARIGOLDException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
         }
 
         if (Auth::guard('admin')->attempt($request->only(['email', 'password']), true)) {
             return Auth::guard('admin')->user();
         }
-        throw new MATCHException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
+        throw new MARIGOLDException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -199,19 +183,19 @@ class UserService
         $password = $request->input('password');
         $email = (new Email($request->input('email')))->get();
         if ($this->containUppercase($email)) {
-            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
         if ($this->usersRepository->existsEmail($email)) {
-            throw new MATCHException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         if (!$this->checkPassword($user, $password)) {
             // パスワードが異なる
-            throw new MATCHException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
+            throw new MARIGOLDException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
         }
         $user['email'] = $email;
         $user['password'] = $password;
@@ -245,7 +229,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['name'] = $request->input('name');
         $users = $this->usersRepository->new($user);
@@ -268,7 +252,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $height = $request->input('height');
         if ($user['gender'] === 'male') {
@@ -299,7 +283,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $weight = $request->input('weight');
         $height = $user['height'];
@@ -331,7 +315,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $age = $request->input('age');
         if ($user['gender'] === 'male') {
@@ -362,7 +346,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $salary2 = $request->input('salary');
         $salary2 = $salary2 / 10 - 30;
@@ -389,7 +373,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['facebook_id'] = $request->input('facebook');
         $users = $this->usersRepository->new($user);
@@ -412,7 +396,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['instagram_id'] = $request->input('instagram');
         $users = $this->usersRepository->new($user);
@@ -435,7 +419,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['twitter_id'] = $request->input('twitter');
         $users = $this->usersRepository->new($user);
@@ -555,7 +539,7 @@ class UserService
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
                 'user_id' => $userId
             ];
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
         return $users;
     }
@@ -717,7 +701,7 @@ class UserService
             return $path;
         } catch (Exception $e) {
             Log::error($e);
-            throw new MATCHException('画像の保存に失敗しました', 400);
+            throw new MARIGOLDException('画像の保存に失敗しました', 400);
         }
     }
 
@@ -735,7 +719,7 @@ class UserService
         $response = $this->usersRepository->getFace($gender, $sort[$key], 30)->toArray();
 
         if (!$response) {
-            throw new MATCHException(config('スライダー画像の取得に失敗しました'), 400);
+            throw new MARIGOLDException(config('スライダー画像の取得に失敗しました'), 400);
         }
 
         $sortFacePoint = array_column($response, 'face_point');
@@ -774,7 +758,7 @@ class UserService
             ];
         } catch (Exception $e) {
             Log::error($e);
-            throw new MATCHException('画像の更新に失敗しました', 400);
+            throw new MARIGOLDException('画像の更新に失敗しました', 400);
         }
     }
 
@@ -803,12 +787,12 @@ class UserService
     {
         $checkedEmail = (new Email($email))->get();
         if ($this->containUppercase($checkedEmail)) {
-            throw new MATCHException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
 
         $result = $this->usersRepository->getUserByMail($checkedEmail);
         if (isset($result)) {
-            throw new MATCHException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
+            throw new MARIGOLDException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
     }
 
@@ -973,13 +957,13 @@ class UserService
         $faceImage = $userInfo['face_image'];
         try {
             if (!Storage::exists($faceImage)) {
-                throw new MATCHException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+                throw new MARIGOLDException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
             }
             $this->usersRepository->updateFace($userId, 'no-user-image-icon.jpeg', 2);
             Storage::delete($faceImage);
         } catch (Exception $e) {
             Log::error($e);
-            throw new MATCHException(config('const.ERROR.ADMIN.FAILED'), 400);
+            throw new MARIGOLDException(config('const.ERROR.ADMIN.FAILED'), 400);
         }
         return true;
     }

@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class UpdateFaceAt
@@ -12,7 +12,7 @@ class UpdateFaceAt
     public function __construct(string $updateFaceAt)
     {
         if ($this->isUpdateFaceAt($updateFaceAt) === false) {
-            throw new MATCHException('validation.update_face_at', 422);
+            throw new MARIGOLDException('validation.update_face_at', 422);
         }
         $this->updateFaceAt = $updateFaceAt;
     }

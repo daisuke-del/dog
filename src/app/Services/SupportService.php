@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Carbon\Carbon;
 use App\Repositories\SupportsRepository;
 use Illuminate\Http\Request;
@@ -42,7 +42,7 @@ class SupportService
         $result = $this->supportsRepository->insertSupports($name, $email, $item, $content);
 
         if (!$result) {
-            throw new MATCHException(config('const.ERROR.SUPPORT.SEND_FAILED'), 400);
+            throw new MARIGOLDException(config('const.ERROR.SUPPORT.SEND_FAILED'), 400);
         }
 
         return [];

@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Entities\UserEntity;
 use App\Entities\ReactionEntity;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use App\Factories\UsersFactory;
 use App\Factories\ReactionsFactory;
 use Carbon\Carbon;
@@ -22,7 +22,7 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      *
      * @param array $reaction
      * @return ReactionEntity
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function new(array $reaction): ReactionEntity
     {
@@ -66,14 +66,10 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      * @param string $toUserId
      * @param string $fromUserId
      * @return void
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function deleteFavorite($toUserId, $fromUserId): void
     {
-        // return (new Reaction)
-        //     ->where('to_user_id', $toUserId)
-        //     ->where('from_user_id', $fromUserId)
-        //     ->delete();
 
         Reaction::where('to_user_id', $toUserId)->where('from_user_id', $fromUserId)->delete();
     }

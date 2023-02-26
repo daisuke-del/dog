@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +13,7 @@ class Password
     public function __construct(string $password)
     {
         if ($this->isPassword($password) === false) {
-            throw new MATCHException('validation.password', 422);
+            throw new MARIGOLDException('validation.password', 422);
         }
         $this->password = Hash::make($password);
     }

@@ -2,13 +2,12 @@
 
 namespace App\Services;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Carbon\Carbon;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 
 class MypageService
@@ -30,18 +29,18 @@ class MypageService
      * マイページTOP
      *
      * @return array
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function index(): array
     {
         $userId = Auth::id();
         if (is_null($userId)) {
-            throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_REGISTERED'), 401);
         }
 
         $userInfo = $this->usersRepository->selectUsersById($userId)->toArray();
         if (is_null($userInfo)) {
-            throw new MATCHException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_REGISTERED'), 401);
         }
         $continuationScore = $this->getContinuationScore($userInfo['update_face_at']);
         $rank = $this->getFaceStatus($userInfo['face_point'], $continuationScore);
@@ -135,7 +134,7 @@ class MypageService
             $error = [
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER')
             ];
-            throw new MATCHException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
 
         $now = Carbon::now();

@@ -3,7 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Entities\UserEntity;
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\User;
 
@@ -14,7 +14,7 @@ interface UsersRepositoryInterface
      *
      * @param array $user
      * @return UserEntity
-     * @throws MATCHException
+     * @throws MARIGOLDException
      */
     public function new(array $user): UserEntity;
 

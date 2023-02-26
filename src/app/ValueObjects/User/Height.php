@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MATCHException;
+use App\Exceptions\MARIGOLDException;
 use Illuminate\Support\Facades\Validator;
 
 class Height
@@ -12,7 +12,7 @@ class Height
     public function __construct(int $height)
     {
         if ($this->isHeight($height) === false) {
-            throw new MATCHException('validation.height', 422);
+            throw new MARIGOLDException('validation.height', 422);
         }
         $this->height = $height;
     }
