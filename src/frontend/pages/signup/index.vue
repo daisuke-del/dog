@@ -223,7 +223,7 @@ export default {
       ).then((response) => {
         this.position = 4
         this.$auth.setUserToken('200')
-        this.$store.dispatch('authInfo/setAuthInfo', response)
+        this.$store.dispatch('authInfo/setAuthInfo', response.data)
         setTimeout(this.$router.push('/mypage'), 2000)
       })
     },

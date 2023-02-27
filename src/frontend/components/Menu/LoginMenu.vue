@@ -6,7 +6,7 @@
             </v-list-item-avatar>
 
             <v-list-item-content @click="clickMypage">
-                <v-list-item-title>{{ $store.getters['authInfo/auth'].name }}</v-list-item-title>
+                <v-list-item-title>{{ userName }}</v-list-item-title>
             </v-list-item-content>
             <v-icon @click.stop="clickClose" :value="drawer" class="close">
                 mdi-close-thick
@@ -88,9 +88,17 @@ export default {
     props: {
         drawer: Boolean
     },
+    data() {
+        return {
+            faceImage: this.$store.getters['authInfo/auth'].faceImage
+        }
+    },
     computed: {
-        userWithImage () {
-            return this.$store.getters['authInfo/auth'].faceImage && require(`@/../storage/image/faceimages/${this.$store.getters['authInfo/auth'].faceImage}`)
+        userWithImage() {
+            return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+        },
+        userName() {
+            return this.$store.getters['authInfo/auth'].name
         }
     },
     methods: {
