@@ -257,12 +257,10 @@ export default {
         let voidUsers = []
         let supports = []
         await admin.getInfo().then((response) => {
-            console.log(response)
-            voidUsers = response['voidUsers'];
-            supports = response['supports'];
+            voidUsers = response['voidUsers']
+            supports = response['supports']
 
         })
-        console.log(supports)
         return {
             voidUsers,
             supports

@@ -47,10 +47,64 @@ export const mutations = {
     state.auth.score = userInfo.score ? userInfo.score : 'D'
     state.auth.voidFlg = userInfo.void_flg ? userInfo.void_flg : 0
   },
+  setEmail(state, email) {
+    state.auth.email = email
+  },
+  setName(state, name) {
+    state.auth.name = name
+  },
+  setHeight(state, height) {
+    state.auth.height = height
+  },
+  setWeight(state, weight) {
+    state.auth.weight = weight
+  },
+  setAge(state, age) {
+    state.auth.age = age
+  },
+  setSalary(state, salary) {
+    state.auth.salary = salary
+  },
+  setFacebookId(state, facebookId) {
+    state.auth.facebookId = facebookId
+  },
+  setInstagramId(state, instagramId) {
+    state.auth.instagramId = instagramId
+  },
+  setTwitterId(state, twitterId) {
+    state.auth.twitterId = twitterId
+  }
 }
 
 export const actions = {
   setAuthInfo({ commit }, userInfo) {
     commit('setAuthInfo', userInfo)
   },
+  setEmail({ commit }, email) {
+    commit('setEmail', email)
+  },
+  setName({ commit }, name) {
+    commit('setName', name)
+  },
+  setHeight({ commit }, height) {
+    commit('setHeight', height)
+  },
+  setWeight({ commit }, weight) {
+    commit('setWeight', weight)
+  },
+  setAge({ commit }, age) {
+    commit('setAge', age)
+  },
+  setSalary({ commit }, salary) {
+    commit('setSalary', salary)
+  },
+  setFacebookId({ commit }, facebookId) {
+    commit('setFacebookId', facebookId)
+  },
+  setInstagramId({ commit }, instagramId) {
+    commit('setInstagramId', instagramId)
+  },
+  setTwitterId({ commit }, twitterId) {
+    commit('setTwitterId', twitterId)
+  }
 }

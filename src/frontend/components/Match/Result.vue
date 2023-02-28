@@ -94,7 +94,6 @@ export default {
       window.open(link, '_blank')
     },
     addFavorite(friendId, index) {
-      console.log(friendId, index)
       this.$emit('add-favorite', friendId, index)
     },
     deleteFavorite(friendId, index) {

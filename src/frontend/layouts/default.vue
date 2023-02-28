@@ -35,7 +35,7 @@ export default {
     return {
       drawer: null,
       title: '',
-      home: '/'
+      home: '/',
     }
   },
   computed: {
@@ -51,13 +51,6 @@ export default {
   methods: {
     closeDrawer(value) {
       this.drawer = value
-    },
-    clickLogout() {
-      user.logout.then((response) => {
-        alert('ログアウトしました')
-      }).catch((error) => {
-        alert('ログアウトに失敗しました')
-      })
     }
   }
 }

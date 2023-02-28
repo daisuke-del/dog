@@ -227,8 +227,7 @@ export default {
       this.stepperPosition = 1
     },
     async clickUpdateEmail(mail) {
-      await user.checkEmail(mail).then((response) => {
-        console.log(response)
+      await user.checkEmail(mail).then(() => {
         this.stepperPosition = 2
         this.newEmail = mail
       }).catch(() => {
@@ -237,6 +236,7 @@ export default {
     async editEmail(password) {
       await user.updateEmail(this.newEmail, password).then(() => {
         this.stepperPosition = 3
+        this.$store.dispatch('authInfo/setEmail', this.newEmail)
         setTimeout(this.backClick, 3000)
       }).catch(() => {
         this.stepperPosition = 1
@@ -248,6 +248,7 @@ export default {
       this.nameSendLoading = true
       await user.updateName(name).then(() => {
         this.showNameTooltip = true
+        this.$store.dispatch('authInfo/setName', name)
         setTimeout(() => {
           this.showNameTooltip = false
         }, 3000)
@@ -259,9 +260,11 @@ export default {
     },
     async editHeight(height) {
       this.heightLoading = true
-      await user.updateHeight(height).then(() => {
+      const heightInt = Number(height)
+      await user.updateHeight(heightInt).then(() => {
         this.showHeightTooltip = true
-        this.height = height
+        this.$store.dispatch('authInfo/setHeight', heightInt)
+        this.height = heightInt
         setTimeout(() => {
           this.showHeightTooltip = false
         }, 3000)
@@ -273,9 +276,11 @@ export default {
     },
     async editWeight(weight) {
       this.weightLoading = true
-      await user.updateWeight(weight).then(() => {
+      const weightInt = Number(weight)
+      await user.updateWeight(weightInt).then(() => {
         this.showWeightTooltip = true
-        this.weight = weight
+        this.$store.dispatch('authInfo/setWeight', weightInt)
+        this.weight = weightInt
         setTimeout(() => {
           this.showWeightTooltip = false
         }, 3000)
@@ -287,9 +292,11 @@ export default {
     },
     async editAge(age) {
       this.ageLoading = true
-      await user.updateAge(age).then(() => {
+      const ageInt = Number(age)
+      await user.updateAge(ageInt).then(() => {
         this.showAgeTooltip = true
-        this.age = age
+        this.$store.dispatch('authInfo/setAge', ageInt)
+        this.age = ageInt
         setTimeout(() => {
           this.showAgeTooltip = false
         }, 3000)
@@ -320,6 +327,7 @@ export default {
       this.salaryLoading = true
       await user.updateSalary(this.salary2).then(() => {
         this.showSalaryTooltip = true
+        this.$store.dispatch('authInfo/setSalary', this.salary2)
         this.salary = salary
         setTimeout(() => {
           this.showSalaryTooltip = false
@@ -334,6 +342,7 @@ export default {
       this.facebookLoading = true
       await user.updateFacebook(facebook).then(() => {
         this.showFacebookTooltip = true
+        this.$store.dispatch('authInfo/setFacebookId', facebook)
         setTimeout(() => {
           this.showFacebookTooltip = false
         }, 3000)
@@ -347,6 +356,7 @@ export default {
       this.instagramLoading = true
       await user.updateInstagram(instagram).then(() => {
         this.showInstagramTooltip = true
+        this.$store.dispatch('authInfo/setInstagramId', instagram)
         setTimeout(() => {
           this.showInstagramTooltip = false
         }, 3000)
@@ -360,6 +370,7 @@ export default {
       this.twitterLoading = true
       await user.updateTwitter(twitter).then(() => {
         this.showTwitterTooltip = true
+        this.$store.dispatch('authInfo/setTwitterId', twitter)
         setTimeout(() => {
           this.showTwitterTooltip = false
         }, 3000)

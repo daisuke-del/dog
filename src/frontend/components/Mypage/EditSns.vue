@@ -188,7 +188,7 @@ export default {
             }
         },
         submitInstagram() {
-            if (this.$refs.instagarmForm.validate()) {
+            if (this.$refs.instagramForm.validate()) {
                 if (this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
                     this.instagramAccount = this.inputInstagram.replace('https://www.instagram.com/', '')
                 } else {

@@ -190,7 +190,6 @@ export default {
     inputPlace(value) {
       this.place = value
       match.result(this.gender, this.height, this.weight, this.age, this.salary, this.face, this.place).then((response) => {
-        console.log(response)
         this.matchResults.splice(0, response['result'].length)
         this.matchResults.push(...response['result'])
         this.choiceFaces = response['choice']
@@ -257,7 +256,6 @@ export default {
       } else {
         this.genderSort = 'male'
       }
-      console.log(this.choiceFaces[0].user_id)
       match.alert(this.choiceFaces[0].user_id, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
@@ -273,7 +271,6 @@ export default {
       } else {
         this.genderSort = 'male'
       }
-      console.log(this.choiceFaces[1].user_id)
       match.alert(this.choiceFaces[1].user_id, this.genderSort).then((response) => {
         if (this.choiceCount < 3) {
           this.choiceCount++
@@ -285,7 +282,6 @@ export default {
     },
     addFavorite(friendId, index) {
       favorite.addFavorite(friendId).then(() => {
-        console.log(friendId, this.matchResults[index].onesideLove)
         this.matchResults[index].onesideLove = 1
       })
     },
