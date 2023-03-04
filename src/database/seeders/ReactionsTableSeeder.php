@@ -16,38 +16,43 @@ class ReactionsTableSeeder extends Seeder
     {
         //migrationしたusersの情報を入力。
         Reaction::create([
-            'to_user_id' => '984d47ef-91ee-4a25-ba6d-32d6b2e0b787',
-            'from_user_id' => '98511ec5-87c7-4e9f-b576-3d79ff90d8a9',
+            'to_user_id' => '98812476-f2bd-45bf-aae7-52e0ee96495a',
+            'from_user_id' => '98815b81-a7fe-45d6-a20d-a6c4b723da53',
         ]);
 
         Reaction::create([
-            'to_user_id' => '984d47ef-91ee-4a25-ba6d-32d6b2e0b787',
-            'from_user_id' => '985120b7-766a-4a0c-842e-89af55389450',
+            'to_user_id' => '98812476-f2bd-45bf-aae7-52e0ee96495a',
+            'from_user_id' => '98828780-f8c6-4666-8115-9654192104e1',
         ]);
 
         Reaction::create([
-            'to_user_id' => '984d47ef-91ee-4a25-ba6d-32d6b2e0b787',
-            'from_user_id' => '98512162-4540-4e2a-b12f-58658b421d03',
+            'to_user_id' => '98812476-f2bd-45bf-aae7-52e0ee96495a',
+            'from_user_id' => '988286ef-232c-4dd0-95e4-acee0318edcf',
         ]);
 
         Reaction::create([
-            'to_user_id' => '98511ec5-87c7-4e9f-b576-3d79ff90d8a9',
-            'from_user_id' => '984d47ef-91ee-4a25-ba6d-32d6b2e0b787',
+            'to_user_id' => '98828648-12bc-4ec6-b6df-5916979f23d1',
+            'from_user_id' => '988286ef-232c-4dd0-95e4-acee0318edcf',
         ]);
 
         Reaction::create([
-            'to_user_id' => '985120b7-766a-4a0c-842e-89af55389450',
-            'from_user_id' => '984d47ef-91ee-4a25-ba6d-32d6b2e0b787',
+            'to_user_id' => '98815b81-a7fe-45d6-a20d-a6c4b723da53',
+            'from_user_id' => '98812476-f2bd-45bf-aae7-52e0ee96495a',
         ]);
 
         Reaction::create([
-            'to_user_id' => '98512162-4540-4e2a-b12f-58658b421d03',
-            'from_user_id' => '984d47ef-91ee-4a25-ba6d-32d6b2e0b787',
+            'to_user_id' => '98815b81-a7fe-45d6-a20d-a6c4b723da53',
+            'from_user_id' => '98828648-12bc-4ec6-b6df-5916979f23d1',
         ]);
 
         Reaction::create([
-            'to_user_id' => '98512162-4540-4e2a-b12f-58658b421d03',
-            'from_user_id' => '984f354c-e047-4140-8d11-0e4d2c0de4d7',
+            'to_user_id' => '98828780-f8c6-4666-8115-9654192104e1',
+            'from_user_id' => '98812476-f2bd-45bf-aae7-52e0ee96495a',
+        ]);
+
+        Reaction::create([
+            'to_user_id' => '988286ef-232c-4dd0-95e4-acee0318edcf',
+            'from_user_id' => '98828692-fd11-4b3c-95ff-8fd7bf668cce',
         ]);
     }
 }
