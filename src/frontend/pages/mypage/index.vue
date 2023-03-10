@@ -148,7 +148,7 @@ export default {
     ScoreDialog,
     RankDialog
   },
-  name: 'MyPage',
+  name: 'Mypage',
   async asyncData({ app }) {
     let userId = null
     let gender = null

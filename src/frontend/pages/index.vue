@@ -132,7 +132,6 @@
 <script>
 import ranking from '@/plugins/modules/ranking'
 export default {
-  name: 'TopPage',
   auth: false,
   async asyncData() {
     let maleRanking = []
