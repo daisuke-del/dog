@@ -37,7 +37,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('/'),
+            'root' => storage_path('image/faceimages'),
             'url' => env('APP_URL', 'https://www.marigold.red').'/storage',
             'visibility' => 'public',
         ],
