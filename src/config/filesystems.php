@@ -36,9 +36,11 @@ return [
             'permissions' => [
                 'dir' => [
                     'public'  => 0777,
+                    'private' => 0777,
                 ],
                 'file' => [
                     'public' => 0777,
+                    'private' => 0777,
                 ],
             ]
         ],
