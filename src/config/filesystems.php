@@ -33,6 +33,14 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('image/faceimages'),
+            'permissions' => [
+                'dir' => [
+                    'public'  => 0777,
+                ],
+                'file' => [
+                    'public' => 0777,
+                ],
+            ]
         ],
 
         'public' => [
