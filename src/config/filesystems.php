@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => 'public',
 
     /*
     |--------------------------------------------------------------------------
@@ -32,17 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('image/faceimages'),
-            'permissions' => [
-                'dir' => [
-                    'public'  => 0777,
-                    'private' => 0777,
-                ],
-                'file' => [
-                    'public' => 0777,
-                    'private' => 0777,
-                ],
-            ]
+            'root' => storage_path('image/faceimages')
         ],
 
         'public' => [
