@@ -1,5 +1,7 @@
 <template>
   <div>
+    <p class="warn-text mb-1">登録した写真はアプリ内で公開されます</p>
+    <p class="warn-text">サイズの大きい画像は登録できない場合がございます</p>
     <div class="face-image">
       <label  v-if="!cropImg" class="btn mt-2 mb-4">
         <input
@@ -199,6 +201,14 @@ label {
 
 input[type="file"] {
     display: none;
+}
+
+.warn-text {
+  color: red;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .input-box {
