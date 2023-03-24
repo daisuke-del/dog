@@ -221,7 +221,7 @@ export default {
   },
   computed: {
     userWithImage () {
-      return this.faceImage && `https://www.marigold.red/storage/storage/${this.faceImage}`
+      return this.faceImage && `https://www.marigold.red/storage/${this.faceImage}`
     }
   },
   methods: {
