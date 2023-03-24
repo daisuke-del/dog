@@ -251,7 +251,7 @@ export default {
         this.modalCropper = false
         user.updateFaceImage(faceImage).then((response) => {
           this.$store.dispatch('authInfo/setAuthInfo', response)
-          this.$nuxt.refresh()
+          window.location.reload()
         }).catch(() => {
           this.$store.dispatch('snackbar/setMessage', '画像の更新に失敗しました。')
           this.$store.dispatch('snackbar/snackOn')

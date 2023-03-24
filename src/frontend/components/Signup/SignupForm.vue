@@ -98,9 +98,11 @@
 </template>
 
 <script>
+import { ToggleButton } from 'vue-js-toggle-button'
 import constants from '@/utils/constants'
 export default {
   name: 'SignupForm',
+  components: {ToggleButton},
   props: {
     sendLoading: {
       type: Boolean,
