@@ -78,7 +78,7 @@
                 <v-card class="mt-3 mb-3 mr-2" height="150" width="130">
                   <v-row>
                     <v-col>
-                      <v-img :src="`http://localhost/storage/image/faceimages/${friend['face_image']}`" contain rounded
+                      <v-img :src="`https://www.marigold.red/storage/${friend['face_image']}`" contain rounded
                         @click="showProfile(friend)" class="friend-img" />
                       <p class="card-summary-text ml-2">{{ friend['name'] }}</p>
                       <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary"
