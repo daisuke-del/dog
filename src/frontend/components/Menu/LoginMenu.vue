@@ -95,7 +95,7 @@ export default {
     },
     computed: {
         userWithImage() {
-            return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+            return this.faceImage && `https://www.marigold.red/storage/${this.faceImage}`
         },
         userName() {
             return this.$store.getters['authInfo/auth'].name

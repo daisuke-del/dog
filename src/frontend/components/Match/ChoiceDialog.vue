@@ -45,7 +45,7 @@ export default {
     },
     computed: {
         faceImageModal () {
-            return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+            return this.faceImage && `https://www.marigold.red/storage/${this.faceImage}`
         },
         changeDialog () {
             return this.dialog

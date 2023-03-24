@@ -161,22 +161,22 @@ export default {
   },
   computed: {
     firstMale () {
-      return this.maleRanking[0].face_image && require(`@/../storage/image/faceimages/${this.maleRanking[0].face_image}`)
+      return this.maleRanking[0].face_image && `https://www.marigold.red/storage/${this.maleRanking[0].face_image}`
     },
     secondMale () {
-      return this.maleRanking[1].face_image && require(`@/../storage/image/faceimages/${this.maleRanking[1].face_image}`)
+      return this.maleRanking[1].face_image && `https://www.marigold.red/storage/${this.maleRanking[1].face_image}`
     },
     thirdMale () {
-      return this.maleRanking[2].face_image && require(`@/../storage/image/faceimages/${this.maleRanking[2].face_image}`)
+      return this.maleRanking[2].face_image && `https://www.marigold.red/storage/${this.maleRanking[2].face_image}`
     },
     firstFemale () {
-      return this.maleRanking[0].face_image && require(`@/../storage/image/faceimages/${this.femaleRanking[0].face_image}`)
+      return this.maleRanking[0].face_image && `https://www.marigold.red/storage/${this.femaleRanking[0].face_image}`
     },
     secondFemale () {
-      return this.maleRanking[1].face_image && require(`@/../storage/image/faceimages/${this.femaleRanking[1].face_image}`)
+      return this.maleRanking[1].face_image && `https://www.marigold.red/storage/${this.femaleRanking[1].face_image}`
     },
     thirdFemale () {
-      return this.maleRanking[2].face_image && require(`@/../storage/image/faceimages/${this.femaleRanking[2].face_image}`)
+      return this.maleRanking[2].face_image && `https://www.marigold.red/storage/${this.femaleRanking[2].face_image}`
     }
   },
   methods: {

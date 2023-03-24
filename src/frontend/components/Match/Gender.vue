@@ -3,10 +3,10 @@
     <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
     <div class="card-wrap">
       <v-card hover class="card" @click="clickGender('male')">
-        <v-img :src="require('@/../storage/image/faceimages/male.jpeg')" />
+        <v-img :src="'https://www.marigold.red/storage/male.jpeg'" />
       </v-card>
       <v-card hover class="card" @click="clickGender('female')">
-        <v-img :src="require('@/../storage/image/faceimages/female.jpeg')" />
+        <v-img :src="'https://www.marigold.red/storage/female.jpeg'" />
       </v-card>
     </div>
   </div>

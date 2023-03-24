@@ -607,7 +607,7 @@ class UsersRepository implements UsersRepositoryInterface
     public function getFace(string $gender, string $sort, int $num): Collection
     {
         $dt = new Carbon();
-        $date = $dt->subDay(30);
+        $date = $dt->subDay(1);
         return (new User)
             ->where('gender', $gender)
             ->where('update_face_at', '<', $date)

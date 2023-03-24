@@ -2,7 +2,7 @@
     <div>
         <v-list-item light>
             <v-list-item-avatar @click="clickMypage">
-                <v-img :src="require('@/../storage/image/faceimages/no-user-image-icon.jpeg')" />
+                <v-img :src="'https://www.marigold.red/storage/no-user-image-icon.jpeg'" />
             </v-list-item-avatar>
 
             <v-list-item-content @click="clickMypage">

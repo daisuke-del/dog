@@ -22,7 +22,7 @@
               :src="require('@/assets/image/other/friend-icon.png')"
             />
           </div>
-          <v-img :src="require(`@/../storage/image/faceimages/${match.face_image}`)" class="result-img" />
+          <v-img :src="`https://www.marigold.red/storage/${match.face_image}`" class="result-img" />
           <p class="card-text mt-4">{{ match.name }}</p>
           <p class="card-text mb-0 pb-4">年収 {{ match.salary }}万円</p>
           <div v-if="$auth.loggedIn && $store.getters['authInfo/gender'] !== match.gender" class="icon-wrap">

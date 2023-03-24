@@ -78,7 +78,7 @@
                 <v-card class="mt-3 mb-3 mr-2" height="150" width="130">
                   <v-row>
                     <v-col>
-                      <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" contain rounded
+                      <v-img :src="`http://localhost/storage/image/faceimages/${friend['face_image']}`" contain rounded
                         @click="showProfile(friend)" class="friend-img" />
                       <p class="card-summary-text ml-2">{{ friend['name'] }}</p>
                       <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary"
@@ -106,7 +106,7 @@
       <v-row v-show="isShowFriend">
         <v-col v-for="(friend, index) in friends" :key="index" cols="6" sm="3" lg="2" class="d-flex justify-center">
           <v-card light width="200px">
-            <v-img :src="require(`@/../storage/image/faceimages/${friend['face_image']}`)" width="200px" contain rounded
+            <v-img :src="`https://www.marigold.red/storage/${friend['face_image']}`" width="200px" contain rounded
               @click="showProfile(friend)" class="friend-img" />
             <p class="card-summary-text">{{ friend['name'] }}</p>
             <div class="icon-wrap">
@@ -221,7 +221,7 @@ export default {
   },
   computed: {
     userWithImage () {
-      return this.faceImage && require(`@/../storage/image/faceimages/${this.faceImage}`)
+      return this.faceImage && `https://www.marigold.red/storage/storage/${this.faceImage}`
     }
   },
   methods: {
