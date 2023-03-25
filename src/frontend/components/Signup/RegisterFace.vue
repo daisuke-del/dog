@@ -48,7 +48,86 @@
           alt="Cropped Image"
         />
       </div>
-      <div class="btn-wrap">
+      <div class="pt-4 pb-4" v-if="ajustBtn">
+        <v-row>
+          <v-col cols="4">
+            <v-btn @click.prevent="zoom(0.2)">
+              <v-icon>
+                mdi-plus
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn @click.prevent="zoom(-0.2)">
+              <v-icon>
+                mdi-minus
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn @click.prevent="move(0, -10)">
+              <v-icon>
+                mdi-arrow-up-thin
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="4">
+            <v-btn @click.prevent="move(-10, 0)">
+              <v-icon>
+                mdi-arrow-left-thin
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn @click.prevent="move(10, 0)">
+              <v-icon>
+                mdi-arrow-right-thin
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn @click.prevent="move(0, 10)">
+              <v-icon>
+                mdi-arrow-down-thin
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="4">
+            <v-btn @click.prevent="rotate(-90)">
+              <v-icon>
+                mdi-restore
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn @click.prevent="rotate(90)">
+              <v-icon>
+                mdi-reload
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn @click="clickOk">
+              決定
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+      <div v-else class="btn-wrap">
+        <v-btn
+          v-if="imgSrc != '' && !cropImg"
+          block
+          color="primary"
+          height="50px"
+          class="btn mt-2 mb-2"
+          @click="clickAjust"
+        >
+          画像を調整する
+        </v-btn>
         <v-btn
           v-if="imgSrc != '' && !cropImg"
           dark
@@ -126,7 +205,8 @@ export default {
     return {
       imgSrc: "",
       cropImg: "",
-      drawer: true
+      drawer: true,
+      ajustBtn: false
     }
   },
   methods: {
@@ -182,6 +262,23 @@ export default {
     },
     clickBack () {
       this.$emit('click-back', 1)
+    },
+    clickAjust () {
+      if (this.imgSrc) {
+        this.ajustBtn = true
+      }
+    },
+    clickOk () {
+      this.ajustBtn = false
+    },
+    zoom(percent) {
+      this.$refs.cropper.relativeZoom(percent);
+    },
+    move(offsetX, offsetY) {
+      this.$refs.cropper.move(offsetX, offsetY);
+    },
+    rotate(deg) {
+      this.$refs.cropper.rotate(deg);
     }
   }
 }
@@ -202,6 +299,7 @@ label {
 input[type="file"] {
     display: none;
 }
+
 
 .warn-text {
   color: red;
