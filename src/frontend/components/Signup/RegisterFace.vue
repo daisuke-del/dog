@@ -35,7 +35,6 @@
           :view-mode="1"
           drag-mode="crop"
           :background="true"
-          :rotatable="false"
           :src="imgSrc"
           alt="Source Image"
           :img-style="{ 'width': '300px', 'height': '300px', 'border': '2px solid #f4f4f4', 'border-radius': '10px', 'background-color': '#f4f4f4' }"
