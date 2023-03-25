@@ -18,7 +18,6 @@ use App\Services\SupportService;
 use App\Services\MypageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use InterventionImage;
 
 class UserService
 {
@@ -693,14 +692,6 @@ class UserService
             $img = preg_replace('/^data:image.*base64,/', '', $faceImage);
             $img = str_replace(' ', '+', $img);
             $fileData = base64_decode($img);
-            $fileData = InterventionImage::make($fileData)->resize(500, null,
-                function ($constraint) {
-                    // 縦横比を保持したままにする
-                    $constraint->aspectRatio();
-                    // 小さい画像は大きくしない
-                    $constraint->upsize();
-                }
-            );
 
             $fileName = md5($img);
             $path = $fileName . '.' . $extension;
