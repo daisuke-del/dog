@@ -7,7 +7,7 @@
           @click="clickFemale"
         >
           <v-img
-            :src="gender=='female' ? require(`@/../storage/image/faceimages/images/female2.png`) : require(`@/../storage/image/faceimages/images/un-select-female2.png`)"
+            :src="gender=='female' ? 'https://www.marigold.red/storage/images/female2.png' : 'https://www.marigold.red/storage/images/un-select-female2.png'"
           />
         </v-card>
       </v-col>
@@ -17,7 +17,7 @@
           @click="clickMale"
         >
           <v-img
-          :src="gender=='male' ? require(`@/../storage/image/faceimages/images/male2.png`) : require(`@/../storage/image/faceimages/images/un-select-male2.png`)"
+            :src="gender=='male' ? 'https://www.marigold.red/storage/images/male2.png' : 'https://www.marigold.red/storage/images/un-select-male2.png'"
           />
         </v-card>
       </v-col>
