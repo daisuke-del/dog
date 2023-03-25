@@ -794,11 +794,14 @@ class UsersRepository implements UsersRepositoryInterface
      */
     public function getRanking(string $gender): object
     {
+        $dt = new Carbon();
+        $date = $dt->subDay(1);
         return (new User)
             ->where('gender', $gender)
             ->where('face_image_void_flg', 0)
+            ->where('update_face_at', '<', $date)
             ->orderBy('face_point', 'desc')
-            ->orderBy('update_face_at', 'desc')
+            ->orderBy('update_face_at')
             ->limit(3)
             ->get();
     }
