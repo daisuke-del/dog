@@ -1,10 +1,27 @@
 <template>
   <div>
-    <div class="gender">
-      <toggle-button v-model="whitchGender" :color="{ checked: '#99ccff', unchecked: '#ECA5B2' }"
-        :labels="{ checked: '男性', unchecked: '女性' }" :switch-color="{ checked: '#0099ff', unchecked: '#FFC0CB' }"
-        :font-size="15" :width="80" :height="30" />
-    </div>
+    <v-row class="px-10 py-6">
+      <v-col cols="6">
+        <v-card
+          :elevation="gender=='female' ? 5 : 0"
+          @click="clickFemale"
+        >
+          <v-img
+            :src="gender=='female' ? require(`@/../storage/image/faceimages/images/female2.png`) : require(`@/../storage/image/faceimages/images/un-select-female2.png`)"
+          />
+        </v-card>
+      </v-col>
+      <v-col cols="6">
+        <v-card
+          :elevation="gender=='male' ? 5 : 0"
+          @click="clickMale"
+        >
+          <v-img
+          :src="gender=='male' ? require(`@/../storage/image/faceimages/images/male2.png`) : require(`@/../storage/image/faceimages/images/un-select-male2.png`)"
+          />
+        </v-card>
+      </v-col>
+    </v-row>
     <v-form ref="signupForm" class="signup-form-wrap">
       <div class="main-wrap">
         <v-text-field v-model="name" :rules="nameRules" :counter="10" class="name form-content" label="ニックネーム(ヤマダユウキ)"
@@ -98,11 +115,9 @@
 </template>
 
 <script>
-import { ToggleButton } from 'vue-js-toggle-button'
 import constants from '@/utils/constants'
 export default {
   name: 'SignupForm',
-  components: {ToggleButton},
   props: {
     sendLoading: {
       type: Boolean,
@@ -111,9 +126,7 @@ export default {
   },
   data() {
     return {
-      isToggled: false,
-      whitchGender: true,
-      gender: null,
+      gender: 'male',
       name: null,
       email: null,
       password: null,
@@ -164,6 +177,12 @@ export default {
     }
   },
   methods: {
+    clickFemale() {
+      this.gender = 'female'
+    },
+    clickMale() {
+      this.gender = 'male'
+    },
     generateInputNum(item, index) {
       return `${item}_${index + 1}`
     },
@@ -217,12 +236,6 @@ export default {
     },
     storeUserInfo() {
       if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
-        if (this.whitchGender === true) {
-          this.gender = 'male'
-        } else {
-          this.gender = 'female'
-        }
-
         if (this.item === '〜 199') {
           this.salary = 150
         } else if (this.item === '200 〜 399') {
