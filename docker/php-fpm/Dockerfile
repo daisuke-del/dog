@@ -5,6 +5,15 @@ RUN pecl install redis
 RUN docker-php-ext-install pdo_mysql
 RUN apk add autoconf build-base
 
+RUN apk update && \
+  apk add --update --no-cache \
+  libjpeg-turbo-dev \
+  libwebp-dev \
+  libpng-dev
+
+RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd
+
 #タイムゾーンをJSTに設定
 RUN apk --update add tzdata && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
