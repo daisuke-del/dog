@@ -1,3 +1,3 @@
 module.exports = {
-    apiBaseUrl: 'https://www.marigold.red/',
+    apiBaseUrl: 'http://localhost/',
   }

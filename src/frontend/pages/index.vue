@@ -7,7 +7,7 @@
         />
       </div>
       <div class="ranking-wrap">
-        <h2 class="ranking-headline">【男性】人気の顔ランキング</h2>
+        <h2 class="ranking-headline">人気のわんこランキング</h2>
         <v-row>
           <v-col cols="4" class="ranking-col">
             <v-img
@@ -16,7 +16,7 @@
             />
             <v-card>
               <v-img
-                :src="firstMale"
+                :src="firstDog"
               />
             </v-card>
           </v-col>
@@ -27,7 +27,7 @@
             />
             <v-card>
               <v-img
-                :src="secondMale"
+                :src="secondDog"
               />
             </v-card>
           </v-col>
@@ -38,45 +38,7 @@
             />
             <v-card>
               <v-img
-                :src="thirdMale"
-              />
-            </v-card>
-          </v-col>
-        </v-row>
-      </div>
-      <div class="ranking-wrap">
-        <h2 class="ranking-headline">【女性】人気の顔ランキング</h2>
-        <v-row>
-          <v-col cols="4" class="ranking-col">
-            <v-img
-              :src="require('@/assets/image/rank/1st.png')"
-              class="ranking-icon"
-            />
-            <v-card>
-              <v-img
-                :src="firstFemale"
-              />
-            </v-card>
-          </v-col>
-          <v-col cols="4" class="ranking-col">
-            <v-img
-              :src="require('@/assets/image/rank/2nd.png')"
-              class="ranking-icon"
-            />
-            <v-card>
-              <v-img
-                :src="secondFemale"
-              />
-            </v-card>
-          </v-col>
-          <v-col cols="4" class="ranking-col">
-            <v-img
-              :src="require('@/assets/image/rank/3rd.png')"
-              class="ranking-icon"
-            />
-            <v-card>
-              <v-img
-                :src="thirdFemale"
+                :src="thirdDog"
               />
             </v-card>
           </v-col>
@@ -100,28 +62,28 @@
             </p>
           </div>
           <div class="intro-small-wrap">
-            <h3 class="intro-headline">パートナー診断</h3>
+            <h3 class="intro-headline">わんこ診断</h3>
             <p class="intro-text">
-              今の自分のレベルに合った相手を診断
+              あなたの性格や体格から診断！
             </p>
           </div>
           <div class="btn-wrap">
-            <a class="btn-text blue-btn" @click="clickMatch">パートナー診断を開始</a>
+            <a class="btn-text blue-btn" @click="clickDiagnosis">わんこ診断を開始</a>
           </div>
           <div class="intro-small-wrap">
             <h3 class="intro-headline">フレンド機能</h3>
             <p class="intro-text">
-              気になった相手にはいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
+              気になったわんこにいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
             </p>
           </div>
           <div class="intro-small-wrap">
-            <h3 class="intro-headline">放置するだけ</h3>
+            <h3 class="intro-headline">人気ランキング</h3>
             <p class="intro-text">
-              顔写真を登録して放置するだけで<br>リアルタイムに自分の顔レベルを測定できる！
+              人気ランキング上位を狙おう！<br>上位にランクインするとトップページに掲載
             </p>
           </div>
           <div class="btn-wrap">
-            <a class="btn-text pink-btn" @click="clickSignup">無料登録して友達を探す</a>
+            <a class="btn-text pink-btn" @click="clickSignup">無料登録してランクイン！</a>
           </div>
         </div>
       </div>
@@ -134,57 +96,31 @@ import ranking from '@/plugins/modules/ranking'
 export default {
   auth: false,
   async asyncData() {
-    let maleRanking = []
-    let femaleRanking = []
+    let dogRanking = []
     await ranking.getRanking().then((response) => {
-      maleRanking = response['male']
-      femaleRanking = response['female']
+      dogRanking = response['dogs']
     })
     return {
-      maleRanking,
-      femaleRanking
-    }
-  },
-  data() {
-    return {
-      maleRanking: [
-        {face_image: 'm1.jpeg'},
-        {face_image: 'm2.jpeg'},
-        {face_image: 'm3.jpeg'}
-      ],
-      femaleRanking: [
-        {face_image: '1.jpeg'},
-        {face_image: '2.jpeg'},
-        {face_image: '3.jpeg'}
-      ]
+      dogRanking
     }
   },
   computed: {
-    firstMale () {
-      return this.maleRanking[0].face_image && `https://www.marigold.red/storage/${this.maleRanking[0].face_image}`
+    firstDog () {
+      return this.maleRanking[0].dog_image && `http://localhost/storage/${this.maleRanking[0].dog_image}`
     },
-    secondMale () {
-      return this.maleRanking[1].face_image && `https://www.marigold.red/storage/${this.maleRanking[1].face_image}`
+    secondDog () {
+      return this.maleRanking[1].dog_image && `http://localhost/storage/${this.maleRanking[1].dog_image}`
     },
-    thirdMale () {
-      return this.maleRanking[2].face_image && `https://www.marigold.red/storage/${this.maleRanking[2].face_image}`
-    },
-    firstFemale () {
-      return this.maleRanking[0].face_image && `https://www.marigold.red/storage/${this.femaleRanking[0].face_image}`
-    },
-    secondFemale () {
-      return this.maleRanking[1].face_image && `https://www.marigold.red/storage/${this.femaleRanking[1].face_image}`
-    },
-    thirdFemale () {
-      return this.maleRanking[2].face_image && `https://www.marigold.red/storage/${this.femaleRanking[2].face_image}`
+    thirdDog () {
+      return this.maleRanking[2].dog_image && `http://localhost/storage/${this.maleRanking[2].dog_image}`
     }
   },
   methods: {
     clickSignup() {
       this.$router.push('signup')
     },
-    clickMatch() {
-      this.$router.push('match')
+    clickDiagnosis() {
+      this.$router.push('diagnosis')
     }
   }
 }

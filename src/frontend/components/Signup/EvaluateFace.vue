@@ -3,55 +3,55 @@
     <p class="big-text d-flex justify-center mb-0">あなたの顔はどのくらい？</p>
     <div class="face-wrap d-flex justify-center">
       <v-card hover class="face-card">
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[0].face_image}`" v-if="sliderValue === 0" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[1].face_image}`" v-if="sliderValue === 1" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[2].face_image}`" v-if="sliderValue === 2" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[3].face_image}`" v-if="sliderValue === 3" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[4].face_image}`" v-if="sliderValue === 4" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[5].face_image}`" v-if="sliderValue === 5" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[6].face_image}`" v-if="sliderValue === 6" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[7].face_image}`" v-if="sliderValue === 7" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[8].face_image}`" v-if="sliderValue === 8" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[9].face_image}`" v-if="sliderValue === 9" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[10].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[0].dog_image}`" v-if="sliderValue === 0" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[1].dog_image}`" v-if="sliderValue === 1" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[2].dog_image}`" v-if="sliderValue === 2" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[3].dog_image}`" v-if="sliderValue === 3" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[4].dog_image}`" v-if="sliderValue === 4" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[5].dog_image}`" v-if="sliderValue === 5" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[6].dog_image}`" v-if="sliderValue === 6" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[7].dog_image}`" v-if="sliderValue === 7" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[8].dog_image}`" v-if="sliderValue === 8" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[9].dog_image}`" v-if="sliderValue === 9" />
+        <v-img :src="`http://localhost/storage/${sliderFaces[10].dog_image}`"
           v-if="sliderValue === 10" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[11].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[11].dog_image}`"
           v-if="sliderValue === 11" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[12].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[12].dog_image}`"
           v-if="sliderValue === 12" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[13].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[13].dog_image}`"
           v-if="sliderValue === 13" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[14].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[14].dog_image}`"
           v-if="sliderValue === 14" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[15].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[15].dog_image}`"
           v-if="sliderValue === 15" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[16].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[16].dog_image}`"
           v-if="sliderValue === 16" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[17].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[17].dog_image}`"
           v-if="sliderValue === 17" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[18].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[18].dog_image}`"
           v-if="sliderValue === 18" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[19].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[19].dog_image}`"
           v-if="sliderValue === 19" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[20].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[20].dog_image}`"
           v-if="sliderValue === 20" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[21].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[21].dog_image}`"
           v-if="sliderValue === 21" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[22].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[22].dog_image}`"
           v-if="sliderValue === 22" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[23].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[23].dog_image}`"
           v-if="sliderValue === 23" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[24].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[24].dog_image}`"
           v-if="sliderValue === 24" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[25].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[25].dog_image}`"
           v-if="sliderValue === 25" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[26].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[26].dog_image}`"
           v-if="sliderValue === 26" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[27].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[27].dog_image}`"
           v-if="sliderValue === 27" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[28].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[28].dog_image}`"
           v-if="sliderValue === 28" />
-        <v-img :src="`https://www.marigold.red/storage/${sliderFaces[29].face_image}`"
+        <v-img :src="`http://localhost/storage/${sliderFaces[29].dog_image}`"
           v-if="sliderValue === 29" />
       </v-card>
     </div>
@@ -60,7 +60,7 @@
         background-color="blue-grey lighten-5" />
     </div>
     <div class="btn-wrap">
-      <v-btn block depressed color="primary" height="50px" class="btn" @click="saveFacePoint">
+      <v-btn block depressed color="primary" height="50px" class="btn" @click="saveDogPoint">
         次へ
       </v-btn>
       <v-btn block depressed color="#c4c4c4" height="50px" class="btn mt-3" @click="clickBack()">
@@ -85,7 +85,7 @@ export default {
     }
   },
   methods: {
-    saveFacePoint() {
+    saveDogPoint() {
       this.$emit('store-face-point', this.sliderValue)
     },
     clickBack() {

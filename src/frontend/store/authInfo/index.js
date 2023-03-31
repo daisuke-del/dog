@@ -4,14 +4,14 @@ export const state = () => ({
     name: null,
     email: null,
     password: null,
-    faceImage: 'no-user-image-icon.jpeg',
-    gender: null,
+    dogImage: 'no-user-image-icon.jpeg',
+    sex: null,
     age: null,
     height: null,
     weight: null,
     salary: null,
-    facePoint: null,
-    updateFaceAt: null,
+    dogPoint: null,
+    updateDogAt: null,
     twitterId: null,
     instagramId: null,
     facebookId: null,
@@ -28,21 +28,21 @@ export const getters = {
   userId: (state) => {
     return state.auth.userId
   },
-  gender: (state) => {
-    return state.auth.gender
+  sex: (state) => {
+    return state.auth.sex
   },
-  faceImage: (state) => {
-    return state.auth.faceImage
+  dogImage: (state) => {
+    return state.auth.dogImage
   }
 }
 
 export const mutations = {
   setAuthInfo(state, userInfo) {
     state.auth.userId = userInfo.user_id
-    state.auth.gender = userInfo.gender ? userInfo.gender : null
+    state.auth.sex = userInfo.sex ? userInfo.sex : null
     state.auth.name = userInfo.name ? userInfo.name : '名無しさん'
-    state.auth.faceImage = userInfo.face_image ? userInfo.face_image : 'no-user-image-icon.jpeg'
-    state.auth.facePoint = userInfo.face_point ? userInfo.face_point : 0
+    state.auth.dogImage = userInfo.dog_image ? userInfo.dog_image : 'no-user-image-icon.jpeg'
+    state.auth.dogPoint = userInfo.dog_point ? userInfo.dog_point : 0
     state.auth.rank = userInfo.rank ? userInfo.rank : 'Nomal'
     state.auth.score = userInfo.score ? userInfo.score : 'D'
     state.auth.voidFlg = userInfo.void_flg ? userInfo.void_flg : 0

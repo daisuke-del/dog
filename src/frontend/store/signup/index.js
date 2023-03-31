@@ -3,14 +3,14 @@ export const state = () => ({
     name: null,
     email: null,
     password: null,
-    faceImage: null,
-    gender: null,
+    dogImage: null,
+    sex: null,
     age: null,
     height: null,
     weight: null,
     salary: null,
-    facePoint: null,
-    updateFaceAt: null,
+    dogPoint: null,
+    updateDogAt: null,
     twitterId: null,
     instagramId: null,
     facebookId: null,
@@ -29,18 +29,18 @@ export const mutations = {
     state.signup.name = signup.name
     state.signup.email = signup.email
     state.signup.password = signup.password
-    state.signup.gender = signup.gender
+    state.signup.sex = signup.sex
     state.signup.age = signup.age
     state.signup.height = signup.height
     state.signup.weight = signup.weight
     state.signup.salary = signup.salary
     state.signup.agree = signup.agree
   },
-  setFaceImage (state, signup) {
-    state.signup.faceImage = signup.faceImage
+  setDogImage (state, signup) {
+    state.signup.dogImage = signup.dogImage
   },
-  setFacePoint (state, signup) {
-    state.signup.facePoint = signup.facePoint
+  setDogPoint (state, signup) {
+    state.signup.dogPoint = signup.dogPoint
   },
   setAuthCode (state, signup) {
     state.signup.authCode = signup.authCode
@@ -51,11 +51,11 @@ export const actions = {
   setSignup ({ commit }, signup) {
     commit('setSignup', signup)
   },
-  setFaceImage ({ commit }, signup) {
-    commit('setFaceImage', signup)
+  setDogImage ({ commit }, signup) {
+    commit('setDogImage', signup)
   },
-  setFacePoint ({ commit }, signup) {
-    commit('setFacePoint', signup)
+  setDogPoint ({ commit }, signup) {
+    commit('setDogPoint', signup)
   },
   setAuthCode ({ commit }, signup) {
     commit('setAuthCode', signup)

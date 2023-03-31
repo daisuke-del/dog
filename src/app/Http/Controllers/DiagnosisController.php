@@ -34,7 +34,7 @@ class MatchController extends Controller
      */
     public function choice(Request $request)
     {
-        $response = $this->userService->upDownFacePoint($request);
+        $response = $this->userService->upDownDogPoint($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 

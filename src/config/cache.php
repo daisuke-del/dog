@@ -104,6 +104,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('marigold', 'laravel'), '_').'_cache'),
+    'prefix' => env('CACHE_PREFIX', Str::slug(env('dog', 'laravel'), '_').'_cache'),
 
 ];

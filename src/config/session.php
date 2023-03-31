@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', '.marigold.red'),
+    'domain' => env('SESSION_DOMAIN', '.dog.red'),
 
     /*
     |--------------------------------------------------------------------------

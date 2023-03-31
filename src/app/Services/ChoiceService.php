@@ -20,24 +20,24 @@ class ChoiceService
     /**
      * ランダムに２ユーザーを取得
      *
-     * @param  string $gender
-     * @param int $searchFacePoint
+     * @param  string $sex
+     * @param int $searchDogPoint
      * @return array
      * @throw Exception
      */
-    public function  getChoiceFace(string $gender, int $searchFacePoint = 101): array
+    public function  getChoiceFace(string $sex, int $searchDogPoint = 101): array
     {
-        if ($gender === 'man') {
-            $searchGender = 'woman';
+        if ($sex === 'man') {
+            $searchSex = 'woman';
         }
-        if ($gender === 'woman') {
-            $searchGender = 'man';
+        if ($sex === 'woman') {
+            $searchSex = 'man';
         }
-        if ( $searchFacePoint === 101 ) {
+        if ( $searchDogPoint === 101 ) {
             $randomNum = mt_rand(1,99);
-            return $this->usersRepository->getTwoUsersByFacePoint($searchGender, $randomNum)->toArray();
+            return $this->usersRepository->getTwoUsersByDogPoint($searchSex, $randomNum)->toArray();
         }
-        return $this->usersRepository->getTwoUsersByFacePoint($searchGender, $searchFacePoint)->toArray();
+        return $this->usersRepository->getTwoUsersByDogPoint($searchSex, $searchDogPoint)->toArray();
     }
 
     /**
@@ -47,7 +47,7 @@ class ChoiceService
      * @return void
      * @throw Exception
      */
-    public function clickNotFaceImageButton(string $userId): void
+    public function clickNotDogImageButton(string $userId): void
     {
         $this->usersRepository->upYellowCard($userId);
     }
@@ -61,9 +61,9 @@ class ChoiceService
      */
     public function checkYellowCards(string $userId): void
     {
-        if ( $this->usersRepository->getFaceImageVoidFlg($userId) == 0){
+        if ( $this->usersRepository->getDogImageVoidFlg($userId) == 0){
             if ( $this->usersRepository->getYellowCard($userId) > 2 ) {
-                $this->usersRepository->updateFaceImageVoidFlg($userId, 1);
+                $this->usersRepository->updateDogImageVoidFlg($userId, 1);
             }
         }
     }

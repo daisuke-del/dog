@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use App\Repositories\ReactionsRepository;
 use App\ValueObjects\User\Email;
 use App\ValueObjects\User\Password;
@@ -47,32 +47,32 @@ class UserService
         // userをemailで検索
         $email = (new Email($request->input('email')))->get();
         if ($this->containUppercase($email)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new DOGException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
         // emailが登録済かどうかチェック
         $registerd = $this->checkEmailRegisterd($email);
         if (!$registerd) {
-            throw new MARIGOLDException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new DOGException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $storeInfo = $this->getCalculation($request);
-        $faceImage = $this->storeFaceImage($request->input('faceImage'));
+        $dogImage = $this->storeDogImage($request->input('dogImage'));
 
         $requestArr = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
-            'gender' => $request->input('gender'),
+            'sex' => $request->input('sex'),
             'height' => $storeInfo['height'],
             'weight' => $storeInfo['weight'],
             'age' => $storeInfo['age'],
             'salary' => $storeInfo['salary'],
-            'face_point' => $storeInfo['facePoint'],
+            'dog_point' => $storeInfo['dogPoint'],
             'height2' => $storeInfo['height2'],
             'weight2' => $storeInfo['weight2'],
             'age2' => $storeInfo['age2'],
             'salary2' => $storeInfo['salary2'],
-            'face_point2' => $storeInfo['facePoint2'],
-            'face_image' => $faceImage,
+            'dog_point2' => $storeInfo['dogPoint2'],
+            'dog_image' => $dogImage,
             'facebook_id' => $request->input('facebookId'),
             'instagram_id' => $request->input('instagramId'),
             'twitter_id' => $request->input('twitterId'),
@@ -81,10 +81,10 @@ class UserService
         $response = $this->insertUsers($requestArr);
 
         if (empty($response)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
+            throw new DOGException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
         if (!Auth::attempt($request->only(['email', 'password']), true)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
+            throw new DOGException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
 
         if (Auth::check()) {
@@ -119,13 +119,13 @@ class UserService
         $email = (new Email($request->input('email')))->get();
         $user = $this->usersRepository->getUser($email);
         if (is_null($user)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+            throw new DOGException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
         }
 
         if (Auth::attempt($request->only(['email', 'password']), true)) {
             return Auth::user();
         }
-        throw new MARIGOLDException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
+        throw new DOGException(config('const.ERROR.USER.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -141,13 +141,13 @@ class UserService
         $email = $request->input('email');
         $user = $this->usersRepository->getAdminUser($email);
         if (is_null($user)) {
-            throw new MARIGOLDException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
+            throw new DOGException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
         }
 
         if (Auth::guard('admin')->attempt($request->only(['email', 'password']), true)) {
             return Auth::guard('admin')->user();
         }
-        throw new MARIGOLDException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
+        throw new DOGException(config('const.ERROR.AUTH.LOGIN_FAILED'), 401);
     }
 
     /**
@@ -183,19 +183,19 @@ class UserService
         $password = $request->input('password');
         $email = (new Email($request->input('email')))->get();
         if ($this->containUppercase($email)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new DOGException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
         if ($this->usersRepository->existsEmail($email)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new DOGException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         if (!$this->checkPassword($user, $password)) {
             // パスワードが異なる
-            throw new MARIGOLDException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
+            throw new DOGException(config('const.ERROR.USER.PASSWORD_DIFFERENT'), 401);
         }
         $user['email'] = $email;
         $user['password'] = $password;
@@ -229,7 +229,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['name'] = $request->input('name');
         $users = $this->usersRepository->new($user);
@@ -252,10 +252,10 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $height = $request->input('height');
-        if ($user['gender'] === 'male') {
+        if ($user['sex'] === 'male') {
             $height2 = ($height - 150) * 2;
         } else {
             $height2 = 30;
@@ -283,11 +283,11 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $weight = $request->input('weight');
         $height = $user['height'];
-        if ($user['gender'] === 'male') {
+        if ($user['sex'] === 'male') {
             $weight2 = abs($weight / ($height * $height / 10000) - 20) * 3;
         } else {
             $weight2 = ($weight / ($height * $height / 10000) - 20) * 3;
@@ -315,10 +315,10 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $age = $request->input('age');
-        if ($user['gender'] === 'male') {
+        if ($user['sex'] === 'male') {
             $age2 = abs($age - 27);
         } else {
             $age2 = $age - 23;
@@ -330,56 +330,6 @@ class UserService
         return [
             'age' => $users->getAge(),
             'age2' => $users->getAge2()
-        ];
-    }
-
-    /**
-     * 会員情報変更 - salary
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function updateSalary(Request $request): array
-    {
-        $userId = Auth::id();
-        $user = $this->getUsersById($userId);
-        if (is_null($user)) {
-            // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        $salary2 = $request->input('salary');
-        $salary2 = $salary2 / 10 - 30;
-        $user['salary'] = $request->input('salary');
-        $user['salary2'] = $salary2;
-        $users = $this->usersRepository->new($user);
-        $this->usersRepository->updateSalary($users);
-        return [
-            'salary' => $users->getSalary(),
-            'salary2' => $users->getSalary2()
-        ];
-    }
-
-    /**
-     * 会員情報変更 - facebook_id
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function updateFacebook(Request $request): array
-    {
-        $userId = Auth::id();
-        $user = $this->getUsersById($userId);
-        if (is_null($user)) {
-            // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        $user['facebook_id'] = $request->input('facebook');
-        $users = $this->usersRepository->new($user);
-        $this->usersRepository->updateFacebook($users);
-        return [
-            'facebook_id' => $users->getFacebookId()
         ];
     }
 
@@ -396,7 +346,7 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['instagram_id'] = $request->input('instagram');
         $users = $this->usersRepository->new($user);
@@ -419,13 +369,59 @@ class UserService
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $user['twitter_id'] = $request->input('twitter');
         $users = $this->usersRepository->new($user);
         $this->usersRepository->updateTwitter($users);
         return [
             'twitter_id' => $users->getTwitterId()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - tiktok_id
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateTiktok(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['tiktok_id'] = $request->input('tiktok');
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateTiktok($users);
+        return [
+            'tiktok_id' => $users->getTiktokId()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - blog_id
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateBlog(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['blog_id'] = $request->input('blog');
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateBlog($users);
+        return [
+            'blog_id' => $users->getBlogId()
         ];
     }
 
@@ -500,25 +496,22 @@ class UserService
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => $request['password'],
-            'gender' => $request['gender'],
-            'height' => $request['height'],
+            'sex' => $request['sex'],
             'weight' => $request['weight'],
-            'age' => $request['age'],
+            'birthday' => $request['birthday'],
             'salary' => $request['salary'],
-            'face_point' => $request['face_point'],
-            'height2' => $request['height2'],
-            'weight2' => $request['weight2'],
-            'age2' => $request['age2'],
-            'salary2' => $request['salary2'],
-            'face_point2' => $request['face_point2'],
-            'face_image' => $request['face_image'],
-            'facebook_id' => $request['facebook_id'],
+            'dog_point' => $request['dog_point'],
+            'dog_image' => $request['dog_image'],
+            'dog_image2' => $request['dog_image2'],
+            'dog_image3' => $request['dog_image3'],
             'instagram_id' => $request['instagram_id'],
             'twitter_id' => $request['twitter_id'],
+            'tiktok_id' => $request['tiktok_id'],
+            'blog_id' => $request['blog_id'],
             'yellow_card' => 0,
             'create_date' => $now->format('Y-m-d H:i:s'),
-            'update_face_at' => $now->format('Y-m-d H:i:s'),
-            'face_image_void_flg' => 0,
+            'update_dog_at' => $now->format('Y-m-d H:i:s'),
+            'dog_image_void_flg' => 0,
             'order_number' => $orderNumber
         ];
     }
@@ -539,7 +532,7 @@ class UserService
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
                 'user_id' => $userId
             ];
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
         return $users;
     }
@@ -587,15 +580,15 @@ class UserService
      * @return array
      * @throws Exception
      */
-    public function upDownFacePoint(Request $request): array
+    public function upDownDogPoint(Request $request): array
     {
-        $this->usersRepository->upFacePoint($request->input('upUser'));
-        $this->usersRepository->downFacePoint($request->input('downUser'));
+        $this->usersRepository->upDogPoint($request->input('upUser'));
+        $this->usersRepository->downDogPoint($request->input('downUser'));
 
         $responseInfo = [];
-        $gender = $request->input('gender');
+        $sex = $request->input('sex');
         while (count($responseInfo) < 2) {
-            $responseInfo = $this->getChoiceInfo($gender);
+            $responseInfo = $this->getChoiceInfo($sex);
         }
 
         return $responseInfo;
@@ -604,14 +597,14 @@ class UserService
     /**
      * choice用画像を取得
      *
-     *@param string $gender
+     *@param string $sex
      *@return array
      */
-    private function getChoiceInfo($gender): array
+    private function getChoiceInfo($sex): array
     {
-        $maxNum = $this->usersRepository->getMaxFacePoint($gender);
-        $randNum = mt_rand(1, $maxNum['face_point']);
-        $response = $this->usersRepository->getTwoUsersByFacePoint($randNum, $gender);
+        $maxNum = $this->usersRepository->getMaxDogPoint($sex);
+        $randNum = mt_rand(1, $maxNum['dog_point']);
+        $response = $this->usersRepository->getTwoUsersByDogPoint($randNum, $sex);
 
         return $response->toArray();
     }
@@ -639,12 +632,12 @@ class UserService
     public function updateYellowAndGetFace(Request $request): array
     {
         $this->updateAndCheckYellowCard($request->input('userId'));
-        $gender = $request->input('gender');
-        return $this->getChoiceInfo($gender);
+        $sex = $request->input('sex');
+        return $this->getChoiceInfo($sex);
     }
 
     /**
-     * yellowCardを更新して、face_image_void_flgを更新
+     * yellowCardを更新して、dog_image_void_flgを更新
      *
      * @param string $upOrDown
      * @param string $userId
@@ -656,7 +649,7 @@ class UserService
         $this->usersRepository->upYellowCard($userId);
         $yellowCard = $this->usersRepository->getYellowCard($userId);
         if ($yellowCard['yellow_card'] > 2) {
-            $this->usersRepository->updateFaceImageVoidFlg($userId, 1);
+            $this->usersRepository->updateDogImageVoidFlg($userId, 1);
         }
     }
 
@@ -678,18 +671,18 @@ class UserService
     }
 
     /**
-     * faceImageをdecodeして保存する。
+     * dogImageをdecodeして保存する。
      *
-     * @param string $faceImage
+     * @param string $dogImage
      * @return string
      */
-    public function storeFaceImage($faceImage): string
+    public function storeDogImage($dogImage): string
     {
         try {
-            preg_match('/data:image\/(\w+);base64,/', $faceImage, $matches);
+            preg_match('/data:image\/(\w+);base64,/', $dogImage, $matches);
             $extension = $matches[1];
 
-            $img = preg_replace('/^data:image.*base64,/', '', $faceImage);
+            $img = preg_replace('/^data:image.*base64,/', '', $dogImage);
             $img = str_replace(' ', '+', $img);
             $fileData = base64_decode($img);
 
@@ -701,32 +694,8 @@ class UserService
             return $path;
         } catch (Exception $e) {
             Log::error($e);
-            throw new MARIGOLDException('画像の保存に失敗しました', 400);
+            throw new DOGException('画像の保存に失敗しました', 400);
         }
-    }
-
-    /**
-     * face_imageとface_pointを30件取得
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function getFace(Request $request): array
-    {
-        $gender = $request->input('gender');
-        $sort = ['asc', 'desc'];
-        $key = array_rand($sort, 1);
-        $response = $this->usersRepository->getFace($gender, $sort[$key], 30)->toArray();
-
-        if (!$response) {
-            throw new MARIGOLDException(config('スライダー画像の取得に失敗しました'), 400);
-        }
-
-        $sortFacePoint = array_column($response, 'face_point');
-
-        array_multisort($sortFacePoint, SORT_ASC, $response);
-
-        return $response;
     }
 
     /**
@@ -735,30 +704,30 @@ class UserService
      * @param Request $request
      * @return array
      */
-    public function updateFaceImage(Request $request): array
+    public function updateDogImage(Request $request): array
     {
         $userId = Auth::id();
         $userInfo = $this->usersRepository->selectUsersById($userId)->toArray();
-        $oldImage = $userInfo['face_image'];
+        $oldImage = $userInfo['dog_image'];
         try {
-            $this->deleteFaceImage($oldImage);
-            $newImage = $this->storeFaceImage($request->input('faceImage'));
+            $this->deleteDogImage($oldImage);
+            $newImage = $this->storeDogImage($request->input('dogImage'));
             $this->usersRepository->updateFace($userId, $newImage);
-            $continuationScore = $this->mypageService->getContinuationScore($userInfo['update_face_at']);
+            $continuationScore = $this->mypageService->getContinuationScore($userInfo['update_dog_at']);
             $rank = $this->mypageService->getFaceStatus($userId, $continuationScore);
             return [
                 'user_id' => $userInfo['user_id'],
-                'gender' => $userInfo['gender'],
+                'sex' => $userInfo['sex'],
                 'name' => $userInfo['name'],
-                'void_flg' => $userInfo['face_image_void_flg'],
+                'void_flg' => $userInfo['dog_image_void_flg'],
                 'rank' => $rank,
-                'face_image' => $newImage,
-                'face_point' => $userInfo['face_point'],
+                'dog_image' => $newImage,
+                'dog_point' => $userInfo['dog_point'],
                 'score' => $continuationScore,
             ];
         } catch (Exception $e) {
             Log::error($e);
-            throw new MARIGOLDException('画像の更新に失敗しました', 400);
+            throw new DOGException('画像の更新に失敗しました', 400);
         }
     }
 
@@ -766,7 +735,7 @@ class UserService
      * @param string $imagePath
      * @return bool
      */
-    public function deleteFaceImage($imagePath): bool
+    public function deleteDogImage($imagePath): bool
     {
         if (Storage::exists($imagePath)) {
             Storage::delete($imagePath);
@@ -787,17 +756,17 @@ class UserService
     {
         $checkedEmail = (new Email($email))->get();
         if ($this->containUppercase($checkedEmail)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new DOGException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
 
         $result = $this->usersRepository->getUserByMail($checkedEmail);
         if (isset($result)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
+            throw new DOGException(config('const.ERROR.USER.ALREADY_REGISTERED'), 400);
         }
     }
 
     /**
-     * match結果を取得
+     * diagnosis結果を取得
      *
      * @param Request $request
      * @return array
@@ -805,15 +774,15 @@ class UserService
     public function getResult(Request $request): array
     {
         $userInfo = $this->getCalculation($request);
-        if ($request->input('gender') === 'male') {
-            $genderSort = 'female';
+        if ($request->input('sex') === 'male') {
+            $sexSort = 'female';
         } else {
-            $genderSort = 'male';
+            $sexSort = 'male';
         }
-        $params = ['genderSort' => $genderSort, 'height2' => $userInfo['height2'], 'weight2' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2'], 'facePoint2' => $userInfo['facePoint2']];
+        $params = ['sexSort' => $sexSort, 'height2' => $userInfo['height2'], 'weight2' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2'], 'dogPoint2' => $userInfo['dogPoint2']];
         $place = $request->input('place');
 
-        $results = $this->usersRepository->getMatchResult($params, $place)->toArray();
+        $results = $this->usersRepository->getDiagnosisResult($params, $place)->toArray();
         $arrayResults = json_decode(json_encode($results), true);
         if (Auth::check()) {
             $userId = Auth::id();
@@ -840,7 +809,7 @@ class UserService
 
         $choice = [];
         while (count($choice) < 2) {
-            $choice = $this->getChoiceInfo($genderSort);
+            $choice = $this->getChoiceInfo($sexSort);
         }
 
         $response = ['result' => $arrayResults, 'choice' => $choice];
@@ -856,16 +825,16 @@ class UserService
      */
     public function getCalculation(Request $request): array
     {
-        $gender = $request->input('gender');
+        $sex = $request->input('sex');
         $height = (int) $request->input('height');
         $weight = (int) $request->input('weight');
         $age = (int) $request->input('age');
         $salary = (int) $request->input('salary');
         $salary2 = $salary / 10 - 30;
-        $facePoint = (int) $request->input('facePoint');
-        $facePoint2 = $facePoint * 2;
+        $dogPoint = (int) $request->input('dogPoint');
+        $dogPoint2 = $dogPoint * 2;
 
-        if ($gender === 'male') {
+        if ($sex === 'male') {
             $height2 = ($height - 150) * 2;
             $weight2 = abs($weight / ($height * $height / 10000) - 20) * 3;
             $age2 = abs($age - 27);
@@ -880,12 +849,12 @@ class UserService
             'weight' => $weight,
             'age' => $age,
             'salary' => $salary,
-            'facePoint' => $facePoint,
+            'dogPoint' => $dogPoint,
             'height2' => $height2,
             'weight2' => $weight2,
             'age2' => $age2,
             'salary2' => $salary2,
-            'facePoint2' => $facePoint2
+            'dogPoint2' => $dogPoint2
         ];
     }
 
@@ -939,8 +908,8 @@ class UserService
      */
     public function storeImage($request): ?array
     {
-        $img = $request->input('faceImage');
-        $newImage = $this->storeFaceImage($img);
+        $img = $request->input('dogImage');
+        $newImage = $this->storeDogImage($img);
         return ['newImage' => $newImage];
     }
 
@@ -954,16 +923,16 @@ class UserService
     {
         $userId = $request->input('userId');
         $userInfo = $this->usersRepository->selectUsersById($userId);
-        $faceImage = $userInfo['face_image'];
+        $dogImage = $userInfo['dog_image'];
         try {
-            if (!Storage::exists($faceImage)) {
-                throw new MARIGOLDException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+            if (!Storage::exists($dogImage)) {
+                throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
             }
             $this->usersRepository->updateFace($userId, 'no-user-image-icon.jpeg', 2);
-            Storage::delete($faceImage);
+            Storage::delete($dogImage);
         } catch (Exception $e) {
             Log::error($e);
-            throw new MARIGOLDException(config('const.ERROR.ADMIN.FAILED'), 400);
+            throw new DOGException(config('const.ERROR.ADMIN.FAILED'), 400);
         }
         return true;
     }
@@ -993,23 +962,21 @@ class UserService
     {
         $userId = $request->input('userId');
         if ($this->updateYellowCard($userId, 0)) {
-            $this->usersRepository->updateFaceImageVoidFlg($userId, 0);
+            $this->usersRepository->updateDogImageVoidFlg($userId, 0);
         }
     }
 
     /**
-     * 男女上位3名まだのランキングを取得
+     * 上位3匹のランキングを取得
      *
      * @return array
      */
     public function getRanking(): array
     {
-        $male = $this->usersRepository->getRanking('male');
-        $female = $this->usersRepository->getRanking('female');
+        $dogs = $this->usersRepository->getRanking();
 
         return [
-            'male' => $male,
-            'female' => $female
+            'dogs' => $dogs,
         ];
     }
 }

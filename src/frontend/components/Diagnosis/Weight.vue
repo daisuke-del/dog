@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'MatchWeight',
+  name: 'DiagnosisWeight',
   data () {
     return {
       inputValues: [0],

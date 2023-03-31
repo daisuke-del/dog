@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  marigold_php-fpm:
+  dog_php-fpm:
     build:
       context: .
       dockerfile: ./docker/php-fpm/Dockerfile
-    container_name: marigold_php-fpm
+    container_name: dog_php-fpm
     volumes:
       - ./src/:/var/www/html
     environment:
@@ -15,11 +15,11 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
-  marigold_nginx:
+  dog_nginx:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
-    container_name: marigold_nginx
+    container_name: dog_nginx
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:

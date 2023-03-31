@@ -23,70 +23,33 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $dt = new Carbon();
-        $date = $dt->subDay(60);
+        $now = new Carbon();
         $num = self::$sequence++;
-        $height = $this->faker->numberBetween(135, 180);
-        $weight = $this->faker->numberBetween(30, 80);
-        $age = $this->faker->numberBetween(18, 40);
-        $salary = $this->faker->numberBetween(0, 1000);
+        if ($num % 2 === 0) {
+            $sex = 'female';
+        } else {
+            $sex = 'male';
+        }
         return [
             'name' => $this->faker->name('female'),
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password,
-            'face_image' => $num . '.jpeg',
-            'gender' => 'female',
-            'height' => $height,
-            'weight' => $weight,
-            'age' => $age,
-            'salary' => $salary,
-            'face_point' => $num,
-            'height2' => 40,
-            'weight2' => ($weight / ($height*$height/10000) - 20) * 3,
-            'age2' => $age - 23,
-            'salary2' => $salary / 10 - 30,
-            'face_point2' => $num * 2,
-            'update_face_at' => $date,
-            'create_date' => $date,
+            'dog_image' => $num . '.jpeg',
+            'sex' => $sex,
+            'weight' => $this->faker->numberBetween(1, 20),
+            'birthday' => $faker->dateTimeBetween('-20 years', '-1 years')->format('Y-m-d'),
+            'dog_point' => $num,
+            // TODO SNSアカウント入力
+            'twitter_id' => '',
+            'instagram_id' => '',
+            'tiktok_id' => '',
+            'blog_id'=>'',
             'yellow_card' => 0,
-            'twitter_id' => 'oo__aru_me',
-            'instagram_id' => 'steinberg_fan/',
-            'facebook_id' => 'y.kai1',
-            'face_image_void_flg' => 0,
+            'dog_image_void_flg' => 0,
+            'update_dog_at' => $now,
+            'create_date' => $now,
             'order_number' => $this->faker->numberBetween(1, 10000),
             'remember_token' => null
         ];
     }
-
-    /**
-     * 男性のデータを生成
-     *
-     * @return Factory
-     */
-    public function male()
-    {
-        return $this->state(function () {
-            $height = $this->faker->numberBetween(155, 190);
-            $weight = $this->faker->numberBetween(50, 100);
-            $age = $this->faker->numberBetween(18, 50);
-            $salary = $this->faker->numberBetween(0, 1500);
-            $num = self::$sequenceMale++;
-            return [
-                'name' => $this->faker->name('male'),
-                'email' => $this->faker->safeEmail,
-                'face_image' => 'm' . $num . '.jpeg',
-                'gender' => 'male',
-                'height' => $height,
-                'weight' => $weight,
-                'age' => $age,
-                'salary' => $salary,
-                'face_point' => $num,
-                'height2' => ($height - 150) * 2,
-                'weight2' => abs($weight / ($height*$height/10000) - 20) * 3,
-                'age2' => abs($age - 27),
-                'salary2' => $salary / 10 - 30,
-            ];
-        });
-    }
-
 }

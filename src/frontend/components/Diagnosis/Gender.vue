@@ -2,11 +2,11 @@
   <div class="all">
     <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
     <div class="card-wrap">
-      <v-card hover class="card" @click="clickGender('male')">
-        <v-img :src="'https://www.marigold.red/storage/images/male.jpeg'" />
+      <v-card hover class="card" @click="clickSex('male')">
+        <v-img :src="'http://localhost/storage/images/male.jpeg'" />
       </v-card>
-      <v-card hover class="card" @click="clickGender('female')">
-        <v-img :src="'https://www.marigold.red/storage/images/female.jpeg'" />
+      <v-card hover class="card" @click="clickSex('female')">
+        <v-img :src="'http://localhost/storage/images/female.jpeg'" />
       </v-card>
     </div>
   </div>
@@ -14,19 +14,19 @@
 
 <script>
 export default {
-  name: 'MatchGender',
+  name: 'MatchSex',
   data() {
     return {
-      gender: null
+      sex: null
     }
   },
   methods: {
-    clickGender(gender) {
-      this.gender = gender
-      this.$emit('click-gender', this.gender)
+    clickSex(sex) {
+      this.sex = sex
+      this.$emit('click-sex', this.sex)
     },
-    resetGender() {
-      this.gender = null
+    resetSex() {
+      this.sex = null
     }
   }
 }

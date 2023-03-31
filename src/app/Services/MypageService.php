@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use Carbon\Carbon;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
@@ -29,21 +29,21 @@ class MypageService
      * マイページTOP
      *
      * @return array
-     * @throws MARIGOLDException
+     * @throws DOGException
      */
     public function index(): array
     {
         $userId = Auth::id();
         if (is_null($userId)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+            throw new DOGException(config('const.ERROR.USER.NO_REGISTERED'), 401);
         }
 
         $userInfo = $this->usersRepository->selectUsersById($userId)->toArray();
         if (is_null($userInfo)) {
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_REGISTERED'), 401);
+            throw new DOGException(config('const.ERROR.USER.NO_REGISTERED'), 401);
         }
-        $continuationScore = $this->getContinuationScore($userInfo['update_face_at']);
-        $rank = $this->getFaceStatus($userInfo['face_point'], $continuationScore);
+        $continuationScore = $this->getContinuationScore($userInfo['update_dog_at']);
+        $rank = $this->getFaceStatus($userInfo['dog_point'], $continuationScore);
         $friendIds = $this->getMatchAll($userId);
         if (isset($friendIds)) {
             $userIds = [];
@@ -55,17 +55,17 @@ class MypageService
         return [
             'user_id' => $userInfo['user_id'],
             'email' => $userInfo['email'],
-            'gender' => $userInfo['gender'],
+            'sex' => $userInfo['sex'],
             'name' => $userInfo['name'],
             'height' => $userInfo['height'],
             'weight' => $userInfo['weight'],
             'age' => $userInfo['age'],
             'salary' => $userInfo['salary'],
             'rank' => $rank,
-            'face_image' => $userInfo['face_image'],
-            'face_point' => $userInfo['face_point'],
+            'dog_image' => $userInfo['dog_image'],
+            'dog_point' => $userInfo['dog_point'],
             'score' => $continuationScore,
-            'void_flg' => $userInfo['face_image_void_flg'],
+            'void_flg' => $userInfo['dog_image_void_flg'],
             'friends' => $friends ? $friends : null,
             'facebook_id' => $userInfo['facebook_id'],
             'instagram_id' => $userInfo['instagram_id'],
@@ -99,20 +99,20 @@ class MypageService
     }
 
     /**
-     * face_pointとupdate_face_atからステータスを取得
+     * dog_pointとupdate_dog_atからステータスを取得
      *
-     * @param int $facePoint
+     * @param int $dogPoint
      * @param string $continuationScore
      * @return string
      * @throw Exception
      */
-    public function getFaceStatus($facePoint, $continuationScore): string
+    public function getFaceStatus($dogPoint, $continuationScore): string
     {
-        if ($facePoint >= 90 && ($continuationScore === 'S' || $continuationScore ==='A')) {
+        if ($dogPoint >= 90 && ($continuationScore === 'S' || $continuationScore ==='A')) {
             return 'Gold';
-        } elseif ($facePoint >= 70 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B')) {
+        } elseif ($dogPoint >= 70 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B')) {
             return 'Silver';
-        } elseif ($facePoint >= 30 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B' || $continuationScore === 'C')) {
+        } elseif ($dogPoint >= 30 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B' || $continuationScore === 'C')) {
             return 'Blond';
         } else {
             return 'Nomal';
@@ -120,21 +120,21 @@ class MypageService
     }
 
     /**
-     * update_face_atから継続スコアを取得
+     * update_dog_atから継続スコアを取得
      *
      * @param string $userId
      * @return string
      * @throw Exception
      */
-    public function getContinuationScore($updateFaceAt): string
+    public function getContinuationScore($updateDogAt): string
     {
-        $oldDay = new Carbon($updateFaceAt);
-        if (empty($updateFaceAt)) {
+        $oldDay = new Carbon($updateDogAt);
+        if (empty($updateDogAt)) {
             // ユーザー情報が取得できない
             $error = [
                 'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER')
             ];
-            throw new MARIGOLDException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404, $error);
         }
 
         $now = Carbon::now();
@@ -165,7 +165,7 @@ class MypageService
         $friendDetail = $this->usersRepository->selectUsersById($userId);
         return [
             'name' => $friendDetail['name'],
-            'face_image' => $friendDetail['face_image'],
+            'dog_image' => $friendDetail['dog_image'],
             'height' => $friendDetail['height'],
             'salary' => $friendDetail['salary'],
             'facebook_id' => $friendDetail['facebook_id'],

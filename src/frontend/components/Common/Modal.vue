@@ -3,7 +3,7 @@
     <div id="modal-content" class="modal">
       <v-card light width="300px">
         <v-img
-            :src="`https://www.marigold.red/storage/${modalUser.faceImage}`"
+            :src="`https://www.dog.red/storage/${modalUser.dogImage}`"
             contain
         />
         <div class="mt-3 text-wrap">

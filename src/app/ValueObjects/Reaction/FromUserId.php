@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\Reaction;
 
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use Illuminate\Support\Facades\Validator;
 
 class FromUserId
@@ -12,7 +12,7 @@ class FromUserId
     public function __construct(string $fromUserId)
     {
         if ($this->isFromUserId($fromUserId) === false) {
-            throw new MARIGOLDException('validation.fromUserId', 422);
+            throw new DOGException('validation.fromUserId', 422);
         }
         $this->fromUserId = $fromUserId;
     }

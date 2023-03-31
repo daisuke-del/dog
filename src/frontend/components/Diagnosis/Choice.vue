@@ -4,7 +4,7 @@
         <div class="card-wrap d-flex justify-center">
             <div>
                 <v-card light hover class="card" @click="choiceLeft">
-                    <v-img :src="`https://www.marigold.red/storage//${leftImage}`" />
+                    <v-img :src="`http://localhost/storage//${leftImage}`" />
                     <v-btn fab color="accent" class="alert-btn" @click.stop="leftDialog">
                         <v-icon small>
                             mdi-alert
@@ -15,7 +15,7 @@
             <p class="big-text vs-text">VS</p>
             <div>
                 <v-card light hover class="card" @click="choiceRight">
-                    <v-img :src="`https://www.marigold.red/storage/${rightImage}`" />
+                    <v-img :src="`http://localhost/storage/${rightImage}`" />
                     <v-btn fab color="accent" class="alert-btn" @click.stop="rightDialog">
                         <v-icon small>
                             mdi-alert
@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import ChoiceDialog from '@/components/Match/ChoiceDialog'
+import ChoiceDialog from '@/components/Diagnosis/ChoiceDialog'
 export default {
-    name: 'MatchChoice',
+    name: 'DiagnosisChoice',
     components: {
         ChoiceDialog
     },

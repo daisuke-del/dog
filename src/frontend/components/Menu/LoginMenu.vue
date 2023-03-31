@@ -90,12 +90,12 @@ export default {
     },
     data() {
         return {
-            faceImage: this.$store.getters['authInfo/auth'].faceImage
+            dogImage: this.$store.getters['authInfo/auth'].dogImage
         }
     },
     computed: {
         userWithImage() {
-            return this.faceImage && `https://www.marigold.red/storage/${this.faceImage}`
+            return this.dogImage && `http://localhost/storage/${this.dogImage}`
         },
         userName() {
             return this.$store.getters['authInfo/auth'].name

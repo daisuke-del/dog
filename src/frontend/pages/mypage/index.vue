@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <score-dialog :dialog="scoreDialog" :score="score" :facePoint="facePoint" @score-close="scoreClose"/>
+    <score-dialog :dialog="scoreDialog" :score="score" :dogPoint="dogPoint" @score-close="scoreClose"/>
     <rank-dialog :dialog="rankDialog" :rank="rank" @rank-close="rankClose"/>
     <div class="main-all">
       <h1>{{ title }}</h1>
@@ -31,20 +31,20 @@
                 </div>
                 <div class="point-wrap d-flex justify-center" @click="scoreClick">
                   <p class="point-text">Lv.
-                    <span v-if="facePoint > 90" class="text-S">
-                      {{ facePoint }}
+                    <span v-if="dogPoint > 90" class="text-S">
+                      {{ dogPoint }}
                     </span>
-                    <span v-else-if="facePoint > 70" class="text-A">
-                      {{ facePoint }}
+                    <span v-else-if="dogPoint > 70" class="text-A">
+                      {{ dogPoint }}
                     </span>
-                    <span v-else-if="facePoint > 50" class="text-B">
-                      {{ facePoint }}
+                    <span v-else-if="dogPoint > 50" class="text-B">
+                      {{ dogPoint }}
                     </span>
-                    <span v-else-if="facePoint > 30" class="text-C">
-                      {{ facePoint }}
+                    <span v-else-if="dogPoint > 30" class="text-C">
+                      {{ dogPoint }}
                     </span>
                     <span v-else class="text-D">
-                      {{ facePoint }}
+                      {{ dogPoint }}
                     </span>
                     /
                     <span v-if="score === 'S'" class="text-S">
@@ -78,7 +78,7 @@
                 <v-card class="mt-3 mb-3 mr-2" height="150" width="130">
                   <v-row>
                     <v-col>
-                      <v-img :src="`https://www.marigold.red/storage/${friend['face_image']}`" contain rounded
+                      <v-img :src="`http://localhost/storage/${friend['dog_image']}`" contain rounded
                         @click="showProfile(friend)" class="friend-img" />
                       <p class="card-summary-text ml-2">{{ friend['name'] }}</p>
                       <v-btn class="delete-icon" elevation="5" fab height="20px" width="20px" color="primary"
@@ -106,7 +106,7 @@
       <v-row v-show="isShowFriend">
         <v-col v-for="(friend, index) in friends" :key="index" cols="6" sm="3" lg="2" class="d-flex justify-center">
           <v-card light width="200px">
-            <v-img :src="`https://www.marigold.red/storage/${friend['face_image']}`" width="200px" contain rounded
+            <v-img :src="`http://localhost/storage/${friend['dog_image']}`" width="200px" contain rounded
               @click="showProfile(friend)" class="friend-img" />
             <p class="card-summary-text">{{ friend['name'] }}</p>
             <div class="icon-wrap">
@@ -151,33 +151,33 @@ export default {
   name: 'Mypage',
   async asyncData({ app }) {
     let userId = null
-    let gender = null
+    let sex = null
     let name = null
     let rank = 'nomal'
-    let faceImage = 'no-user-image-icon.jpeg'
-    let facePoint = 0
+    let dogImage = 'no-user-image-icon.jpeg'
+    let dogPoint = 0
     let score = 'E'
     let voidFlg = 0
     let friends = []
     await user.getUserInfo().then((response) => {
       app.store.dispatch('authInfo/setAuthInfo', response)
       userId = response['user_id']
-      gender = response['gender']
+      sex = response['sex']
       name = response['name']
       rank = response['rank'] ? response['rank'] : 'Nomal'
-      faceImage = response['face_image'] ? response['face_image'] : 'no-user-image-icon.jpeg'
-      facePoint = response['face_point'] ? response['face_point'] : 0
+      dogImage = response['dog_image'] ? response['dog_image'] : 'no-user-image-icon.jpeg'
+      dogPoint = response['dog_point'] ? response['dog_point'] : 0
       score = response['score'] ? response['score'] : 'E'
-      voidFlg = response['face_image_void_flg'] ? response['face_image_void_flg'] : 0
+      voidFlg = response['dog_image_void_flg'] ? response['dog_image_void_flg'] : 0
       friends = response['friends']
     })
     return {
       userId,
-      gender,
+      sex,
       name,
       rank,
-      faceImage,
-      facePoint,
+      dogImage,
+      dogPoint,
       score,
       voidFlg,
       friends
@@ -195,7 +195,7 @@ export default {
       modalCropper: false,
       modalUser: {
         name: '名無しさん',
-        faceImage: '99.jpeg',
+        dogImage: '99.jpeg',
         salary: '100',
         height: '150',
         facebookId: null,
@@ -203,11 +203,11 @@ export default {
         twitterId: null
       },
       userId: null,
-      gender: null,
+      sex: null,
       name: '名無しさん',
       rank: 'Nomal',
-      faceImage: 'no-user-image-icon.jpeg',
-      facePoint: 0,
+      dogImage: 'no-user-image-icon.jpeg',
+      dogPoint: 0,
       score: 'E',
       voidFlg: 0,
       friends: [],
@@ -221,7 +221,7 @@ export default {
   },
   computed: {
     userWithImage () {
-      return this.faceImage && `https://www.marigold.red/storage/${this.faceImage}`
+      return this.dogImage && `http://localhost/storage/${this.dogImage}`
     }
   },
   methods: {
@@ -231,7 +231,7 @@ export default {
     showProfile(userInfo) {
       this.modalUser = {
         name: userInfo['name'],
-        faceImage: userInfo['face_image'],
+        dogImage: userInfo['dog_image'],
         salary: userInfo['salary'],
         height: userInfo['height'],
         facebookId: userInfo['facebook_id'] ? userInfo['facebook_id'] : null,
@@ -246,10 +246,10 @@ export default {
     closeModalCrop() {
       this.modalCropper = false
     },
-    saveCropImage(faceImage) {
+    saveCropImage(dogImage) {
       if (confirm('写真を変更すると継続スコアがリセットされます。\n変更しますか？')) {
         this.modalCropper = false
-        user.updateFaceImage(faceImage).then((response) => {
+        user.updateDogImage(dogImage).then((response) => {
           this.$store.dispatch('authInfo/setAuthInfo', response)
           window.location.reload()
         }).catch(() => {

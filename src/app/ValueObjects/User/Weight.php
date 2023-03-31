@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use Illuminate\Support\Facades\Validator;
 
 class Weight
@@ -12,7 +12,7 @@ class Weight
     public function __construct(int $weight)
     {
         if ($this->isWeight($weight) === false) {
-            throw new MARIGOLDException('validation.weight', 422);
+            throw new DOGException('validation.weight', 422);
         }
         $this->weight = $weight;
     }

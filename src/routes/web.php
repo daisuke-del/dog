@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('update/weight', [UserController::class, 'updateWeight']);
   Route::post('update/age', [UserController::class, 'updateAge']);
   Route::post('update/salary', [UserController::class, 'updateSalary']);
-  Route::post('update/face', [UserController::class, 'updateFaceImage']);
+  Route::post('update/face', [UserController::class, 'updateDogImage']);
   Route::post('update/facebook', [UserController::class, 'updateFacebook']);
   Route::post('update/instagram', [UserController::class, 'updateInstagram']);
   Route::post('update/twitter', [UserController::class, 'updatetwitter']);

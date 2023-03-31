@@ -22,10 +22,10 @@
               :src="require('@/assets/image/other/friend-icon.png')"
             />
           </div>
-          <v-img :src="`https://www.marigold.red/storage/${match.face_image}`" class="result-img" />
+          <v-img :src="`http://localhost/storage/${match.dog_image}`" class="result-img" />
           <p class="card-text mt-4">{{ match.name }}</p>
           <p class="card-text mb-0 pb-4">年収 {{ match.salary }}万円</p>
-          <div v-if="$auth.loggedIn && $store.getters['authInfo/gender'] !== match.gender" class="icon-wrap">
+          <div v-if="$auth.loggedIn && $store.getters['authInfo/sex'] !== match.sex" class="icon-wrap">
             <v-btn v-if="match.twitter_id && match.mutualLove === 1" @click="clickTwitter(match.twitter_id)" icon>
               <v-icon size="2em" color="#1DA1F2">
                 mdi-twitter
@@ -70,7 +70,7 @@
 
 <script>
 export default {
-  name: 'MatchResult',
+  name: 'DiagnosisResult',
   props: {
     matchResults: {
       type: Array,

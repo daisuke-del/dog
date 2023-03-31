@@ -53,7 +53,7 @@
       <v-stepper-content step="2">
         <div class="mx-auto">
           <register-face
-            @store-face-image="storeFaceImage"
+            @store-face-image="storeDogImage"
             @click-back="transitionContent"
           />
         </div>
@@ -62,7 +62,7 @@
         <div class="mx-auto">
           <evaluate-face
             :sliderFaces="sliderFaces"
-            @store-face-point="storeFacePoint"
+            @store-face-point="storeDogPoint"
             @click-back="transitionContent"
           />
         </div>
@@ -115,7 +115,7 @@ export default {
       errorMessage: '',
       previousPage: null,
       sendButtonShow: false,
-      gender: null,
+      sex: null,
       name: null,
       email: null,
       password: null,
@@ -126,41 +126,41 @@ export default {
       facebookId: null,
       instagramId: null,
       twitterId: null,
-      facePoint: null,
-      faceImage: null,
+      dogPoint: null,
+      dogImage: null,
       sliderFaces: [
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0},
-        { face_image: '0.jpeg', face_point: 0}
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0},
+        { dog_image: '0.jpeg', dog_point: 0}
       ],
-      genderSort: null
+       sexSort: null
     }
   },
   mounted () {
@@ -174,7 +174,7 @@ export default {
     },
     async signupSliderImage (userInfo) {
       this.postUserInfoLoading = true
-      this.gender = userInfo.gender
+      this.sex = userInfo.sex
       this.name = userInfo.name
       this.email = userInfo.email
       this.password = userInfo.password
@@ -185,7 +185,7 @@ export default {
       this.facebookId = userInfo.facebookId
       this.instagramId = userInfo.instagramId
       this.twitterId = userInfo.twitterId
-      await slider.signupSliderImage(this.gender, this.email).then((response) => {
+      await slider.signupSliderImage(this.sex, this.email).then((response) => {
         this.sliderFaces.splice(0, response.length)
         this.sliderFaces.push(...response)
         this.position = 2
@@ -194,20 +194,20 @@ export default {
       })
       this.postUserInfoLoading = false
     },
-    storeFaceImage (faceImage) {
-      this.faceImage = faceImage
-      if (this.faceImage === null) {
+    storeDogImage (dogImage) {
+      this.dogImage = dogImage
+      if (this.dogImage === null) {
         this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
         this.$store.dispatch('snackbar/snackOn')
       } else {
         this.position = 3
       }
     },
-    async storeFacePoint (sliderValue) {
-      this.facePoint = this.sliderFaces[sliderValue].face_point
+    async storeDogPoint (sliderValue) {
+      this.dogPoint = this.sliderFaces[sliderValue].dog_point
       await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
       await user.signup(
-        this.gender,
+        this.sex,
         this.name,
         this.email,
         this.password,
@@ -218,8 +218,8 @@ export default {
         this.facebookId,
         this.instagramId,
         this.twitterId,
-        this.facePoint,
-        this.faceImage
+        this.dogPoint,
+        this.dogImage
       ).then((response) => {
         this.position = 4
         this.$auth.setUserToken('200')

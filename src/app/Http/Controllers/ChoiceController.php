@@ -29,7 +29,7 @@ class ChoiceController extends Controller
      */
     public function clickNotFace(string $userId): void
     {
-        $this->choiceService->clickNotFaceImageButton($userId);
+        $this->choiceService->clickNotDogImageButton($userId);
         $this->choiceService->checkYellowCards($userId);
     }
 }

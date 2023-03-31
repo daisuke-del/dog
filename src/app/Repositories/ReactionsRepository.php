@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Entities\UserEntity;
 use App\Entities\ReactionEntity;
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use App\Factories\UsersFactory;
 use App\Factories\ReactionsFactory;
 use Carbon\Carbon;
@@ -22,7 +22,7 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      *
      * @param array $reaction
      * @return ReactionEntity
-     * @throws MARIGOLDException
+     * @throws DOGException
      */
     public function new(array $reaction): ReactionEntity
     {
@@ -66,7 +66,7 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      * @param string $toUserId
      * @param string $fromUserId
      * @return void
-     * @throws MARIGOLDException
+     * @throws DOGException
      */
     public function deleteFavorite($toUserId, $fromUserId): void
     {

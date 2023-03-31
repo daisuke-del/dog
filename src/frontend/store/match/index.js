@@ -1,6 +1,6 @@
 export const state = () => ({
   match: {
-    gender: null,
+    sex: null,
     age: null,
     height: null,
     weight: null,
@@ -18,7 +18,7 @@ export const getters = {
 
 export const mutations = {
   setMatch (state, match) {
-    state.match.gender = match.gender
+    state.match.sex = match.sex
     state.match.age = match.age
     state.match.height = match.height
     state.match.weight = match.weight
@@ -27,7 +27,7 @@ export const mutations = {
     state.match.place = match.place
   },
   deleteMatch (state) {
-    state.match.gender = null
+    state.match.sex = null
     state.match.age = null
     state.match.height = null
     state.match.weight = null

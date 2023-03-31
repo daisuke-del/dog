@@ -105,7 +105,7 @@ export default {
     let age = null
     let salary = null
     let tmpSalary = null
-    let faceImage = null
+    let dogImage = null
     let facebookId = null
     let instagramId = null
     let twitterId = null
@@ -117,7 +117,7 @@ export default {
       weight = response['weight']
       age = response['age']
       tmpSalary = response['salary']
-      faceImage = response['face_image']
+      dogImage = response['dog_image']
       facebookId = response['facebook_id']
       instagramId = response['instagram_id']
       twitterId = response['twitter_id']
@@ -146,7 +146,7 @@ export default {
       weight,
       age,
       salary,
-      faceImage,
+      dogImage,
       facebookId,
       instagramId,
       twitterId

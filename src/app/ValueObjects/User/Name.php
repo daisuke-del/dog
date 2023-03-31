@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects\User;
 
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use Illuminate\Support\Facades\Validator;
 
 class Name
@@ -12,7 +12,7 @@ class Name
     public function __construct(string $name)
     {
         if ($this->isName($name) === false) {
-            throw new MARIGOLDException('validation.face_image', 422);
+            throw new DOGException('validation.dog_image', 422);
         }
         $this->name = $name;
     }

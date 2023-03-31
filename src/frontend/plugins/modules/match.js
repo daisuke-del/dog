@@ -1,28 +1,28 @@
 import { request } from '@/plugins/axios'
 
 export default {
-  result (gender, height, weight, age, salary, facePoint, place) {
+  result ( sex, height, weight, age, salary, dogPoint, place) {
     return request('post', '/user/match/result', {
-      gender,
+      sex,
       height,
       weight,
       age,
       salary,
-      facePoint,
+      dogPoint,
       place
     })
   },
-  choice (upUser, downUser, gender) {
+  choice (upUser, downUser, sex) {
     return request('post', '/api/match/choice', {
       upUser,
       downUser,
-      gender
+       sex
     })
   },
-  alert (userId, gender) {
+  alert (userId, sex) {
     return request('post', '/api/match/alert', {
       userId,
-      gender
+       sex
     })
   }
 }

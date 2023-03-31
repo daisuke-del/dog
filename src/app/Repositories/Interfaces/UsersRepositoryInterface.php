@@ -3,7 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Entities\UserEntity;
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\User;
 
@@ -14,7 +14,7 @@ interface UsersRepositoryInterface
      *
      * @param array $user
      * @return UserEntity
-     * @throws MARIGOLDException
+     * @throws DOGException
      */
     public function new(array $user): UserEntity;
 
@@ -179,12 +179,12 @@ interface UsersRepositoryInterface
     public function updateTwitter(UserEntity $user): bool;
 
     /**
-     * face_image,update_face_at,face_image_void_flgを更新する
+     * dog_image,update_dog_at,dog_image_void_flgを更新する
      *
      * @param stirng $userId
      * @return bool
      */
-    public function updateFace($userId, $faceImage, $num = 0): bool;
+    public function updateFace($userId, $dogImage, $num = 0): bool;
 
     /**
      * 引数のemailが一致するusersテーブル情報を取得する
@@ -195,38 +195,38 @@ interface UsersRepositoryInterface
     public function getUserByMail(string $email): ?User;
 
     /**
-     * face_pointを引数にランダムなユーザーを取得
+     * dog_pointを引数にランダムなユーザーを取得
      *
-     * @param int $facePoint
-     * @param string $gender
+     * @param int $dogPoint
+     * @param string $sex
      * @return Collection
      */
-    public function getTwoUsersByFacePoint(int $facePoint, string $gender): Collection;
+    public function getTwoUsersByDogPoint(int $dogPoint, string $sex): Collection;
 
     /**
-     * face_pointの最大値を取得
+     * dog_pointの最大値を取得
      *
-     * @param int $facePoint
-     * @param string $gender
+     * @param int $dogPoint
+     * @param string $sex
      * @return array
      */
-    public function getMaxFacePoint(string $gender): array;
+    public function getMaxDogPoint(string $sex): array;
 
     /**
-     * face_pointを1上げる
+     * dog_pointを1上げる
      *
      * @param string $userId
      * @return void
      */
-    public function upFacePoint(string $userId): void;
+    public function upDogPoint(string $userId): void;
 
     /**
-     * face_pointを1下げる
+     * dog_pointを1下げる
      *
      * @param string $userId
      * @return void
      */
-    public function downFacePoint(string $userId): void;
+    public function downDogPoint(string $userId): void;
 
     /**
      * yellow_cardを1増加
@@ -245,48 +245,48 @@ interface UsersRepositoryInterface
     public function getYellowCard(string $userId): User;
 
     /**
-     * userIdを引数にupdate_face_atを取得
+     * userIdを引数にupdate_dog_atを取得
      *
      * @param string $userId
      * @return User
      */
-    public function getUpdateFaceAt(string $userId): User;
+    public function getUpdateDogAt(string $userId): User;
 
     /**
-     * userIdを引数にface_image_void_flgを取得
+     * userIdを引数にdog_image_void_flgを取得
      *
      * @param string $userId
      * @return User
      */
-    public function getFaceImageVoidFlg(string $userId): User;
+    public function getDogImageVoidFlg(string $userId): User;
 
     /**
-     * face_image_void_flgをupdateする
+     * dog_image_void_flgをupdateする
      *
      * @param string $userId
      * @param int $num
      * @return void
      */
-    public function updateFaceImageVoidFlg(string $userId, int $num): void;
+    public function updateDogImageVoidFlg(string $userId, int $num): void;
 
     /**
-     * 引数の数値分のface_imageとface_pointを取得
+     * 引数の数値分のdog_imageとdog_pointを取得
      *
-     * @param string $gender
+     * @param string $sex
      * @param string $sort
      * @param int $num
      * @return Collection
      */
-    public function getFace(string $gender, string $sort, int $num): Collection;
+    public function getFace(string $sex, string $sort, int $num): Collection;
 
     /**
-     * match結果を取得
+     * diagnosis結果を取得
      *
-     * @param array $matchInfo
+     * @param array $diagnosisInfo
      * @param string $place
      * @return object
      */
-    public function getMatchResult(array $matchInfo, string $place): object;
+    public function getDiagnosisResult(array $diagnosisInfo, string $place): object;
 
     /**
      * ユーザーを削除
@@ -306,10 +306,10 @@ interface UsersRepositoryInterface
     /**
      * 顔面レベル上位三名を取得
      *
-     * @param $gender
+     * @param $sex
      * @return object
      */
-    public function getRanking(string $gender): object;
+    public function getRanking(string $sex): object;
 }
 
 

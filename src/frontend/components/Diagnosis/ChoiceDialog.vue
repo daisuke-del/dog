@@ -9,7 +9,7 @@
                 この画像が顔写真でなければ『顔写真ではない！』をクリック
             </v-card-text>
 
-            <v-img :src="faceImageModal"/>
+            <v-img :src="dogImageModal"/>
 
             <v-divider />
 
@@ -34,7 +34,7 @@ export default {
             type: Boolean,
             default: false
         },
-        faceImage: {
+        dogImage: {
             type: String,
             default: 'no-user-image-icon.jpeg'
         },
@@ -44,8 +44,8 @@ export default {
         }
     },
     computed: {
-        faceImageModal () {
-            return this.faceImage && `https://www.marigold.red/storage/${this.faceImage}`
+        dogImageModal () {
+            return this.dogImage && `http://localhost/storage/${this.dogImage}`
         },
         changeDialog () {
             return this.dialog

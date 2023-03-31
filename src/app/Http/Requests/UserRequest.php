@@ -66,9 +66,9 @@ class UserRequest extends FormRequest
                 'password' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32'],
                 'password_again' => ['required', 'regex:' . config('const.REGEX_PASSWORD'), 'min:6', 'max:32']
             ];
-        } elseif ($this->is('api/match/gender')) {
+        } elseif ($this->is('api/match/sex')) {
             return [
-                'gender' => ['required', 'string'],
+                'sex' => ['required', 'string'],
                 'email' => ['required', 'regex:' . config('const.REGEX_EMAIL')]
             ];
         }

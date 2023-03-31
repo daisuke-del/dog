@@ -6,7 +6,7 @@ use Exception;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 
 class UserController extends Controller
 {
@@ -171,15 +171,15 @@ class UserController extends Controller
     }
 
     /**
-     * 会員情報変更 - face_image
+     * 会員情報変更 - dog_image
      *
      * @param Request $request
      * @return false|string
      * @throws Exception
      */
-    public function updateFaceImage(Request $request)
+    public function updateDogImage(Request $request)
     {
-        $response = $this->userService->updateFaceImage($request);
+        $response = $this->userService->updateDogImage($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
@@ -223,7 +223,7 @@ class UserController extends Controller
     }
 
     /**
-     * face_imageとface_pointをorder_number順に30件取得
+     * dog_imageとdog_pointをorder_number順に30件取得
      *
      * @param Request $request
      * @return false|string
@@ -258,7 +258,7 @@ class UserController extends Controller
     {
         $response = $this->userService->checkEmailRegisterd($request->input('email'));
         if (!$response) {
-            throw new MARIGOLDException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
+            throw new DOGException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }

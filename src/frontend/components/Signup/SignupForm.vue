@@ -3,21 +3,21 @@
     <v-row class="px-10 py-6">
       <v-col cols="6">
         <v-card
-          :elevation="gender=='female' ? 5 : 0"
+          :elevation="sex=='female' ? 5 : 0"
           @click="clickFemale"
         >
           <v-img
-            :src="gender=='female' ? 'https://www.marigold.red/storage/images/female2.png' : 'https://www.marigold.red/storage/images/un-select-female2.png'"
+            :src="sex=='female' ? 'http://localhost/storage/images/female2.png' : 'http://localhost/storage/images/un-select-female2.png'"
           />
         </v-card>
       </v-col>
       <v-col cols="6">
         <v-card
-          :elevation="gender=='male' ? 5 : 0"
+          :elevation="sex=='male' ? 5 : 0"
           @click="clickMale"
         >
           <v-img
-            :src="gender=='male' ? 'https://www.marigold.red/storage/images/male2.png' : 'https://www.marigold.red/storage/images/un-select-male2.png'"
+            :src="sex=='male' ? 'http://localhost/storage/images/male2.png' : 'http://localhost/storage/images/un-select-male2.png'"
           />
         </v-card>
       </v-col>
@@ -126,7 +126,7 @@ export default {
   },
   data() {
     return {
-      gender: 'male',
+      sex: 'male',
       name: null,
       email: null,
       password: null,
@@ -178,10 +178,10 @@ export default {
   },
   methods: {
     clickFemale() {
-      this.gender = 'female'
+      this.sex = 'female'
     },
     clickMale() {
-      this.gender = 'male'
+      this.sex = 'male'
     },
     generateInputNum(item, index) {
       return `${item}_${index + 1}`
@@ -271,7 +271,7 @@ export default {
             this.twitterId = this.inputTwitter
         }
         this.$emit('store-user-info', {
-          gender: this.gender,
+          sex: this.sex,
           name: this.name,
           email: this.email,
           password: this.password,
@@ -322,7 +322,7 @@ span {
   margin-bottom: 20px;
 }
 
-.gender {
+.sex {
   margin-top: 10px;
   margin-bottom: 20px;
 }

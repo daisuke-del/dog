@@ -14,7 +14,7 @@ export default {
     return await auth.logout()
   },
   signup(
-    gender,
+    sex,
     name,
     email,
     password,
@@ -25,12 +25,12 @@ export default {
     facebookId,
     instagramId,
     twitterId,
-    facePoint,
-    faceImage
+    dogPoint
+    dogImage
   ) {
     return auth.loginWith('signUp', {
       data: {
-        gender,
+        sex,
         name,
         email,
         password,
@@ -41,8 +41,8 @@ export default {
         facebookId,
         instagramId,
         twitterId,
-        facePoint,
-        faceImage,
+        dogPoint,
+        dogImage,
       },
     })
   },
@@ -88,9 +88,9 @@ export default {
       salary,
     })
   },
-  updateFaceImage(faceImage) {
+  updateDogImage(dogImage) {
     return request('post', '/update/face', {
-      faceImage,
+      dogImage,
     })
   },
   updateFacebook(facebook) {

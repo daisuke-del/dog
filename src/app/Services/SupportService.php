@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\MARIGOLDException;
+use App\Exceptions\DOGException;
 use Carbon\Carbon;
 use App\Repositories\SupportsRepository;
 use Illuminate\Http\Request;
@@ -42,7 +42,7 @@ class SupportService
         $result = $this->supportsRepository->insertSupports($name, $email, $item, $content);
 
         if (!$result) {
-            throw new MARIGOLDException(config('const.ERROR.SUPPORT.SEND_FAILED'), 400);
+            throw new DOGException(config('const.ERROR.SUPPORT.SEND_FAILED'), 400);
         }
 
         return [];

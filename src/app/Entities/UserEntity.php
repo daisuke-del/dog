@@ -6,25 +6,23 @@ use App\ValueObjects\User\UserId;
 use App\ValueObjects\User\Name;
 use App\ValueObjects\User\Email;
 use App\ValueObjects\User\Password;
-use App\ValueObjects\User\Gender;
-use App\ValueObjects\User\Height;
+use App\ValueObjects\User\Sex;
 use App\ValueObjects\User\Weight;
-use App\ValueObjects\User\Age;
-use App\ValueObjects\User\Salary;
-use App\ValueObjects\User\FacePoint;
-use App\ValueObjects\User\Height2;
-use App\ValueObjects\User\Weight2;
-use App\ValueObjects\User\Age2;
-use App\ValueObjects\User\Salary2;
-use App\ValueObjects\User\FacePoint2;
-use App\ValueObjects\User\FaceImage;
-use App\ValueObjects\User\FacebookId;
+use App\ValueObjects\User\Birthday;
+use App\ValueObjects\User\DogPoint;
+use App\ValueObjects\User\DogImage;
+use App\ValueObjects\User\DogImage2;
+use App\ValueObjects\User\DogImage3;
+use App\ValueObjects\User\Breed;
+use App\ValueObjects\User\Location;
 use App\ValueObjects\User\InstagramId;
 use App\ValueObjects\User\TwitterId;
-use App\ValueObjects\User\UpdateFaceAt;
-use App\ValueObjects\User\createDate;
+use App\ValueObjects\User\TiktokId;
+use App\ValueObjects\User\BlogId;
+use App\ValueObjects\User\UpdateDogAt;
+use App\ValueObjects\User\CreateDate;
 use App\ValueObjects\User\YellowCard;
-use App\ValueObjects\User\FaceImageVoidFlg;
+use App\ValueObjects\User\DogImageVoidFlg;
 use App\ValueObjects\User\OrderNumber;
 
 
@@ -34,25 +32,23 @@ class UserEntity
     private $name;
     private $email;
     private $password;
-    private $gender;
-    private $height;
+    private $sex;
     private $weight;
-    private $age;
-    private $salary;
-    private $facePoint;
-    private $height2;
-    private $weight2;
-    private $age2;
-    private $salary2;
-    private $facePoint2;
-    private $faceImage;
-    private $facebookId;
+    private $birthday;
+    private $dogPoint;
+    private $dogImage;
+    private $dogImage2;
+    private $dogImage3;
+    private $breed;
+    private $location;
     private $instagramId;
     private $twitterId;
+    private $tiktokId;
+    private $blogId;
     private $yellowCard;
-    private $updateFaceAt;
+    private $updateDogAt;
     private $createDate;
-    private $faceImageVoidFlg;
+    private $dogImageVoidFlg;
     private $orderNumber;
 
     private function __construct()
@@ -66,25 +62,23 @@ class UserEntity
      * @param Name $name
      * @param Email $email
      * @param Password $password
-     * @param Gender $gender
-     * @param Height $height
+     * @param Sex $sex
      * @param Weight $weight
-     * @param Age $age
-     * @param Salary $salary
-     * @param FacePoint $facePoint
-     * @param Height2 $height2
-     * @param Weight2 $weight2
-     * @param Age2 $age2
-     * @param Salary2 $salary2
-     * @param FacePoint2 $facePoint2
-     * @param FaceImage $faceImage
-     * @param FacebookId $facebookId
+     * @param Birthday $birthday
+     * @param DogPoint $dogPoint
+     * @param DogImage $dogImage
+     * @param DogImage2 $dogImage2
+     * @param DogImage3 $dogImage3
+     * @param Breed $breed
+     * @param Location $location
      * @param InstagramId $instagramId
      * @param TwitterId $twitterId
+     * @param TiktokId $tiktokId
+     * @param BlogId $blogId
      * @param YellowCard $yellowCard
-     * @param UpdateFaceAt $updateFaceAt
+     * @param UpdateDogAt $updateDogAt
      * @param createDate $createDate
-     * @param FaceImageVoidFlg $faceImageVoidFlg
+     * @param DogImageVoidFlg $dogImageVoidFlg
      * @param OrderNumber $orderNumber
      * @return UserEntity
      */
@@ -93,25 +87,21 @@ class UserEntity
         Name $name,
         Email $email,
         Password $password,
-        Gender $gender,
-        Height $height,
+        Sex $sex,
         Weight $weight,
-        Age $age,
-        Salary $salary,
-        FacePoint $facePoint,
-        Height2 $height2,
-        Weight2 $weight2,
-        Age2 $age2,
-        Salary2 $salary2,
-        FacePoint2 $facePoint2,
-        ?FaceImage $faceImage,
-        ?FacebookId $facebookId,
+        Birthday $birthday,
+        DogPoint $dogPoint,
+        ?DogImage $dogImage,
+        ?DogImage2 $dogImage2,
+        ?DogImage3 $dogImage3,
         ?InstagramId $instagramId,
         ?TwitterId $twitterId,
+        ?TiktokId $tiktokId,
+        ?BlogId $blogId,
         YellowCard $yellowCard,
-        ?UpdateFaceAt $updateFaceAt,
+        ?UpdateDogAt $updateDogAt,
         createDate $createDate,
-        FaceImageVoidFlg $faceImageVoidFlg,
+        DogImageVoidFlg $dogImageVoidFlg,
         ?OrderNumber $orderNumber
     ) {
         $user = new self();
@@ -119,25 +109,21 @@ class UserEntity
         $user->name = $name;
         $user->email = $email;
         $user->password = $password;
-        $user->gender = $gender;
-        $user->height = $height;
+        $user->sex = $sex;
         $user->weight = $weight;
-        $user->age = $age;
-        $user->salary = $salary;
-        $user->facePoint = $facePoint;
-        $user->height2 = $height2;
-        $user->weight2 = $weight2;
-        $user->age2 = $age2;
-        $user->salary2 = $salary2;
-        $user->facePoint2 = $facePoint2;
-        $user->faceImage = $faceImage;
-        $user->facebookId = $facebookId;
+        $user->birthday = $birthday;
+        $user->dogPoint = $dogPoint;
+        $user->dogImage = $dogImage;
+        $user->dogImage2 = $dogImage2;
+        $user->dogImage3 = $dogImage3;
         $user->instagramId = $instagramId;
         $user->twitterId = $twitterId;
+        $user->tiktokId = $tiktokId;
+        $user->blogId = $blogId;
         $user->yellowCard = $yellowCard;
-        $user->updateFaceAt = $updateFaceAt;
+        $user->updateDogAt = $updateDogAt;
         $user->createDate = $createDate;
-        $user->faceImageVoidFlg = $faceImageVoidFlg;
+        $user->dogImageVoidFlg = $dogImageVoidFlg;
         $user->orderNumber = $orderNumber;
         return $user;
     }
@@ -153,36 +139,6 @@ class UserEntity
     }
 
     /**
-     * ageを取得する
-     *
-     * @return int
-     */
-    public function getAge(): int
-    {
-        return $this->age->get();
-    }
-
-    /**
-     * age2を取得する
-     *
-     * @return int
-     */
-    public function getAge2(): int
-    {
-        return $this->age2->get();
-    }
-
-    /**
-     * create_dateを取得する
-     *
-     * @return string
-     */
-    public function getCreateDate(): string
-    {
-        return $this->createDate->get();
-    }
-
-    /**
      * emailを取得する
      *
      * @return string
@@ -190,87 +146,6 @@ class UserEntity
     public function getEmail(): string
     {
         return $this->email->get();
-    }
-
-    /**
-     * facebook_idを取得する
-     *
-     * @return ?string
-     */
-    public function getFacebookId(): ?string
-    {
-        return $this->facebookId->get();
-    }
-
-    /**
-     * face_imageを取得する
-     *
-     * @return ?string
-     */
-    public function getFaceImage(): ?string
-    {
-        return $this->faceImage->get();
-    }
-
-    /**
-     * face_pointを取得する
-     *
-     * @return int
-     */
-    public function getFacePoint(): int
-    {
-        return $this->facePoint->get();
-    }
-
-    /**
-     * face_point2を取得する
-     *
-     * @return int
-     */
-    public function getFacePoint2(): int
-    {
-        return $this->facePoint2->get();
-    }
-
-
-    /**
-     * genderを取得する
-     *
-     * @return string
-     */
-    public function getGender(): string
-    {
-        return $this->gender->get();
-    }
-
-    /**
-     * heightを取得する
-     *
-     * @return int
-     */
-    public function getHeight(): int
-    {
-        return $this->height->get();
-    }
-
-    /**
-     * height2を取得する
-     *
-     * @return int
-     */
-    public function getHeight2(): int
-    {
-        return $this->height2->get();
-    }
-
-    /**
-     * instagram_idを取得する
-     *
-     * @return ?string
-     */
-    public function getInstagramId(): ?string
-    {
-        return $this->instagramId->get();
     }
 
     /**
@@ -284,23 +159,113 @@ class UserEntity
     }
 
     /**
-     * salaryを取得する
+     * nameを取得する
      *
-     * @return int
+     * @return string
      */
-    public function getSalary(): int
+    public function getName(): string
     {
-        return $this->salary->get();
+        return $this->name->get();
     }
 
     /**
-     * salary2を取得する
+     * sexを取得する
+     *
+     * @return string
+     */
+    public function getSex(): string
+    {
+        return $this->sex->get();
+    }
+
+    /**
+     * weightを取得する
+     *
+     * @return string
+     */
+    public function getWeight(): int
+    {
+        return $this->weight->get();
+    }
+
+    /**
+     * birthdayを取得する
+     *
+     * @return string
+     */
+    public function getBirthday(): string
+    {
+        return $this->birthday->get();
+    }
+
+    /**
+     * dog_imageを取得する
+     *
+     * @return ?string
+     */
+    public function getDogImage(): ?string
+    {
+        return $this->dogImage->get();
+    }
+
+    /**
+     * dog_image2を取得する
+     *
+     * @return ?string
+     */
+    public function getDogImage2(): ?string
+    {
+        return $this->dogImage2->get();
+    }
+
+    /**
+     * dog_image3を取得する
+     *
+     * @return ?string
+     */
+    public function getDogImage3(): ?string
+    {
+        return $this->dogImage3->get();
+    }
+
+    /**
+     * dog_pointを取得する
      *
      * @return int
      */
-    public function getSalary2(): int
+    public function getDogPoint(): int
     {
-        return $this->salary2->get();
+        return $this->dogPoint->get();
+    }
+
+    /**
+     * breedを取得する
+     *
+     * @return string
+     */
+    public function getBreed(): string
+    {
+        return $this->breed->get();
+    }
+
+    /**
+     * locationを取得する
+     *
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location->get();
+    }
+
+    /**
+     * instagram_idを取得する
+     *
+     * @return ?string
+     */
+    public function getInstagramId(): ?string
+    {
+        return $this->instagramId->get();
     }
 
     /**
@@ -314,33 +279,43 @@ class UserEntity
     }
 
     /**
-     * update_face_atを取得する
+     * twitter_idを取得する
      *
      * @return ?string
      */
-    public function getUpdateFaceAt(): ?string
+    public function getTiktokId(): ?string
     {
-        return $this->updateFaceAt->get();
+        return $this->tiktokId->get();
     }
 
     /**
-     * weightを取得する
+     * blog_idを取得する
      *
-     * @return int
+     * @return ?string
      */
-    public function getWeight(): int
+    public function getBlogId(): ?string
     {
-        return $this->weight->get();
+        return $this->blogId->get();
     }
 
     /**
-     * weight2を取得する
+     * update_dog_atを取得する
      *
-     * @return int
+     * @return ?string
      */
-    public function getWeight2(): int
+    public function getUpdateDogAt(): ?string
     {
-        return $this->weight2->get();
+        return $this->updateDogAt->get();
+    }
+
+    /**
+     * create_dateを取得する
+     *
+     * @return string
+     */
+    public function getCreateDate(): string
+    {
+        return $this->createDate->get();
     }
 
     /**
@@ -354,23 +329,13 @@ class UserEntity
     }
 
     /**
-     * nameを取得する
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name->get();
-    }
-
-    /**
-     * face_image_void_flgを取得する
+     * dog_image_void_flgを取得する
      *
      * @return int
      */
-    public function getFaceImageVoidFlg(): int
+    public function getDogImageVoidFlg(): int
     {
-        return $this->faceImageVoidFlg->get();
+        return $this->dogImageVoidFlg->get();
     }
 
     /**

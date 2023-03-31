@@ -18,13 +18,13 @@ class CreateAdminsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('face_image')->nullable();
-            $table->string('gender');
+            $table->string('dog_image')->nullable();
+            $table->string('sex');
             $table->integer('height');
             $table->integer('weight');
             $table->integer('age');
             $table->integer('salary');
-            $table->integer('face_point')->default(0);
+            $table->integer('dog_point')->default(0);
             $table->string('remember_token')->nullable();
         });
     }
