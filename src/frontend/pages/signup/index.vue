@@ -1,7 +1,6 @@
 <template>
   <div class="content mx-auto">
-    <h1 v-if="position === 3">自分の顔を評価</h1>
-    <h1 v-else-if="position === 2">顔写真をアップロード</h1>
+    <h1 v-if="position === 2">写真をアップロード</h1>
     <h1 v-else>無料会員登録</h1>
     <v-stepper
       v-model="position"
@@ -21,18 +20,11 @@
         :complete="position > 2"
         step="2"
       >
-        顔写真
+        写真
       </v-stepper-step>
       <v-divider />
       <v-stepper-step
-        :complete="position > 3"
         step="3"
-      >
-        評価
-      </v-stepper-step>
-      <v-divider />
-      <v-stepper-step
-        step="4"
       >
         完了
       </v-stepper-step>
@@ -52,17 +44,8 @@
       </v-stepper-content>
       <v-stepper-content step="2">
         <div class="mx-auto">
-          <register-face
+          <register-image
             @store-face-image="storeDogImage"
-            @click-back="transitionContent"
-          />
-        </div>
-      </v-stepper-content>
-      <v-stepper-content step="3">
-        <div class="mx-auto">
-          <evaluate-face
-            :sliderFaces="sliderFaces"
-            @store-face-point="storeDogPoint"
             @click-back="transitionContent"
           />
         </div>
@@ -78,8 +61,7 @@
 </template>
 <script>
 import SignupForm from '~/components/Signup/SignupForm'
-import RegisterFace from '~/components/Signup/RegisterFace'
-import EvaluateFace from '~/components/Signup/EvaluateFace'
+import RegisterImage from '~/components/Signup/RegisterImage'
 import SignupCompletion from '~/components/Signup/SignupCompletion'
 import constants from '~/utils/constants'
 import user from '~/plugins/modules/user'
@@ -89,8 +71,7 @@ export default {
   auth: false,
   components: {
     SignupForm,
-    RegisterFace,
-    EvaluateFace,
+    RegisterImage,
     SignupCompletion
   },
   asyncData ({ app, $auth }) {
@@ -119,48 +100,15 @@ export default {
       name: null,
       email: null,
       password: null,
-      height: null,
       weight: null,
       age: null,
-      salary: null,
-      facebookId: null,
+      breed: null,
       instagramId: null,
       twitterId: null,
+      tiktokId: null,
+      blogId: null,
       dogPoint: null,
       dogImage: null,
-      sliderFaces: [
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0},
-        { dog_image: '0.jpeg', dog_point: 0}
-      ],
-       sexSort: null
     }
   },
   mounted () {
@@ -178,20 +126,14 @@ export default {
       this.name = userInfo.name
       this.email = userInfo.email
       this.password = userInfo.password
-      this.height = userInfo.height
       this.weight = userInfo.weight
       this.age = userInfo.age
-      this.salary = userInfo.salary
-      this.facebookId = userInfo.facebookId
+      this.breed = userInfo.breed
       this.instagramId = userInfo.instagramId
       this.twitterId = userInfo.twitterId
-      await slider.signupSliderImage(this.sex, this.email).then((response) => {
-        this.sliderFaces.splice(0, response.length)
-        this.sliderFaces.push(...response)
-        this.position = 2
-      }).catch(() => {
-        this.position = 1
-      })
+      this.tiktokId = userInfo.tiktokId,
+      this.blogId = userInfo.blogId
+      this.position = 2
       this.postUserInfoLoading = false
     },
     storeDogImage (dogImage) {
@@ -211,14 +153,13 @@ export default {
         this.name,
         this.email,
         this.password,
-        this.height,
         this.weight,
         this.age,
-        this.salary,
-        this.facebookId,
+        this.breed,
         this.instagramId,
         this.twitterId,
-        this.dogPoint,
+        this.tiktokId,
+        this.blogId,
         this.dogImage
       ).then((response) => {
         this.position = 4

@@ -6,7 +6,7 @@
                     <div class="info-display-area">
                         <div>
                             <p class="text-h6 font-weight-bold ma-0">
-                                ニックネーム
+                                なまえ
                             </p>
                             <p class="text-body-1 mx-2 my-1">
                                 {{ inputName }}
@@ -18,12 +18,12 @@
                     <v-divider class="mb-5" />
                     <v-form ref="form" @submit.prevent>
                         <p class="mb-2 text-subtitle-2 font-weight-bold">
-                            ニックネームを変更
+                            なまえを変更
                         </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
                                 <v-text-field
-                                    placeholder="ニックネーム"
+                                    placeholder="なまえ"
                                     :value="inputName"
                                     :rules="nameRules"
                                     autocomplete="off"

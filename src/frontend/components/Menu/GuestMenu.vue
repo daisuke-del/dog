@@ -38,7 +38,7 @@ export default {
     data() {
         return {
             items: [
-                { title: 'パートナー診断', icon: 'mdi-face-recognition', link: '/match' },
+                { title: 'わんこ診断', icon: 'mdi-face-recognition', link: '/diagnosis' },
                 { title: 'ログイン', icon: 'mdi-login', link: '/login' },
                 { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' },
                 { title: 'サポート', icon: 'mdi-chat-question-outline', link: '/support' }

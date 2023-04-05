@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('instagram_id')->nullable();
             $table->string('tiktok_id')->nullable();
             $table->string('blog_id')->nullable();
+            $table->text('comment')->nullable();
             $table->dateTime('update_dog_at')->default(Carbon::now()->format('Y-m-d H:i:s'));
             $table->dateTime('create_date')->default(Carbon::now()->format('Y-m-d H:i:s'));
             $table->integer('dog_image_void_flg')->default(0);

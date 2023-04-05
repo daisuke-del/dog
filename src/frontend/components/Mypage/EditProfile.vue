@@ -9,42 +9,19 @@
                                 プロフィール
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                身長：{{ height }}cm
-                            </p>
-                            <p class="text-body-1 mx-2 my-1">
                                 体重：{{ weight }}kg
                             </p>
                             <p class="text-body-1 mx-2 my-1">
                                 年齢：{{ age }}歳
                             </p>
                             <p class="text-body-1 mx-2 my-1">
-                                年収：{{ salary }}万円
+                                犬種：{{ breed }}
                             </p>
                         </div>
                     </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                     <v-divider class="mb-5" />
-                    <v-form ref="heightForm" @submit.prevent>
-                        <p class="mb-2 text-subtitle-2 font-weight-bold">
-                            身長を変更
-                        </p>
-                        <div class="text-field-and-btn">
-                            <div class="text-field">
-                                <v-text-field v-model="inputHeight" placeholder="身長" :rules="heightRules"
-                                    autocomplete="off" outlined required dense />
-                            </div>
-                            <v-tooltip v-model="showHeightTooltip" top>
-                                <template v-slot:activator="{ attrs }">
-                                    <v-btn depressed color="primary" class="submit-button" :loading="heightLoading"
-                                        v-bind="attrs" @click="submitHeight">
-                                        変更
-                                    </v-btn>
-                                </template>
-                                <span>変更しました</span>
-                            </v-tooltip>
-                        </div>
-                    </v-form>
                     <v-form ref="weightForm" @submit.prevent>
                         <p class="mb-2 text-subtitle-2 font-weight-bold">
                             体重を変更
@@ -85,27 +62,19 @@
                             </v-tooltip>
                         </div>
                     </v-form>
-                    <v-form ref="salaryForm" @submit.prevent>
+                    <v-form ref="breedForm" @submit.prevent>
                         <p class="mb-2 text-subtitle-2 font-weight-bold">
-                            年収を変更
+                            犬種を変更
                         </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
-                                <v-select
-                                    :items="salaryRange"
-                                    v-model="item"
-                                    label="年収を選択"
-                                    hide-details
-                                    solo
-                                    flat
-                                    light
-                                    class="salary-box"
-                                />
+                                <v-text-field v-model="inputBreed" placeholder="犬種" :rules="breedRules"
+                                    autocomplete="off" outlined required dense />
                             </div>
-                            <v-tooltip v-model="showSalaryTooltip" top>
+                            <v-tooltip v-model="showBreedTooltip" top>
                                 <template v-slot:activator="{ attrs }">
-                                    <v-btn depressed color="primary" class="submit-button" :loading="salaryLoading"
-                                        v-bind="attrs" @click="submitSalary">
+                                    <v-btn depressed color="primary" class="submit-button" :loading="breedLoading"
+                                        v-bind="attrs" @click="submitBreed">
                                         変更
                                     </v-btn>
                                 </template>
@@ -122,10 +91,6 @@
 <script>
 export default {
     props: {
-        height: {
-            type: Number,
-            default: ''
-        },
         weight: {
             type: Number,
             default: ''
@@ -134,13 +99,9 @@ export default {
             type: Number,
             default: ''
         },
-        salary: {
+        breed: {
             type: String,
             default: ''
-        },
-        heightRules: {
-            type: Array,
-            default: () => []
         },
         weightRules: {
             type: Array,
@@ -150,13 +111,9 @@ export default {
             type: Array,
             default: () => []
         },
-        salaryRules: {
+        breedRules: {
             type: Array,
             default: () => []
-        },
-        showHeightTooltip: {
-            type: Boolean,
-            default: false
         },
         showWeightTooltip: {
             type: Boolean,
@@ -166,11 +123,7 @@ export default {
             type: Boolean,
             default: false
         },
-        showSalaryTooltip: {
-            type: Boolean,
-            default: false
-        },
-        heightLoading: {
+        showBreedTooltip: {
             type: Boolean,
             default: false
         },
@@ -182,18 +135,17 @@ export default {
             type: Boolean,
             default: false
         },
-        salaryLoading: {
+        breedLoading: {
             type: Boolean,
             default: false
         }
     },
     data() {
         return {
-            inputHeight: '',
             inputWeight: '',
             inputAge: '',
             inputSalary: '',
-            salaryRange: [
+            breedRange: [
                 '〜 199',
                 '200 〜 399',
                 '400 〜 599',
@@ -207,11 +159,6 @@ export default {
         }
     },
     methods: {
-        submitHeight() {
-            if (this.$refs.heightForm.validate()) {
-                this.$emit('editHeight', this.inputHeight)
-            }
-        },
         submitWeight() {
             if (this.$refs.weightForm.validate()) {
                 this.$emit('editWeight', this.inputWeight)
@@ -222,9 +169,9 @@ export default {
                 this.$emit('editAge', this.inputAge)
             }
         },
-        submitSalary() {
-            if (this.$refs.salaryForm.validate()) {
-                this.$emit('editSalary', this.item)
+        submitBreed() {
+            if (this.$refs.breedForm.validate()) {
+                this.$emit('editBreed', this.item)
             }
         }
     }
@@ -234,7 +181,7 @@ export default {
 <style scoped>
 @import 'assets/style/mypage/account.css';
 
-.salary-box {
+.breed-box {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 1.2em;
   border: 2px solid #b9c9ce;

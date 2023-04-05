@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import user from '@/plugins/modules/user'
 import LoginMenu from '@/components/Menu/LoginMenu'
 import GuestMenu from '@/components/Menu/GuestMenu'
 export default {

@@ -12,7 +12,7 @@
           >
           mdi-close-thick
         </v-icon>
-        <h1>写真をアップロード</h1>
+        <h1>わんちゃんの写真をアップロード</h1>
         <label class="btn mt-4 mb-4">
           <input
             type="file"

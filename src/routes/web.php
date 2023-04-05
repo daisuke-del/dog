@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MypageController;
-use App\Http\Controllers\MatchController;
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\SupportController;
 
 /*
@@ -30,8 +30,8 @@ Route::prefix('user')->name('user.')->group(function () {
     });
   });
   // パートナー診断結果取得
-  Route::prefix('match')->name('match.')->group(function () {
-    Route::post('result', [MatchController::class, 'result']);
+  Route::prefix('diagnosis')->name('diagnosis.')->group(function () {
+    Route::post('result', [DiagnosisController::class, 'result']);
   });
 });
 
@@ -40,14 +40,15 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::put('foreget/password/update', [UserController::class, 'foregetPasswordUpdate']);
   Route::post('update/email', [UserController::class, 'updateEmail']);
   Route::post('update/name', [UserController::class, 'updateName']);
-  Route::post('update/height', [UserController::class, 'updateHeight']);
   Route::post('update/weight', [UserController::class, 'updateWeight']);
   Route::post('update/age', [UserController::class, 'updateAge']);
-  Route::post('update/salary', [UserController::class, 'updateSalary']);
+  Route::post('update/breed', [UserController::class, 'updateBreed']);
+  Route::post('update/location', [UserController::class, 'updateLocation']);
   Route::post('update/face', [UserController::class, 'updateDogImage']);
-  Route::post('update/facebook', [UserController::class, 'updateFacebook']);
   Route::post('update/instagram', [UserController::class, 'updateInstagram']);
   Route::post('update/twitter', [UserController::class, 'updatetwitter']);
+  Route::post('update/tiktok', [UserController::class, 'updateTiktok']);
+  Route::post('update/blog', [UserController::class, 'updateBlog']);
 });
 
 // お気に入り

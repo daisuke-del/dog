@@ -13,34 +13,6 @@
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                     <v-divider class="mb-5" />
-                    <v-form ref="facebookForm" @submit.prevent>
-                        <p class="mb-2 text-subtitle-2 font-weight-bold">
-                            Facebook
-                        </p>
-                        <div class="text-field-and-btn">
-                            <div class="text-field">
-                                <v-text-field
-                                    :value="inputFacebook"
-                                    :rules="facebookRules"
-                                    placeholder="Facebook"
-                                    autocomplete="off"
-                                    outlined
-                                    required
-                                    dense
-                                    @input="$emit('update:inputFacebook', $event)"
-                                />
-                            </div>
-                            <v-tooltip v-model="showFacebookTooltip" top>
-                                <template v-slot:activator="{ attrs }">
-                                    <v-btn depressed color="primary" class="submit-button" :loading="facebookLoading"
-                                        v-bind="attrs" @click="submitFacebook">
-                                        変更
-                                    </v-btn>
-                                </template>
-                                <span>変更しました</span>
-                            </v-tooltip>
-                        </div>
-                    </v-form>
                     <v-form ref="instagramForm" @submit.prevent>
                         <p class="mb-2 text-subtitle-2 font-weight-bold">
                             Instagram
@@ -97,6 +69,62 @@
                             </v-tooltip>
                         </div>
                     </v-form>
+                    <v-form ref="tiktokForm" @submit.prevent>
+                        <p class="mb-2 text-subtitle-2 font-weight-bold">
+                            Blog
+                        </p>
+                        <div class="text-field-and-btn">
+                            <div class="text-field">
+                                <v-text-field
+                                    :value="inputTiktok"
+                                    :rules="tiktokRules"
+                                    placeholder="tiktok"
+                                    autocomplete="off"
+                                    outlined
+                                    required
+                                    dense
+                                    @input="$emit('update:inputTiktok', $event)"
+                                />
+                            </div>
+                            <v-tooltip v-model="showTiktokTooltip" top>
+                                <template v-slot:activator="{ attrs }">
+                                    <v-btn depressed color="primary" class="submit-button" :loading="tiktokLoading"
+                                        v-bind="attrs" @click="submitTiktok">
+                                        変更
+                                    </v-btn>
+                                </template>
+                                <span>変更しました</span>
+                            </v-tooltip>
+                        </div>
+                    </v-form>
+                    <v-form ref="blogForm" @submit.prevent>
+                        <p class="mb-2 text-subtitle-2 font-weight-bold">
+                            Blog
+                        </p>
+                        <div class="text-field-and-btn">
+                            <div class="text-field">
+                                <v-text-field
+                                    :value="inputBlog"
+                                    :rules="blogRules"
+                                    placeholder="blog"
+                                    autocomplete="off"
+                                    outlined
+                                    required
+                                    dense
+                                    @input="$emit('update:inputBlog', $event)"
+                                />
+                            </div>
+                            <v-tooltip v-model="showBlogTooltip" top>
+                                <template v-slot:activator="{ attrs }">
+                                    <v-btn depressed color="primary" class="submit-button" :loading="blogLoading"
+                                        v-bind="attrs" @click="submitBlog">
+                                        変更
+                                    </v-btn>
+                                </template>
+                                <span>変更しました</span>
+                            </v-tooltip>
+                        </div>
+                    </v-form>
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
@@ -106,10 +134,6 @@
 <script>
 export default {
     props: {
-        inputFacebook: {
-            type: String,
-            default: ''
-        },
         inputInstagram: {
             type: String,
             default: ''
@@ -118,9 +142,13 @@ export default {
             type: String,
             default: ''
         },
-        facebookRules: {
-            type: Array,
-            default: () => []
+        inputTiktok: {
+            type: String,
+            default: ''
+        },
+        inputBlog: {
+            type: String,
+            default: ''
         },
         instagramRules: {
             type: Array,
@@ -130,9 +158,13 @@ export default {
             type: Array,
             default: () => []
         },
-        facebookLoading: {
-            type: Boolean,
-            default: false
+        tiktokRules: {
+            type: Array,
+            default: () => []
+        },
+        blogRules: {
+            type: Array,
+            default: () => []
         },
         instagramLoading: {
             type: Boolean,
@@ -142,7 +174,11 @@ export default {
             type: Boolean,
             default: false
         },
-        showFacebookTooltip: {
+        tiktokLoading: {
+            type: Boolean,
+            default: false
+        },
+        blogLoading: {
             type: Boolean,
             default: false
         },
@@ -154,7 +190,11 @@ export default {
             type: Boolean,
             default: false
         },
-        facebookLoading: {
+        showTiktokTooltip: {
+            type: Boolean,
+            default: false
+        },
+        showBlogTooltip: {
             type: Boolean,
             default: false
         },
@@ -165,28 +205,25 @@ export default {
         twitterLoading: {
             type: Boolean,
             default: false
+        },
+        tiktokLoading: {
+            type: Boolean,
+            default: false
+        },
+        blogLoading: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
         return {
-            facebookAccount: null,
             instagramAccount: null,
-            twitterAccount: null
+            twitterAccount: null,
+            tiktokAccount: null,
+            blogAccount: null
         }
     },
     methods: {
-        submitFacebook() {
-            if (this.$refs.facebookForm.validate()) {
-                if (this.inputFacebook.match(/^https:\/\/(ja-jp.facebook.com\/)/)) {
-                    this.facebookAccount = this.inputFacebook.replace('https://ja-jp.facebook.com/', '')
-                } else if (this.inputFacebook.match(/^https:\/\/(facebook.com\/)/)) {
-                    this.facebookAccount = this.inputFacebook.replace('https://facebook.com/', '')
-                } else {
-                    this.facebookAccount = this.inputFacebook
-                }
-                this.$emit('editFacebook', this.inputFacebook)
-            }
-        },
         submitInstagram() {
             if (this.$refs.instagramForm.validate()) {
                 if (this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
@@ -206,6 +243,20 @@ export default {
                 }
                 this.$emit('editTwitter', this.twitterAccount)
             }
+        },
+        submitTiktok() {
+            if (this.$refs.tiktokForm.validate()) {
+                if (this.inputTiktok.match(/^https:\/\/(tiktok.com\/)/)) {
+                    this.tiktokAccount = this.inputTiktok.replace('https://tiktok.com/', '')
+                } else {
+                    this.tiktokAccount = this.inputTiktok
+                }
+                this.$emit('editTiktok', this.tiktokAccount)
+            }
+        },
+        submitBlog() {
+            this.blogAccount = this.inputBlog
+            this.$emit('editBlog', this.blogAccount)
         }
     }
 }

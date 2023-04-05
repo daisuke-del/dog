@@ -21,7 +21,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title color="accent">
-                        パートナー診断
+                        わんこ診断
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>

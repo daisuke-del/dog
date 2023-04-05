@@ -7,7 +7,7 @@
         />
       </div>
       <div class="ranking-wrap">
-        <h2 class="ranking-headline">人気のわんこランキング</h2>
+        <h2 class="ranking-headline">人気わんこランキング</h2>
         <v-row>
           <v-col cols="4" class="ranking-col">
             <v-img
@@ -43,6 +43,101 @@
             </v-card>
           </v-col>
         </v-row>
+
+        <v-row>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/4th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="fourthDog"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/5th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="fifthDog"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/6th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="sixthDog"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/7th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="seventhDog"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/8th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="eighthDog"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/9th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="ninethDog"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/10th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="tenthDog"
+              />
+            </v-card>
+          </v-col>
+          <v-col cols="3" class="ranking-col">
+            <v-img
+              :src="require('@/assets/image/rank/11th.png')"
+              class="ranking-icon"
+            />
+            <v-card>
+              <v-img
+                :src="eleventhDog"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+
       </div>
       <div class="btn-wrap">
         <a class="btn-text pink-btn" @click="clickSignup">無料登録して始める</a>
@@ -64,7 +159,7 @@
           <div class="intro-small-wrap">
             <h3 class="intro-headline">わんこ診断</h3>
             <p class="intro-text">
-              あなたの性格や体格から診断！
+              あなたの性格や体格か診断！
             </p>
           </div>
           <div class="btn-wrap">
@@ -113,6 +208,30 @@ export default {
     },
     thirdDog () {
       return this.maleRanking[2].dog_image && `http://localhost/storage/${this.maleRanking[2].dog_image}`
+    },
+    fourthDog () {
+      return this.maleRanking[3].dog_image && `http://localhost/storage/${this.maleRanking[3].dog_image}`
+    },
+    fifthDog () {
+      return this.maleRanking[4].dog_image && `http://localhost/storage/${this.maleRanking[4].dog_image}`
+    },
+    sixthDog () {
+      return this.maleRanking[5].dog_image && `http://localhost/storage/${this.maleRanking[5].dog_image}`
+    },
+    seventhDog () {
+      return this.maleRanking[6].dog_image && `http://localhost/storage/${this.maleRanking[6].dog_image}`
+    },
+    eightthDog () {
+      return this.maleRanking[7].dog_image && `http://localhost/storage/${this.maleRanking[7].dog_image}`
+    },
+    ninethDog () {
+      return this.maleRanking[8].dog_image && `http://localhost/storage/${this.maleRanking[8].dog_image}`
+    },
+    tenthDog () {
+      return this.maleRanking[9].dog_image && `http://localhost/storage/${this.maleRanking[9].dog_image}`
+    },
+    eleventhDog () {
+      return this.maleRanking[10].dog_image && `http://localhost/storage/${this.maleRanking[10].dog_image}`
     }
   },
   methods: {

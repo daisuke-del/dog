@@ -10,20 +10,29 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - dog',
-    title: 'dog',
+    title: 'わんこランキング',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'marigold' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'twitter:image', content: 'https://www.marigold.red/storage/images/logotouka.png'},
+      { name: 'twitter:title', content: 'わんこランキング'},
+      { name: 'twitter:description', content: '【完全無料】愛犬を登録してみよう！ランクインして、目指せインフルエンサー犬！！'}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: "preconnect", href: "https://fonts.googleapis.com"},
       { rel: "preconnect", href: "https://fonts.gstatic.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;700&display=swap" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" }
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" },
+      { rel: "android-icon", sizes: "152x152", href: "https://www.marigold.red/storage/images/logotouka.png"}
     ],
+    script: [
+      { src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?" },
+      { client: "ca-pub-4702212307993532" },
+      { async: true}
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
