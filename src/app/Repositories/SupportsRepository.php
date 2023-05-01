@@ -13,7 +13,7 @@ class SupportsRepository implements SupportsRepositoryInterface
      */
     public function getSupports(): ?object
     {
-        return DB::table('supports')
+        return table('supports')
             ->where('resolve_flg', 0)
             ->get();
     }

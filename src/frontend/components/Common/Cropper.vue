@@ -249,7 +249,7 @@ export default {
 <style scoped>
 h1 {
   font-family: 'Rampart One', cursive;
-  color: dimgrey;
+  color: hsl(0, 0%, 41%);
 }
 
 label {
@@ -287,7 +287,7 @@ input[type="file"] {
   margin-top: 10%;
   padding: 30px 0;
   border-radius: 20px;
-  background: url("~/assets/image/backGrounds/default750.png") top center no-repeat;
+  background: url("~/assets/image/backGrounds/default1500.png") top center no-repeat;
 }
 
 .crop-area {

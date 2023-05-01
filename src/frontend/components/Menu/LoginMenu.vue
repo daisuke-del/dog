@@ -16,7 +16,7 @@
             <v-list-item @click="clickMatch" link>
                 <v-list-item-icon>
                     <v-icon>
-                        mdi-face-recognition
+                        mdi-dog
                     </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>

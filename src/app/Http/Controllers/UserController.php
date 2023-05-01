@@ -119,19 +119,6 @@ class UserController extends Controller
     }
 
     /**
-     * 会員情報変更 - height
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function updateHeight(Request $request)
-    {
-        $response = $this->userService->updateHeight($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * 会員情報変更 - weight
      *
      * @param Request $request
@@ -145,32 +132,6 @@ class UserController extends Controller
     }
 
     /**
-     * 会員情報変更 - age
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function updateAge(Request $request)
-    {
-        $response = $this->userService->updateAge($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * 会員情報変更 - salary
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function updateSalary(Request $request)
-    {
-        $response = $this->userService->updateSalary($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * 会員情報変更 - dog_image
      *
      * @param Request $request
@@ -180,19 +141,6 @@ class UserController extends Controller
     public function updateDogImage(Request $request)
     {
         $response = $this->userService->updateDogImage($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * 会員情報変更 - facebook
-     *
-     * @param Request $request
-     * @return false|string
-     * @throws Exception
-     */
-    public function updateFacebook(Request $request)
-    {
-        $response = $this->userService->updateFacebook($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
@@ -219,32 +167,6 @@ class UserController extends Controller
     public function updateTwitter(Request $request)
     {
         $response = $this->userService->updateTwitter($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * dog_imageとdog_pointをorder_number順に30件取得
-     *
-     * @param Request $request
-     * @return false|string
-     */
-    public function slider(Request $request)
-    {
-        $response = $this->userService->getFace($request);
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * 会員登録時のスライダー画像を取得。登録emailのチェック
-     *
-     * @param Request $request
-     * @return false|string
-     */
-    public function signupSlider(Request $request)
-    {
-        $email = $request->input('email');
-        $this->userService->checkEmail($email);
-        $response = $this->userService->getFace($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 

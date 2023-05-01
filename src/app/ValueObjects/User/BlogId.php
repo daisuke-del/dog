@@ -12,7 +12,7 @@ class BlogId
     public function __construct(?string $blogId)
     {
         if ($this->isBlogId($blogId) === false) {
-            throw new DOGException('validation.dog_image', 422);
+            throw new DOGException('validation.blog_id', 422);
         }
         $this->blogId = $blogId;
     }

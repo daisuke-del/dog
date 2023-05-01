@@ -25,7 +25,7 @@ export default {
     facebookId,
     instagramId,
     twitterId,
-    dogPoint
+    dogPoint,
     dogImage
   ) {
     return auth.loginWith('signUp', {

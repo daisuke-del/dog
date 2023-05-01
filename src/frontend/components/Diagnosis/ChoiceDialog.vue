@@ -1,12 +1,16 @@
 <template>
-    <v-dialog :value="dialog" @input="$emit('update:dialog', $event)" width="400">
+    <v-dialog
+        :value="dialog"
+        @input="$emit('update:dialog', $event)"
+        width="400"
+    >
         <v-card light>
             <v-card-title class="text-h7 grey lighten-2">
-                顔写真以外が表示されている？
+                犬以外が表示されている？
             </v-card-title>
 
             <v-card-text>
-                この画像が顔写真でなければ『顔写真ではない！』をクリック
+                画像が犬でなければ『犬ではない！』をクリック
             </v-card-text>
 
             <v-img :src="dogImageModal"/>
@@ -15,11 +19,18 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn class="btn-text" @click="choiceClose">
-                    顔写真
+                <v-btn
+                    class="btn-text"
+                    color="accent"
+                    @click="alertClick"
+                >
+                    犬ではない！
                 </v-btn>
-                <v-btn class="btn-text" color="accent" @click="alertClick">
-                    顔写真ではない！
+                <v-btn
+                    class="btn-text"
+                    @click="choiceClose"
+                >
+                    キャンセル
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -36,7 +47,7 @@ export default {
         },
         dogImage: {
             type: String,
-            default: 'no-user-image-icon.jpeg'
+            default: 'no-user-image-icon.png'
         },
         isLeft: {
             type: Boolean,
@@ -45,7 +56,7 @@ export default {
     },
     computed: {
         dogImageModal () {
-            return this.dogImage && `http://localhost/storage/${this.dogImage}`
+            return this.dogImage && `@/assets/image/diagnosis/breeds/images/${this.dogImage}`
         },
         changeDialog () {
             return this.dialog

@@ -2,7 +2,7 @@
     <div>
         <v-list-item light>
             <v-list-item-avatar @click="clickMypage">
-                <v-img :src="'http://localhost/storage/images/no-user-image-icon.jpeg'" />
+                <v-img :src="require('@/assets/image/dog/no-user-image-icon.png')" />
             </v-list-item-avatar>
 
             <v-list-item-content @click="clickMypage">
@@ -38,9 +38,9 @@ export default {
     data() {
         return {
             items: [
-                { title: 'わんこ診断', icon: 'mdi-face-recognition', link: '/diagnosis' },
+                { title: 'わんこ診断', icon: 'mdi-dog', link: '/diagnosis' },
                 { title: 'ログイン', icon: 'mdi-login', link: '/login' },
-                { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' },
+                { title: '愛犬登録', icon: 'mdi-dog-service', link: '/signup' },
                 { title: 'サポート', icon: 'mdi-chat-question-outline', link: '/support' }
             ],
         }

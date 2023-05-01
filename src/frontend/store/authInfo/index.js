@@ -4,7 +4,7 @@ export const state = () => ({
     name: null,
     email: null,
     password: null,
-    dogImage: 'no-user-image-icon.jpeg',
+    dogImage: 'no-user-image-icon.png',
     sex: null,
     age: null,
     height: null,
@@ -41,7 +41,7 @@ export const mutations = {
     state.auth.userId = userInfo.user_id
     state.auth.sex = userInfo.sex ? userInfo.sex : null
     state.auth.name = userInfo.name ? userInfo.name : '名無しさん'
-    state.auth.dogImage = userInfo.dog_image ? userInfo.dog_image : 'no-user-image-icon.jpeg'
+    state.auth.dogImage = userInfo.dog_image ? userInfo.dog_image : 'no-user-image-icon.png'
     state.auth.dogPoint = userInfo.dog_point ? userInfo.dog_point : 0
     state.auth.rank = userInfo.rank ? userInfo.rank : 'Nomal'
     state.auth.score = userInfo.score ? userInfo.score : 'D'

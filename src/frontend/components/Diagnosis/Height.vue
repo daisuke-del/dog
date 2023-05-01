@@ -18,18 +18,18 @@
 
 <script>
 export default {
-  name: 'MatchHeight',
-  data() {
+  name: 'DiagnosisHeight',
+  data () {
     return {
       inputValues: [1],
       length: 3
     }
   },
   methods: {
-    generateInputNum(index) {
+    generateInputNum (index) {
       return `item_${index + 1}`
     },
-    handleInputFocus(index, event) {
+    handleInputFocus (index, event) {
       if (this.inputValues[index] && this.inputValues[index] !== '' && index < this.length - 1) {
         const [nextInput] = this.$refs[`item_${index + 2}`]
         nextInput.focus()
@@ -38,16 +38,16 @@ export default {
         previusInput.focus()
       }
     },
-    numberInput() {
+    numberInput () {
       this.$emit('click-height', this.inputValues.join(''))
     },
-    clickBack() {
-      this.$emit('click-back', 2)
+    clickBack () {
+      this.$emit('click-back', 1)
     },
-    resetHeight() {
+    resetHeight () {
       this.inputValues = [1]
     },
-    focusInput() {
+    focusInput () {
       this.$refs.item_2[0].focus()
     }
   }

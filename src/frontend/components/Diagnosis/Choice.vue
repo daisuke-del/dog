@@ -1,11 +1,28 @@
 <template>
     <div class="choice-wrap">
-        <choice-dialog :dialog.sync="choiceDialog" :face-image="this.alertImage" :isLeft="this.isLeft" @left-click="clickAlertLeft" @right-click="clickAlertRight" @choice-close="choiceClose"/>
+        <choice-dialog
+            :dialog.sync="choiceDialog"
+            :face-image="this.alertImage"
+            :isLeft="this.isLeft"
+            @left-click="clickAlertLeft"
+            @right-click="clickAlertRight"
+            @choice-close="choiceClose"
+        />
         <div class="card-wrap d-flex justify-center">
             <div>
-                <v-card light hover class="card" @click="choiceLeft">
-                    <v-img :src="`http://localhost/storage//${leftImage}`" />
-                    <v-btn fab color="accent" class="alert-btn" @click.stop="leftDialog">
+                <v-card
+                    light
+                    hover
+                    class="card"
+                    @click="choiceLeft"
+                >
+                    <v-img :src="leftDogImage" />
+                    <v-btn
+                        fab
+                        color="accent"
+                        class="alert-btn"
+                        @click.stop="leftDialog"
+                    >
                         <v-icon small>
                             mdi-alert
                         </v-icon>
@@ -14,9 +31,19 @@
             </div>
             <p class="big-text vs-text">VS</p>
             <div>
-                <v-card light hover class="card" @click="choiceRight">
-                    <v-img :src="`http://localhost/storage/${rightImage}`" />
-                    <v-btn fab color="accent" class="alert-btn" @click.stop="rightDialog">
+                <v-card
+                    light
+                    hover
+                    class="card"
+                    @click="choiceRight"
+                >
+                    <v-img :src="rightDogImage" />
+                    <v-btn
+                        fab
+                        color="accent"
+                        class="alert-btn"
+                        @click.stop="rightDialog"
+                    >
                         <v-icon small>
                             mdi-alert
                         </v-icon>
@@ -35,13 +62,13 @@ export default {
         ChoiceDialog
     },
     props: {
-        leftImage: {
-            type: String,
-            default: '0.jpeg'
+        leftDog: {
+            type: Object,
+            required: false
         },
-        rightImage: {
-            type: String,
-            default: '1.jpeg'
+        rightDog: {
+            type: Object,
+            required: false
         }
     },
     data () {
@@ -51,32 +78,40 @@ export default {
             isLeft: false,
         }
     },
+    computed: {
+        leftDogImage () {
+            return this.leftDog.dog_image1 && require(`@/../storage/image/dogimages/${this.leftDog.dog_image1}`)
+        },
+        rightDogImage () {
+            return this.rightDog.dog_image1 && require(`@/../storage/image/dogimages/${this.rightDog.dog_image1}`)
+        }
+    },
     methods: {
-        choiceLeft() {
+        choiceLeft () {
             this.$emit('choice-left')
         },
-        choiceRight() {
+        choiceRight () {
             this.$emit('choice-right')
         },
-        clickAlertLeft() {
+        clickAlertLeft () {
             this.$emit('alert-left');
             this.choiceDialog = false
         },
-        clickAlertRight() {
+        clickAlertRight () {
             this.$emit('alert-right');
             this.choiceDialog = false
         },
-        leftDialog() {
-            this.alertImage = this.leftImage
+        leftDialog () {
+            this.alertImage = this.leftDogImage
             this.isLeft = true
             this.choiceDialog = true
         },
-        rightDialog() {
-            this.alertImage = this.rightImage
+        rightDialog () {
+            this.alertImage = this.rightDogImage
             this.isLeft = false
             this.choiceDialog = true
         },
-        choiceClose() {
+        choiceClose () {
             this.choiceDialog = false
         }
     }
@@ -102,11 +137,6 @@ export default {
     position: relative;
 }
 
-.btn-wrap {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
 .alert-btn {
     width: 35px;
     height: 35px;
@@ -116,23 +146,6 @@ export default {
     position: absolute;
     bottom: -5%;
     right: -5%;
-}
-
-.back-btn {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 1em;
-    color: slategray;
-    background-color: white;
-    width: 100px;
-    height: 30px;
-    border-radius: 0.3em;
-    outline: 1px solid #b9c9ce;
-    margin-top: 30px;
-}
-
-.back-btn:hover {
-    outline: none;
-    border: 2px solid #b9c9ce;
 }
 
 @media screen and (max-width: 600px) {

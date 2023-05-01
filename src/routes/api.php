@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\BreedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,18 @@ use App\Http\Controllers\SupportController;
 |
 */
 
-// パートナー診断
+// 診断
 Route::prefix('diagnosis')->name('diagnosis.')->group(function () {
   Route::post('result', [DiagnosisController::class, 'result']);
   Route::post('choice', [DiagnosisController::class, 'choice']);
   Route::post('alert', [DiagnosisController::class, 'alert']);
+});
+
+// 犬種系
+Route::prefix('breed')->name('breed.')->group(function () {
+  Route::get('info', [BreedController::class, 'info']);
+  Route::get('detail/{breed}', [BreedController::class, 'detail']);
+  Route::get('route', [BreedController::class, 'route']);
 });
 
 // 確認系

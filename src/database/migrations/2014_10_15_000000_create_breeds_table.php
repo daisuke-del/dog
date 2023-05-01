@@ -14,14 +14,22 @@ class CreateBreedsTable extends Migration
     public function up()
     {
         Schema::create('breeds', function (Blueprint $table) {
-            $table->id('id');
+            $table->id();
             $table->string('name');
-            $table->integer('height');
-            $table->integer('weight');
-            $table->string('personality');
+            $table->integer('min_width')->nullable();
+            $table->integer('max_width')->nullable();
+            $table->integer('min_weight')->nullable();
+            $table->integer('max_weight')->nullable();
+            $table->integer('personality1');
+            $table->integer('personality2');
+            $table->integer('personality3');
+            $table->integer('face');
             $table->string('country');
             $table->string('size');
             $table->string('group');
+            $table->string('dog_image');
+            $table->string('character')->nullable();
+            $table->string('personal')->nullable();
         });
     }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="content mx-auto">
     <h1 v-if="position === 2">写真をアップロード</h1>
-    <h1 v-else>無料会員登録</h1>
+    <h1 v-else>愛犬を登録</h1>
     <v-stepper
       v-model="position"
       class="register-wrap"
@@ -38,7 +38,7 @@
             :min-pass-length="minPassLength"
             :max-pass-length="maxPassLength"
             :send-loading="postUserInfoLoading"
-            @store-user-info="signupSliderImage"
+            @store-user-info="storeUserInfo"
           />
         </div>
       </v-stepper-content>
@@ -65,7 +65,6 @@ import RegisterImage from '~/components/Signup/RegisterImage'
 import SignupCompletion from '~/components/Signup/SignupCompletion'
 import constants from '~/utils/constants'
 import user from '~/plugins/modules/user'
-import slider from '~/plugins/modules/slider'
 export default {
   name: 'PagesSignup',
   auth: false,
@@ -91,7 +90,6 @@ export default {
       validation: constants.mailValidation,
       minPassLength: constants.minPassLength,
       maxPassLength: constants.maxNameLength,
-      postUserInfoLoading: false,
       showErrorMessage: false,
       errorMessage: '',
       previousPage: null,
@@ -109,6 +107,8 @@ export default {
       blogId: null,
       dogPoint: null,
       dogImage: null,
+      dogImage2: null,
+      dogImage3: null,
     }
   },
   mounted () {
@@ -120,8 +120,7 @@ export default {
     clickForm () {
       this.transitionContent(2)
     },
-    async signupSliderImage (userInfo) {
-      this.postUserInfoLoading = true
+    async storeUserInfo (userInfo) {
       this.sex = userInfo.sex
       this.name = userInfo.name
       this.email = userInfo.email
@@ -129,15 +128,17 @@ export default {
       this.weight = userInfo.weight
       this.age = userInfo.age
       this.breed = userInfo.breed
+      this.breed2 = userInfo.breed2 ? userInfo.breed2 : null
       this.instagramId = userInfo.instagramId
       this.twitterId = userInfo.twitterId
       this.tiktokId = userInfo.tiktokId,
       this.blogId = userInfo.blogId
       this.position = 2
-      this.postUserInfoLoading = false
     },
-    storeDogImage (dogImage) {
+    storeDogImage (dogImage, dogImage2, dogImage3) {
       this.dogImage = dogImage
+      this.dogImage2 = dogImage2 ? dogImage2 : null
+      this.dogImage3 = dogImage3 ? dogImage3 : null
       if (this.dogImage === null) {
         this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
         this.$store.dispatch('snackbar/snackOn')
@@ -154,7 +155,7 @@ export default {
         this.email,
         this.password,
         this.weight,
-        this.age,
+        this.birthday,
         this.breed,
         this.instagramId,
         this.twitterId,

@@ -19,7 +19,7 @@ class AdminsTableSeeder extends Seeder
             'email' => 'a@a',
             'password' => Hash::make('testtest'),
             'name' => 'aaa',
-            'dog_image' => 'no-user-image-icon.jpeg',
+            'dog_image' => 'no-user-image-icon.png',
             'sex' => 'male',
             'height' => 180,
             'weight' => 70,

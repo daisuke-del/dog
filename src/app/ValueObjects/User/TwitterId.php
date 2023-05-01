@@ -12,7 +12,7 @@ class TwitterId
     public function __construct(?string $twitterId)
     {
         if ($this->isTwitterId($twitterId) === false) {
-            throw new DOGException('validation.dog_image', 422);
+            throw new DOGException('validation.twitter_id', 422);
         }
         $this->twitterId = $twitterId;
     }

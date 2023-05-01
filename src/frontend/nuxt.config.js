@@ -173,7 +173,7 @@ export default {
     treeShake: true,
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.orange.darken2,
@@ -186,6 +186,17 @@ export default {
         },
       },
     },
+  },
+
+  generate: {
+    routes: async () => {
+      let breeds = []
+      await axios.get('/api/breed/route').then((response) => {
+        console.log(response)
+        breeds = response
+      })
+      return breeds.map(breed => `/breed/detail/${breed}`)
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

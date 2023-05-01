@@ -154,7 +154,7 @@ export default {
     let sex = null
     let name = null
     let rank = 'nomal'
-    let dogImage = 'no-user-image-icon.jpeg'
+    let dogImage = 'no-user-image-icon.png'
     let dogPoint = 0
     let score = 'E'
     let voidFlg = 0
@@ -165,7 +165,7 @@ export default {
       sex = response['sex']
       name = response['name']
       rank = response['rank'] ? response['rank'] : 'Nomal'
-      dogImage = response['dog_image'] ? response['dog_image'] : 'no-user-image-icon.jpeg'
+      dogImage = response['dog_image'] ? response['dog_image'] : 'no-user-image-icon.png'
       dogPoint = response['dog_point'] ? response['dog_point'] : 0
       score = response['score'] ? response['score'] : 'E'
       voidFlg = response['dog_image_void_flg'] ? response['dog_image_void_flg'] : 0
@@ -206,7 +206,7 @@ export default {
       sex: null,
       name: '名無しさん',
       rank: 'Nomal',
-      dogImage: 'no-user-image-icon.jpeg',
+      dogImage: 'no-user-image-icon.png',
       dogPoint: 0,
       score: 'E',
       voidFlg: 0,

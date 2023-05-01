@@ -123,44 +123,12 @@ interface UsersRepositoryInterface
     public function updateName(UserEntity $user): bool;
 
     /**
-     * usersのheightを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateHeight(UserEntity $user): bool;
-
-    /**
      * usersのweightを更新する
      *
      * @param UserEntity $user
      * @return bool
      */
     public function updateWeight(UserEntity $user): bool;
-
-    /**
-     * usersのageを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateAge(UserEntity $user): bool;
-
-    /**
-     * usersのsalaryを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateSalary(UserEntity $user): bool;
-
-    /**
-     * usersのfacebook_idを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateFacebook(UserEntity $user): bool;
 
     /**
      * usersのinstagram_idを更新する
@@ -198,19 +166,16 @@ interface UsersRepositoryInterface
      * dog_pointを引数にランダムなユーザーを取得
      *
      * @param int $dogPoint
-     * @param string $sex
      * @return Collection
      */
-    public function getTwoUsersByDogPoint(int $dogPoint, string $sex): Collection;
+    public function getTwoUsersByDogPoint(int $dogPoint): Collection;
 
     /**
-     * dog_pointの最大値を取得
+     * user数を取得
      *
-     * @param int $dogPoint
-     * @param string $sex
-     * @return array
+     * @return int
      */
-    public function getMaxDogPoint(string $sex): array;
+    public function getDogCnt(): int;
 
     /**
      * dog_pointを1上げる
@@ -282,11 +247,28 @@ interface UsersRepositoryInterface
     /**
      * diagnosis結果を取得
      *
-     * @param array $diagnosisInfo
-     * @param string $place
+     * @param int $maxWeight
+     * @param int $minWeight
+     * @param string $face
+     * @param int $personality1
+     * @param int $personality2
+     * @param int $personality3
+     * @param string $holiday
      * @return object
      */
-    public function getDiagnosisResult(array $diagnosisInfo, string $place): object;
+    public function getDiagnosisResult(int $maxWeight, int $minWeight, string $face, int $personality1, int $personality2, int $personality3, string $holiday): object;
+
+    /**
+     * diagnosis結果を取得
+     *
+     * @param string $face
+     * @param int $personality1
+     * @param int $personality2
+     * @param int $personality3
+     * @param string $holiday
+     * @return object
+     */
+    public function getDiagnosisResultAgain(string $face, int $personality1, int $personality2, int $personality3, string $holiday): object;
 
     /**
      * ユーザーを削除
@@ -306,10 +288,9 @@ interface UsersRepositoryInterface
     /**
      * 顔面レベル上位三名を取得
      *
-     * @param $sex
      * @return object
      */
-    public function getRanking(string $sex): object;
+    public function getRanking(): object;
 }
 
 

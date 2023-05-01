@@ -12,7 +12,7 @@ class Location
     public function __construct(?string $location)
     {
         if ($this->isLocation($location) === false) {
-            throw new DOGException('validation.dog_image', 422);
+            throw new DOGException('validation.location', 422);
         }
         $this->location = $location;
     }

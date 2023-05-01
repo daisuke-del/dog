@@ -1,0 +1,123 @@
+<template>
+    <div class="all px-4">
+        <h1>{{ breedInfo[0].name }}</h1>
+        <v-breadcrumbs
+            :items="items"
+            divider=">"
+        />
+        <v-row>
+            <v-col cols="6">
+                <v-card>
+                    <v-img :src="require(`@/assets/image/breed/${breedInfo[0].dog_image}`)"/>
+                </v-card>
+            </v-col>
+            <v-col cols="6" class="breed-info">
+                <h3>{{ breedInfo[0].name }}</h3>
+                <p>原産国：{{ breedInfo[0].country }}</p>
+                <p>サイズ：{{ breedInfo[0].size }}</p>
+                <p>グループ：{{ breedInfo[0].group }}</p>
+                <p v-if="breedInfo[0].max_width && breedInfo[0].min_width">体長：{{ breedInfo[0].min_width }}cm~{{ breedInfo[0].max_width }}cm</p>
+                <p v-else-if="!breedInfo[0].max_width">体長：{{ breedInfo[0].min_width }}cm~</p>
+                <p v-else-if="!breedInfo[0].min_width">体長：~{{ breedInfo[0].max_width }}cm</p>
+                <p v-if="breedInfo[0].max_weight && breedInfo[0].min_weight">体重：{{ breedInfo[0].min_weight / 1000 }}kg~{{ breedInfo[0].max_weight / 1000 }}kg</p>
+                <p v-else-if="!breedInfo[0].max_weight">体重：{{ breedInfo[0].min_weight / 1000 }}kg~</p>
+                <p v-else-if="!breedInfo[0].min_weight">体重~{{ breedInfo[0].max_weight / 1000 }}kg</p>
+            </v-col>
+        </v-row>
+        <div class="long-text mt-8">
+            <h3>特徴</h3>
+            <p>{{ breedInfo[0].character }}</p>
+            <h3>性格</h3>
+            <p>{{ breedInfo[0].personal }}</p>
+        </div>
+    </div>
+</template>
+
+<script>
+import breed from '@/plugins/modules/breed'
+export default {
+    name: 'BreedDefault',
+    auth: false,
+    async asyncData ({ route }) {
+        let breedInfo = []
+        const breedPath = route.params.breed
+        await breed.getBreedInfo(breedPath).then((response) => {
+            breedInfo = response
+        })
+        return {
+            breedInfo,
+            breedPath
+        }
+    },
+    data () {
+        return {
+            items: [
+                {
+                    text: 'トップ',
+                    disabled: false,
+                    href: '/'
+                },
+                {
+                    text: '犬図鑑',
+                    disabled: false,
+                    href: '/breed'
+                }
+            ]
+        }
+    },
+    computed: {
+        breedName () {
+            if (this.breedInfo && this.breedInfo.length > 0) {
+            return this.breedInfo[0].name
+            }
+            return ''
+        }
+    },
+    created () {
+        this.items.push({
+            text: this.breedName,
+            disabled: true,
+            href: `/breed/detail/${this.$route.params.breed}`
+        })
+    }
+}
+</script>
+
+<style scoped>
+.all {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: 'Rampart One', cursive;
+    color: dimgrey;
+    text-align: center;
+}
+
+h3 {
+    color: slategray;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-bottom: 8px;
+}
+
+.breed-info p {
+    font-family: 'Noto Sans JP', sans-serif;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    margin-bottom: 4px;
+    background-color: rgba(128, 128, 128, 0.1); /* 半透明のグレー色 */
+    padding: 5px; /* 余白を設定 */
+    border-radius: 5px; /* 角を丸める */
+    backdrop-filter: blur(5px);
+}
+
+.long-text p {
+    background-color: rgba(128, 128, 128, 0.1); /* 半透明のグレー色 */
+    padding: 10px; /* 余白を設定 */
+    border-radius: 5px; /* 角を丸める */
+    backdrop-filter: blur(5px);
+}
+</style>

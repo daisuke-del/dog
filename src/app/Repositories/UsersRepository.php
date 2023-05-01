@@ -29,20 +29,20 @@ class UsersRepository implements UsersRepositoryInterface
             $user['email'],
             $user['password'],
             $user['sex'],
-            $user['height'],
             $user['weight'],
-            $user['age'],
-            $user['salary'],
+            $user['birthday'],
             $user['dog_point'],
-            $user['height2'],
-            $user['weight2'],
-            $user['age2'],
-            $user['salary2'],
-            $user['dog_point2'],
-            $user['dog_image'],
-            $user['facebook_id'],
+            $user['dog_image1'],
+            $user['dog_image2'],
+            $user['dog_image3'],
+            $user['breed1'],
+            $user['breed2'],
             $user['instagram_id'],
             $user['twitter_id'],
+            $user['tiktok_id'],
+            $user['blog_id'],
+            $user['location'],
+            $user['comment'],
             $user['yellow_card'],
             $user['update_dog_at'],
             $user['create_date'],
@@ -101,23 +101,23 @@ class UsersRepository implements UsersRepositoryInterface
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
             'sex' => $user->getSex(),
-            'height' => $user->getHeight(),
             'weight' => $user->getWeight(),
-            'age' => $user->getAge(),
-            'salary' => $user->getSalary(),
             'dog_point' => $user->getDogPoint(),
-            'height2' => $user->getHeight2(),
-            'weight2' => $user->getWeight2(),
-            'age2' => $user->getAge2(),
-            'salary2' => $user->getSalary2(),
-            'dog_point2' => $user->getDogPoint2(),
-            'dog_image' => $user->getDogImage(),
-            'facebook_id' => $user->getFacebookId(),
+            'dog_image1' => $user->getDogImage1(),
+            'dog_image2' => $user->getDogImage2(),
+            'dog_image3' => $user->getDogImage3(),
             'instagram_id' => $user->getInstagramId(),
-            'twitter_id' => $user->getUserId(),
+            'twitter_id' => $user->getTwitterId(),
+            'tiktok_id' => $user->getTiktokId(),
+            'blog_id' => $user->getBlogId(),
+            'location' => $user->getLocation(),
+            'birthday' => $user->getLocation(),
+            'breed1' => $user->getBreed1(),
+            'breed2' => $user->getBreed2(),
+            'comment' => $user->getComment(),
             'yellow_card' => $user->getYellowCard(),
-            'update_dog_at' => $user->getUpdateDogAt(),
             'created_date' => $user->getCreateDate(),
+            'update_dog_at' => $user->getUpdateDogAt(),
             'order_number' => $user->getOrderNumber()
         ]))->save();
     }
@@ -138,20 +138,20 @@ class UsersRepository implements UsersRepositoryInterface
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
             'sex' => $user->getSex(),
-            'height' => $user->getHeight(),
             'weight' => $user->getWeight(),
-            'age' => $user->getAge(),
-            'salary' => $user->getSalary(),
             'dog_point' => $user->getDogPoint(),
-            'height2' => $user->getHeight2(),
-            'weight2' => $user->getWeight2(),
-            'age2' => $user->getAge2(),
-            'salary2' => $user->getSalary2(),
-            'dog_point2' => $user->getDogPoint2(),
-            'dog_image' => $user->getDogImage(),
-            'facebook_id' => $user->getFacebookId(),
+            'dog_image1' => $user->getDogImage1(),
+            'dog_image2' => $user->getDogImage2(),
+            'dog_image3' => $user->getDogImage3(),
             'instagram_id' => $user->getInstagramId(),
             'twitter_id' => $user->getTwitterId(),
+            'tiktok_id' => $user->getTiktokId(),
+            'blog_id' => $user->getBlogId(),
+            'location' => $user->getLocation(),
+            'birthday' => $user->getLocation(),
+            'breed1' => $user->getBreed1(),
+            'breed2' => $user->getBreed2(),
+            'comment' => $user->getComment(),
             'yellow_card' => $user->getYellowCard(),
             'created_date' => $user->getCreateDate(),
             'update_dog_at' => $user->getUpdateDogAt(),
@@ -183,23 +183,23 @@ class UsersRepository implements UsersRepositoryInterface
                 'email' => $user->getEmail(),
                 'password' => $user->getPassword(),
                 'sex' => $user->getSex(),
-                'height' => $user->getHeight(),
                 'weight' => $user->getWeight(),
-                'age' => $user->getAge(),
-                'salary' => $user->getSalary(),
                 'dog_point' => $user->getDogPoint(),
-                'height2' => $user->getHeight2(),
-                'weight2' => $user->getWeight2(),
-                'age2' => $user->getAge2(),
-                'salary2' => $user->getSalary2(),
-                'dog_point2' => $user->getDogPoint2(),
-                'dog_image' => $user->getDogImage(),
-                'facebook_id' => $user->getFacebookId(),
+                'dog_image1' => $user->getDogImage1(),
+                'dog_image2' => $user->getDogImage2(),
+                'dog_image3' => $user->getDogImage3(),
                 'instagram_id' => $user->getInstagramId(),
-                'twitter_id' => $user->getUserId(),
+                'twitter_id' => $user->getTwitterId(),
+                'tiktok_id' => $user->getTiktokId(),
+                'blog_id' => $user->getBlogId(),
+                'location' => $user->getLocation(),
+                'birthday' => $user->getBirthday(),
+                'breed1' => $user->getBreed1(),
+                'breed2' => $user->getBreed2(),
+                'comment' => $user->getComment(),
                 'yellow_card' => $user->getYellowCard(),
-                'update_dog_at' => $user->getUpdateDogAt(),
                 'created_date' => $user->getCreateDate(),
+                'update_dog_at' => $user->getUpdateDogAt(),
                 'order_number' => $user->getOrderNumber()
             ]);
     }
@@ -318,21 +318,6 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * usersのheightを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateHeight(UserEntity $user): bool
-    {
-        return (new User)
-            ->where('user_id', $user->getUserId())
-            ->update([
-                'height' => $user->getHeight()
-            ]);
-    }
-
-    /**
      * usersのweightを更新する
      *
      * @param UserEntity $user
@@ -344,51 +329,6 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('user_id', $user->getUserId())
             ->update([
                 'weight' => $user->getWeight()
-            ]);
-    }
-
-    /**
-     * usersのageを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateAge(UserEntity $user): bool
-    {
-        return (new User)
-            ->where('user_id', $user->getUserId())
-            ->update([
-                'age' => $user->getAge()
-            ]);
-    }
-
-    /**
-     * usersのsalaryを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateSalary(UserEntity $user): bool
-    {
-        return (new User)
-            ->where('user_id', $user->getUserId())
-            ->update([
-                'salary' => $user->getSalary()
-            ]);
-    }
-
-    /**
-     * usersのfacebook_idを更新する
-     *
-     * @param UserEntity $user
-     * @return bool
-     */
-    public function updateFacebook(UserEntity $user): bool
-    {
-        return (new User)
-            ->where('user_id', $user->getUserId())
-            ->update([
-                'facebook_id' => $user->getFacebookId()
             ]);
     }
 
@@ -423,7 +363,37 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * dog_image,update_dog_at,dog_image_void_flgを更新する
+     * usersのtiktok_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateTiktok(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'tiktok_id' => $user->getTiktokId()
+            ]);
+    }
+
+    /**
+     * usersのtiktok_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateBlog(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'blog_id' => $user->getBlogId()
+            ]);
+    }
+
+    /**
+     * face_image,update_face_at,face_image_void_flgを更新する
      *
      * @param stirng $userId
      * @return bool
@@ -456,35 +426,30 @@ class UsersRepository implements UsersRepositoryInterface
     /**
      * dog_pointを引数にランダムなユーザーを取得
      *
-     * @param int $dogPoint
-     * @param string $sex
+     * @param int $num
      * @return Collection
      */
-    public function getTwoUsersByDogPoint(int $.dogPoint string $sex): Collection
+    public function getTwoUsersByDogPoint(int $num): Collection
     {
         return (new User)
-            ->where('sex', $sex)
-            ->where('dog_point', '>=', $dogPoint)
             ->orderBy('dog_point')
+            ->skip($num)
             ->limit(2)
             ->get();
     }
 
     /**
-     * dog_pointの最大値を取得
+     * user数を取得
      *
-     * @param int $dogPoint
-     * @param string $sex
-     * @return array
+     * @return int
      */
-    public function getMaxDogPoint(string $sex): array
+    public function getDogCnt(): int
     {
-        $dogPoint = DB::table('users')
-            ->where('sex', $sex)
-            ->orderBy('dog_point', 'desc')
-            ->first();
+        $cnt = DB::table('users')
+            ->where('dog_image_void_flg', 0)
+            ->count();
 
-        return json_decode(json_encode($dogPoint), true);
+        return json_decode(json_encode($cnt), true);
     }
 
     /**
@@ -620,145 +585,51 @@ class UsersRepository implements UsersRepositoryInterface
     /**
      * diagnosis結果を取得
      *
-     * @param array $diagnosisInfo
-     * @param string $place
+     * @param int $minWeight
+     * @param int $maxWeight
+     * @param string $face
+     * @param int $personality1
+     * @param int $personality2
+     * @param int $personality3
+     * @param string $holiday
      * @return object
      */
-    public function getDiagnosisResult(array $diagnosisInfo, string $place): object
+    public function getDiagnosisResult(int $minWeight, int $maxWeight, string $face, int $personality1, int $personality2, int $personality3, string $holiday): object
     {
+        $result = DB::table('breeds')
+            ->where(function ($query) use ($minWeight) {
+                $query->where('min_weight', '>', $minWeight)
+                      ->orWhereNull('min_weight');
+            })
+            ->where(function ($query) use ($maxWeight) {
+                $query->where('max_weight', '<', $maxWeight)
+                      ->orWhereNull('max_weight');
+            })
+            ->where('face', $face)
+            ->orderByRaw("abs(? - personality1) + abs(? - personality2) + abs(? - personality3)", [$personality1, $personality2, $personality3])
+            ->limit(1)
+            ->get();
 
-        if ($diagnosisInfo['sexSort'] === 'male') {
-            //requestユーザーはfemale
-            if ($place === 'workplace') {
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(4 * ?+ 2 * ?- ?+ ?- ?) > (3.5 * dog_point2 + 3 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
+        return $result;
+    }
 
-            } else if ($place === 'introduction') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(3.5 * ?+ 2 * ?- ?+ ?- ?) > (3 * dog_point2 + 2 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'jointparty') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(4 * ?+ 2 * ?- ?+ ?- ?) > (3.5 * dog_point2 + 3 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'club') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(8 * ?- 2 * ?+ ?- ?) > (6 * dog_point2 + 2 * salary2 - 2 * age2 + 4 * height2 -2 * weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'pairs') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(6.5 * ?+ 4 * ?- 3 * ?+ 3 * ?- ?) > (8 * dog_point2 + salary2 - 4 * age2 + 2 * height2 - 4 * weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'tinder') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(9 * ?+ ?- 2 * ?+ 2 * ?- 2 * ?) > (7 * dog_point2 + salary2 - 2 * age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(4 * ?+ 2 * ?- ?+ ?- ?) > (3.5 * dog_point2 + 3 * salary2 - 1.5 * age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            }
-
-        } else {
-            //requestユーザーはmale
-            if ($place === 'workplace') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(3.5 * ? + 3 * ? - 1.5 * ? + 2 * ? - ?) > (4 * dog_point2 + 2 * salary2 - age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'introduction') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(3 * ?+ 2 * ?- 1.5 * ?+ 2 * ?- ?) > (3.5 * dog_point2 + 2 * salary2 - age2 + height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'jointparty') {
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(6.5 * ?+ 1.5 * ?- 4 * ?+ 3 * ?- 2 * ?) > (7 * dog_point2 + salary2 - 2 * age2 + 2 * height2 - 2 * weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'club') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(6 * ?+ 2 * ?- 2 * ?+ 4 * ?- 2 * ?) > (8 * dog_point2 - 2 * age2 + height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'pairs') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(7 * ?+ ?- 2 * ?+ 2 * ?- ?) > (9 * dog_point2 + salary2 - 2 * age2 + 2 * height2 - 2 * weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else if ($place === 'tinder') {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(7 * ?+ ?- 2 * ?+ 2 * ?- ?) > (9 * dog_point2 + salary2 - 2 * age2 + 2 * height2 - 2 * weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            } else {
-
-                $result = DB::table('users')
-                ->where('sex', $diagnosisInfo['sexSort'])
-                ->whereRaw("(3.5 * ?+ 3 * ?- 1.5 * ?+ 2 * ?- ?) > (4 * dog_point2 + 2 * salary2 - age2 + 2 * height2 - weight2)", [$diagnosisInfo['dogPoint2'], $diagnosisInfo['salary2'], $diagnosisInfo['age2'], $diagnosisInfo['height2'], $diagnosisInfo['weight2']])
-                ->orderBy('dog_point', 'desc')
-                ->limit(10)
-                ->get();
-
-            }
-        }
+    /**
+     * diagnosis結果を取得
+     *
+     * @param string $face
+     * @param int $personality1
+     * @param int $personality2
+     * @param int $personality3
+     * @param string $holiday
+     * @return object
+     */
+    public function getDiagnosisResultAgain(string $face, int $personality1, int $personality2, int $personality3, string $holiday): object
+    {
+        $result = DB::table('breeds')
+            ->where('face', $face)
+            ->orderByRaw("abs(? - personality1) + abs(? - personality2) + abs(? - personality3)", [$personality1, $personality2, $personality3])
+            ->limit(1)
+            ->get();
 
         return $result;
     }
@@ -800,7 +671,7 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('update_dog_at', '<', $date)
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
-            ->limit(3)
+            ->limit(11)
             ->get();
     }
 }

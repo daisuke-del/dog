@@ -12,7 +12,7 @@ class Name
     public function __construct(string $name)
     {
         if ($this->isName($name) === false) {
-            throw new DOGException('validation.dog_image', 422);
+            throw new DOGException('validation.name', 422);
         }
         $this->name = $name;
     }

@@ -1,42 +1,143 @@
 <template>
   <div>
-    <v-row class="px-10 py-6">
-      <v-col cols="6">
-        <v-card
-          :elevation="sex=='female' ? 5 : 0"
-          @click="clickFemale"
-        >
-          <v-img
-            :src="sex=='female' ? 'http://localhost/storage/images/female2.png' : 'http://localhost/storage/images/un-select-female2.png'"
-          />
-        </v-card>
-      </v-col>
-      <v-col cols="6">
-        <v-card
-          :elevation="sex=='male' ? 5 : 0"
-          @click="clickMale"
-        >
-          <v-img
-            :src="sex=='male' ? 'http://localhost/storage/images/male2.png' : 'http://localhost/storage/images/un-select-male2.png'"
-          />
-        </v-card>
-      </v-col>
-    </v-row>
     <v-form ref="signupForm" class="signup-form-wrap">
+      <v-container fluid>
+        <p>性別選択</p>
+        <v-radio-group
+          v-model="sex"
+          mandatory
+          row
+          hide-details
+        >
+          <v-radio
+            label="おんなのこ"
+            value="female"
+          />
+          <v-radio
+            label="おとこのこ"
+            value="male"
+          />
+        </v-radio-group>
+      </v-container>
       <div class="main-wrap">
-        <v-text-field v-model="name" :rules="nameRules" :counter="10" class="name form-content" label="わんちゃんの名前"
-          required light />
-        <v-text-field v-model="email" :rules="emailRules" class="mail form-content" label="メールアドレス(example@gmail.com)"
-          required light />
-        <v-text-field v-model="password" :rules="passwordRules"
-          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
-          class="password form-content" label="パスワード" required light />
-        <div class="weight form-content d-flex justify-center">
+        <v-text-field
+          v-model="name"
+          label="わんちゃんの名前"
+          required
+          light
+          :rules="nameRules"
+          :counter="10"
+          class="name form-content"
+        />
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          class="mail form-content"
+          label="メールアドレス(example@gmail.com)"
+          required
+          light
+        />
+        <v-text-field
+          v-model="password"
+          :rules="passwordRules"
+          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="isShowPassword ? 'text' : 'password'"
+          class="password form-content"
+          label="パスワード"
+          required
+          light
+        />
+        <v-card class="fullyear" elevation="0">
+          <p class="mb-4">生年月日</p>
+          <v-card-text class="pt-0">
+            <v-row>
+              <v-col cols="6">
+                <v-select
+                  label="西暦"
+                  :items="years"
+                  v-model="year"
+                  @change="resetDay"
+                  outline
+                />
+              </v-col>
+              <v-col cols="3">
+                <v-select
+                  v-model="month"
+                  label="月"
+                  :items="months"
+                  @change="resetDay"
+                  outline
+                />
+              </v-col>
+              <v-col cols="3">
+                <v-select
+                  label="日"
+                  :items="days"
+                  v-model="day"
+                  outline
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+        <label class="form-content">
+          <span>
+            <v-select
+              v-model="itemBreed"
+              :items="breedRange"
+              label="犬種を選択"
+              hide-details
+              outlined
+              class="mb-3"
+            />
+          </span>
+        </label>
+        <label class="form-content">
+          <span v-if="isMix">
+            <v-select
+              v-model="itemBreed2"
+              :items="breedRange"
+              label="犬種を選択"
+              hide-details
+              outlined
+              class="mb-3"
+            />
+          </span>
+        </label>
+        <v-btn
+          v-if="!isMix"
+          outlined
+          class="mt-2"
+          @click="clickMix"
+        >
+          ミックス
+        </v-btn>
+        <v-btn
+        v-if="isMix"
+          outlined
+          class="mt-2"
+          @click="closeMix"
+        >
+          <v-icon>
+            mdi-close
+          </v-icon>
+        </v-btn>
+        <p v-if="breedErrorShow" class="error-message">
+          犬種を選択してください。
+        </p>
+        <div class="form-content d-flex justify-center mt-5">
           <label>
             <span>体重</span>
-            <input v-for="(input, index) in 2" :id="generateInputNum('weight', index)"
-              :ref="generateInputNum('weight', index)" :key="'weight' + index" v-model="weightValues[index]"
-              class="number" type="tel" maxlength="1" autocomplete="off" required
+            <input
+              v-for="(input, index) in 2"
+              :id="generateInputNum('weight', index)"
+              :ref="generateInputNum('weight', index)"
+              :key="'weight' + index" v-model="weightValues[index]"
+              class="number"
+              type="tel"
+              maxlength="1"
+              autocomplete="off"
+              required
               oninput="value = value.replace(/[^0-9]+/i,'');" @keyup="weightHandleInputFocus(index, $event)">
             <span>kg</span>
           </label>
@@ -44,67 +145,99 @@
             体重は2桁の半角数字で入力してください。例:06
           </p>
         </div>
-        <div class="age form-content d-flex justify-center">
-          <label>
-            <span>年齢</span>
-            <input v-for="(input, index) in 2" :id="generateInputNum('age', index)"
-              :ref="generateInputNum('age', index)" :key="'age' + index" v-model="ageValues[index]" class="number"
-              type="tel" maxlength="1" autocomplete="off" required oninput="value = value.replace(/[^0-9]+/i,'');"
-              @keyup="ageHandleInputFocus(index, $event)">
-            <span>歳</span>
-          </label>
-          <label>
-            <span>年齢</span>
-            <input v-for="(input, index) in 2" :id="generateInputNum('age', index)"
-              :ref="generateInputNum('age', index)" :key="'age' + index" v-model="ageValues[index]" class="number"
-              type="tel" maxlength="1" autocomplete="off" required oninput="value = value.replace(/[^0-9]+/i,'');"
-              @keyup="ageHandleInputFocus(index, $event)">
-            <span>歳</span>
-          </label>
-          <p v-if="ageErrorShow" class="error-message">
-            年齢は2桁の半角数字で入力してください。例:05
-          </p>
-        </div>
-        <label class="breed-wrap d-flex justify-center form-content">
+        <label class="form-content">
           <span>
-            <v-select v-model="item" class="breed-box" :items="salaryRange" label="犬種を選択" hide-details
-              prepend-icon="mdi-currency-jpy" outlined />
+            <v-select
+              v-model="item"
+              :items="prefectureRange"
+              label="居住場所を選択"
+              hide-details
+              outlined
+            />
           </span>
         </label>
-        <p v-if="breedErrorShow" class="error-message">
-          犬種を選択してください。
+        <p v-if="prefectureErrorShow" class="error-message">
+          居住場所を選択してください。
         </p>
-        <div class="pt-4 pb-4">
+        <div class="pt-10 pb-5">
           <div>
-            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Instagramアカウントを登録</p>
-            <v-text-field v-model="inputInstagram" placeholder="Instagram" autocomplete="off" hide-details class="form-content" />
+            <span class="text-label mr-2">任意</span>
+            <p class="text-sns mb-0">Instagramアカウントを登録</p>
+            <v-text-field
+              v-model="inputInstagram"
+              placeholder="Instagramアカウント"
+              autocomplete="off"
+              hide-details
+              class="form-content"
+            />
           </div>
           <div>
-            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Twitterアカウントを登録</p>
-            <v-text-field v-model="inputTwitter" placeholder="twitter" autocomplete="off" hide-details class="form-content" />
+            <span class="text-label mr-2">任意</span>
+            <p class="text-sns mb-0">Twitterアカウントを登録</p>
+            <v-text-field
+              v-model="inputTwitter"
+              placeholder="Twitterアカウント"
+              autocomplete="off"
+              hide-details
+              class="form-content"
+            />
           </div>
           <div>
-            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Tiktokアカウントを登録</p>
-            <v-text-field v-model="inputTiktok" placeholder="tiktok" autocomplete="off" hide-details class="form-content" />
+            <span class="text-label mr-2">任意</span>
+            <p class="text-sns mb-0">Tiktokアカウントを登録</p>
+            <v-text-field
+              v-model="inputTiktok"
+              placeholder="Tiktokアカウント"
+              autocomplete="off"
+              hide-details
+              class="form-content"
+            />
           </div>
           <div>
-            <span class="text-label mr-2">任意</span><p class="text-sns mb-0">Blogアカウントを登録</p>
-            <v-text-field v-model="inputBlog" placeholder="blog" autocomplete="off" hide-details class="form-content" />
+            <span class="text-label mr-2">任意</span>
+            <p class="text-sns mb-0">Blogアカウントを登録</p>
+            <v-text-field
+              v-model="inputBlog"
+              placeholder="Blogアカウント"
+              autocomplete="off"
+              hide-details
+              class="form-content"
+            />
           </div>
         </div>
         <div class="support-wrap d-flex justify-center">
-          <v-btn text to="/support/terms" class="small-text" target="_blank">
+          <v-btn
+            text
+            to="/support/terms"
+            target="_blank"
+            class="small-text"
+          >
             利用規約を確認
           </v-btn>
         </div>
         <div class="d-flex justify-center">
-          <v-checkbox v-model="checkbox" class="checkbox" label="利用規約に同意します" required light hide-details=false />
+          <v-checkbox
+            v-model="checkbox"
+            label="利用規約に同意します"
+            required
+            light
+            hide-details=false
+            class="checkbox"
+          />
         </div>
         <p v-if="agreeErrorShow" class="error-message">
           利用規約に同意が必須です。
         </p>
-        <v-btn block dark height="40px" depressed color="#fd7e00" class="font-weight-bold" :loading="sendLoading"
-          @click="storeUserInfo">
+        <v-btn
+          :loading="sendLoading"
+          block
+          dark
+          height="40px"
+          depressed
+          color="primary"
+          class="font-weight-bold mt-4"
+          @click="storeUserInfo"
+        >
           入力項目を送信
         </v-btn>
       </div>
@@ -122,28 +255,114 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
-      sex: 'male',
+      sex: 'female',
       name: null,
       email: null,
       password: null,
       isShowPassword: true,
       weightValues: [0],
-      ageValues: [0],
       select: null,
       checkbox: null,
       title: 'わんちゃん登録',
       breedRange: [
-        '〜 199',
-        '200 〜 399',
-        '400 〜 599',
-        '600 〜 799',
-        '800 〜 999',
-        '1000 〜 1999',
-        '2000 〜 2999',
-        '3000 〜',
+        'アイリッシュセター',
+        'アフガンハウンド',
+        'アメリカンコッカースパニエル',
+        'イタリアングレーハウンド',
+        'イングリッシュコッカースパニエル',
+        'イングリッシュセター',
+        'ウィペット',
+        'ウエストハイランドホワイトテリア',
+        'ウエストハイランドホワイトテリア',
+        'ウエルシュコーギーカーディガン',
+        'ウエルシュコーギーペンブローク',
+        'ウェルシュテリア',
+        'エアデールテリア',
+        'オールドイングリッシュシープドック',
+        'カニンヘンダックスフンド',
+        'キャバリア',
+        'グレートデン',
+        'グレートピレニーズ',
+        'グレーハウンド',
+        'ケアーンテリア',
+        'ゴールデンレトリバー',
+        'サモエド',
+        'シーズー',
+        'シーリハムテリア',
+        'シェットランドシープドッグ',
+        'シェトランドシープドック',
+        'シベリアンハスキー',
+        'シャーペイ',
+        'ジャーマンシェパード',
+        'ジャイアントシュナウザー',
+        'ジャックラッセルテリア',
+        'スキッパーキ',
+        'スコティッシュテリア',
+        'スタンダードダックスフンドシュナウザー',
+        'スムースコリー',
+        'セントバーナード',
+        'タイニープードル',
+        'ダックスフンド',
+        'ダルメシアン',
+        'チベタンスパニエル',
+        'チャイニーズ・クレステッド・ドッグ',
+        'チャウチャウ',
+        'チワワ',
+        'ドーベルマンピンシャー',
+        'トイプードル',
+        'トイマンチェスターテリア',
+        'ノーフォークテリア',
+        'ノーリッチテリア',
+        'バーニーズマウンテンドック',
+        'パグ',
+        'バセンジー',
+        'パピヨン',
+        'ビーグル',
+        'ビジョンフリーゼ',
+        'プチブラバンソン',
+        'ブリュッセルグリフォン',
+        'ブルテリア',
+        'フレンチブルドッグ',
+        'ペキニーズ',
+        'ベルジアングリフォン',
+        'ボーダーコリー',
+        'ポインター',
+        'ボクサー',
+        'ボストンテリア',
+        'ポメラニアン',
+        'ボルゾイ',
+        'ボロニーズ',
+        'マスティフ',
+        'マルチーズ',
+        'マンチェスターテリア',
+        'ミニチュアシュナウザー',
+        'ミニチュアダックスフンド',
+        'ミニチュアピンシャー',
+        'ミニチュアプードル',
+        'ミニチュアブルテリア',
+        'ヨークシャテリア',
+        'ラフコリー',
+        'ラブラドールレトリバー',
+        'ロットワイラー',
+        'ワイマラナー',
+        'ワイヤーフォックステリア',
+        '四国犬',
+        '土佐犬',
+        '日本スピッツ',
+        '柴犬',
+        '狆(チン)',
+        '甲斐犬',
+        '秋田犬',
+        '紀州犬',
+        '豆柴'
       ],
+      prefectureRange: [
+      "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+      ],
+      itemBreed: null,
+      itemBreed2: null,
       item: null,
       salary: null,
       nameRules: [
@@ -161,27 +380,59 @@ export default {
       weightErrorShow: false,
       ageErrorShow: false,
       breedErrorShow: false,
+      prefectureErrorShow: false,
       agreeErrorShow: false,
       instagramId: null,
       twitterId: null,
       tiktokId: null,
       blogId: null,
-      inputFacebook: '',
       inputInstagram: '',
-      inputTwitter: ''
+      inputTwitter: '',
+      inputTiktok: '',
+      inputBlog: '',
+      year: '',
+      month: '',
+      day: '',
+      isMix: false
     }
   },
+  computed: {
+    years () {
+      const years = []
+      for (let year = 1900; year <= new Date().getFullYear(); year++) {
+        years.push(year)
+      }
+      return years
+    },
+    months () {
+      const months = [...Array(12)].map((ele, i) => i + 1)
+      return months
+    },
+    days () {
+      let days = []
+      if ((this.month === 2 && this.year % 4 === 0 && this.year % 100 !== 0) || (this.month === 2 && this.year % 400 === 0)) {
+        days = [...Array(29)].map((ele, i) => i + 1)
+      } else if (this.month === 2) {
+        days = [...Array(28)].map((ele, i) => i + 1)
+      } else if (this.month === 4 || this.month === 6 || this.month === 9 || this.month === 11) {
+        days = [...Array(30)].map((ele, i) => i + 1)
+      } else {
+        days = [...Array(31)].map((ele, i) => i + 1)
+      }
+      return days
+    },
+  },
   methods: {
-    clickFemale() {
+    clickFemale () {
       this.sex = 'female'
     },
-    clickMale() {
+    clickMale () {
       this.sex = 'male'
     },
-    generateInputNum(item, index) {
+    generateInputNum (item, index) {
       return `${item}_${index + 1}`
     },
-    weightHandleInputFocus(index, event) {
+    weightHandleInputFocus (index, event) {
       if (this.weightValues[index] && this.weightValues[index] !== '' && index < 2) {
         const [nextInput] = this.$refs[`weight_${index + 2}`]
         nextInput.focus()
@@ -190,19 +441,10 @@ export default {
         previusInput.focus()
       }
     },
-    ageHandleInputFocus(index, event) {
-      if (this.ageValues[index] && this.ageValues[index] !== '' && index < 2) {
-        const [nextInput] = this.$refs[`age_${index + 2}`]
-        nextInput.focus()
-      } else if (index > 0 && (!this.ageValues[index] || this.ageValues[index] === '') && event.key === 'Backspace') {
-        const [previusInput] = this.$refs[`age_${index}`]
-        previusInput.focus()
-      }
-    },
-    clickSalary() {
+    clickSalary () {
       this.breed = this.item
     },
-    storeUserInfo() {
+    storeUserInfo () {
       if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
         if (this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
             this.instagramId = this.inputInstagram.replace('https://www.instagram.com/', '')
@@ -226,8 +468,9 @@ export default {
           email: this.email,
           password: this.password,
           weight: this.weightValues.join(''),
-          age: this.ageValues.join(''),
-          breed: this.brreed,
+          birthday: `${this.year}年${this.month}月${this.day}日`,
+          breed: this.itemBrreed,
+          breed2: this.itemBreed2 ? this.breed2 : null,
           location: this.location,
           instagramId: this.instagramId,
           twitterId: this.twitterId,
@@ -238,23 +481,38 @@ export default {
       if (this.weightValues.length != 2) {
         this.weightErrorShow = true
       }
-      if (this.ageValues.length != 2) {
-        this.ageErrorShow = true
-      }
-      if (this.item === null) {
+      if (this.breed === null) {
         this.breedErrorShow = true
       }
       if (this.checkbox != true) {
         this.agreeErrorShow = true
       }
+    },
+    resetDay () {
+      this.day = ''
+    },
+    clickMix () {
+      this.isMix = true
+    },
+    closeMix () {
+      this.isMix = false
     }
   }
 }
 </script>
 
 <style scoped>
+p {
+  color: rgba(0, 0, 0, 0.6);
+}
+
 span {
   font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.fullyear .col {
+  padding: 0;
 }
 
 .signup-form-wrap {
@@ -270,25 +528,11 @@ span {
   margin-bottom: 20px;
 }
 
-.sex {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
 .small-text {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 1em;
   font-weight: bold;
   color: slategray;
-}
-
-.salary-box {
-  max-width: 250px;
-}
-
-.salary-text {
-  margin-top: 15px;
-  margin-left: 10px;
 }
 
 .number {
@@ -310,10 +554,6 @@ span {
 .checkbox {
   text-align: center;
   margin-bottom: 10px;
-}
-
-.btn-wrap {
-  margin-bottom: 30px;
 }
 
 .error-message {

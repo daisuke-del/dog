@@ -4,16 +4,46 @@
     <admin-login v-if="admin === 'abbaabb'"/>
     <v-form ref="loginForm" v-else>
       <div class="main-wrap">
-        <v-text-field v-model="email" :rules="emailRules" label="メールアドレス" background-color="white" required outlined
-          light class="mail form-content" />
-        <v-text-field v-model="password" :rules="passwordRules"
-          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="isShowPassword ? 'text' : 'password'"
-          class="password form-content" label="パスワード" background-color="white" required outlined light />
-        <v-btn block height="40px" depressed color="#fd7e00" :loading="loginLoading" class="font-weight-bold mb-8" @click="clickLogin">
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="メールアドレス"
+          background-color="white"
+          required
+          outlined
+          light class="mail form-content"
+        />
+        <v-text-field
+          v-model="password"
+          :rules="passwordRules"
+          :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="isShowPassword ? 'text' : 'password'"
+          class="password form-content"
+          label="パスワード"
+          background-color="white"
+          required
+          outlined
+          light
+        />
+        <v-btn
+          block
+          height="40px"
+          depressed
+          color="primary"
+          :loading="loginLoading"
+          class="font-weight-bold mb-8 btn"
+          @click="clickLogin"
+        >
           ログイン
         </v-btn>
-        <v-btn block height="40px" depressed color="#0067c0" class="font-weight-bold mb-5"
-          @click="$router.push('signup')">
+        <v-btn
+          block
+          height="40px"
+          depressed
+          color="accent"
+          class="font-weight-bold mb-5 btn"
+          @click="$router.push('signup')"
+        >
           会員登録
         </v-btn>
       </div>
@@ -114,5 +144,9 @@ a {
 
 .btn-wrap {
   margin-bottom: 30px;
+}
+
+.btn {
+  color: #fff;
 }
 </style>

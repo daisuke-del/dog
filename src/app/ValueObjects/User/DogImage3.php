@@ -9,7 +9,7 @@ class DogImage3
 {
     private $dogImage3;
 
-    public function __construct(string $dogImage3)
+    public function __construct(?string $dogImage3)
     {
         if ($this->isDogImage3($dogImage3) === false) {
             throw new DOGException('validation.dog_image', 422);

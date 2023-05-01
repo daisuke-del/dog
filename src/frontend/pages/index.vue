@@ -1,184 +1,190 @@
 <template>
-  <div class="all">
-    <div class="main-wrapper justify-center">
-      <div class="top-text-wrap">
+  <div class='all'>
+    <ranking-dialog
+      :dialog.sync="rankingDialog"
+      :dog-info="dogRanking[dialogIndex]"
+      @choice-close="choiceClose"
+  />
+    <div class='main-wrapper justify-center'>
+      <div class='top-text-wrap'>
         <v-img
           :src="require('@/assets/image/logo/logotouka.png')"
         />
       </div>
-      <div class="ranking-wrap">
-        <h2 class="ranking-headline">人気わんこランキング</h2>
+      <div class='ranking-wrap'>
+        <h2 class='ranking-headline'>人気のわんこランキング</h2>
         <v-row>
-          <v-col cols="4" class="ranking-col">
+          <v-col cols='4' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/1st.png')"
-              class="ranking-icon"
+              class='ranking-icon-crown'
             />
             <v-card>
               <v-img
-                :src="firstDog"
+                :src='firstDog'
+                @click='clickImage(0)'
               />
             </v-card>
           </v-col>
-          <v-col cols="4" class="ranking-col">
+          <v-col cols='4' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/2nd.png')"
-              class="ranking-icon"
+              class='ranking-icon-crown'
             />
             <v-card>
               <v-img
-                :src="secondDog"
+                :src='secondDog'
+                @click='clickImage(1)'
               />
             </v-card>
           </v-col>
-          <v-col cols="4" class="ranking-col">
+          <v-col cols='4' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/3rd.png')"
-              class="ranking-icon"
+              class='ranking-icon-crown'
             />
             <v-card>
               <v-img
-                :src="thirdDog"
+                :src='thirdDog'
+                @click='clickImage(2)'
               />
             </v-card>
           </v-col>
         </v-row>
 
         <v-row>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/4th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="fourthDog"
+                :src='fourthDog'
+                @click='clickImage(3)'
               />
             </v-card>
           </v-col>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/5th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="fifthDog"
+                :src='fifthDog'
+                @click='clickImage(4)'
               />
             </v-card>
           </v-col>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/6th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="sixthDog"
+                :src='sixthDog'
+                @click='clickImage(5)'
               />
             </v-card>
           </v-col>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/7th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="seventhDog"
+                :src='seventhDog'
+                @click='clickImage(6)'
               />
             </v-card>
           </v-col>
         </v-row>
 
         <v-row>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/8th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="eighthDog"
+                :src='eighthDog'
+                @click='clickImage(7)'
               />
             </v-card>
           </v-col>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/9th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="ninethDog"
+                :src='ninethDog'
+                @click='clickImage(8)'
               />
             </v-card>
           </v-col>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/10th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="tenthDog"
+                :src='tenthDog'
+                @click='clickImage(9)'
               />
             </v-card>
           </v-col>
-          <v-col cols="3" class="ranking-col">
+          <v-col cols='3' class='ranking-col'>
             <v-img
               :src="require('@/assets/image/rank/11th.png')"
-              class="ranking-icon"
+              class='ranking-icon'
             />
             <v-card>
               <v-img
-                :src="eleventhDog"
+                :src='eleventhDog'
+                @click='clickImage(10)'
               />
             </v-card>
           </v-col>
         </v-row>
-
       </div>
-      <div class="btn-wrap">
-        <a class="btn-text pink-btn" @click="clickSignup">無料登録して始める</a>
+      <div class='btn-wrap'>
+        <a class='btn-text blue-btn' @click='clickDiagnosis'>あなたの犬種診断を開始</a>
       </div>
-      <div class="how-to-wrap">
-        <v-img
-          :src="require('@/assets/image/other/how-to-use.png')"
-          class="how-to-image"
-        />
-      </div>
-      <div class="intro-wrap">
-        <div class="intro-text-wrap">
-          <div class="intro-small-wrap">
-            <h3 class="intro-headline">完全無料</h3>
-            <p class="intro-text">
+      <div class='intro-wrap'>
+        <div class='intro-text-wrap'>
+          <div class='intro-small-wrap'>
+            <h3 class='intro-headline'>完全無料</h3>
+            <p class='intro-text'>
               課金は必要なし！
             </p>
           </div>
-          <div class="intro-small-wrap">
-            <h3 class="intro-headline">わんこ診断</h3>
-            <p class="intro-text">
-              あなたの性格や体格か診断！
+          <div class='intro-small-wrap'>
+            <h3 class='intro-headline'>あなたの犬種診断</h3>
+            <p class='intro-text'>
+              自分が犬だったらどんな犬種だろう？
             </p>
           </div>
-          <div class="btn-wrap">
-            <a class="btn-text blue-btn" @click="clickDiagnosis">わんこ診断を開始</a>
-          </div>
-          <div class="intro-small-wrap">
-            <h3 class="intro-headline">フレンド機能</h3>
-            <p class="intro-text">
-              気になったわんこにいいねをしよう！<br>意気投合したらお互いのSNSを閲覧可能に
+          <div class='intro-small-wrap'>
+            <h3 class='intro-headline'>フレンド機能</h3>
+            <p class='intro-text'>
+              気になったわんこにいいねを送ろう！<br>意気投合したらお互いのSNSを閲覧可能に
             </p>
           </div>
-          <div class="intro-small-wrap">
-            <h3 class="intro-headline">人気ランキング</h3>
-            <p class="intro-text">
+          <div class='intro-small-wrap'>
+            <h3 class='intro-headline'>人気ランキング</h3>
+            <p class='intro-text'>
               人気ランキング上位を狙おう！<br>上位にランクインするとトップページに掲載
             </p>
           </div>
-          <div class="btn-wrap">
-            <a class="btn-text pink-btn" @click="clickSignup">無料登録してランクイン！</a>
+          <div class='btn-wrap'>
+            <a class='btn-text pink-btn' @click='clickSignup'>無料登録して始める</a>
           </div>
         </div>
       </div>
@@ -187,59 +193,75 @@
 </template>
 
 <script>
+import RankingDialog from '@/components/Top/RankingDialog'
 import ranking from '@/plugins/modules/ranking'
 export default {
+  components: { RankingDialog },
   auth: false,
   async asyncData() {
     let dogRanking = []
     await ranking.getRanking().then((response) => {
-      dogRanking = response['dogs']
+      dogRanking = response
     })
     return {
       dogRanking
     }
   },
+  data () {
+    return {
+      dogRanking: [],
+      rankingDialog: false,
+      dialogIndex: 0,
+    }
+  },
   computed: {
     firstDog () {
-      return this.maleRanking[0].dog_image && `http://localhost/storage/${this.maleRanking[0].dog_image}`
+      return this.dogRanking[0].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[0].dog_image1}`)
     },
     secondDog () {
-      return this.maleRanking[1].dog_image && `http://localhost/storage/${this.maleRanking[1].dog_image}`
+      return this.dogRanking[1].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[1].dog_image1}`)
     },
     thirdDog () {
-      return this.maleRanking[2].dog_image && `http://localhost/storage/${this.maleRanking[2].dog_image}`
+      return this.dogRanking[2].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[2].dog_image1}`)
     },
     fourthDog () {
-      return this.maleRanking[3].dog_image && `http://localhost/storage/${this.maleRanking[3].dog_image}`
+      return this.dogRanking[3].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[3].dog_image1}`)
     },
     fifthDog () {
-      return this.maleRanking[4].dog_image && `http://localhost/storage/${this.maleRanking[4].dog_image}`
+      return this.dogRanking[4].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[4].dog_image1}`)
     },
     sixthDog () {
-      return this.maleRanking[5].dog_image && `http://localhost/storage/${this.maleRanking[5].dog_image}`
+      return this.dogRanking[5].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[5].dog_image1}`)
     },
     seventhDog () {
-      return this.maleRanking[6].dog_image && `http://localhost/storage/${this.maleRanking[6].dog_image}`
+      return this.dogRanking[6].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[6].dog_image1}`)
     },
-    eightthDog () {
-      return this.maleRanking[7].dog_image && `http://localhost/storage/${this.maleRanking[7].dog_image}`
+    eighthDog () {
+      return this.dogRanking[7].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[7].dog_image1}`)
     },
     ninethDog () {
-      return this.maleRanking[8].dog_image && `http://localhost/storage/${this.maleRanking[8].dog_image}`
+      return this.dogRanking[8].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[8].dog_image1}`)
     },
     tenthDog () {
-      return this.maleRanking[9].dog_image && `http://localhost/storage/${this.maleRanking[9].dog_image}`
+      return this.dogRanking[9].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[9].dog_image1}`)
     },
     eleventhDog () {
-      return this.maleRanking[10].dog_image && `http://localhost/storage/${this.maleRanking[10].dog_image}`
+      return this.dogRanking[10].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[10].dog_image1}`)
     }
   },
   methods: {
-    clickSignup() {
+    clickSignup () {
       this.$router.push('signup')
     },
-    clickDiagnosis() {
+    clickDiagnosis () {
       this.$router.push('diagnosis')
+    },
+    clickImage (index) {
+      this.dialogIndex = index
+      this.rankingDialog = true
+    },
+    choiceClose () {
+      this.rankingDialog = false
     }
   }
 }
@@ -290,13 +312,16 @@ h3 {
   z-index: 2;
   position: absolute;
   top: 1%;
-  left: -3%;
-  max-width: 35px;
+  left: 0;
+  max-width: 20px;
 }
 
-.top-text {
-  padding-right: 20%;
-  padding-left: 20%;
+.ranking-icon-crown {
+  z-index: 2;
+  position: absolute;
+  top: 1%;
+  left: -3%;
+  max-width: 35px;
 }
 
 .btn-wrap {
@@ -318,7 +343,7 @@ h3 {
 }
 
 .pink-btn {
-  background-color: #f57ab1;
+  background-color: #5383c3;
 }
 
 .blue-btn {
@@ -349,12 +374,11 @@ h3 {
   margin-bottom: 10px;
   text-align: left;
   color: black;
-  text-decoration: underline; /* 下線 */
-  text-decoration-thickness: 0.5em; /* 線の太さ */
-  text-decoration-color: rgba(255, 228, 0, 0.4); /* 線の色 */
-  text-underline-offset: -0.2em; /* 線の位置。テキストに重なるようにやや上部にする */
+  text-decoration: underline;
+  text-decoration-thickness: 0.5em;
+  text-decoration-color: rgba(255, 228, 0, 0.4);
+  text-underline-offset: -0.2em;
   text-decoration-skip-ink: none;
-
 }
 
 .intro-text {
@@ -380,7 +404,11 @@ h3 {
   }
 
   .ranking-icon {
-    max-width: 50px;
+    max-width: 30px;
+  }
+
+  .ranking-icon-crown {
+    max-width: 60px;
   }
 
   .intro-headline {

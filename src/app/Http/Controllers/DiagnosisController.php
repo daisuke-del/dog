@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 
-class MatchController extends Controller
+class DiagnosisController extends Controller
 {
     protected UserService $userService;
 

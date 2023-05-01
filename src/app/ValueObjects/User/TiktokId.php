@@ -12,7 +12,7 @@ class TiktokId
     public function __construct(?string $tiktokId)
     {
         if ($this->isTiktokId($tiktokId) === false) {
-            throw new DOGException('validation.dog_image', 422);
+            throw new DOGException('validation.tiktok_id', 422);
         }
         $this->tiktokId = $tiktokId;
     }

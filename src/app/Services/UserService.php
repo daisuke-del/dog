@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\DOGException;
+use App\Http\Requests\UserRequest;
 use App\Repositories\ReactionsRepository;
 use App\ValueObjects\User\Email;
 use App\ValueObjects\User\Password;
@@ -54,28 +55,35 @@ class UserService
         if (!$registerd) {
             throw new DOGException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
-        $storeInfo = $this->getCalculation($request);
-        $dogImage = $this->storeDogImage($request->input('dogImage'));
+        $dogImage1 = '';
+        $dogImage2 = '';
+        $dogImage3 = '';
+        $dogImage1 = $this->storeDogImage($request->input('dogImage1'));
+        if ($request->input('dogImage2') !== null) {
+            $dogImage2 = $this->storeDogImage($request->input('dogImage2'));
+        }
+        if ($request->input('dogImage3') !== null) {
+            $dogImage3 = $this->storeDogImage($request->input('dogImage3'));
+        }
 
         $requestArr = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'sex' => $request->input('sex'),
-            'height' => $storeInfo['height'],
-            'weight' => $storeInfo['weight'],
-            'age' => $storeInfo['age'],
-            'salary' => $storeInfo['salary'],
-            'dog_point' => $storeInfo['dogPoint'],
-            'height2' => $storeInfo['height2'],
-            'weight2' => $storeInfo['weight2'],
-            'age2' => $storeInfo['age2'],
-            'salary2' => $storeInfo['salary2'],
-            'dog_point2' => $storeInfo['dogPoint2'],
-            'dog_image' => $dogImage,
-            'facebook_id' => $request->input('facebookId'),
-            'instagram_id' => $request->input('instagramId'),
-            'twitter_id' => $request->input('twitterId'),
+            'weight' => $request->input('weight'),
+            'breed1' => $request->input('breed1'),
+            'breed2' => $request->input('breed2') ?: null,
+            'dog_image1' => $dogImage1,
+            'dog_image2' => $dogImage2 ?: null,
+            'dog_image3' => $dogImage3 ?: null,
+            'instagram_id' => $request->input('instagramId') ?: null,
+            'twitter_id' => $request->input('twitterId') ?: null,
+            'tiktok_id' => $request->input('tiktokId') ?: null,
+            'blog_id' => $request->input('blogId') ?: null,
+            'comment' => $request->input('comment') ?: null,
+            'birthday' => $request->input('birthday'),
+            'location' => $request->input('location') ?: null
         ];
 
         $response = $this->insertUsers($requestArr);
@@ -240,37 +248,6 @@ class UserService
     }
 
     /**
-     * 会員情報変更 - height
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function updateHeight(Request $request): array
-    {
-        $userId = Auth::id();
-        $user = $this->getUsersById($userId);
-        if (is_null($user)) {
-            // ユーザーが取得できない
-            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        $height = $request->input('height');
-        if ($user['sex'] === 'male') {
-            $height2 = ($height - 150) * 2;
-        } else {
-            $height2 = 30;
-        }
-        $user['height'] = $height;
-        $user['height2'] = $height2;
-        $users = $this->usersRepository->new($user);
-        $this->usersRepository->updateHeight($users);
-        return [
-            'height' => $users->getHeight(),
-            'height2' => $users->getHeight2()
-        ];
-    }
-
-    /**
      * 会員情報変更 - weight
      *
      * @param Request $request
@@ -287,49 +264,11 @@ class UserService
         }
         $weight = $request->input('weight');
         $height = $user['height'];
-        if ($user['sex'] === 'male') {
-            $weight2 = abs($weight / ($height * $height / 10000) - 20) * 3;
-        } else {
-            $weight2 = ($weight / ($height * $height / 10000) - 20) * 3;
-        }
         $user['weight'] = $weight;
-        $user['weight2'] = $weight2;
         $users = $this->usersRepository->new($user);
         $this->usersRepository->updateWeight($users);
         return [
             'weight' => $users->getWeight(),
-            'weight2' => $users->getWeight2()
-        ];
-    }
-
-    /**
-     * 会員情報変更 - age
-     *
-     * @param Request $request
-     * @return array
-     * @throws Exception
-     */
-    public function updateAge(Request $request): array
-    {
-        $userId = Auth::id();
-        $user = $this->getUsersById($userId);
-        if (is_null($user)) {
-            // ユーザーが取得できない
-            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
-        }
-        $age = $request->input('age');
-        if ($user['sex'] === 'male') {
-            $age2 = abs($age - 27);
-        } else {
-            $age2 = $age - 23;
-        }
-        $user['age'] = $age;
-        $user['age2'] = $age2;
-        $users = $this->usersRepository->new($user);
-        $this->usersRepository->updateAge($users);
-        return [
-            'age' => $users->getAge(),
-            'age2' => $users->getAge2()
         ];
     }
 
@@ -499,15 +438,18 @@ class UserService
             'sex' => $request['sex'],
             'weight' => $request['weight'],
             'birthday' => $request['birthday'],
-            'salary' => $request['salary'],
-            'dog_point' => $request['dog_point'],
-            'dog_image' => $request['dog_image'],
-            'dog_image2' => $request['dog_image2'],
-            'dog_image3' => $request['dog_image3'],
+            'dog_point' => 0,
+            'dog_image1' => $request['dog_image1'],
+            'dog_image2' => $request['dog_image2'] ?: null,
+            'dog_image3' => $request['dog_image3'] ?: null,
+            'breed1' => $request['breed1'],
+            'breed2' => $request['breed2'] ?: null,
             'instagram_id' => $request['instagram_id'],
             'twitter_id' => $request['twitter_id'],
             'tiktok_id' => $request['tiktok_id'],
             'blog_id' => $request['blog_id'],
+            'location' => $request['location'] ?: null,
+            'comment' => $request['comment'] ?: null,
             'yellow_card' => 0,
             'create_date' => $now->format('Y-m-d H:i:s'),
             'update_dog_at' => $now->format('Y-m-d H:i:s'),
@@ -582,13 +524,12 @@ class UserService
      */
     public function upDownDogPoint(Request $request): array
     {
-        $this->usersRepository->upDogPoint($request->input('upUser'));
-        $this->usersRepository->downDogPoint($request->input('downUser'));
+        $this->usersRepository->upDogPoint($request->input('upDog'));
+        $this->usersRepository->downDogPoint($request->input('downDog'));
 
         $responseInfo = [];
-        $sex = $request->input('sex');
         while (count($responseInfo) < 2) {
-            $responseInfo = $this->getChoiceInfo($sex);
+            $responseInfo = $this->getChoiceInfo();
         }
 
         return $responseInfo;
@@ -597,16 +538,15 @@ class UserService
     /**
      * choice用画像を取得
      *
-     *@param string $sex
      *@return array
      */
-    private function getChoiceInfo($sex): array
+    private function getChoiceInfo(): array
     {
-        $maxNum = $this->usersRepository->getMaxDogPoint($sex);
-        $randNum = mt_rand(1, $maxNum['dog_point']);
-        $response = $this->usersRepository->getTwoUsersByDogPoint($randNum, $sex);
+        $userCnt = $this->usersRepository->getDogCnt();
+        $randNum = mt_rand(2, $userCnt);
+        $response = $this->usersRepository->getTwoUsersByDogPoint($randNum)->toArray();
 
-        return $response->toArray();
+        return $response;
     }
 
     /**
@@ -632,8 +572,7 @@ class UserService
     public function updateYellowAndGetFace(Request $request): array
     {
         $this->updateAndCheckYellowCard($request->input('userId'));
-        $sex = $request->input('sex');
-        return $this->getChoiceInfo($sex);
+        return $this->getChoiceInfo();
     }
 
     /**
@@ -773,46 +712,54 @@ class UserService
      */
     public function getResult(Request $request): array
     {
-        $userInfo = $this->getCalculation($request);
-        if ($request->input('sex') === 'male') {
-            $sexSort = 'female';
-        } else {
-            $sexSort = 'male';
-        }
-        $params = ['sexSort' => $sexSort, 'height2' => $userInfo['height2'], 'weight2' => $userInfo['weight2'], 'age2' => $userInfo['age2'], 'salary2' => $userInfo['salary2'], 'dogPoint2' => $userInfo['dogPoint2']];
-        $place = $request->input('place');
+        $gender = $request->input('gender');
+        $weight = $request->input('weight');
+        $face = $request->input('face');
+        $personality1 = $request->input('personality1');
+        $personality2 = $request->input('personality2');
+        $personality3 = $request->input('personality3');
+        $holiday = $request->input('holiday');
 
-        $results = $this->usersRepository->getDiagnosisResult($params, $place)->toArray();
-        $arrayResults = json_decode(json_encode($results), true);
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $resultAddFavorite = $this->checkFavorite($userId, $arrayResults);
-            if (isset($resultAddFavorite['onesideLoveId'])) {
-                $i = 0;
-                foreach ($arrayResults as $result) {
-                    $i++;
-                    $n = $i - 1;
-                    if (in_array($result['user_id'], $resultAddFavorite['onesideLoveId'])) {
-                        $arrayResults[$n]['onesideLove'] = 1;
-                        if (in_array($result['user_id'], $resultAddFavorite['mutualLoveId'])) {
-                            $arrayResults[$n]['mutualLove'] = 1;
-                        } else {
-                            $arrayResults[$n]['mutualLove'] = 0;
-                        }
-                    } else {
-                        $arrayResults[$n]['onesideLove'] = 0;
-                        $arrayResults[$n]['mutualLove'] = 0;
-                    }
-                }
+        if ($gender === 'male') {
+            if ($weight > 100) {
+                $minWeight = 20000;
+                $maxWeight = 100000;
+            } else if ($weight > 70) {
+                $minWeight = 8000;
+                $maxWeight = 70000;
+            } else if ($weight > 60) {
+                $minWeight = 4000;
+                $maxWeight = 50000;
+            } else {
+                $minWeight = 0;
+                $maxWeight = 10000;
             }
+        } else {
+            if ($weight > 85) {
+                $minWeight = 20000;
+                $maxWeight = 100000;
+            } else if ($weight > 60) {
+                $minWeight = 8000;
+                $maxWeight = 70000;
+            } else if ($weight > 45) {
+                $minWeight = 4000;
+                $maxWeight = 50000;
+            } else {
+                $minWeight = 0;
+                $maxWeight = 10000;
+            }
+        }
+        $result = $this->usersRepository->getDiagnosisResult($minWeight, $maxWeight, $face, $personality1, $personality2, $personality3, $holiday)->toArray();
+        if (empty($result)) {
+            $result = $this->usersRepository->getDiagnosisResultAgain($minWeight, $maxWeight, $face, $personality1, $personality2, $personality3, $holiday)->toArray();
         }
 
         $choice = [];
         while (count($choice) < 2) {
-            $choice = $this->getChoiceInfo($sexSort);
+            $choice = $this->getChoiceInfo();
         }
 
-        $response = ['result' => $arrayResults, 'choice' => $choice];
+        $response = ['result' => $result, 'choice' => $choice];
 
         return $response;
     }
@@ -928,7 +875,7 @@ class UserService
             if (!Storage::exists($dogImage)) {
                 throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
             }
-            $this->usersRepository->updateFace($userId, 'no-user-image-icon.jpeg', 2);
+            $this->usersRepository->updateFace($userId, 'no-user-image-icon.png', 2);
             Storage::delete($dogImage);
         } catch (Exception $e) {
             Log::error($e);
@@ -944,7 +891,7 @@ class UserService
      */
     public function getAdminPageInfo(): array
     {
-        $voidUsers =  $this->usersRepository->getVoidUsers();
+        $voidUsers = $this->usersRepository->getVoidUsers();
         $supports = $this->supportService->getSupports();
         return [
             'voidUsers' => $voidUsers,
@@ -973,10 +920,6 @@ class UserService
      */
     public function getRanking(): array
     {
-        $dogs = $this->usersRepository->getRanking();
-
-        return [
-            'dogs' => $dogs,
-        ];
+        return $this->usersRepository->getRanking()->toArray();
     }
 }

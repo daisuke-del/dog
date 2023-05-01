@@ -12,7 +12,7 @@ class Birthday
     public function __construct(string $birthday)
     {
         if ($this->isBirthday($birthday) === false) {
-            throw new DOGException('validation.create_date', 422);
+            throw new DOGException('validation.birthday', 422);
         }
         $this->birthday = $birthday;
     }

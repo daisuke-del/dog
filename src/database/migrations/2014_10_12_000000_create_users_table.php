@@ -26,7 +26,8 @@ class CreateUsersTable extends Migration
             $table->integer('weight');
             $table->dateTime('birthday')->format('Y-m-d')->nullable();
             $table->integer('dog_point')->default(0);
-            $table->string('breed');
+            $table->string('breed1');
+            $table->string('breed2')->nullable();
             $table->string('location')->nullable();
             $table->string('twitter_id')->nullable();
             $table->string('instagram_id')->nullable();

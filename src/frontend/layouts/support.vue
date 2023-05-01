@@ -32,26 +32,16 @@ html {
 }
 
 .bg {
-  background: url("~/assets/image/backGrounds/default750.png") top center no-repeat;
+  background: url("~/assets/image/backGrounds/default1500.png") top center no-repeat;
 }
 
 @media screen and (min-width: 750px) {
-  .bg {
-    background: url("~/assets/image/backGrounds/default3000.png") top center no-repeat;
-  }
-
   .header-btn {
-  position: fixed;
-  top: 5%;
-  right: 5%;
-  width: 60px;
-  height: 60px;
-}
-}
-
-@media screen and (min-width: 1499px) {
-  .bg {
-    background: url("~/assets/image/backGrounds/default4500.png") top center no-repeat;
+    position: fixed;
+    top: 5%;
+    right: 5%;
+    width: 60px;
+    height: 60px;
   }
 }
 </style>

@@ -1,28 +1,27 @@
 import { request } from '@/plugins/axios'
 
 export default {
-  result ( sex, height, weight, age, salary, dogPoint, place) {
-    return request('post', '/user/match/result', {
-      sex,
+  result ( gender, height, weight, personality1, personality2, personality3, face, holiday) {
+    return request('post', '/api/diagnosis/result', {
+      gender,
       height,
       weight,
-      age,
-      salary,
-      dogPoint,
-      place
+      personality1,
+      personality2,
+      personality3,
+      face,
+      holiday
     })
   },
-  choice (upUser, downUser, sex) {
-    return request('post', '/api/match/choice', {
-      upUser,
-      downUser,
-       sex
+  choice (upDog, downDog) {
+    return request('post', '/api/diagnosis/choice', {
+      upDog,
+      downDog,
     })
   },
-  alert (userId, sex) {
-    return request('post', '/api/match/alert', {
-      userId,
-       sex
+  alert (userId) {
+    return request('post', '/api/diagnosis/alert', {
+      userId
     })
   }
 }

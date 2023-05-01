@@ -52,7 +52,7 @@ export default {
       this.$emit('click-weight', this.inputValues.join(''))
     },
     clickBack () {
-      this.$emit('click-back', 3)
+      this.$emit('click-back', 2)
     },
     resetWeight () {
       this.inputValues = [0]
