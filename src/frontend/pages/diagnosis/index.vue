@@ -3,9 +3,15 @@
     <h1 v-if="choiceCount < 3 && position === 7">どっちが可愛い？</h1>
     <h1 v-else-if="position === 7">診断結果</h1>
     <h1 v-else>あなたの犬種診断</h1>
-    <diagnosis-choice v-if="choiceCount < 3 && position === 7" :leftDog="choiceDogs[0]"
-      :rightDog="choiceDogs[1]" @choice-left="choiceLeft" @choice-right="choiceRight"
-      @alert-left="clickAlertLeft" @alert-right="clickAlertRight" />
+    <diagnosis-choice
+      v-if="choiceCount < 3 && position === 7"
+      :leftDog="choiceDogs[0]"
+      :rightDog="choiceDogs[1]"
+      @choice-left="choiceLeft"
+      @choice-right="choiceRight"
+      @alert-left="clickAlertLeft"
+      @alert-right="clickAlertRight"
+    />
     <diagnosis-result v-else-if="position === 7" :diagnosisResult="diagnosisResult" @add-favorite="addFavorite"
       @delete-favorite="deleteFavorite" />
     <v-stepper v-else v-model="position" class="ma-4" light>
@@ -107,6 +113,18 @@ export default {
     DiagnosisChoice,
     DiagnosisResult
   },
+  async asyncData({ query }) {
+    let position = 1;
+    let gender = null
+    if (query.gender === 'male' || query.gender === 'female') {
+      position = 2
+      gender = query.gender
+    }
+    return {
+      position,
+      gender
+    };
+  },
   data () {
     return {
       title: 'あなたの犬種診断',
@@ -116,7 +134,7 @@ export default {
       isFilterError: false,
       errorMessage: null,
       isLoading: true,
-      gender: 'male',
+      gender: null,
       height: null,
       weight: null,
       personality1: null,
@@ -158,7 +176,6 @@ export default {
     },
     async inputHoliday (value) {
       this.holiday = value
-      console.log(this.gender, this.height, this.weight, this.personality1, this.personality2, this.personality3, this.face, this.holiday)
       await diagnosis.result(
         this.gender,
         this.height,
@@ -169,10 +186,8 @@ export default {
         this.face,
         this.holiday
       ).then((response) => {
-        console.log(response)
         this.diagnosisResult = response['result']
         this.choiceDogs = response['choice']
-        console.log(this.choiceDogs)
         this.position = 7
       }).catch(() => {
       })
@@ -197,7 +212,6 @@ export default {
     },
     choiceLeft () {
       diagnosis.choice(this.choiceDogs[0].user_id, this.choiceDogs[1].user_id).then((response) => {
-        console.log(response)
         if (this.choiceCount < 3) {
           this.choiceCount++
           this.choiceDogs = response

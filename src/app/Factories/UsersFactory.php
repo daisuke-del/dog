@@ -26,7 +26,6 @@ use App\ValueObjects\User\YellowCard;
 use App\ValueObjects\User\UpdateDogAt;
 use App\ValueObjects\User\CreateDate;
 use App\ValueObjects\User\DogImageVoidFlg;
-use App\ValueObjects\User\OrderNumber;
 use Exception;
 
 class UsersFactory
@@ -39,7 +38,6 @@ class UsersFactory
      * @param string $email
      * @param string $password
      * @param string $sex
-     * @param int $height
      * @param int $weight
      * @param int $dogPoint
      * @param string $dogImage1
@@ -58,7 +56,6 @@ class UsersFactory
      * @param string $updateDogAt
      * @param string $createDate
      * @param int $dogImageVoidFlg
-     * @param int $orderNumber
      * @return UserEntity
      * @throws Exception
      */
@@ -85,8 +82,7 @@ class UsersFactory
         int $yellowCard,
         ?string $updateDogAt,
         string $createDate,
-        int $dogImageVoidFlg,
-        ?int $orderNumber
+        int $dogImageVoidFlg
     ): UserEntity {
         return UserEntity::getUserEntityInstance(
             new UserId($userId),
@@ -111,8 +107,7 @@ class UsersFactory
             new YellowCard($yellowCard),
             new UpdateDogAt($updateDogAt),
             new CreateDate($createDate),
-            new DogImageVoidFlg($dogImageVoidFlg),
-            new OrderNumber($orderNumber)
+            new DogImageVoidFlg($dogImageVoidFlg)
         );
     }
 }

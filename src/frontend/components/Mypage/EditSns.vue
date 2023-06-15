@@ -22,7 +22,7 @@
                                 <v-text-field
                                     :value="inputInstagram"
                                     :rules="instagramRules"
-                                    placeholder="Instagram"
+                                    placeholder="InstagramのIDを入力"
                                     autocomplete="off"
                                     outlined
                                     required
@@ -50,7 +50,7 @@
                                 <v-text-field
                                     :value="inputTwitter"
                                     :rules="twitterRules"
-                                    placeholder="twitter"
+                                    placeholder="twitterのIDを入力"
                                     autocomplete="off"
                                     outlined
                                     required
@@ -71,14 +71,14 @@
                     </v-form>
                     <v-form ref="tiktokForm" @submit.prevent>
                         <p class="mb-2 text-subtitle-2 font-weight-bold">
-                            Blog
+                            Tiktok
                         </p>
                         <div class="text-field-and-btn">
                             <div class="text-field">
                                 <v-text-field
                                     :value="inputTiktok"
                                     :rules="tiktokRules"
-                                    placeholder="tiktok"
+                                    placeholder="tiktokのIDを入力"
                                     autocomplete="off"
                                     outlined
                                     required
@@ -106,7 +106,7 @@
                                 <v-text-field
                                     :value="inputBlog"
                                     :rules="blogRules"
-                                    placeholder="blog"
+                                    placeholder="blogのURLを入力"
                                     autocomplete="off"
                                     outlined
                                     required

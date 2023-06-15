@@ -18,7 +18,7 @@ class InstagramId
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function get(): ?string
     {
@@ -31,8 +31,8 @@ class InstagramId
      * @param string $instagramId
      * @return bool
      */
-    private function isInstagramId(string $instagramId): bool
+    private function isInstagramId(?string $instagramId): bool
     {
-        return Validator::make([$instagramId], ['string'])->passes();
+        return Validator::make([$instagramId], ['string|nullable'])->passes();
     }
 }

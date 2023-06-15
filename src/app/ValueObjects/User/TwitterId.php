@@ -18,7 +18,7 @@ class TwitterId
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function get(): ?string
     {
@@ -31,8 +31,8 @@ class TwitterId
      * @param string $twitterId
      * @return bool
      */
-    private function isTwitterId(string $twitterId): bool
+    private function isTwitterId(?string $twitterId): bool
     {
-        return Validator::make([$twitterId], ['string'])->passes();
+        return Validator::make([$twitterId], ['string|nullable'])->passes();
     }
 }

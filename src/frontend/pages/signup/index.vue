@@ -37,7 +37,6 @@
             :validation="validation"
             :min-pass-length="minPassLength"
             :max-pass-length="maxPassLength"
-            :send-loading="postUserInfoLoading"
             @store-user-info="storeUserInfo"
           />
         </div>
@@ -50,7 +49,7 @@
           />
         </div>
       </v-stepper-content>
-      <v-stepper-content step="4">
+      <v-stepper-content step="3">
         <signup-completion
           @mypage="mypageClick"
         />
@@ -100,7 +99,8 @@ export default {
       password: null,
       weight: null,
       age: null,
-      breed: null,
+      breed1: null,
+      breed2: null,
       instagramId: null,
       twitterId: null,
       tiktokId: null,
@@ -120,54 +120,51 @@ export default {
     clickForm () {
       this.transitionContent(2)
     },
-    async storeUserInfo (userInfo) {
+    storeUserInfo (userInfo) {
       this.sex = userInfo.sex
       this.name = userInfo.name
       this.email = userInfo.email
       this.password = userInfo.password
       this.weight = userInfo.weight
-      this.age = userInfo.age
-      this.breed = userInfo.breed
+      this.breed1 = userInfo.breed1
       this.breed2 = userInfo.breed2 ? userInfo.breed2 : null
-      this.instagramId = userInfo.instagramId
-      this.twitterId = userInfo.twitterId
-      this.tiktokId = userInfo.tiktokId,
-      this.blogId = userInfo.blogId
+      this.location = userInfo.location
+      this.instagramId = userInfo.instagramId ? userInfo.instagramId : null
+      this.twitterId = userInfo.twitterId ? userInfo.twitterId : null
+      this.tiktokId = userInfo.tiktokId ? userInfo.tiktokId : null
+      this.blogId = userInfo.blogId ? userInfo.blogId : null
+      this.birthday = userInfo.birthday
       this.position = 2
     },
-    storeDogImage (dogImage, dogImage2, dogImage3) {
+    async storeDogImage (dogImage) {
       this.dogImage = dogImage
-      this.dogImage2 = dogImage2 ? dogImage2 : null
-      this.dogImage3 = dogImage3 ? dogImage3 : null
       if (this.dogImage === null) {
         this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
         this.$store.dispatch('snackbar/snackOn')
       } else {
-        this.position = 3
+        await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
+        await user.signup(
+          this.sex,
+          this.name,
+          this.email,
+          this.password,
+          this.weight,
+          this.breed1,
+          this.breed2,
+          this.instagramId,
+          this.twitterId,
+          this.tiktokId,
+          this.blogId,
+          this.dogImage,
+          this.location,
+          this.birthday
+        ).then((response) => {
+          this.position = 3
+          this.$auth.setUserToken('200')
+          this.$store.dispatch('authInfo/setAuthInfo', response)
+          setTimeout(this.$router.push('/mypage'), 2000)
+        })
       }
-    },
-    async storeDogPoint (sliderValue) {
-      this.dogPoint = this.sliderFaces[sliderValue].dog_point
-      await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
-      await user.signup(
-        this.sex,
-        this.name,
-        this.email,
-        this.password,
-        this.weight,
-        this.birthday,
-        this.breed,
-        this.instagramId,
-        this.twitterId,
-        this.tiktokId,
-        this.blogId,
-        this.dogImage
-      ).then((response) => {
-        this.position = 4
-        this.$auth.setUserToken('200')
-        this.$store.dispatch('authInfo/setAuthInfo', response.data)
-        setTimeout(this.$router.push('/mypage'), 2000)
-      })
     },
     redirect () {
       const redirectUrl = this.$store.state.redirect.pageUrl

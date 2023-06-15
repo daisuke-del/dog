@@ -12,5 +12,17 @@ export default {
         toUserId,
       }
     })
+  },
+  addFavoriteFromMypage (toUserId) {
+    return request('post', '/favorite/mypage/add', {
+      toUserId,
+    })
+  },
+  deleteFavoriteFromMypage (toUserId) {
+    return request('delete', '/favorite/mypage/delete', {
+      data: {
+        toUserId,
+      }
+    })
   }
 }

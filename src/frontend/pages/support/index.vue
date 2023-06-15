@@ -1,5 +1,5 @@
 <template>
-    <div class="support-wrap mx-auto">
+    <div class="support-wrap mt-10 mx-auto">
         <h1 class="mb-6">サポート</h1>
         <p>全てのお問い合わせに返信は行なっておりません。</p>
         <p class="mb-6">

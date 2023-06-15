@@ -9,18 +9,18 @@ class Comment
 {
     private $comment;
 
-    public function __construct(string $comment)
+    public function __construct(?string $comment)
     {
         if ($this->isName($comment) === false) {
             throw new DOGException('validation.comment', 422);
         }
-        $this->name = $comment;
+        $this->comment = $comment;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function get(): string
+    public function get(): ?string
     {
         return $this->comment;
     }
@@ -28,11 +28,11 @@ class Comment
     /**
      * facebook_idのValidationチェック
      *
-     * @param string $comment
+     * @param ?string $comment
      * @return bool
      */
-    private function isName(string $comment): bool
+    private function isName(?string $comment): bool
     {
-        return Validator::make([$comment], ['string'])->passes();
+        return Validator::make([$comment], ['string|nullable'])->passes();
     }
 }

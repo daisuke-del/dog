@@ -12,7 +12,7 @@
           >
           mdi-close-thick
         </v-icon>
-        <h1>わんちゃんの写真をアップロード</h1>
+        <h1>写真をアップロード</h1>
         <label class="btn mt-4 mb-4">
           <input
             type="file"
@@ -43,10 +43,10 @@
         <v-img
           v-show="cropImg"
           :src="cropImg"
-          alt="Cropped Image"
+          alt="Number"
           class="crop-img"
         />
-        <div v-if="ajustBtn">
+        <div v-if="ajustBtn" class="mt-8 ajust-btn-wrap">
           <v-row>
             <v-col cols="4">
               <v-btn @click.prevent="zoom(0.2)">
@@ -118,6 +118,18 @@
         <div v-else class="btn-wrap">
           <v-btn
             v-if="imgSrc != '' && !cropImg"
+            dark
+            block
+            depressed
+            color="accent"
+            height="50px"
+            class="btn mt-2 mb-2"
+            @click="cropImage"
+          >
+            切り取る
+          </v-btn>
+          <v-btn
+            v-if="imgSrc != '' && !cropImg"
             block
             color="primary"
             height="50px"
@@ -127,23 +139,11 @@
             画像を調整する
           </v-btn>
           <v-btn
-            v-if="imgSrc != '' && !cropImg"
-            dark
-            block
-            depressed
-            color="#0055ff"
-            height="50px"
-            class="btn mt-2 mb-2"
-            @click="cropImage"
-          >
-            切り取る
-          </v-btn>
-          <v-btn
             v-else-if="cropImg"
             dark
             block
             depressed
-            color="#4bb543"
+            color="accent"
             height="50px"
             class="btn mt-2 mb-2"
             @click="saveCropImage"
@@ -165,7 +165,7 @@
             light
             block
             depressed
-            color="#ffbb33"
+            color="primary"
             height="50px"
             class="btn mt-2 mb-2"
             @click="changeImgSrc"
@@ -233,13 +233,13 @@ export default {
     clickOk () {
       this.ajustBtn = false
     },
-    zoom(percent) {
+    zoom (percent) {
       this.$refs.cropper.relativeZoom(percent);
     },
-    move(offsetX, offsetY) {
+    move (offsetX, offsetY) {
       this.$refs.cropper.move(offsetX, offsetY);
     },
-    rotate(deg) {
+    rotate (deg) {
       this.$refs.cropper.rotate(deg);
     }
   }
@@ -266,7 +266,6 @@ label {
 input[type="file"] {
     display: none;
 }
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -283,7 +282,6 @@ input[type="file"] {
   position: relative;
   text-align: center;
   width: 600px;
-  height: 600px;
   margin-top: 10%;
   padding: 30px 0;
   border-radius: 20px;
@@ -321,5 +319,10 @@ input[type="file"] {
   right: 3%;
   background-size: contain;
   z-index: 10;
+}
+
+.ajust-btn-wrap {
+  max-width: 300px;
+  margin: 0 auto;
 }
 </style>

@@ -37,7 +37,7 @@ class UserFactory extends Factory
             'dog_image' => $num . '.jpeg',
             'sex' => $sex,
             'weight' => $this->faker->numberBetween(1, 20),
-            'birthday' => $faker->dateTimeBetween('-20 years', '-1 years')->format('Y-m-d'),
+            'birthday' => $this->faker->dateTimeBetween('-20 years', '-1 years')->format('Y-m-d'),
             'dog_point' => $num,
             // TODO SNSアカウント入力
             'twitter_id' => '',
@@ -48,7 +48,6 @@ class UserFactory extends Factory
             'dog_image_void_flg' => 0,
             'update_dog_at' => $now,
             'create_date' => $now,
-            'order_number' => $this->faker->numberBetween(1, 10000),
             'remember_token' => null
         ];
     }

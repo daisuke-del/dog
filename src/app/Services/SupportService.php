@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Exceptions\DOGException;
-use Carbon\Carbon;
 use App\Repositories\SupportsRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 
 class SupportService

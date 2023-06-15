@@ -5,6 +5,10 @@
         <h1 class="my-0 mx-3 mx-sm-0">
           登録情報
         </h1>
+        <v-breadcrumbs
+            :items="items"
+            divider=">"
+        />
         <div>
           <edit-email
             ref="editEmail"
@@ -30,45 +34,51 @@
           <edit-profile
             ref="editProfile"
             class="my-5 mx-2 mx-sm-0"
-            :height="height"
+            :breed1="breed1"
+            :breed2="breed2"
             :weight="weight"
-            :age="age"
-            :salary="salary"
-            :height-rules="heightRules"
+            :birthday="birthday"
+            :locaton="location"
+            :breed-rules="breedRules"
             :weight-rules="weightRules"
-            :age-rules="ageRules"
-            :salary-rules="salaryRules"
-            :height-loading="heightLoading"
+            :birthday-rules="birthdayRules"
+            :loation-rules="locationRules"
+            :breed-loading="breedLoading"
             :weight-loading="weightLoading"
-            :age-loading="ageLoading"
-            :salary-loading="salaryLoading"
-            :show-height-tooltip="showHeightTooltip"
+            :birthday-loading="birthdayLoading"
+            :location-loading="locationLoading"
+            :show-breed-tooltip="showBreedTooltip"
             :show-weight-tooltip="showWeightTooltip"
-            :show-age-tooltip="showAgeTooltip"
-            :show-salary-tooltip="showSalaryTooltip"
-            @editHeight="editHeight"
+            :show-birthday-tooltip="showBirthdayTooltip"
+            :show-location-tooltip="showLocationTooltip"
+            @editBreed="editBreed"
             @editWeight="editWeight"
-            @editAge="editAge"
-            @editSalary="editSalary"
+            @editBirthday="editBirthday"
+            @editLocation="editLocation"
           />
           <edit-sns
             ref="editSns"
             class="my-5 mx-2 mx-sm-0"
-            :input-facebook.sync="facebookId"
             :input-instagram.sync="instagramId"
             :input-twitter.sync="twitterId"
-            :facebook-rules="facebookRules"
+            :input-tiktok.sync="tiktokId"
+            :input-blog.sync="blogId"
             :instagram-rules="instagramRules"
             :twitter-rules="twitterRules"
-            :facebook-loading="facebookLoading"
+            :tiktok-rules="tiktokRules"
+            :blog-rules="blogRules"
             :instagram-loading="instagramLoading"
             :twitter-loading="twitterLoading"
-            :show-facebook-tooltip="showFacebookTooltip"
+            :tiktok-loading="tiktokLoading"
+            :blog-loading="blogLoading"
             :show-instagram-tooltip="showInstagramTooltip"
             :show-twitter-tooltip="showTwitterTooltip"
-            @editFacebook="editFacebook"
+            :show-tiktok-tooltip="showTiktokTooltip"
+            :show-blog-tooltip="showBlogTooltip"
             @editInstagram="editInstagram"
             @editTwitter="editTwitter"
+            @editTiktok="editTiktok"
+            @editBlog="editBlog"
           />
           <div class="leave-area mx-2 mx-sm-0">
             <a class="leave-button" @click="leaveClick">
@@ -98,73 +108,94 @@ export default {
   },
   name: 'Mypageaccount',
   async asyncData({ app }) {
+    let userId = null
+    let sex = null
     let email = null
     let name = null
-    let height = null
     let weight = null
-    let age = null
-    let salary = null
-    let tmpSalary = null
-    let dogImage = null
-    let facebookId = null
-    let instagramId = null
-    let twitterId = null
+    let location = null
+    let birthday = null
+    let breed1 = null
+    let breed2 = null
+    let voidFlg = 0
+    let friends = []
+    let instagramId = ''
+    let twitterId = ''
+    let tiktokId = ''
+    let blogId = ''
     await user.getUserInfo().then((response) => {
       app.store.dispatch('authInfo/setAuthInfo', response)
+      userId = response['user_id']
+      sex = response['sex']
       email = response['email']
       name = response['name']
-      height = response['height']
       weight = response['weight']
-      age = response['age']
-      tmpSalary = response['salary']
-      dogImage = response['dog_image']
-      facebookId = response['facebook_id']
-      instagramId = response['instagram_id']
-      twitterId = response['twitter_id']
-      if (tmpSalary < 200) {
-        salary = '〜 199'
-      } else if (tmpSalary < 400) {
-        salary = '200 〜 399'
-      } else if (tmpSalary < 600) {
-        salary = '400 〜 599'
-      } else if (tmpSalary < 800) {
-        salary = '600 〜 799'
-      } else if (tmpSalary < 1000) {
-        salary = '800 〜 999'
-      } else if (tmpSalary < 2000) {
-        salary = '1000 〜 1999'
-      } else if (tmpSalary < 3000) {
-        salary = '2000 〜 2999'
-      } else if (tmpSalary >= 3000) {
-        salary = '3000 〜'
-      }
+      location = response['location']
+      birthday = response['birthday']
+      breed1 = response['breed1']
+      breed2 = response['breed2']
+      voidFlg = response['dog_image_void_flg'] ? response['dog_image_void_flg'] : 0
+      friends = response['friends']
+      instagramId = response['instagram_id'] ? response['instagram_id'] : ''
+      twitterId = response['twitter_id'] ? response['twitter_id'] : ''
+      tiktokId = response['tiktok_id'] ? response['tiktok_id'] : ''
+      blogId = response['blog_id'] ? response['blog_id'] : ''
     })
     return {
+      userId,
+      sex,
       email,
       name,
-      height,
       weight,
-      age,
-      salary,
-      dogImage,
-      facebookId,
+      location,
+      birthday,
+      breed1,
+      breed2,
+      voidFlg,
+      friends,
       instagramId,
-      twitterId
+      twitterId,
+      tiktokId,
+      blogId
     }
   },
-  data() {
+  data () {
     return {
+      userId: null,
+      year: null,
+      month: null,
+      day: null,
+      instagramId: '',
+      twitterId: '',
+      tiktokId: '',
+      friends: [],
+      items: [
+        {
+          text: 'トップ',
+          disabled: false,
+          href: '/'
+        },
+        {
+          text: '登録情報',
+          disabled: false,
+          href: '/mypage'
+        }
+      ],
+      displayImage: null,
+      imageNumber: 1,
+      storeImageNum: null,
       stepperPosition: 1,
       loading: false,
       emailLoading: false,
       nameLoading: false,
-      heightLoading: false,
+      breedLoading: false,
       weightLoading: false,
-      ageLoading: false,
-      salaryLoading: false,
-      facebookLoading: false,
+      birthdayLoading: false,
+      locationLoading: false,
       instagramLoading: false,
       twitterLoading: false,
+      tiktokLoading: false,
+      blogLoading: false,
       emailRules: [
         value => !!value || 'メールアドレスが入力されていません。',
         value => value.match(constants.mailValidation) != null || 'メールアドレスの形式ではありません。'
@@ -178,52 +209,50 @@ export default {
         value => !!value || 'ニックネームが入力されていません。',
         value => (value || '').length <= constants.maxNameLength || '10文字以内で入力してください',
       ],
-      heightRules: [
-        value => !!value || '身長が入力されていません。',
-        value => (value || '').length <= constants.maxHeightLength || '3桁以上入力できません',
-        value => value.match(constants.numberValidation) != null || '半角英数字で入力してください'
+      breedRules: [
+        value => !!value || '犬種が入力されていません。'
       ],
       weightRules: [
         value => !!value || '体重が入力されていません。',
-        value => (value || '').length <= constants.maxWeightLength || '3桁以上入力できません',
+        value => (value || '').length <= constants.maxWeightLength || '2桁以上入力できません',
         value => value.match(constants.numberValidation) != null || '半角英数字で入力してください'
       ],
-      ageRules: [
-        value => !!value || '年齢が入力されていません。',
-        value => (value || '').length <= constants.maxAgeLength || '3桁以上入力できません',
-        value => value.match(constants.numberValidation) != null || '半角英数字で入力してください'
+      birthdayRules: [
+        value => !!value || '生年月日が入力されていません。'
       ],
-      salaryRules: [
-        value => !!value || '年収が選択されていません。',
-      ],
-      facebookRules: [
-        value => !!value || 'facebookのIDが入力されていません。',
+      locationRules: [
+        value => !!value || '居住場所が選択されていません。'
       ],
       instagramRules: [
-        value => !!value || 'instagramのIDが入力されていません。',
+        value => !!value || 'instagramのIDが入力されていません。'
       ],
       twitterRules: [
-        value => !!value || 'twitterのIDが入力されていません。',
+        value => !!value || 'twitterのIDが入力されていません。'
+      ],
+      tiktokRules: [
+        value => !!value || 'tiktokのIDが入力されていません。'
+      ],
+      blogRules: [
+        value => !!value || 'ブログのURLが入力されていません。'
       ],
       newEmail: '',
-      salary2: null,
       showPasswordTooltip: false,
       showNameTooltip: false,
-      showHeightTooltip: false,
+      showBreedTooltip: false,
       showWeightTooltip: false,
-      showAgeTooltip: false,
-      showSalaryTooltip: false,
-      showFacebookTooltip: false,
+      showBirthdayTooltip: false,
+      showLocationTooltip: false,
       showInstagramTooltip: false,
       showTwitterTooltip: false,
+      showTiktokTooltip: false,
+      showBlogTooltip: false,
       passwordSendLoading: false,
       passwordMessage: '',
-      showNameTooltip: false,
       nameSendLoading: false,
     }
   },
   methods: {
-    backClick() {
+    backClick () {
       this.stepperPosition = 1
     },
     async clickUpdateEmail(mail) {
@@ -233,7 +262,7 @@ export default {
       }).catch(() => {
       })
     },
-    async editEmail(password) {
+    async editEmail (password) {
       await user.updateEmail(this.newEmail, password).then(() => {
         this.stepperPosition = 3
         this.$store.dispatch('authInfo/setEmail', this.newEmail)
@@ -244,7 +273,7 @@ export default {
         this.$store.dispatch('snackbar/snackOn')
       })
     },
-    async editName(name) {
+    async editName (name) {
       this.nameSendLoading = true
       await user.updateName(name).then(() => {
         this.showNameTooltip = true
@@ -258,23 +287,26 @@ export default {
       })
       this.nameSendLoading = false
     },
-    async editHeight(height) {
-      this.heightLoading = true
-      const heightInt = Number(height)
-      await user.updateHeight(heightInt).then(() => {
-        this.showHeightTooltip = true
-        this.$store.dispatch('authInfo/setHeight', heightInt)
-        this.height = heightInt
+    async editBreed (breed1, breed2 = '') {
+      this.breedLoading = true
+      await user.updateBreed(breed1, breed2).then(() => {
+        this.showBreedTooltip = true
+        this.$store.dispatch('authInfo/setBreed1', breed1)
+        if (breed2 !== '') {
+          this.$store.dispatch('authInfo/setBreed2', breed2)
+        }
+        this.breed1 = breed1
+        this.breed2 = breed2
         setTimeout(() => {
-          this.showHeightTooltip = false
+          this.showBreedTooltip = false
         }, 3000)
       }).catch(() => {
         this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
         this.$store.dispatch('snackbar/snackOn')
       })
-      this.heightLoading = false
+      this.breedLoading = false
     },
-    async editWeight(weight) {
+    async editWeight (weight) {
       this.weightLoading = true
       const weightInt = Number(weight)
       await user.updateWeight(weightInt).then(() => {
@@ -290,47 +322,29 @@ export default {
       })
       this.weightLoading = false
     },
-    async editAge(age) {
-      this.ageLoading = true
-      const ageInt = Number(age)
-      await user.updateAge(ageInt).then(() => {
-        this.showAgeTooltip = true
-        this.$store.dispatch('authInfo/setAge', ageInt)
-        this.age = ageInt
+    async editBirthday (year, month, day) {
+      this.birthdayLoading = true
+      await user.updateBirthday(year, month, day).then((response) => {
+        this.showBirthdayTooltip = true
+        this.$store.dispatch('authInfo/setBirthday', response.birthday)
+        this.birthday = response.birthday
         setTimeout(() => {
-          this.showAgeTooltip = false
+          this.showBirthdayTooltip = false
         }, 3000)
       }).catch(() => {
         this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
         this.$store.dispatch('snackbar/snackOn')
       })
-      this.ageLoading = false
+      this.birthdayLoading = false
     },
-    async editSalary(salary) {
-      if (salary === '〜 199') {
-        this.salary2 = 150
-      } else if (salary === '200 〜 399') {
-        this.salary2 = 300
-      } else if (salary === '400 〜 599') {
-        this.salary2 = 500
-      } else if (salary === '600 〜 799') {
-        this.salary2 = 700
-      } else if (salary === '800 〜 999') {
-        this.salary2 = 900
-      } else if (salary === '1000 〜 1999') {
-        this.salary2 = 1100
-      } else if (salary === '2000 〜 2999') {
-        this.salary2 = 2000
-      } else if (salary === '3000 〜') {
-        this.salary2 = 3000
-      }
-      this.salaryLoading = true
-      await user.updateSalary(this.salary2).then(() => {
-        this.showSalaryTooltip = true
-        this.$store.dispatch('authInfo/setSalary', this.salary2)
-        this.salary = salary
+    async editLocation (location) {
+      this.locationLoading = true
+      await user.updateLocation(location).then(() => {
+        this.showLocationTooltip = true
+        this.$store.dispatch('authInfo/setLocation', location)
+        this.location = location
         setTimeout(() => {
-          this.showSalaryTooltip = false
+          this.showLocationTooltip = false
         }, 3000)
       }).catch(() => {
         this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
@@ -338,21 +352,7 @@ export default {
       })
       this.salaryLoading = false
     },
-    async editFacebook(facebook) {
-      this.facebookLoading = true
-      await user.updateFacebook(facebook).then(() => {
-        this.showFacebookTooltip = true
-        this.$store.dispatch('authInfo/setFacebookId', facebook)
-        setTimeout(() => {
-          this.showFacebookTooltip = false
-        }, 3000)
-      }).catch(() => {
-        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
-        this.$store.dispatch('snackbar/snackOn')
-      })
-      this.facebookLoading = false
-    },
-    async editInstagram(instagram) {
+    async editInstagram (instagram) {
       this.instagramLoading = true
       await user.updateInstagram(instagram).then(() => {
         this.showInstagramTooltip = true
@@ -366,7 +366,7 @@ export default {
       })
       this.instagramLoading = false
     },
-    async editTwitter(twitter) {
+    async editTwitter (twitter) {
       this.twitterLoading = true
       await user.updateTwitter(twitter).then(() => {
         this.showTwitterTooltip = true
@@ -379,6 +379,34 @@ export default {
         this.$store.dispatch('snackbar/snackOn')
       })
       this.twitterLoading = false
+    },
+    async editTiktok (tiktok) {
+      this.tiktokLoading = true
+      await user.updateTiktok(tiktok).then(() => {
+        this.showTiktokTooltip = true
+        this.$store.dispatch('authInfo/setTiktokId', tiktok)
+        setTimeout(() => {
+          this.showTiktokTooltip = false
+        }, 3000)
+      }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
+      })
+      this.tiktokLoading = false
+    },
+    async editBlog (blog) {
+      this.blogLoading = true
+      await user.updateBlog(blog).then(() => {
+        this.showBlogTooltip = true
+        this.$store.dispatch('authInfo/setBlogId', tiktok)
+        setTimeout(() => {
+          this.showBlogTooltip = false
+        }, 3000)
+      }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
+      })
+      this.blogLoading = false
     },
     leaveClick() {
       if (confirm('本当に退会して良いですか？')) {

@@ -26,7 +26,13 @@ export default {
       { rel: "preconnect", href: "https://fonts.gstatic.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;700&display=swap" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" },
-      { rel: "android-icon", sizes: "152x152", href: "https://www.marigold.red/storage/images/logotouka.png"}
+      { rel: "android-icon", sizes: "152x152", href: "https://www.marigold.red/storage/images/logotouka.png"},
+      {
+        rel: 'stylesheet',
+        href: 'https://use.fontawesome.com/releases/v5.15.3/css/all.css',
+        integrity: 'xxxx', // Font Awesomeのリンクに記載されているインテグリティハッシュ
+        crossorigin: 'anonymous'
+      }
     ],
     script: [
       { src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?" },
@@ -41,7 +47,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios',
+    '~/plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -155,7 +161,7 @@ export default {
     }
   },
   router: {
-    middleware: ['auth']
+    middleware: ['auth', 'getUserInfo']
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -176,13 +182,18 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.orange.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.pink.accent1,
+          primary: '#97B6B8',
+          secondary: '#F0E8E0',
+          accent: '#392d25',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
+        },
+        light: {
+          primary: '#97B6B8',
+          secondary: '#F0E8E0',
+          accent: '#392d25'
         },
       },
     },
@@ -192,7 +203,6 @@ export default {
     routes: async () => {
       let breeds = []
       await axios.get('/api/breed/route').then((response) => {
-        console.log(response)
         breeds = response
       })
       return breeds.map(breed => `/breed/detail/${breed}`)

@@ -9,7 +9,7 @@ class DogImageVoidFlg
 {
     private $dogImageVoidFlg;
 
-    public function __construct(?string $dogImageVoidFlg)
+    public function __construct(?int $dogImageVoidFlg)
     {
         if ($this->isDogImageVoidFlg($dogImageVoidFlg) === false) {
             throw new DOGException('validation.dog_image_void_flg', 422);

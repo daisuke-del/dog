@@ -1,18 +1,19 @@
 <template>
   <div class='all'>
-    <ranking-dialog
-      :dialog.sync="rankingDialog"
-      :dog-info="dogRanking[dialogIndex]"
+    <user-dialog
+      :dialog.sync="userDialog"
+      :dog-info="dogInfo"
       @choice-close="choiceClose"
-  />
-    <div class='main-wrapper justify-center'>
-      <div class='top-text-wrap'>
-        <v-img
-          :src="require('@/assets/image/logo/logotouka.png')"
-        />
-      </div>
+      @add-favorite="addFavorite"
+      @delete-favorite="deleteFavorite"
+    />
+    <v-img
+      class="logo"
+      :src="require('@/assets/image/logo/logotouka.png')"
+    />
+    <div class='main-wrapper justify-center mt-7'>
       <div class='ranking-wrap'>
-        <h2 class='ranking-headline'>人気のわんこランキング</h2>
+        <h3 class='ranking-headline'>人気のわんこランキング</h3>
         <v-row>
           <v-col cols='4' class='ranking-col'>
             <v-img
@@ -160,22 +161,189 @@
       <div class='intro-wrap'>
         <div class='intro-text-wrap'>
           <div class='intro-small-wrap'>
-            <h3 class='intro-headline'>完全無料</h3>
-            <p class='intro-text'>
-              課金は必要なし！
-            </p>
-          </div>
-          <div class='intro-small-wrap'>
             <h3 class='intro-headline'>あなたの犬種診断</h3>
             <p class='intro-text'>
-              自分が犬だったらどんな犬種だろう？
+              自分の性別の写真を選択して診断開始！
             </p>
+            <v-row>
+              <v-col cols="6">
+                <v-card
+                hover
+                class="card"
+                @click="clickGenderMale()"
+              >
+                  <v-img :src="require('~/assets/image/diagnosis/male2.png')" />
+                </v-card>
+              </v-col>
+              <v-col cols="6">
+                <v-card
+                  hover
+                  class="card"
+                  @click="clickGenderFemale()"
+                >
+                  <v-img :src="require('~/assets/image/diagnosis/female2.png')" />
+                </v-card>
+              </v-col>
+            </v-row>
           </div>
           <div class='intro-small-wrap'>
-            <h3 class='intro-headline'>フレンド機能</h3>
+            <h3 class='intro-headline'>犬種図鑑</h3>
+            <v-row>
+              <v-col cols="6">
+                <v-card
+                  hover
+                  class="card"
+                  @click="clickBreed1()"
+                >
+                  <v-img :src='breedImage1' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickBreed1()">
+                    {{ breeds[0].name }}
+                  </a>
+                </div>
+              </v-col>
+              <v-col cols="6">
+                <v-card
+                  hover
+                  class="card"
+                  @click="clickBreed2()"
+                >
+                  <v-img :src='breedImage2' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickBreed2()">
+                    {{ breeds[1].name }}
+                  </a>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-card
+                  hover
+                 
+                  class="card"
+                  @click="clickBreed3()"
+                >
+                  <v-img :src='breedImage3' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickBreed3()">
+                    {{ breeds[2].name }}
+                  </a>
+                </div>
+              </v-col>
+              <v-col cols="6">
+                <v-card
+                  hover
+                 
+                  class="card"
+                  @click="clickBreed4()"
+                >
+                  <v-img :src='breedImage4' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickBreed4()">
+                    {{ breeds[3].name }}
+                  </a>
+                </div>
+              </v-col>
+            </v-row>
+            <v-btn
+              class="mt-5 all-btn"
+              color="primary"
+              depressed
+              @click="clickAllBreed()"
+            >
+              全ての犬種を見る
+            </v-btn>
+          </div>
+          <div class='intro-small-wrap'>
+            <h3 class='intro-headline'>友達を探す</h3>
             <p class='intro-text'>
-              気になったわんこにいいねを送ろう！<br>意気投合したらお互いのSNSを閲覧可能に
+              友達を探しに行こう！<br>みんなのSNSも見られるよ！
             </p>
+            <v-row>
+              <v-col cols="6">
+                <v-card
+                  hover
+                 
+                  class="card"
+                  @click="clickUser(users[0])"
+                >
+                  <v-img :src='userImage1' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickUser(users[0])">
+                    {{ users[0].name }}
+                  </a>
+                </div>
+              </v-col>
+              <v-col cols="6">
+                <v-card
+                  hover
+                 
+                  class="card"
+                  @click="clickUser(users[1])"
+                >
+                  <v-img :src='userImage2' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickUser(users[1])">
+                    {{ users[1].name }}
+                  </a>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-card
+                  hover
+                 
+                  class="card"
+                  @click="clickUser(users[2])"
+                >
+                  <v-img :src='userImage3' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickUser(users[2])">
+                    {{ users[2].name }}
+                  </a>
+                </div>
+              </v-col>
+              <v-col cols="6">
+                <v-card
+                  hover
+                 
+                  class="card"
+                  @click="clickUser(users[3])"
+                >
+                  <v-img :src='userImage4' />
+                </v-card>
+                <div class="name-text mb-0">
+                  <a
+                    @click="clickUser(users[3])">
+                    {{ users[3].name }}
+                  </a>
+                </div>
+              </v-col>
+            </v-row>
+            <v-btn
+              class="mt-5 all-btn"
+              color="primary"
+              depressed
+              @click="clickAllUsers()"
+            >
+              もっと見る
+            </v-btn>
           </div>
           <div class='intro-small-wrap'>
             <h3 class='intro-headline'>人気ランキング</h3>
@@ -193,25 +361,51 @@
 </template>
 
 <script>
-import RankingDialog from '@/components/Top/RankingDialog'
+import UserDialog from '@/components/Common/UserDialog'
 import ranking from '@/plugins/modules/ranking'
+import breed from '@/plugins/modules/breed'
+import user from '@/plugins/modules/user'
+import favorite from '~/plugins/modules/favorite'
+
 export default {
-  components: { RankingDialog },
+  components: { UserDialog },
   auth: false,
   async asyncData() {
     let dogRanking = []
     await ranking.getRanking().then((response) => {
       dogRanking = response
     })
+    let breeds = []
+    await breed.getBreedsRandom().then((response) => {
+        breeds = response
+    })
+    let users = []
+    await user.getUsersRandom().then((response) => {
+        users = response
+    })
     return {
-      dogRanking
+      dogRanking,
+      breeds,
+      users
     }
   },
   data () {
     return {
       dogRanking: [],
-      rankingDialog: false,
+      userDialog: false,
       dialogIndex: 0,
+      dogInfo: {
+        name: 'バニラ',
+        birthday: '2022年1月3日',
+        dog_image1: '4.jpg',
+        dog_image2: '1.jpg',
+        dog_image3: '3.jpg',
+        comment: 'バニラ',
+        twitter_id: '',
+        instagram_id: '',
+        tiktok_id: '',
+        blog_id: ''
+      }
     }
   },
   computed: {
@@ -247,6 +441,30 @@ export default {
     },
     eleventhDog () {
       return this.dogRanking[10].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[10].dog_image1}`)
+    },
+    breedImage1 () {
+      return this.breeds[0].dog_image && require(`@/assets/image/breed/${this.breeds[0].dog_image}`)
+    },
+    breedImage2 () {
+      return this.breeds[1].dog_image && require(`@/assets/image/breed/${this.breeds[1].dog_image}`)
+    },
+    breedImage3 () {
+      return this.breeds[2].dog_image && require(`@/assets/image/breed/${this.breeds[2].dog_image}`)
+    },
+    breedImage4 () {
+      return this.breeds[3].dog_image && require(`@/assets/image/breed/${this.breeds[3].dog_image}`)
+    },
+    userImage1 () {
+      return this.users[0].dog_image1 && require(`@/../storage/image/dogimages/${this.users[0].dog_image1}`)
+    },
+    userImage2 () {
+      return this.users[1].dog_image1 && require(`@/../storage/image/dogimages/${this.users[1].dog_image1}`)
+    },
+    userImage3 () {
+      return this.users[2].dog_image1 && require(`@/../storage/image/dogimages/${this.users[2].dog_image1}`)
+    },
+    userImage4 () {
+      return this.users[3].dog_image1 && require(`@/../storage/image/dogimages/${this.users[3].dog_image1}`)
     }
   },
   methods: {
@@ -257,11 +475,59 @@ export default {
       this.$router.push('diagnosis')
     },
     clickImage (index) {
-      this.dialogIndex = index
-      this.rankingDialog = true
+      this.dogInfo = this.dogRanking[index]
+      this.userDialog = true
     },
     choiceClose () {
-      this.rankingDialog = false
+      this.userDialog = false
+    },
+    clickAllBreed () {
+      this.$router.push('/breed');
+    },
+    clickBreed1 () {
+      const breed1 = this.breeds[0].dog_image.replace(".png", "")
+      this.$router.push(`/breed/detail/${breed1}`);
+    },
+    clickBreed2 () {
+      const breed2 = this.breeds[1].dog_image.replace(".png", "")
+      this.$router.push(`/breed/detail/${breed2}`);
+    },
+    clickBreed3 () {
+      const breed3 = this.breeds[2].dog_image.replace(".png", "")
+      this.$router.push(`/breed/detail/${breed3}`);
+    },
+    clickBreed4 () {
+      const breed4 = this.breeds[3].dog_image.replace(".png", "")
+      this.$router.push(`/breed/detail/${breed4}`);
+    },
+    clickGenderMale () {
+      this.$router.push({ path: '/diagnosis', query: { gender: 'male' } });
+    },
+    clickGenderFemale () {
+      this.$router.push({ path: '/diagnosis', query: { gender: 'female' } });
+    },
+    clickUser (user) {
+      this.userDialog = true
+      this.dogInfo = user
+    },
+    clickAllUsers () {
+      this.$router.push('/dog');
+    },
+    addFavorite(friendId) {
+      if (!this.$auth.loggedIn) {
+        this.$router.push('/login')
+      } else {
+        favorite.addFavorite(friendId).then(() => {
+        })
+      }
+    },
+    deleteFavorite(friendId) {
+      if (!this.$auth.loggedIn) {
+        this.$router.push('/login')
+      } else {
+        favorite.deleteFavorite(friendId).then(() => {
+        })
+      }
     }
   }
 }
@@ -283,14 +549,12 @@ h3 {
 
 .all {
   min-width: 350px;
+  margin-top: 40px !important;
 }
 
-.top-text-wrap {
-  max-width: 400px;
-  width: 50%;
+.logo {
+  max-width: 500px;
   margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 .ranking-col {
@@ -321,7 +585,7 @@ h3 {
   position: absolute;
   top: 1%;
   left: -3%;
-  max-width: 35px;
+  max-width: 30px;
 }
 
 .btn-wrap {
@@ -343,11 +607,11 @@ h3 {
 }
 
 .pink-btn {
-  background-color: #5383c3;
+  background-color: #97B6B8;
 }
 
 .blue-btn {
-  background-color: #5383c3;
+  background-color: #97B6B8;
 }
 
 .how-to-wrap {
@@ -388,6 +652,22 @@ h3 {
   padding: 10px 0;
   margin-bottom: 0;
 }
+
+.all-btn {
+  font-weight: bold;
+}
+
+.name-text {
+    text-align: left;
+}
+
+.name-text a {
+    color: slategray;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 @media screen and (min-width: 600px) {
   .top-text-wrap {
   padding-top: 30px;
@@ -408,7 +688,7 @@ h3 {
   }
 
   .ranking-icon-crown {
-    max-width: 60px;
+    max-width: 50px;
   }
 
   .intro-headline {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="all">
         <v-list-item light>
             <v-list-item-avatar @click="clickMypage">
                 <v-img :src="require('@/assets/image/dog/no-user-image-icon.png')" />
@@ -12,6 +12,7 @@
                 mdi-close-thick
             </v-icon>
         </v-list-item>
+        <v-divider></v-divider>
         <v-list dense light>
             <v-list-item v-for="item in items" @click=$router.push(item.link) :key="item.title" link>
                 <v-list-item-icon>
@@ -38,9 +39,11 @@ export default {
     data() {
         return {
             items: [
+                { title: '犬種図鑑', icon: 'mdi-book-open-variant', link: '/breed'},
                 { title: 'わんこ診断', icon: 'mdi-dog', link: '/diagnosis' },
                 { title: 'ログイン', icon: 'mdi-login', link: '/login' },
-                { title: '愛犬登録', icon: 'mdi-dog-service', link: '/signup' },
+                { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' },
+                { title: 'ユーザー検索', icon: 'mdi-magnify', link: '/dog'},
                 { title: 'サポート', icon: 'mdi-chat-question-outline', link: '/support' }
             ],
         }

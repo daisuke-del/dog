@@ -19,20 +19,26 @@
 <script>
 export default {
   name: 'PartsModalfile',
-  data() {
+  props: {
+    imageNumber: {
+      type: Number,
+      required: true
+    }
+  },
+  data () {
     return {
       file: null,
       uploadImageUrl: ''
     }
   },
   methods: {
-    returnFalse() {
+    returnFalse () {
       this.$emit("execute-method", false);
     },
-    returnTrue() {
+    returnTrue () {
       this.$emit("execute-method", true);
     },
-    onImagePicked(file) {
+    onImagePicked (file) {
       if (file !== undefined && file !== null) {
         if (file.name.lastIndexOf('.') <= 0) {
           return

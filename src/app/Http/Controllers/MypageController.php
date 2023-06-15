@@ -44,11 +44,12 @@ class MypageController extends Controller
      * お気に入りに追加
      *
      * @param Request
-     * @return void
+     * @return false|string
      */
     public function addFavorite(Request $request)
     {
-        $this->mypageService->addFavorite($request);
+        $result = $this->mypageService->addFavorite($request);
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -59,6 +60,31 @@ class MypageController extends Controller
      */
     public function deleteFavorite(Request $request)
     {
-        $this->mypageService->deleteFavorite($request);
+        $result = $this->mypageService->deleteFavorite($request);
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * マイページからお気に入りに追加
+     *
+     * @param Request
+     * @return false|string
+     */
+    public function addFavoriteFromMypage(Request $request)
+    {
+        $result = $this->mypageService->addFavoriteFromMypage($request);
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * マイページからお気に入りに削除
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function deleteFavoriteFromMypage(Request $request)
+    {
+        $result = $this->mypageService->deleteFavoriteFromMypage($request);
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 }

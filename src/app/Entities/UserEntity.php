@@ -25,7 +25,6 @@ use App\ValueObjects\User\UpdateDogAt;
 use App\ValueObjects\User\CreateDate;
 use App\ValueObjects\User\YellowCard;
 use App\ValueObjects\User\DogImageVoidFlg;
-use App\ValueObjects\User\OrderNumber;
 
 
 class UserEntity
@@ -53,7 +52,6 @@ class UserEntity
     private $updateDogAt;
     private $createDate;
     private $dogImageVoidFlg;
-    private $orderNumber;
 
     private function __construct()
     {
@@ -85,7 +83,6 @@ class UserEntity
      * @param UpdateDogAt $updateDogAt
      * @param CreateDate $createDate
      * @param DogImageVoidFlg $dogImageVoidFlg
-     * @param OrderNumber $orderNumber
      * @return UserEntity
      */
     public static function getUserEntityInstance(
@@ -111,8 +108,7 @@ class UserEntity
         YellowCard $yellowCard,
         ?UpdateDogAt $updateDogAt,
         createDate $createDate,
-        DogImageVoidFlg $dogImageVoidFlg,
-        ?OrderNumber $orderNumber
+        DogImageVoidFlg $dogImageVoidFlg
     ) {
         $user = new self();
         $user->userId = $userId;
@@ -121,7 +117,6 @@ class UserEntity
         $user->password = $password;
         $user->sex = $sex;
         $user->weight = $weight;
-        $user->birthday = $birthday;
         $user->dogPoint = $dogPoint;
         $user->dogImage1 = $dogImage1;
         $user->dogImage2 = $dogImage2;
@@ -139,7 +134,6 @@ class UserEntity
         $user->updateDogAt = $updateDogAt;
         $user->createDate = $createDate;
         $user->dogImageVoidFlg = $dogImageVoidFlg;
-        $user->orderNumber = $orderNumber;
         return $user;
     }
 
@@ -196,7 +190,7 @@ class UserEntity
     /**
      * weightを取得する
      *
-     * @return string
+     * @return int
      */
     public function getWeight(): int
     {
@@ -258,7 +252,7 @@ class UserEntity
      *
      * @return string
      */
-    public function getBreed2(): string
+    public function getBreed2(): ?string
     {
         return $this->breed2->get();
     }
@@ -328,7 +322,7 @@ class UserEntity
      *
      * @return string
      */
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment->get();
     }
@@ -373,13 +367,4 @@ class UserEntity
         return $this->dogImageVoidFlg->get();
     }
 
-    /**
-     * order_numberを取得する
-     *
-     * @return ?int
-     */
-    public function getOrderNumber(): ?int
-    {
-        return $this->orderNumber->get();
-    }
 }

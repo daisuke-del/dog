@@ -310,7 +310,7 @@ p {
 }
 .all {
     min-width: 800px;
-    padding: 10px 20px;
+    padding: 20px;
     margin: 0 auto;
 }
 .btn {

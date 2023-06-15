@@ -35,6 +35,6 @@ class Birthday
      */
     private function isBirthday(string $birthday): bool
     {
-        return Validator::make([$birthday], ['date_format:Y-m-d'])->passes();
+        return Validator::make([$birthday], ['date_format:Y-m-d H:i:s'])->passes();
     }
 }

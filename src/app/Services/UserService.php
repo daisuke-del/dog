@@ -19,6 +19,8 @@ use App\Services\SupportService;
 use App\Services\MypageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class UserService
 {
@@ -55,28 +57,17 @@ class UserService
         if (!$registerd) {
             throw new DOGException(config('const.ERROR.USER.EXISTS_EMAIL'), 400);
         }
-        $dogImage1 = '';
-        $dogImage2 = '';
-        $dogImage3 = '';
-        $dogImage1 = $this->storeDogImage($request->input('dogImage1'));
-        if ($request->input('dogImage2') !== null) {
-            $dogImage2 = $this->storeDogImage($request->input('dogImage2'));
-        }
-        if ($request->input('dogImage3') !== null) {
-            $dogImage3 = $this->storeDogImage($request->input('dogImage3'));
-        }
+        $dogImage = $this->storeDogImage($request->input('dogImage'));
 
         $requestArr = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'sex' => $request->input('sex'),
-            'weight' => $request->input('weight'),
+            'weight' => (int) $request->input('weight'),
             'breed1' => $request->input('breed1'),
             'breed2' => $request->input('breed2') ?: null,
-            'dog_image1' => $dogImage1,
-            'dog_image2' => $dogImage2 ?: null,
-            'dog_image3' => $dogImage3 ?: null,
+            'dog_image' => $dogImage,
             'instagram_id' => $request->input('instagramId') ?: null,
             'twitter_id' => $request->input('twitterId') ?: null,
             'tiktok_id' => $request->input('tiktokId') ?: null,
@@ -95,9 +86,7 @@ class UserService
             throw new DOGException(config('const.ERROR.USER.FAILED_REGISTERD'), 400);
         }
 
-        if (Auth::check()) {
-            return Auth::user();
-        }
+        return $this->usersRepository->getUser($email);
     }
 
     /**
@@ -234,6 +223,7 @@ class UserService
     public function updateName(Request $request): array
     {
         $userId = Auth::id();
+        Log::debug($userId);
         $user = $this->getUsersById($userId);
         if (is_null($user)) {
             // ユーザーが取得できない
@@ -263,12 +253,110 @@ class UserService
             throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         $weight = $request->input('weight');
-        $height = $user['height'];
         $user['weight'] = $weight;
         $users = $this->usersRepository->new($user);
         $this->usersRepository->updateWeight($users);
         return [
             'weight' => $users->getWeight(),
+        ];
+    }
+
+    /**
+     * 会員情報変更 - breed
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateBreed(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $breed1 = $request->input('breed1');
+        $breed2 = $request->input('breed2');
+        $user['breed1'] = $breed1;
+        $user['breed2'] = $breed2;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateBreed($users);
+        return [
+            'breed1' => $users->getBreed1(),
+            'breed2' => $users->getBreed2()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - breed
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateBirthday(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $day = $request->input('day');
+        $dateString = $user['birthday'];
+        $yeraString = Carbon::parse($dateString)->format('Y');
+        $dateMonth = Carbon::parse($dateString)->format('m');
+        $monthString = sprintf('%02d', $dateMonth);
+        $dateDay = Carbon::parse($dateString)->day;
+        $dayString = sprintf('%02d', $dateDay);
+        if ($year && $month && $day) {
+            $birthday = $year . '-' . $month . '-' . $day . ' 00:00:00';
+        } else if ($year && $month) {
+            $birthday = $year . '-' . $month . '-' . $dayString . ' 00:00:00';
+        } else if ($month && $day) {
+            $birthday = $yeraString . '-' . $month . '-' . $day . ' 00:00:00';
+        } else if ($year && $day) {
+            $birthday = $year . '-' . $monthString . '-' . $day . ' 00:00:00';
+        } else if ($year) {
+            $birthday = $year . '-' . $monthString . '-' . $dayString . ' 00:00:00';
+        } else if ($month) {
+            $birthday = $yeraString . '-' . $month . '-' . $dayString . ' 00:00:00';
+        } else if ($day) {
+            $birthday = $yeraString . '-' . $monthString . '-' . $day . ' 00:00:00';
+        }
+        Log::debug($birthday);
+        $user['birthday'] = $birthday;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateBirthday($users);
+        return [
+            'birthday' => $users->getBirthday()
+        ];
+    }
+
+    /**
+     * 会員情報変更 - location
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateLocation(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $location = $request->input('location');
+        $user['location'] = $location;
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateLocation($users);
+        return [
+            'location' => $users->getLocation()
         ];
     }
 
@@ -429,32 +517,31 @@ class UserService
             $userId = $this->createUserId();
         }
         $now = new Carbon();
-        $orderNumber = mt_rand(0, 10000);
+        $weight = intval($request['weight']);
         return [
             'user_id' => $userId,
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => $request['password'],
             'sex' => $request['sex'],
-            'weight' => $request['weight'],
-            'birthday' => $request['birthday'],
+            'weight' => (int) $weight,
             'dog_point' => 0,
-            'dog_image1' => $request['dog_image1'],
-            'dog_image2' => $request['dog_image2'] ?: null,
-            'dog_image3' => $request['dog_image3'] ?: null,
+            'dog_image1' => $request['dog_image'],
+            'dog_image2' => null,
+            'dog_image3' => null,
             'breed1' => $request['breed1'],
             'breed2' => $request['breed2'] ?: null,
             'instagram_id' => $request['instagram_id'],
             'twitter_id' => $request['twitter_id'],
             'tiktok_id' => $request['tiktok_id'],
             'blog_id' => $request['blog_id'],
-            'location' => $request['location'] ?: null,
-            'comment' => $request['comment'] ?: null,
+            'birthday' => $request['birthday'],
+            'location' => $request['location'],
+            'comment' => null,
             'yellow_card' => 0,
-            'create_date' => $now->format('Y-m-d H:i:s'),
             'update_dog_at' => $now->format('Y-m-d H:i:s'),
-            'dog_image_void_flg' => 0,
-            'order_number' => $orderNumber
+            'create_date' => $now->format('Y-m-d H:i:s'),
+            'dog_image_void_flg' => 0
         ];
     }
 
@@ -633,7 +720,6 @@ class UserService
             return $path;
         } catch (Exception $e) {
             Log::error($e);
-            throw new DOGException('画像の保存に失敗しました', 400);
         }
     }
 
@@ -647,22 +733,35 @@ class UserService
     {
         $userId = Auth::id();
         $userInfo = $this->usersRepository->selectUsersById($userId)->toArray();
-        $oldImage = $userInfo['dog_image'];
+        $imageNum = $request->input('num');
+        if ($imageNum === 1) {
+            $oldImage = $userInfo['dog_image1'];
+            $column = 'dog_image1';
+        } else if ($imageNum === 2) {
+            $oldImage = $userInfo['dog_image2'];
+            if (is_null($userInfo['dog_image1'])) {
+                $column = 'dog_image1';
+            } else {
+                $column = 'dog_image2';
+            }
+        } else if ($imageNum === 3) {
+            $oldImage = $userInfo['dog_image3'];
+            if (is_null($userInfo['dog_image1'])) {
+                $column = 'dog_image1';
+            } else if (is_null($userInfo['dog_image2'])) {
+                $column = 'dog_image2';
+            } else {
+                $column = 'dog_image3';
+            }
+        }
         try {
             $this->deleteDogImage($oldImage);
+            $this->usersRepository->updateImage($userId, null, $column);
             $newImage = $this->storeDogImage($request->input('dogImage'));
-            $this->usersRepository->updateFace($userId, $newImage);
-            $continuationScore = $this->mypageService->getContinuationScore($userInfo['update_dog_at']);
-            $rank = $this->mypageService->getFaceStatus($userId, $continuationScore);
+            $this->usersRepository->updateImage($userId, $newImage, $column);
             return [
-                'user_id' => $userInfo['user_id'],
-                'sex' => $userInfo['sex'],
-                'name' => $userInfo['name'],
                 'void_flg' => $userInfo['dog_image_void_flg'],
-                'rank' => $rank,
-                'dog_image' => $newImage,
-                'dog_point' => $userInfo['dog_point'],
-                'score' => $continuationScore,
+                $column => $newImage,
             ];
         } catch (Exception $e) {
             Log::error($e);
@@ -875,7 +974,7 @@ class UserService
             if (!Storage::exists($dogImage)) {
                 throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
             }
-            $this->usersRepository->updateFace($userId, 'no-user-image-icon.png', 2);
+            $this->usersRepository->updateImage($userId, 'no-user-image-icon.png', 2);
             Storage::delete($dogImage);
         } catch (Exception $e) {
             Log::error($e);
@@ -921,5 +1020,32 @@ class UserService
     public function getRanking(): array
     {
         return $this->usersRepository->getRanking()->toArray();
+    }
+
+    /**
+     * 全ユーザーを取得
+     *
+     * @return object
+     */
+    public function getUsers(?int $offset = null): object
+    {
+        $result = [];
+        if (Auth::id()) {
+            $userId = Auth::id();
+            $result = $this->usersRepository->getUsersAllWithFriends($userId, $offset);
+        } else {
+            $result = $this->usersRepository->getUsersAll($offset);
+        }
+        return $result;
+    }
+
+    /**
+     * 上位3匹のランキングを取得
+     *
+     * @return Collection
+     */
+    public function random(): Collection
+    {
+        return $this->usersRepository->getUserRandom();
     }
 }

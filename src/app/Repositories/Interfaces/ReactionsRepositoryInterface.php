@@ -42,10 +42,10 @@ interface ReactionsRepositoryInterface
      *
      * @param string $toUserId
      * @param string $fromUserId
-     * @return void
+     * @return bool
      * @throws DOGException
      */
-    public function deleteFavorite($toUserId, $fromUserId): void;
+    public function deleteFavorite($toUserId, $fromUserId): bool;
 
     /**
      * Resultのマッチ状況を取得

@@ -1,5 +1,5 @@
 <template>
-    <div class="all px-4">
+    <div class="all pt-4 pb-10">
         <h1>{{ breedInfo[0].name }}</h1>
         <v-breadcrumbs
             :items="items"
@@ -108,16 +108,25 @@ h3 {
     -webkit-line-clamp: 1;
     overflow: hidden;
     margin-bottom: 4px;
-    background-color: rgba(128, 128, 128, 0.1); /* 半透明のグレー色 */
-    padding: 5px; /* 余白を設定 */
-    border-radius: 5px; /* 角を丸める */
+    background-color: rgba(128, 128, 128, 0.1);
+    padding: 5px;
+    border-radius: 5px;
     backdrop-filter: blur(5px);
+    font-size: 12px;
 }
 
 .long-text p {
-    background-color: rgba(128, 128, 128, 0.1); /* 半透明のグレー色 */
-    padding: 10px; /* 余白を設定 */
-    border-radius: 5px; /* 角を丸める */
+    background-color: rgba(128, 128, 128, 0.1);
+    padding: 10px;
+    border-radius: 5px;
     backdrop-filter: blur(5px);
+    font-size: 12px;
+}
+
+@media only screen and (min-width: 500px) {
+.breed-info  p,
+.long-text p {
+    font-size: 16px;
+  }
 }
 </style>

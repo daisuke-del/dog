@@ -152,7 +152,7 @@ interface UsersRepositoryInterface
      * @param stirng $userId
      * @return bool
      */
-    public function updateFace($userId, $dogImage, $num = 0): bool;
+    public function updateImage($userId, $dogImage, $column): bool;
 
     /**
      * 引数のemailが一致するusersテーブル情報を取得する
@@ -291,6 +291,45 @@ interface UsersRepositoryInterface
      * @return object
      */
     public function getRanking(): object;
+
+    /**
+     * ランダムに4ユーザー取得
+     *
+     * @return Collection
+     */
+    public function getUserRandom(): Collection;
+
+    /**
+     * フレンド情報を加えてユーザー取得
+     *
+     * @param $userId
+     * @param ?int $offset
+     * @return object
+     */
+    public function getUsersAllWithFriends($userId, ?int $offset = null): object;
+
+    /**
+     * フレンド取得
+     *
+     * @param $userId
+     * @return object
+     */
+    public function getFriends($userId): object;
+
+   /**
+     * 特定のユーザーの情報を取得
+     *
+     * @param $toUserId
+     * @param $fromUserId
+     * @return object
+     */
+    public function getUserInfo($toUserId, $fromUserId): object;
+
+  /**
+   * 全てのユーザー取得
+   *
+   * @param ?int $offset
+   * @return Collection
+   */
+  public function getUsersAll(?int $offset = null): Collection;
 }
-
-

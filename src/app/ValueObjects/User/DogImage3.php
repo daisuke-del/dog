@@ -18,9 +18,9 @@ class DogImage3
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function get(): string
+    public function get(): ?string
     {
         return $this->dogImage3;
     }
@@ -28,11 +28,11 @@ class DogImage3
     /**
      * dog_image3のValidationチェック
      *
-     * @param string $dogImage3
+     * @param ?string $dogImage3
      * @return bool
      */
-    private function isDogImage3(string $dogImage3): bool
+    private function isDogImage3(?string $dogImage3): bool
     {
-        return Validator::make([$dogImage3], ['string'])->passes();
+        return Validator::make([$dogImage3], ['string|nullable'])->passes();
     }
 }

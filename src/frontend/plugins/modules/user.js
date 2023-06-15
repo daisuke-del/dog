@@ -2,7 +2,7 @@ import { request } from '../axios'
 import { auth } from '../auth'
 
 export default {
-  login(email, password) {
+  login (email, password) {
     return auth.loginWith('login', {
       data: {
         email,
@@ -13,20 +13,21 @@ export default {
   async logout() {
     return await auth.logout()
   },
-  signup(
+  signup (
     sex,
     name,
     email,
     password,
-    height,
     weight,
-    age,
-    salary,
-    facebookId,
+    breed1,
+    breed2,
     instagramId,
     twitterId,
-    dogPoint,
-    dogImage
+    tiktokId,
+    blogId,
+    dogImage,
+    location,
+    birthday
   ) {
     return auth.loginWith('signUp', {
       data: {
@@ -34,78 +35,97 @@ export default {
         name,
         email,
         password,
-        height,
         weight,
-        age,
-        salary,
-        facebookId,
+        breed1,
+        breed2,
         instagramId,
         twitterId,
-        dogPoint,
+        tiktokId,
+        blogId,
         dogImage,
+        location,
+        birthday
       },
     })
   },
-  leave() {
+  leave () {
     return request('post', '/user/leave')
   },
-  getUserInfo() {
+  getUserInfo () {
     return request('get', '/user/my')
   },
-  checkEmail(email) {
+  checkEmail (email) {
     return request('post', '/api/check/email', {
       email,
     })
   },
-  updateEmail(email, password) {
+  updateEmail (email, password) {
     return request('post', '/update/email', {
       email,
       password,
     })
   },
-  updateName(name) {
+  updateName (name) {
     return request('post', '/update/name', {
       name,
     })
   },
-  updateHeight(height) {
-    return request('post', '/update/height', {
-      height,
-    })
-  },
-  updateWeight(weight) {
+  updateWeight (weight) {
     return request('post', '/update/weight', {
       weight,
     })
   },
-  updateAge(age) {
-    return request('post', '/update/age', {
-      age,
+  updateBreed (breed1, breed2) {
+    return request('post', '/update/breed', {
+      breed1,
+      breed2
     })
   },
-  updateSalary(salary) {
-    return request('post', '/update/salary', {
-      salary,
+  updateBirthday (year, month, day) {
+    return request('post', '/update/birthday', {
+      year,
+      month,
+      day
     })
   },
-  updateDogImage(dogImage) {
-    return request('post', '/update/face', {
+  updateLocation (location) {
+    return request('post', '/update/location', {
+      location
+    })
+  },
+  updateDogImage (dogImage, num) {
+    return request('post', '/update/image', {
       dogImage,
+      num
     })
   },
-  updateFacebook(facebook) {
-    return request('post', '/update/facebook', {
-      facebook,
-    })
-  },
-  updateInstagram(instagram) {
+  updateInstagram (instagram) {
     return request('post', '/update/instagram', {
       instagram,
     })
   },
-  updateTwitter(twitter) {
+  updateTwitter (twitter) {
     return request('post', '/update/twitter', {
       twitter,
     })
+  },
+  updateTiktok (tiktok) {
+    return request('post', '/update/tiktok', {
+      tiktok
+    })
+  },
+  updateBlog (blog) {
+    return request('post', '/update/blog', {
+      blog
+    })
+  },
+  getUsersRandom () {
+    return request('get', '/api/user/random')
+  },
+  getUsers (offset) {
+    return request('get', `/api/user/${offset}`)
+  },
+  getUsersWithFriends (offset) {
+    return request('get', `/user/dog/friend/${offset}`)
   }
 }

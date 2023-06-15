@@ -18,7 +18,7 @@ class TiktokId
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function get(): ?string
     {
@@ -31,8 +31,8 @@ class TiktokId
      * @param string $tiktokId
      * @return bool
      */
-    private function isTiktokId(string $tiktokId): bool
+    private function isTiktokId(?string $tiktokId): bool
     {
-        return Validator::make([$tiktokId], ['string'])->passes();
+        return Validator::make([$tiktokId], ['string|nullable'])->passes();
     }
 }

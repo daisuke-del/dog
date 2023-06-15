@@ -7,6 +7,7 @@ use Throwable;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Exceptions\DOGException;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -86,7 +87,7 @@ class UserController extends Controller
      *
      *
      */
-    public function leave()
+    public function leave ()
     {
         $response = $this->userService->leave();
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -132,6 +133,45 @@ class UserController extends Controller
     }
 
     /**
+     * 会員情報変更 - breed
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateBreed(Request $request)
+    {
+        $response = $this->userService->updateBreed($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - birthday
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateBirthday(Request $request)
+    {
+        $response = $this->userService->updateBirthday($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - location
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateLocation(Request $request)
+    {
+        $response = $this->userService->updateLocation($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * 会員情報変更 - dog_image
      *
      * @param Request $request
@@ -167,6 +207,32 @@ class UserController extends Controller
     public function updateTwitter(Request $request)
     {
         $response = $this->userService->updateTwitter($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - tiktok
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateTiktok(Request $request)
+    {
+        $response = $this->userService->updateTiktok($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 会員情報変更 - blog
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateBlog(Request $request)
+    {
+        $response = $this->userService->updateBlog($request);
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
@@ -226,6 +292,41 @@ class UserController extends Controller
      * @return false|string
      */
     public function getRanking()
+    {
+        $response = $this->userService->getRanking();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * トップページ用ユーザー画像をランダムに取得
+     *
+     * @param int|null $offset
+     * @return false|string
+     */
+    public function getUsers(?int $offset = null)
+    {
+        $response = $this->userService->getUsers($offset);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * フレンド情報を合わせて全てのユーザーを取得。
+     *
+     * @param int|null $offset
+     * @return false|string
+     */
+    public function getUsersWithFriends(?int $offset = null)
+    {
+        $response = $this->userService->getUsers($offset);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * トップページ用ユーザー画像をランダムに取得
+     *
+     * @return false|string
+     */
+    public function random()
     {
         $response = $this->userService->getRanking();
         return json_encode($response, JSON_UNESCAPED_UNICODE);

@@ -45,22 +45,23 @@ class User extends Authenticatable
         'password',
         'sex',
         'weight',
-        'birthday',
         'dog_point',
         'dog_image1',
         'dog_image2',
         'dog_image3',
-        'breed',
-        'location',
+        'breed1',
+        'breed2',
         'instagram_id',
         'twitter_id',
         'tiktok_id',
         'blog_id',
+        'location',
+        'birthday',
+        'comment',
         'yellow_card',
         'create_date',
         'update_dog_at',
-        'dog_image_void_flg',
-        'order_number'
+        'dog_image_void_flg'
     ];
 
     protected $hidden = [

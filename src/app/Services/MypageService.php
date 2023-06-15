@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Exceptions\DOGException;
-use Carbon\Carbon;
 use App\Repositories\UsersRepository;
 use App\Repositories\ReactionsRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MypageService
 {
@@ -42,34 +42,32 @@ class MypageService
         if (is_null($userInfo)) {
             throw new DOGException(config('const.ERROR.USER.NO_REGISTERED'), 401);
         }
-        $continuationScore = $this->getContinuationScore($userInfo['update_dog_at']);
-        $rank = $this->getFaceStatus($userInfo['dog_point'], $continuationScore);
-        $friendIds = $this->getMatchAll($userId);
-        if (isset($friendIds)) {
-            $userIds = [];
-            foreach($friendIds as $friendId) {
-                $userIds[] = $friendId['from_user_id'];
-            }
-            $friends = $this->usersRepository->getUsersByIds($userIds);
-        }
+        $friends = [];
+        $friends = $this->usersRepository->getFriends($userId);
+        $given = [];
+        $given = $this->usersRepository->getGiven($userId);
+        $dogPoint = $userInfo['dog_point'] + count($friends) * 3;
         return [
             'user_id' => $userInfo['user_id'],
             'email' => $userInfo['email'],
             'sex' => $userInfo['sex'],
             'name' => $userInfo['name'],
-            'height' => $userInfo['height'],
             'weight' => $userInfo['weight'],
-            'age' => $userInfo['age'],
-            'salary' => $userInfo['salary'],
-            'rank' => $rank,
-            'dog_image' => $userInfo['dog_image'],
-            'dog_point' => $userInfo['dog_point'],
-            'score' => $continuationScore,
+            'dog_image1' => $userInfo['dog_image1'],
+            'dog_image2' => $userInfo['dog_image2'] ?: null,
+            'dog_image3' => $userInfo['dog_image3'] ?: null,
+            'dog_point' => $dogPoint,
             'void_flg' => $userInfo['dog_image_void_flg'],
-            'friends' => $friends ? $friends : null,
-            'facebook_id' => $userInfo['facebook_id'],
-            'instagram_id' => $userInfo['instagram_id'],
-            'twitter_id' => $userInfo['twitter_id']
+            'friends' => $friends,
+            'givens' => $given,
+            'instagram_id' => $userInfo['instagram_id'] ?: null,
+            'twitter_id' => $userInfo['twitter_id'] ?: null,
+            'tiktok_id' => $userInfo['tiktok_id'] ?: null,
+            'blog_id' => $userInfo['blog_id'] ?: null,
+            'location' => $userInfo['location'],
+            'birthday' => $userInfo['birthday'],
+            'breed1' => $userInfo['breed1'],
+            'breed2' => $userInfo['breed2']
         ];
     }
 
@@ -84,73 +82,18 @@ class MypageService
      */
     public function getMatchAll(string $userId): ?array
     {
-        $onesideLove = $this->reactionsRepository->selectMatchById($userId);
         $result = [];
-        if (empty($onesideLove)) {
+        $result['one_side'] = $this->reactionsRepository->selectMatchById($userId);
+        if (empty($result['one_side'])) {
             return $result;
         }
-        foreach($onesideLove->toArray() as $friend) {
+        foreach($result['one_side']->toArray() as $friend) {
             $friendInfo = $this->reactionsRepository->checkMatchById($friend['to_user_id'], $userId);
             if ($friendInfo) {
-                $result[] = $friendInfo->toArray();
+                $result['feiends'] = $friendInfo->toArray();
             }
         }
         return $result;
-    }
-
-    /**
-     * dog_pointとupdate_dog_atからステータスを取得
-     *
-     * @param int $dogPoint
-     * @param string $continuationScore
-     * @return string
-     * @throw Exception
-     */
-    public function getFaceStatus($dogPoint, $continuationScore): string
-    {
-        if ($dogPoint >= 90 && ($continuationScore === 'S' || $continuationScore ==='A')) {
-            return 'Gold';
-        } elseif ($dogPoint >= 70 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B')) {
-            return 'Silver';
-        } elseif ($dogPoint >= 30 && ($continuationScore === 'S' || $continuationScore === 'A' || $continuationScore === 'B' || $continuationScore === 'C')) {
-            return 'Blond';
-        } else {
-            return 'Nomal';
-        }
-    }
-
-    /**
-     * update_dog_atから継続スコアを取得
-     *
-     * @param string $userId
-     * @return string
-     * @throw Exception
-     */
-    public function getContinuationScore($updateDogAt): string
-    {
-        $oldDay = new Carbon($updateDogAt);
-        if (empty($updateDogAt)) {
-            // ユーザー情報が取得できない
-            $error = [
-                'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER')
-            ];
-            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404, $error);
-        }
-
-        $now = Carbon::now();
-        $continuationDate = $oldDay->diffInDays($now);
-
-        if ($continuationDate > 90) {
-            return 'S';
-        } elseif ($continuationDate >= 60) {
-            return 'A';
-        } elseif ($continuationDate >= 30) {
-            return 'B';
-        } elseif ($continuationDate >= 10) {
-            return 'C';
-        } else {
-            return 'D';
-        }
     }
 
     /**
@@ -178,55 +121,97 @@ class MypageService
      * お気に入りに追加
      *
      * @param Request $request
-     * @return array
+     * @return object
      */
-    public function addFavorite(Request $request): array
+    public function addFavorite(Request $request): object
     {
         $toUserId = $request->input('toUserId');
         $fromUserId = Auth::id();
         $requestArr = [
             'to_user_id' => $toUserId,
-            'from_user_id' => $fromUserId ];
+            'from_user_id' => $fromUserId
+        ];
         $this->insertRections($requestArr);
-        return [];
+        return $this->usersRepository->getUserInfo($toUserId, $fromUserId);
     }
 
     /**
      * お気に入りから削除
      *
      * @param Request $request
-     * @return object|null
+     * @return object
      */
-    public function deleteFavorite(Request $request): ?object
+    public function deleteFavorite(Request $request): object
     {
         $toUserId = $request->input('toUserId');
         $fromUserId = Auth::id();
         $this->reactionsRepository->deleteFavorite($toUserId, $fromUserId);
-        $friendIds = $this->getMatchAll($fromUserId);
-        if (isset($friendIds)) {
-            $userIds = [];
-            foreach($friendIds as $friendId) {
-                $userIds[] = $friendId['from_user_id'];
-            }
-            $friends = $this->usersRepository->getUsersByIds($userIds);
-        }
-        return $friends;
+        return $this->usersRepository->getUserInfo($toUserId, $fromUserId);
     }
 
     /**
-     * reactionsにレコードを登録する
+     * お気に入りに追加
      *
-     * @param array $request
+     * @param Request $request
      * @return array
-     * @throws Exception
-     * @throws Throwable
      */
-    private function insertRections(array $request): array
+    public function addFavoriteFromMypage(Request $request): array
     {
-        $users = $this->reactionsRepository->new($request);
-        // usersテーブルに新規追加
-        $this->reactionsRepository->save($users);
-        // レスポンス
-        return [];
+        $toUserId = $request->input('toUserId');
+        $fromUserId = Auth::id();
+        $requestArr = [
+            'to_user_id' => $toUserId,
+            'from_user_id' => $fromUserId
+        ];
+        $this->insertRections($requestArr);
+        $friends = [];
+        $friends = $this->usersRepository->getFriends($fromUserId);
+        $given = [];
+        $given = $this->usersRepository->getGiven($fromUserId);
+        $dogInfo = [];
+        $dogInfo = $this->usersRepository->getUserInfo($toUserId, $fromUserId);
+        return [
+            'givens' => $given,
+            'friends' => $friends,
+            'dog_info' => $dogInfo
+        ];
+    }
+
+    /**
+     * お気に入りから削除
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function deleteFavoriteFromMypage(Request $request): array
+    {
+        $toUserId = $request->input('toUserId');
+        $fromUserId = Auth::id();
+        $this->reactionsRepository->deleteFavorite($toUserId, $fromUserId);
+        $friends = [];
+        $friends = $this->usersRepository->getFriends($fromUserId);
+        $given = [];
+        $given = $this->usersRepository->getGiven($fromUserId);
+        $dogInfo = [];
+        $dogInfo = $this->usersRepository->getUserInfo($toUserId, $fromUserId);
+        return [
+            'givens' => $given,
+            'friends' => $friends,
+            'dog_info' => $dogInfo
+        ];
+    }
+
+    private function insertRections(array $request): bool
+    {
+        DB::beginTransaction();
+        try {
+            $users = $this->reactionsRepository->new($request);
+            $result = $this->reactionsRepository->save($users);
+            DB::commit();
+            return $result;
+        } catch (DOGException $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

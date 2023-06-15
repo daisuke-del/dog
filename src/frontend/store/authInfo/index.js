@@ -4,19 +4,20 @@ export const state = () => ({
     name: null,
     email: null,
     password: null,
-    dogImage: 'no-user-image-icon.png',
-    sex: null,
-    age: null,
-    height: null,
+    dogImage1: 'no-user-image-icon.png',
+    dogImage2: null,
+    dogImage3: null,
     weight: null,
-    salary: null,
     dogPoint: null,
     updateDogAt: null,
     twitterId: null,
     instagramId: null,
-    facebookId: null,
-    score: 'D',
-    rank: 'Nomal',
+    tiktokId: null,
+    blogId: null,
+    location: null,
+    birthday: null,
+    breed1: null,
+    breed2: null,
     voidFlg: 0,
   },
 })
@@ -28,23 +29,29 @@ export const getters = {
   userId: (state) => {
     return state.auth.userId
   },
-  sex: (state) => {
-    return state.auth.sex
+  dogImage1: (state) => {
+    return state.auth.dogImage1
   },
-  dogImage: (state) => {
-    return state.auth.dogImage
+  dogImage2: (state) => {
+    return state.auth.dogImage2
+  },
+  dogImage3: (state) => {
+    return state.auth.dogImage3
   }
 }
 
 export const mutations = {
   setAuthInfo(state, userInfo) {
     state.auth.userId = userInfo.user_id
-    state.auth.sex = userInfo.sex ? userInfo.sex : null
-    state.auth.name = userInfo.name ? userInfo.name : '名無しさん'
-    state.auth.dogImage = userInfo.dog_image ? userInfo.dog_image : 'no-user-image-icon.png'
-    state.auth.dogPoint = userInfo.dog_point ? userInfo.dog_point : 0
-    state.auth.rank = userInfo.rank ? userInfo.rank : 'Nomal'
-    state.auth.score = userInfo.score ? userInfo.score : 'D'
+    state.auth.name = userInfo.name ? userInfo.name : ''
+    state.auth.dogImage1 = userInfo.dog_image1 ? userInfo.dog_image1 : 'no-user-image-icon.png'
+    state.auth.dogImage2 = userInfo.dog_image2 ? userInfo.dog_image2 : null
+    state.auth.dogImage3 = userInfo.dogImage3 ? userInfo.dog_image3 : null
+    state.auth.dogPoint = userInfo.dog_point
+    state.auth.location = userInfo.location
+    state.auth.birthday = userInfo.birthday
+    state.auth.breed1 = userInfo.breed1
+    state.auth.breed2 = userInfo.breed2 ? userInfo.breed2 : null
     state.auth.voidFlg = userInfo.void_flg ? userInfo.void_flg : 0
   },
   setEmail(state, email) {
@@ -53,26 +60,32 @@ export const mutations = {
   setName(state, name) {
     state.auth.name = name
   },
-  setHeight(state, height) {
-    state.auth.height = height
-  },
   setWeight(state, weight) {
     state.auth.weight = weight
-  },
-  setAge(state, age) {
-    state.auth.age = age
-  },
-  setSalary(state, salary) {
-    state.auth.salary = salary
-  },
-  setFacebookId(state, facebookId) {
-    state.auth.facebookId = facebookId
   },
   setInstagramId(state, instagramId) {
     state.auth.instagramId = instagramId
   },
   setTwitterId(state, twitterId) {
     state.auth.twitterId = twitterId
+  },
+  setTiktokId(state, tiktokId) {
+    state.auth.tiktokId = tiktokId
+  },
+  setBlogId(state, blogId) {
+    state.auth.blogId = blogId
+  },
+  setLocation(state, location) {
+    state.auth.location = location
+  },
+  setLocation(state, birthday) {
+    state.auth.birthday = birthday
+  },
+  setBreed1(state, breed1) {
+    state.auth.breed1 = breed1
+  },
+  setBreed2(state, breed2) {
+    state.auth.breed1 = breed2
   }
 }
 
@@ -86,25 +99,31 @@ export const actions = {
   setName({ commit }, name) {
     commit('setName', name)
   },
-  setHeight({ commit }, height) {
-    commit('setHeight', height)
-  },
   setWeight({ commit }, weight) {
     commit('setWeight', weight)
-  },
-  setAge({ commit }, age) {
-    commit('setAge', age)
-  },
-  setSalary({ commit }, salary) {
-    commit('setSalary', salary)
-  },
-  setFacebookId({ commit }, facebookId) {
-    commit('setFacebookId', facebookId)
   },
   setInstagramId({ commit }, instagramId) {
     commit('setInstagramId', instagramId)
   },
   setTwitterId({ commit }, twitterId) {
     commit('setTwitterId', twitterId)
+  },
+  setTiktokId({ commit }, tiktokId) {
+    commit('setTiktokId', tiktokId)
+  },
+  setBlogId({ commit }, blogId) {
+    commit('setBlogId', blogId)
+  },
+  setLocation({ commit }, location) {
+    commit('setLocation', location)
+  },
+  setBirthday({ commit }, birthday) {
+    commit('setBirthday', birthday)
+  },
+  setBreed1({ commit }, breed1) {
+    commit('setBreed1', breed1)
+  },
+  setBreed2({ commit }, breed2) {
+    commit('setBreed2', breed2)
   }
 }

@@ -18,7 +18,7 @@ class BlogId
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function get(): ?string
     {
@@ -31,8 +31,8 @@ class BlogId
      * @param string $blogId
      * @return bool
      */
-    private function isBlogId(string $blogId): bool
+    private function isBlogId(?string $blogId): bool
     {
-        return Validator::make([$blogId], ['string'])->passes();
+        return Validator::make([$blogId], ['string|nullable'])->passes();
     }
 }

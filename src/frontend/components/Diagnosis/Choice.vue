@@ -2,7 +2,7 @@
     <div class="choice-wrap">
         <choice-dialog
             :dialog.sync="choiceDialog"
-            :face-image="this.alertImage"
+            :dog-image="this.alertImage"
             :isLeft="this.isLeft"
             @left-click="clickAlertLeft"
             @right-click="clickAlertRight"
@@ -102,12 +102,12 @@ export default {
             this.choiceDialog = false
         },
         leftDialog () {
-            this.alertImage = this.leftDogImage
+            this.alertImage = this.leftDog.dog_image1
             this.isLeft = true
             this.choiceDialog = true
         },
         rightDialog () {
-            this.alertImage = this.rightDogImage
+            this.alertImage = this.rightDog.dog_image1
             this.isLeft = false
             this.choiceDialog = true
         },

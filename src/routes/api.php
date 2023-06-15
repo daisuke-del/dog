@@ -5,6 +5,7 @@ use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\BreedController;
+use App\Models\Breed;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,10 @@ Route::prefix('diagnosis')->name('diagnosis.')->group(function () {
 // 犬種系
 Route::prefix('breed')->name('breed.')->group(function () {
   Route::get('info', [BreedController::class, 'info']);
+  Route::get('random', [BreedController::class, 'random']);
   Route::get('detail/{breed}', [BreedController::class, 'detail']);
   Route::get('route', [BreedController::class, 'route']);
+  Route::post('sort', [BreedController::class, 'sort']);
 });
 
 // 確認系
@@ -45,4 +48,9 @@ Route::prefix('ranking')->name('ranking.')->group(function () {
 Route::prefix('support')->name('support.')->group(function () {
   Route::post('send', [SupportController::class, 'send']);
   Route::post('resolve', [SupportController::class, 'resolve']);
+});
+
+Route::prefix('user')->name('user.')->group(function () {
+  Route::get('random', [UserController::class, 'random']);
+  Route::get('/{offset}', [UserController::class, 'getUsers']);
 });

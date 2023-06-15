@@ -47,67 +47,72 @@
           required
           light
         />
-        <v-card class="fullyear" elevation="0">
+        <v-card class="fullyear mb-5" elevation="0">
           <p class="mb-4">生年月日</p>
           <v-card-text class="pt-0">
             <v-row>
               <v-col cols="6">
                 <v-select
-                  label="西暦"
-                  :items="years"
                   v-model="year"
-                  @change="resetDay"
+                  :items="years"
+                  label="西暦"
                   outline
+                  hide-details
+                  @change="resetDay"
                 />
               </v-col>
               <v-col cols="3">
                 <v-select
                   v-model="month"
-                  label="月"
                   :items="months"
-                  @change="resetDay"
+                  label="月"
                   outline
+                  hide-details
+                  @change="resetDay"
                 />
               </v-col>
               <v-col cols="3">
                 <v-select
-                  label="日"
-                  :items="days"
                   v-model="day"
+                  :items="days"
+                  label="日"
                   outline
+                  hide-details
                 />
               </v-col>
             </v-row>
           </v-card-text>
+          <p v-if="birthdayErrorShow" class="error-message">
+            生年月日の内容が不正です。
+          </p>
         </v-card>
-        <label class="form-content">
+        <label>
           <span>
             <v-select
-              v-model="itemBreed"
+              v-model="itemBreed1"
               :items="breedRange"
+              :rules="breedRules"
               label="犬種を選択"
-              hide-details
               outlined
-              class="mb-3"
+              required
+              class="mt-10"
             />
           </span>
         </label>
-        <label class="form-content">
+        <label>
           <span v-if="isMix">
             <v-select
               v-model="itemBreed2"
               :items="breedRange"
               label="犬種を選択"
-              hide-details
               outlined
-              class="mb-3"
             />
           </span>
         </label>
         <v-btn
           v-if="!isMix"
           outlined
-          class="mt-2"
+          class="mb-5 btn"
           @click="clickMix"
         >
           ミックス
@@ -115,7 +120,7 @@
         <v-btn
         v-if="isMix"
           outlined
-          class="mt-2"
+          class="mb-5 btn"
           @click="closeMix"
         >
           <v-icon>
@@ -125,7 +130,7 @@
         <p v-if="breedErrorShow" class="error-message">
           犬種を選択してください。
         </p>
-        <div class="form-content d-flex justify-center mt-5">
+        <div class="form-content d-flex mt-5 mb-0">
           <label>
             <span>体重</span>
             <input
@@ -141,31 +146,30 @@
               oninput="value = value.replace(/[^0-9]+/i,'');" @keyup="weightHandleInputFocus(index, $event)">
             <span>kg</span>
           </label>
-          <p v-if="weightErrorShow" class="error-message">
-            体重は2桁の半角数字で入力してください。例:06
-          </p>
         </div>
+        <p v-if="weightErrorShow" class="error-message">
+          体重は2桁の半角数字で入力してください。例:06
+        </p>
         <label class="form-content">
           <span>
             <v-select
-              v-model="item"
+              v-model="location"
+              class="mt-10"
               :items="prefectureRange"
+              :rules="locationRules"
               label="居住場所を選択"
-              hide-details
               outlined
+              required
             />
           </span>
         </label>
-        <p v-if="prefectureErrorShow" class="error-message">
-          居住場所を選択してください。
-        </p>
-        <div class="pt-10 pb-5">
+        <div class="pt-5 pb-5">
           <div>
             <span class="text-label mr-2">任意</span>
             <p class="text-sns mb-0">Instagramアカウントを登録</p>
             <v-text-field
               v-model="inputInstagram"
-              placeholder="Instagramアカウント"
+              placeholder="InstagramのIDを入力"
               autocomplete="off"
               hide-details
               class="form-content"
@@ -176,7 +180,7 @@
             <p class="text-sns mb-0">Twitterアカウントを登録</p>
             <v-text-field
               v-model="inputTwitter"
-              placeholder="Twitterアカウント"
+              placeholder="TwitterのIDを入力"
               autocomplete="off"
               hide-details
               class="form-content"
@@ -187,7 +191,7 @@
             <p class="text-sns mb-0">Tiktokアカウントを登録</p>
             <v-text-field
               v-model="inputTiktok"
-              placeholder="Tiktokアカウント"
+              placeholder="TiktokのIDを入力"
               autocomplete="off"
               hide-details
               class="form-content"
@@ -198,7 +202,7 @@
             <p class="text-sns mb-0">Blogアカウントを登録</p>
             <v-text-field
               v-model="inputBlog"
-              placeholder="Blogアカウント"
+              placeholder="BlogのURLを入力"
               autocomplete="off"
               hide-details
               class="form-content"
@@ -267,6 +271,7 @@ export default {
       checkbox: null,
       title: 'わんちゃん登録',
       breedRange: [
+        '雑種',
         'アイリッシュセター',
         'アフガンハウンド',
         'アメリカンコッカースパニエル',
@@ -361,7 +366,7 @@ export default {
       prefectureRange: [
       "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"
       ],
-      itemBreed: null,
+      itemBreed1: null,
       itemBreed2: null,
       item: null,
       salary: null,
@@ -377,29 +382,37 @@ export default {
         v => !!v || 'パスワードが入力されていません。',
         v => v == null || (v.length >= constants.minPasswordLength && v.length <= constants.maxPasswordLength) || 'パスワードは6～32文字で設定して下さい。'
       ],
+      breedRules: [
+        v => !!v || '犬種は必須項目です。'
+      ],
+      locationRules: [
+        v => !!v || '居住地は必須項目です。'
+      ],
       weightErrorShow: false,
       ageErrorShow: false,
       breedErrorShow: false,
       prefectureErrorShow: false,
       agreeErrorShow: false,
+      birthdayErrorShow: false,
       instagramId: null,
       twitterId: null,
       tiktokId: null,
       blogId: null,
-      inputInstagram: '',
-      inputTwitter: '',
-      inputTiktok: '',
-      inputBlog: '',
-      year: '',
-      month: '',
-      day: '',
-      isMix: false
+      inputInstagram: null,
+      inputTwitter: null,
+      inputTiktok: null,
+      inputBlog: null,
+      year: null,
+      month: null,
+      day: null,
+      isMix: false,
+      location: null
     }
   },
   computed: {
     years () {
       const years = []
-      for (let year = 1900; year <= new Date().getFullYear(); year++) {
+      for (let year = 2005; year <= new Date().getFullYear(); year++) {
         years.push(year)
       }
       return years
@@ -433,7 +446,7 @@ export default {
       return `${item}_${index + 1}`
     },
     weightHandleInputFocus (index, event) {
-      if (this.weightValues[index] && this.weightValues[index] !== '' && index < 2) {
+      if (this.weightValues[index] && this.weightValues[index] !== '' && index < 1) {
         const [nextInput] = this.$refs[`weight_${index + 2}`]
         nextInput.focus()
       } else if (index > 0 && (!this.weightValues[index] || this.weightValues[index] === '') && event.key === 'Backspace') {
@@ -441,41 +454,44 @@ export default {
         previusInput.focus()
       }
     },
-    clickSalary () {
-      this.breed = this.item
-    },
     storeUserInfo () {
-      if (this.$refs.signupForm.validate() && this.item != null && this.heightValues.length === 3 && this.weightValues.length === 3 && this.ageValues.length === 3 && this.checkbox != null) {
-        if (this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
+      if (this.$refs.signupForm.validate() && this.weightValues.length === 2 && this.checkbox != null && this.year !== null && this.month !== null & this.day !== null) {
+        if (this.inputInstagram !== null && this.inputInstagram.match(/^https:\/\/(www.instagram.com\/)/)) {
             this.instagramId = this.inputInstagram.replace('https://www.instagram.com/', '')
         } else {
             this.instagramId = this.inputInstagram
         }
-        if (this.inputTwitter.match(/^https:\/\/(twitter.com\/)/)) {
+        if (this.inputTwitter !== null && this.inputTwitter.match(/^https:\/\/(twitter.com\/)/)) {
             this.twitterId = this.inputTwitter.replace('https://twitter.com/', '')
         } else {
             this.twitterId = this.inputTwitter
         }
-        if (this.inputTiktok.match(/^https:\/\/(tiktok.com\/)/)) {
+        if (this.inputTiktok !== null && this.inputTiktok.match(/^https:\/\/(tiktok.com\/)/)) {
             this.tiktokId = this.inputTiktok.replace('https://tiktok.com/', '')
         } else {
             this.tiktokId = this.inputTiktok
         }
         this.blogId = this.inputBlog
+        if (this.month < 10) {
+          this.month = `0${this.month}`
+        }
+        if (this.day < 10) {
+          this.day = `0${this.day}`
+        }
         this.$emit('store-user-info', {
           sex: this.sex,
           name: this.name,
           email: this.email,
           password: this.password,
           weight: this.weightValues.join(''),
-          birthday: `${this.year}年${this.month}月${this.day}日`,
-          breed: this.itemBrreed,
-          breed2: this.itemBreed2 ? this.breed2 : null,
+          birthday: `${this.year}-${this.month}-${this.day} 00:00:00`,
+          breed1: this.itemBreed1,
+          breed2: this.itemBreed2 ? this.itemBreed2 : null,
           location: this.location,
-          instagramId: this.instagramId,
-          twitterId: this.twitterId,
-          tiktokId: this.tiktokId,
-          blogId: this.blogId
+          instagramId: this.instagramId ? this.instagramId : null,
+          twitterId: this.twitterId ? this.twitterId : null,
+          tiktokId: this.tiktokId ? this.tiktokId : null,
+          blogId: this.blogId ? this.blogId : null
         })
       }
       if (this.weightValues.length != 2) {
@@ -486,6 +502,9 @@ export default {
       }
       if (this.checkbox != true) {
         this.agreeErrorShow = true
+      }
+      if (this.year === null || this.month === null || this.day === null) {
+        this.birthdayErrorShow = true
       }
     },
     resetDay () {
@@ -574,6 +593,10 @@ span {
 .text-sns {
   display: inline-block;
   color: slategray;
+}
+
+.btn {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 @media screen and (min-width: 600px) {

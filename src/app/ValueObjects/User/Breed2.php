@@ -18,7 +18,7 @@ class Breed2
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function get(): ?string
     {
@@ -31,8 +31,8 @@ class Breed2
      * @param string $breed2
      * @return bool
      */
-    private function isBreed2(string $breed2): bool
+    private function isBreed2(?string $breed2): bool
     {
-        return Validator::make([$breed2], ['string'])->passes();
+        return Validator::make([$breed2], ['string|nullable'])->passes();
     }
 }

@@ -69,11 +69,19 @@
                                 <div class="mt-5" align="center">
                                     <v-form ref="passwordForm" @submit.prevent>
                                         <div class="password-text-field">
-                                            <v-text-field v-model="password"
+                                            <v-text-field
+                                                v-model="password"
                                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                                                :type="showPassword ? 'text' : 'password'" :rules="passwordRules"
-                                                autocomplete="off" placeholder="パスワード" counter maxlength="32" outlined
-                                                dense @click:append="showPassword = !showPassword" />
+                                                :type="showPassword ? 'text' : 'password'"
+                                                :rules="passwordRules"
+                                                autocomplete="off"
+                                                placeholder="パスワード"
+                                                counter
+                                                maxlength="32"
+                                                outlined
+                                                dense
+                                                @click:append="showPassword = !showPassword"
+                                            />
                                         </div>
                                     </v-form>
                                 </div>
@@ -135,13 +143,13 @@ export default {
         }
     },
     methods: {
-        clickUpdateEmail() {
+        clickUpdateEmail () {
             this.$emit('clickUpdateEmail', this.inputEmail)
         },
-        backClick() {
+        backClick () {
             this.$emit('backClick')
         },
-        okClick() {
+        okClick () {
             if (this.$refs.passwordForm.validate()) {
                 this.$emit('okClick', this.password)
             }

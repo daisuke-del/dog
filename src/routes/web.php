@@ -28,6 +28,7 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::prefix('my')->name('my.')->group(function () {
       Route::get('/', [MypageController::class, 'index']);
     });
+    Route::get('dog/friend/{offset}', [UserController::class, 'getUsers']);
   });
   // パートナー診断結果取得
   Route::prefix('diagnosis')->name('diagnosis.')->group(function () {
@@ -41,10 +42,10 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('update/email', [UserController::class, 'updateEmail']);
   Route::post('update/name', [UserController::class, 'updateName']);
   Route::post('update/weight', [UserController::class, 'updateWeight']);
-  Route::post('update/age', [UserController::class, 'updateAge']);
   Route::post('update/breed', [UserController::class, 'updateBreed']);
+  Route::post('update/birthday', [UserController::class, 'updateBirthday']);
   Route::post('update/location', [UserController::class, 'updateLocation']);
-  Route::post('update/face', [UserController::class, 'updateDogImage']);
+  Route::post('update/image', [UserController::class, 'updateDogImage']);
   Route::post('update/instagram', [UserController::class, 'updateInstagram']);
   Route::post('update/twitter', [UserController::class, 'updatetwitter']);
   Route::post('update/tiktok', [UserController::class, 'updateTiktok']);
@@ -56,6 +57,10 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::prefix('favorite')->name('favorite.')->group(function () {
     Route::post('add', [MypageController::class, 'addFavorite']);
     Route::delete('delete', [MypageController::class, 'deleteFavorite']);
+    Route::prefix('mypage')->name('mypage.')->group(function () {
+      Route::post('add', [MypageController::class, 'addFavoriteFromMypage']);
+      Route::delete('delete', [MypageController::class, 'deleteFavoriteFromMypage']);
+    });
   });
 });
 
@@ -69,4 +74,12 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('update', [UserController::class, 'updateYellowCard']);
     });
   });
+
+// お気に入り
+Route::middleware('auth:sanctum')->group(function () {
+  Route::prefix('favorite')->name('favorite.')->group(function () {
+    Route::post('add', [MypageController::class, 'addFavorite']);
+    Route::delete('delete', [MypageController::class, 'deleteFavorite']);
+  });
+});
 

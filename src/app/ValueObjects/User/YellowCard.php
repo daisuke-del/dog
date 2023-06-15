@@ -9,7 +9,7 @@ class YellowCard
 {
     private $yellowCard;
 
-    public function __construct(string $yellowCard)
+    public function __construct(int $yellowCard)
     {
         if ($this->isYellowCard($yellowCard) === false) {
             throw new DOGException('validation.yellow_card', 422);
@@ -31,7 +31,7 @@ class YellowCard
      * @param string $yellowCard
      * @return bool
      */
-    private function isYellowCard(string $yellowCard): bool
+    private function isYellowCard(int $yellowCard): bool
     {
         return Validator::make([$yellowCard], ['required|integer'])->passes();
     }

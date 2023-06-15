@@ -4,10 +4,7 @@ export default Object.freeze({
   minPasswordLength: 6,
   maxPasswordLength: 32,
   maxNameLength: 10,
-  maxHeightLength: 3,
-  maxWeightLength: 3,
-  maxAgeLength: 3,
-  maxSalaryLength: 4,
+  maxWeightLength: 2,
   errorMessage: '予期せぬエラーが発生しました。',
   numberValidation: '^[0-9]*$',
   notSavePreviousPage: [

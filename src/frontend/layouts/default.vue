@@ -3,23 +3,30 @@
     <v-sheet
       class="overflow-hidden bg"
     >
-      <v-btn
-        @click.stop="drawer = !drawer"
-        fab
-        elevation="3"
-        color="primary"
-        class="header-btn"
-      >
-        <v-icon>
-          mdi-menu
-        </v-icon>
-      </v-btn>
+    <v-app-bar
+      dense
+      app
+      elevate-on-scroll
+      color="secondary"
+      class="menu-bar"
+    >
+      <v-img
+        class="logo"
+        :src="require('@/assets/image/logo/logotouka.png')"
+        @click="clickTop"
+      />
+      <v-spacer></v-spacer>
+
+      <v-icon color="accent" large @click.stop="drawer = !drawer">
+        mdi-menu
+      </v-icon>
+    </v-app-bar>
       <v-snackbar
         v-model="snackbarVisible" color="red"
       >
         {{ this.$store.getters['snackbar/message'] }}
       </v-snackbar>
-      <Nuxt />
+      <Nuxt class="mt-16"/>
       <v-navigation-drawer
         v-model="drawer"
         class="menu"
@@ -53,6 +60,7 @@
 <script>
 import LoginMenu from '@/components/Menu/LoginMenu'
 import GuestMenu from '@/components/Menu/GuestMenu'
+
 export default {
   name: 'DefaultLayout',
   components: {
@@ -79,6 +87,9 @@ export default {
   methods: {
     closeDrawer(value) {
       this.drawer = value
+    },
+    clickTop () {
+      this.$router.push('/')
     }
   }
 }
@@ -92,17 +103,20 @@ html {
   background: url("~/assets/image/backGrounds/default1500.png") top center no-repeat;
 }
 
+.menu {
+  background: url("~/assets/image/backGrounds/menu-background.png") top center no-repeat;
+}
+
 .menu-logo {
   padding: 10px 30px;
 }
 
-.header-btn {
-  position: fixed;
-  top: 3%;
-  right: 3%;
-  z-index: 5;
-  width: 40px;
-  height: 40px;
+.logo {
+  max-width: 100px;
+}
+
+.menu-bar {
+  border-bottom: 1px solid #d5cdc8 !important;
 }
 
 @media screen and (min-width: 750px) {

@@ -12,8 +12,22 @@
                 mdi-close-thick
             </v-icon>
         </v-list-item>
+        <v-divider></v-divider>
         <v-list dense light>
-            <v-list-item @click="clickMatch" link>
+            <v-list-item @click="clickBreed" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        mdi-book-open-variant
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title color="accent">
+                        犬種図鑑
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click="clickDiagnosis" link>
                 <v-list-item-icon>
                     <v-icon>
                         mdi-dog
@@ -48,6 +62,19 @@
                 <v-list-item-content>
                     <v-list-item-title color="accent">
                         登録情報
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click="clickSearch" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        mdi-magnify
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title color="accent">
+                        ユーザー検索
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
@@ -88,21 +115,21 @@ export default {
     props: {
         drawer: Boolean
     },
-    data() {
+    data () {
         return {
-            dogImage: this.$store.getters['authInfo/auth'].dogImage
+            dogImage1: this.$store.getters['authInfo/auth'].dogImage1
         }
     },
     computed: {
-        userWithImage() {
-            return this.dogImage && `http://localhost/storage/${this.dogImage}`
+        userWithImage () {
+            return this.dogImage1 && require(`@/../storage/image/dogimages/${this.dogImage1}`)
         },
-        userName() {
+        userName () {
             return this.$store.getters['authInfo/auth'].name
         }
     },
     methods: {
-        clickClose() {
+        clickClose () {
             this.$emit('click-close', !this.drawer)
         },
         async clickLogout() {
@@ -111,17 +138,23 @@ export default {
                 this.clickClose()
             })
         },
-        clickMypage() {
+        clickMypage () {
             this.$router.push('/mypage')
         },
-        clickMatch() {
-            this.$router.push('/match')
+        clickDiagnosis () {
+            this.$router.push('/diagnosis')
         },
-        clickAccount() {
+        clickBreed () {
+            this.$router.push('/breed')
+        },
+        clickAccount () {
             this.$router.push('/mypage/account')
         },
-        clickSupport() {
+        clickSupport () {
             this.$router.push('/support')
+        },
+        clickSearch () {
+            this.$router.push('/dog')
         }
     }
 }

@@ -56,21 +56,21 @@ export default {
     },
     computed: {
         dogImageModal () {
-            return this.dogImage && `@/assets/image/diagnosis/breeds/images/${this.dogImage}`
+            return this.dogImage && require(`@/../storage/image/dogimages/${this.dogImage}`)
         },
         changeDialog () {
             return this.dialog
         }
     },
     methods: {
-        alertClick() {
+        alertClick () {
             if (this.isLeft) {
                 this.$emit('left-click')
             } else {
                 this.$emit('right-click')
             }
         },
-        choiceClose() {
+        choiceClose () {
             this.$emit('choice-close')
         }
     }

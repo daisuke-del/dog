@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Entities\UserEntity;
 use App\Exceptions\DOGException;
 use App\Factories\UsersFactory;
+use App\Models\Reaction;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,7 +31,6 @@ class UsersRepository implements UsersRepositoryInterface
             $user['password'],
             $user['sex'],
             $user['weight'],
-            $user['birthday'],
             $user['dog_point'],
             $user['dog_image1'],
             $user['dog_image2'],
@@ -41,13 +41,13 @@ class UsersRepository implements UsersRepositoryInterface
             $user['twitter_id'],
             $user['tiktok_id'],
             $user['blog_id'],
+            $user['birthday'],
             $user['location'],
             $user['comment'],
             $user['yellow_card'],
             $user['update_dog_at'],
             $user['create_date'],
-            $user['dog_image_void_flg'],
-            $user['order_number']
+            $user['dog_image_void_flg']
         );
     }
 
@@ -106,19 +106,18 @@ class UsersRepository implements UsersRepositoryInterface
             'dog_image1' => $user->getDogImage1(),
             'dog_image2' => $user->getDogImage2(),
             'dog_image3' => $user->getDogImage3(),
+            'breed1' => $user->getBreed1(),
+            'breed2' => $user->getBreed2(),
             'instagram_id' => $user->getInstagramId(),
             'twitter_id' => $user->getTwitterId(),
             'tiktok_id' => $user->getTiktokId(),
             'blog_id' => $user->getBlogId(),
             'location' => $user->getLocation(),
             'birthday' => $user->getLocation(),
-            'breed1' => $user->getBreed1(),
-            'breed2' => $user->getBreed2(),
             'comment' => $user->getComment(),
             'yellow_card' => $user->getYellowCard(),
-            'created_date' => $user->getCreateDate(),
             'update_dog_at' => $user->getUpdateDogAt(),
-            'order_number' => $user->getOrderNumber()
+            'created_date' => $user->getCreateDate()
         ]))->save();
     }
 
@@ -143,19 +142,18 @@ class UsersRepository implements UsersRepositoryInterface
             'dog_image1' => $user->getDogImage1(),
             'dog_image2' => $user->getDogImage2(),
             'dog_image3' => $user->getDogImage3(),
+            'breed1' => $user->getBreed1(),
+            'breed2' => $user->getBreed2(),
             'instagram_id' => $user->getInstagramId(),
             'twitter_id' => $user->getTwitterId(),
             'tiktok_id' => $user->getTiktokId(),
             'blog_id' => $user->getBlogId(),
             'location' => $user->getLocation(),
-            'birthday' => $user->getLocation(),
-            'breed1' => $user->getBreed1(),
-            'breed2' => $user->getBreed2(),
+            'birthday' => $user->getBirthday(),
             'comment' => $user->getComment(),
             'yellow_card' => $user->getYellowCard(),
-            'created_date' => $user->getCreateDate(),
             'update_dog_at' => $user->getUpdateDogAt(),
-            'order_number' => $user->getOrderNumber()
+            'created_date' => $user->getCreateDate()
         ]))->save();
         if ($isSaveUsers) {
             DB::commit();
@@ -188,19 +186,18 @@ class UsersRepository implements UsersRepositoryInterface
                 'dog_image1' => $user->getDogImage1(),
                 'dog_image2' => $user->getDogImage2(),
                 'dog_image3' => $user->getDogImage3(),
+                'breed1' => $user->getBreed1(),
+                'breed2' => $user->getBreed2(),
                 'instagram_id' => $user->getInstagramId(),
                 'twitter_id' => $user->getTwitterId(),
                 'tiktok_id' => $user->getTiktokId(),
                 'blog_id' => $user->getBlogId(),
                 'location' => $user->getLocation(),
                 'birthday' => $user->getBirthday(),
-                'breed1' => $user->getBreed1(),
-                'breed2' => $user->getBreed2(),
                 'comment' => $user->getComment(),
                 'yellow_card' => $user->getYellowCard(),
-                'created_date' => $user->getCreateDate(),
                 'update_dog_at' => $user->getUpdateDogAt(),
-                'order_number' => $user->getOrderNumber()
+                'created_date' => $user->getCreateDate()
             ]);
     }
 
@@ -333,6 +330,52 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
+     * usersのbreedを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateBreed(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'breed1' => $user->getBreed1(),
+                'breed2' => $user->getBreed2()
+            ]);
+    }
+
+     /**
+     * usersのbirthdayを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateBirthday(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'birthday' => $user->getBirthday()
+            ]);
+    }
+
+    /**
+     * usersのlocationを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateLocation(UserEntity $user): bool
+    {
+        return (new User)
+            ->where('user_id', $user->getUserId())
+            ->update([
+                'location' => $user->getLocation()
+            ]);
+    }
+
+    /**
      * usersのinstagram_idを更新する
      *
      * @param UserEntity $user
@@ -398,15 +441,15 @@ class UsersRepository implements UsersRepositoryInterface
      * @param stirng $userId
      * @return bool
      */
-    public function updateFace($userId, $dogImage, $num = 0): bool
+    public function updateImage($userId, $dogImage, $column): bool
     {
         $now = new Carbon();
         return (new User())
             ->where('user_id', $userId)
             ->update([
-                'dog_image' => $dogImage,
+                $column => $dogImage,
                 'update_dog_at' => $now->format('Y-m-d H:i:s'),
-                'dog_image_void_flg' => $num
+                'dog_image_void_flg' => 0
             ]);
     }
 
@@ -658,7 +701,7 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * 顔面レベル上位三名を取得
+     * 画像レベル上位三匹を取得
      *
      * @return object
      */
@@ -674,4 +717,120 @@ class UsersRepository implements UsersRepositoryInterface
             ->limit(11)
             ->get();
     }
+
+    /**
+     * 全てのユーザー取得
+     *
+     * @param ?int $offset
+     * @return Collection
+     */
+    public function getUsersAll(?int $offset = null): Collection
+    {
+        return (new User)
+            ->offset($offset)
+            ->limit(20)
+            ->get();
+    }
+
+    /**
+     * ランダムに4ユーザー取得
+     *
+     * @return Collection
+     */
+    public function getUserRandom(): Collection
+    {
+        return User::inRandomOrder()
+            ->limit(4)
+            ->get();
+    }
+
+    /**
+     * フレンド情報を加えてユーザー取得
+     *
+     * @param $userId
+     * @param ?int $offset
+     * @return object
+     */
+    public function getUsersAllWithFriends($userId, ?int $offset = null): object
+    {
+        return DB::table('users')
+            ->leftJoin('reactions as m1', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm1.to_user_id')
+                    ->where('m1.from_user_id', $userId);
+            })
+            ->leftJoin('reactions as m2', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm2.from_user_id')
+                    ->where('m2.to_user_id', $userId);
+            })
+            ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+            ->offset($offset)
+            ->limit(20)
+            ->get();
+    }
+
+    /**
+     * フレンド取得
+     *
+     * @param $userId
+     * @return object
+     */
+    public function getFriends($userId): object
+    {
+        return DB::table('users')
+        ->Join('reactions as m1', 'users.user_id', '=', 'm1.to_user_id')
+        ->Join('reactions as m2', 'users.user_id', '=', 'm2.from_user_id')
+        ->where('m1.from_user_id', $userId)
+        ->where('m2.to_user_id', $userId)
+        ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+        ->get();
+    }
+
+    /**
+     * いいねされているユーザーを取得
+     *
+     * @param $userId
+     * @return object
+     */
+    public function getGiven($userId): object
+    {
+        return DB::table('users')
+            ->leftJoin('reactions as m1', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm1.to_user_id')
+                    ->where('m1.from_user_id', $userId);
+            })
+            ->leftJoin('reactions as m2', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm2.from_user_id')
+                    ->where('m2.to_user_id', $userId);
+            })
+            ->whereNull('m1.from_user_id')
+            ->whereNotNull('m2.to_user_id')
+            ->select('*')
+            ->get();
+    }
+
+    /**
+     * 特定のユーザーの情報を取得
+     *
+     * @param $toUserId
+     * @param $fromUserId
+     * @return object
+     */
+    public function getUserInfo($toUserId, $fromUserId): object
+    {
+        return DB::table('users')
+            ->leftJoin('reactions as m1', function ($join) use ($fromUserId) {
+                $join->on('users.user_id', '=', 'm1.to_user_id')
+                    ->where('m1.from_user_id', $fromUserId);
+            })
+            ->leftJoin('reactions as m2', function ($join) use ($fromUserId) {
+                $join->on('users.user_id', '=', 'm2.from_user_id')
+                    ->where('m2.to_user_id', $fromUserId);
+            })
+            ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+            ->where('users.user_id', '=', $toUserId)
+            ->first();
+    }
 }
+
+
+

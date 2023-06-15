@@ -65,13 +65,13 @@ class ReactionsRepository implements ReactionsRepositoryInterface
      *
      * @param string $toUserId
      * @param string $fromUserId
-     * @return void
+     * @return bool
      * @throws DOGException
      */
-    public function deleteFavorite($toUserId, $fromUserId): void
+    public function deleteFavorite($toUserId, $fromUserId): bool
     {
 
-        Reaction::where('to_user_id', $toUserId)->where('from_user_id', $fromUserId)->delete();
+        return Reaction::where('to_user_id', $toUserId)->where('from_user_id', $fromUserId)->delete();
     }
 
     /**
