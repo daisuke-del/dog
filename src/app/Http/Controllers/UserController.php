@@ -298,7 +298,7 @@ class UserController extends Controller
     }
 
     /**
-     * トップページ用ユーザー画像をランダムに取得
+     * ユーザーを全て取得
      *
      * @param int|null $offset
      * @return false|string

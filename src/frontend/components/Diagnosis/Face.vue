@@ -72,7 +72,7 @@
                   <v-img
                     :src="require('~/assets/image/diagnosis/face/female/elegant.png')"
                   />
-                  <v-card-text class="face-text elegant">エレガントタイプ</v-card-text>
+                  <v-card-text class="face-text elegant">エレガント</v-card-text>
               </v-card>
           </v-col>
         </v-row>

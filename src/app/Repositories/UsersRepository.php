@@ -439,9 +439,12 @@ class UsersRepository implements UsersRepositoryInterface
      * face_image,update_face_at,face_image_void_flgを更新する
      *
      * @param stirng $userId
+     * @param string $dogImage
+     * @param string $column
+     * @param int $num
      * @return bool
      */
-    public function updateImage($userId, $dogImage, $column): bool
+    public function updateImage($userId, $dogImage, $column, $num=1): bool
     {
         $now = new Carbon();
         return (new User())
@@ -449,7 +452,7 @@ class UsersRepository implements UsersRepositoryInterface
             ->update([
                 $column => $dogImage,
                 'update_dog_at' => $now->format('Y-m-d H:i:s'),
-                'dog_image_void_flg' => 0
+                'dog_image_void_flg' => $num
             ]);
     }
 
@@ -475,6 +478,7 @@ class UsersRepository implements UsersRepositoryInterface
     public function getTwoUsersByDogPoint(int $num): Collection
     {
         return (new User)
+            ->where('dog_image_void_flg', 0)
             ->orderBy('dog_point')
             ->skip($num)
             ->limit(2)
@@ -605,27 +609,6 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * 引数の数値分のdog_imageとdog_pointを取得
-     *
-     * @param string $sex
-     * @param string $sort
-     * @param int $num
-     * @return Collection
-     */
-    public function getFace(string $sex, string $sort, int $num): Collection
-    {
-        $dt = new Carbon();
-        $date = $dt->subDay(1);
-        return (new User)
-            ->where('sex', $sex)
-            ->where('update_dog_at', '<', $date)
-            ->select('dog_image', 'dog_point')
-            ->orderBy('order_number', $sort)
-            ->limit($num)
-            ->get();
-    }
-
-    /**
      * diagnosis結果を取得
      *
      * @param int $minWeight
@@ -727,6 +710,7 @@ class UsersRepository implements UsersRepositoryInterface
     public function getUsersAll(?int $offset = null): Collection
     {
         return (new User)
+            ->where('dog_image_void_flg', 0)
             ->offset($offset)
             ->limit(20)
             ->get();
@@ -740,6 +724,7 @@ class UsersRepository implements UsersRepositoryInterface
     public function getUserRandom(): Collection
     {
         return User::inRandomOrder()
+            ->where('dog_iamge_void_flg', 0)
             ->limit(4)
             ->get();
     }
@@ -763,6 +748,7 @@ class UsersRepository implements UsersRepositoryInterface
                     ->where('m2.to_user_id', $userId);
             })
             ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+            ->where('dog_image_void_flg', 0)
             ->offset($offset)
             ->limit(20)
             ->get();
@@ -782,6 +768,7 @@ class UsersRepository implements UsersRepositoryInterface
         ->where('m1.from_user_id', $userId)
         ->where('m2.to_user_id', $userId)
         ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+        ->where('dog_image_void_flg', 0)
         ->get();
     }
 
@@ -804,6 +791,7 @@ class UsersRepository implements UsersRepositoryInterface
             })
             ->whereNull('m1.from_user_id')
             ->whereNotNull('m2.to_user_id')
+            ->where('dog_image_void_flg', 0)
             ->select('*')
             ->get();
     }
@@ -828,6 +816,7 @@ class UsersRepository implements UsersRepositoryInterface
             })
             ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
             ->where('users.user_id', '=', $toUserId)
+            ->where('dog_image_void_flg', 0)
             ->first();
     }
 }

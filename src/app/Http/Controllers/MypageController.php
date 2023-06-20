@@ -28,19 +28,6 @@ class MypageController extends Controller
     }
 
     /**
-     * フレンドの詳細を取得
-     *
-     * @param string $userId
-     * @return false|string
-     * @throws Exception
-     */
-    public function friendDetail(string $userId)
-    {
-        $details = $this->mypageService->getFriendDetail($userId);
-        return json_encode($details, JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * お気に入りに追加
      *
      * @param Request

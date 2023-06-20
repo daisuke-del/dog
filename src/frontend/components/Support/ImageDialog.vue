@@ -4,7 +4,7 @@
         @input="$emit('update:dialog', $event)"
         width="400"
     >
-        <v-card light>
+        <v-card light @click="checkImage">
             <v-img class="top-image" :src="displayImage" cover>
                 <v-card-title class="title">{{ dogInfo.name }}</v-card-title>
                 <v-row v-if="dogImage2" class="other-image align-end d-flex justify-end mr-1">
@@ -25,6 +25,10 @@
                     </v-col>
                 </v-row>
             </v-img>
+            <p class="font-weight-bold">選択中の画像</p>
+            <p v-if="image1">画像1</p>
+            <p v-if="image2">画像2</p>
+            <p v-if="image3">画像3</p>
 
             <v-card-subtitle class="pt-2 pb-0">
                 生年月日：{{ dogBirthday }}
@@ -105,35 +109,8 @@
                 </v-btn>
             </v-card-actions>
 
-            <v-card-actions v-if="$auth.loggedIn" class="text-center">
-                <v-btn
-                    v-if="dogInfo.is_matched && (dogInfo.user_id !== $store.getters['authInfo/userId'])"
-                    outlined
-                    @click="deleteFavorite(dogInfo.user_id)"
-                >
-                    <v-icon color="pink">
-                        mdi-heart
-                    </v-icon>
-                    Friend!!
-                </v-btn>
-                <v-btn
-                    v-else-if="dogInfo.to_user_id === dogInfo.user_id && (dogInfo.user_id !== $store.getters['authInfo/userId'])"
-                    @click="addFavorite(dogInfo.user_id)"
-                    icon
-                >
-                    <v-icon color="pink">
-                        mdi-heart
-                    </v-icon>
-                </v-btn>
-                <v-btn
-                    v-else-if="dogInfo.user_id !== $store.getters['authInfo/userId']"
-                    @click="addFavorite(dogInfo.user_id)"
-                    icon
-                >
-                    <v-icon>
-                        mdi-heart
-                    </v-icon>
-                </v-btn>
+            <v-card-actions>
+                <v-btn class="mb-2" depressed @click="clickSend">送信</v-btn>
             </v-card-actions>
 
             <v-card-actions>
@@ -144,8 +121,10 @@
 </template>
 
 <script>
+import admin from '@/plugins/modules/admin'
+
 export default {
-    name: 'UserDialog',
+    name: 'ImageDialog',
     props: {
         dialog: {
             type: Boolean,
@@ -169,7 +148,10 @@ export default {
     },
     data () {
         return {
-            displayImage: require(`@/../storage/image/dogimages/${this.dogInfo.dog_image1}`)
+            displayImage: require(`@/../storage/image/dogimages/${this.dogInfo.dog_image1}`),
+            image1: false,
+            image2: false,
+            image3: false
         }
     },
     computed: {
@@ -230,15 +212,29 @@ export default {
         clickBlog (link) {
             window.open(link, '_blank')
         },
-        addFavorite (friendId) {
-            this.$emit('add-favorite', friendId)
+        checkImage () {
+            if (this.displayImage === this.dogImage1) {
+                if (this.image1) {
+                    this.image1 = false
+                } else {
+                    this.image1 = true
+                }
+            } else if (this.displayImage === this.dogImage2) {
+                if (this.image2) {
+                    this.image2 = false
+                } else {
+                    this.image2 = true
+                }
+            } else if (this.displayImage === this.dogImage3) {
+                if (this.image3) {
+                    this.image3 = false
+                } else {
+                    this.image3 = true
+                }
+            }
         },
-        deleteFavorite (friendId) {
-            this.$emit('delete-favorite', friendId)
-        },
-        clickBreed (breed) {
-            this.$router.push({ path: '/dog', query: { breed: breed } });
-            this.updateData();
+        clickSend () {
+            admin.deleteVoidImage(this.dogInfo.user_id, this.image1, this.image2, this.image3).then(() => { })
         }
     },
     watch: {

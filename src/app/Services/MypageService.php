@@ -71,52 +71,6 @@ class MypageService
         ];
     }
 
-
-
-    /**
-     * userIdから全てのマッチングを取得
-     *
-     * @param string $userId
-     * @return ?array
-     * @throw Exception
-     */
-    public function getMatchAll(string $userId): ?array
-    {
-        $result = [];
-        $result['one_side'] = $this->reactionsRepository->selectMatchById($userId);
-        if (empty($result['one_side'])) {
-            return $result;
-        }
-        foreach($result['one_side']->toArray() as $friend) {
-            $friendInfo = $this->reactionsRepository->checkMatchById($friend['to_user_id'], $userId);
-            if ($friendInfo) {
-                $result['feiends'] = $friendInfo->toArray();
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * フレンドの詳細を取得
-     *
-     * @param string $userId
-     * @return array
-     * @throw Exception
-     */
-    public function getFriendDetail(string $userId): array
-    {
-        $friendDetail = $this->usersRepository->selectUsersById($userId);
-        return [
-            'name' => $friendDetail['name'],
-            'dog_image' => $friendDetail['dog_image'],
-            'height' => $friendDetail['height'],
-            'salary' => $friendDetail['salary'],
-            'facebook_id' => $friendDetail['facebook_id'],
-            'instagram_id' => $friendDetail['instagram_id'],
-            'twitter_id' => $friendDetail['twitter_id']
-        ];
-    }
-
     /**
      * お気に入りに追加
      *

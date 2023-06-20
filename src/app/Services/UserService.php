@@ -20,6 +20,7 @@ use App\Services\MypageService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 
 
 class UserService
@@ -712,7 +713,8 @@ class UserService
             $img = str_replace(' ', '+', $img);
             $fileData = base64_decode($img);
 
-            $fileName = md5($img);
+            $randomString = Str::random(10);
+            $fileName = md5($img) . $randomString;
             $path = $fileName . '.' . $extension;
 
             Storage::disk('local')->put($path, $fileData);
@@ -864,89 +866,6 @@ class UserService
     }
 
     /**
-     * 診断指標の計算関数
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function getCalculation(Request $request): array
-    {
-        $sex = $request->input('sex');
-        $height = (int) $request->input('height');
-        $weight = (int) $request->input('weight');
-        $age = (int) $request->input('age');
-        $salary = (int) $request->input('salary');
-        $salary2 = $salary / 10 - 30;
-        $dogPoint = (int) $request->input('dogPoint');
-        $dogPoint2 = $dogPoint * 2;
-
-        if ($sex === 'male') {
-            $height2 = ($height - 150) * 2;
-            $weight2 = abs($weight / ($height * $height / 10000) - 20) * 3;
-            $age2 = abs($age - 27);
-        } else {
-            $height2 = 30;
-            $weight2 = ($weight / ($height * $height / 10000) - 20) * 3;
-            $age2 = $age - 23;
-        }
-
-        return [
-            'height' => $height,
-            'weight' => $weight,
-            'age' => $age,
-            'salary' => $salary,
-            'dogPoint' => $dogPoint,
-            'height2' => $height2,
-            'weight2' => $weight2,
-            'age2' => $age2,
-            'salary2' => $salary2,
-            'dogPoint2' => $dogPoint2
-        ];
-    }
-
-    /**
-     * お気に入りしているか確認
-     *
-     * @param array $users
-     * @return array
-     */
-    private function checkFavorite($userId, $results): array
-    {
-        $onesideLoversIds = [];
-        $mutualLoversIds = [];
-        foreach ($results as $result) {
-            $resultIds[] = $result['user_id'];
-        }
-        $onesideLovers = $this->reactionsRepository->getResultFavorite($userId, $resultIds);
-        if (isset($onesideLovers)) {
-            $onesideLoversIds = [];
-            foreach ($onesideLovers as $onesideLover) {
-                $onesideLoversIds[] = $onesideLover['to_user_id'];
-            }
-            $mutualLovers = $this->reactionsRepository->getResultBeFavorited($userId, $onesideLoversIds);
-            if (empty($mutualLovers)) {
-                return [
-                    'onesideLoveId' => $onesideLoversIds
-                ];
-            }
-            foreach ($mutualLovers->toArray() as $mutualLover) {
-                $mutualLoversIds[] = $mutualLover['from_user_id'];
-            }
-            if ($mutualLovers) {
-                return [
-                    'onesideLoveId' => $onesideLoversIds,
-                    'mutualLoveId' => $mutualLoversIds
-                ];
-            }
-            return [
-                'onesideLoveId' => $onesideLoversIds
-            ];
-        }
-
-        return false;
-    }
-
-    /**
      * 画像を保存
      *
      * @param Request $request
@@ -969,13 +888,58 @@ class UserService
     {
         $userId = $request->input('userId');
         $userInfo = $this->usersRepository->selectUsersById($userId);
-        $dogImage = $userInfo['dog_image'];
+        $dogImage1 = $userInfo['dog_image1'];
+        $dogImage2 = $userInfo['dog_image2'];
+        $dogImage3 = $userInfo['dog_image3'];
         try {
-            if (!Storage::exists($dogImage)) {
-                throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+            if (empty($dogImage3) === false) {
+                if (!Storage::exists($dogImage3)) {
+                    throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+                }
+                $this->usersRepository->updateImage($userId, null, 'dog_iamge3', 0);
+                Storage::delete($dogImage3);
             }
-            $this->usersRepository->updateImage($userId, 'no-user-image-icon.png', 2);
-            Storage::delete($dogImage);
+            if (empty($dogImage2) === false) {
+                $userInfo2 = $this->usersRepository->selectUsersById($userId);
+                if ($userInfo2['dog_image3']) {
+                    if (!Storage::exists($dogImage2)) {
+                        throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+                    }
+                    $this->usersRepository->updateImage($userId, $userInfo2['dog_image3'], 'dog_image2', 0);
+                    $this->usersRepository->updateImage($userId, null, 'dog_image3', 0);
+                    Storage::delete($dogImage2);
+                } else {
+                    if (!Storage::exists($dogImage2)) {
+                        throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+                    }
+                    $this->usersRepository->updateImage($userId, null, 'dog_image2', 0);
+                    Storage::delete($dogImage2);
+                }
+            }
+            if (empty($dogImage1) === false) {
+                $userInfo2 = $this->usersRepository->selectUsersById($userId);
+                if ($userInfo2['dog_image2']) {
+                    if (!Storage::exists($dogImage1)) {
+                        throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+                    }
+                    $this->usersRepository->updateImage($userId, $userInfo2['dog_image2'], 'dog_image1', 0);
+                    Storage::delete($dogImage1);
+                    if ($userInfo2['dog_image3']) {
+                        $this->usersRepository->updateImage($userId, $userInfo2['dog_image3'], 'dog_image2', 0);
+                        $this->usersRepository->updateImage($userId, null, 'dog_image3', 0);
+                    } else {
+                        $this->usersRepository->updateImage($userId, null, 'dog_image2', 0);
+                    }
+                } else {
+                    if ($userInfo2['dog_image1']) {
+                        if (!Storage::exists($dogImage1)) {
+                            throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
+                        }
+                        $this->usersRepository->updateImage($userId, 'no-user-image-icon.png', 'dog_image1', 2);
+                        Storage::delete($dogImage1);
+                    }
+                }
+            }
         } catch (Exception $e) {
             Log::error($e);
             throw new DOGException(config('const.ERROR.ADMIN.FAILED'), 400);

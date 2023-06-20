@@ -185,7 +185,7 @@ export default {
           primary: '#97B6B8',
           secondary: '#F0E8E0',
           accent: '#392d25',
-          info: colors.teal.lighten1,
+          info: '#384878',
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
@@ -193,7 +193,9 @@ export default {
         light: {
           primary: '#97B6B8',
           secondary: '#F0E8E0',
-          accent: '#392d25'
+          accent: '#392d25',
+          info: '#384878',
+          success: colors.green.accent3,
         },
       },
     },

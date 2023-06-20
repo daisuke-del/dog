@@ -224,7 +224,6 @@
               <v-col cols="6">
                 <v-card
                   hover
-                 
                   class="card"
                   @click="clickBreed3()"
                 >
@@ -240,7 +239,6 @@
               <v-col cols="6">
                 <v-card
                   hover
-                 
                   class="card"
                   @click="clickBreed4()"
                 >
@@ -272,7 +270,6 @@
               <v-col cols="6">
                 <v-card
                   hover
-                 
                   class="card"
                   @click="clickUser(users[0])"
                 >
@@ -288,7 +285,6 @@
               <v-col cols="6">
                 <v-card
                   hover
-                 
                   class="card"
                   @click="clickUser(users[1])"
                 >
@@ -306,7 +302,6 @@
               <v-col cols="6">
                 <v-card
                   hover
-                 
                   class="card"
                   @click="clickUser(users[2])"
                 >
@@ -322,7 +317,6 @@
               <v-col cols="6">
                 <v-card
                   hover
-                 
                   class="card"
                   @click="clickUser(users[3])"
                 >

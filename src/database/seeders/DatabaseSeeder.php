@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(SupportsTableSeeder::class);
         // \App\Models\User::factory()->count(101)->create();
         // \App\Models\User::factory()->count(101)->male()->create();
-        $this->call(BreedsTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        // $this->call(BreedsTableSeeder::class);
+        // $this->call(UsersTableSeeder::class);
+        $this->call(AdminsTableSeeder::class);
     }
 }

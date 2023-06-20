@@ -4,11 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\ChoiceService;
 use Exception;
-use http\Encoding\Stream\Inflate;
-use Throwable;
-use App\Http\Requests\UserRequest;
-use App\Services\UserService;
-use App\Services\MypageService;
 
 class ChoiceController extends Controller
 {

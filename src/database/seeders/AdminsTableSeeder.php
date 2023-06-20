@@ -16,15 +16,11 @@ class AdminsTableSeeder extends Seeder
     public function run()
     {
         Admin::create([
+            'user_id' => '1e750a19-1e39-796d-5597-338aec724187',
             'email' => 'a@a',
             'password' => Hash::make('testtest'),
             'name' => 'aaa',
-            'dog_image' => 'no-user-image-icon.png',
-            'sex' => 'male',
-            'height' => 180,
-            'weight' => 70,
-            'age' => 40,
-            'salary' => 1000,
+            'dog_image' => 'no-user-image-icon.png'
         ]);
     }
 }

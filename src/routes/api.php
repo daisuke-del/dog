@@ -5,7 +5,6 @@ use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\BreedController;
-use App\Models\Breed;
 
 /*
 |--------------------------------------------------------------------------

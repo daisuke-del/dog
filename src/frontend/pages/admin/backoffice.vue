@@ -1,206 +1,91 @@
 <template>
     <div class="all">
-        <support-dialog :dialog.sync="isShowModal" :content="content" @support-close="supportClose"/>
+        <support-dialog
+            :dialog.sync="isShowModal"
+            :content="content"
+            @support-close="supportClose"
+        />
+        <image-dialog
+            :dialog.sync="imageDialog"
+            :dog-info="dogInfo"
+            @choice-close="choiceClose"
+        />
         <v-btn depressed light class="ma-3" @click="logout">ログアウト</v-btn>
         <v-card light>
             <v-tabs
-            v-model="tab"
-            fixed-tabs
-            color="deep-purple-accent-4"
-            align-tabs="center"
+                v-model="tab"
+                fixed-tabs
+                color="deep-purple-accent-4"
+                align-tabs="center"
             >
                 <v-tab value="voidUser" @click="clickVoidUser">不正画像ユーザー</v-tab>
                 <v-tab value="support" @click="clickSupport">問い合わせ</v-tab>
             </v-tabs>
-            <div
-                v-if="isShowVoidUsers"
-            >
+            <div v-if="isShowVoidUsers">
                 <v-row>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[0]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[0].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[0].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[0].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[0]" @click="clickCard(voidUsers[0])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[0].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[1]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[1].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[1].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[1].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[1]" @click="clickCard(voidUsers[1])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[1].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[2]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[2].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[2].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[2].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[2]" @click="clickCard(voidUsers[2])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[2].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[3]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[3].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[3].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[3].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[3]" @click="clickCard(voidUsers[3])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[3].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[4]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[4].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[4].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[4].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[4]" @click="clickCard(voidUsers[4])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[4].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[5]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[5].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[5].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[5].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[5]" @click="clickCard(voidUsers[5])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[5].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[6]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[6].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[6].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[6].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[6]" @click="clickCard(voidUsers[6])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[6].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[7]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[7].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[7].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[7].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[7]" @click="clickCard(voidUsers[7])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[7].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[8]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[8].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[8].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[8].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[8]" @click="clickCard(voidUsers[8])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[8].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[9]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[9].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[9].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[9].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[9]" @click="clickCard(voidUsers[9])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[9].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[10]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[10].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[10].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[10].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[10]" @click="clickCard(voidUsers[10])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[10].dog_image1}`)" />
                         </v-card>
                     </v-col>
                     <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[11]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[11].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[11].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[11].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[12]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[12].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[12].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[12].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[13]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[13].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[13].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[13].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[14]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[14].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[14].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[14].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[15]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[15].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[15].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[15].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[16]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[16].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[16].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[16].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[17]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[17].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[17].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[17].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[18]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[18].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[18].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[18].user_id)">問題なし</v-btn>
-                            </div>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="6" sm="4" md="3" lg="2">
-                        <v-card light max-width="200px" class="card" v-if="voidUsers[19]">
-                            <v-img :src="`http://localhost/storage/${voidUsers[19].dog_image}`" />
-                            <div class="d-flex justify-center btn">
-                                <v-btn depressed @click="voidImage(voidUsers[19].user_id)">不正</v-btn>
-                                <v-btn depressed @click="notVoidImage(voidUsers[19].user_id)">問題なし</v-btn>
-                            </div>
+                        <v-card light max-width="200px" class="card" v-if="voidUsers[11]" @click="clickCard(voidUsers[11])">
+                            <v-img :src="require(`@/../storage/image/dogimages/${voidUsers[11].dog_image1}`)" />
                         </v-card>
                     </v-col>
                 </v-row>
             </div>
-            <div
-                v-else
-            >
+            <div v-else>
                 <table>
                     <thead>
                         <tr>
@@ -246,9 +131,10 @@
 import admin from '@/plugins/modules/admin'
 import support from '@/plugins/modules/support'
 import SupportDialog from '@/components/Support/SupportDialog'
+import ImageDialog from '@/components/Support/ImageDialog'
 export default {
     name: 'AdminBackoffice',
-    components: { SupportDialog },
+    components: { SupportDialog, ImageDialog },
     middleware: 'adminVerification',
     async asyncData({ app }) {
         if (!app.store.getters['adminInfo/login']) {
@@ -271,7 +157,21 @@ export default {
             tab: "support",
             isShowModal: false,
             isShowVoidUsers: true,
-            content: ''
+            content: '',
+            imageDialog: false,
+            dogInfo: {
+                name: 'バニラ',
+                dog_image1: '4.jpg',
+                dog_image2: '1.jpg',
+                dog_image3: '3.jpg',
+                comment: 'バニラ',
+                breed1: '',
+                breed2: '',
+                twitter_id: '',
+                instagram_id: '',
+                tiktok_id: '',
+                blog_id: ''
+            }
         }
     },
     methods: {
@@ -299,6 +199,13 @@ export default {
         },
         clickResolve(id) {
             support.resolve(id)
+        },
+        clickCard (dogInfo) {
+            this.dogInfo = dogInfo
+            this.imageDialog = true
+        },
+        choiceClose () {
+            this.imageDialog = false
         }
     }
 }

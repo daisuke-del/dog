@@ -158,8 +158,20 @@
             </v-btn>
           </v-card>
         </v-col>
-        <v-col cols="12">
-          <p v-if="friends.length === 0" class="not-friend">現在フレンドはいません</p>
+        <v-col v-if="friends.length === 0" cols="12" class="text-center">
+          <p class="not-friend">現在フレンドはいません</p>
+          <v-btn
+            depressed
+            color="primary"
+            dark
+            class="font-weight-bold"
+            @click="findFriend"
+          >
+            友達を探しに行く
+            <v-icon>
+              mdi-dog
+            </v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </div>
@@ -386,6 +398,9 @@ export default {
           this.friends = response['friends']
         })
       }
+    },
+    findFriend () {
+      this.$router.push('/dog')
     }
   }
 }
@@ -539,7 +554,6 @@ h1 {
   font-size: 1em;
   font-family: 'Noto Sans JP', sans-serif;
   color: dimgrey;
-  text-align: center;
 }
 
 .friend-img {

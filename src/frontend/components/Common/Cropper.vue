@@ -7,7 +7,7 @@
         <v-icon
           class="delete-icon"
           size="30px"
-          color="accent"
+          color="info"
           @click="closeImgModal"
           >
           mdi-close-thick
@@ -121,7 +121,7 @@
             dark
             block
             depressed
-            color="accent"
+            color="info"
             height="50px"
             class="btn mt-2 mb-2"
             @click="cropImage"
@@ -143,7 +143,7 @@
             dark
             block
             depressed
-            color="accent"
+            color="info"
             height="50px"
             class="btn mt-2 mb-2"
             @click="saveCropImage"

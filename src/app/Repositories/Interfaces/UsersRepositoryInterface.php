@@ -147,12 +147,15 @@ interface UsersRepositoryInterface
     public function updateTwitter(UserEntity $user): bool;
 
     /**
-     * dog_image,update_dog_at,dog_image_void_flgを更新する
+     * face_image,update_face_at,face_image_void_flgを更新する
      *
      * @param stirng $userId
+     * @param string $dogImage
+     * @param string $column
+     * @param int $num
      * @return bool
      */
-    public function updateImage($userId, $dogImage, $column): bool;
+    public function updateImage($userId, $dogImage, $column, $num=1): bool;
 
     /**
      * 引数のemailが一致するusersテーブル情報を取得する
@@ -233,16 +236,6 @@ interface UsersRepositoryInterface
      * @return void
      */
     public function updateDogImageVoidFlg(string $userId, int $num): void;
-
-    /**
-     * 引数の数値分のdog_imageとdog_pointを取得
-     *
-     * @param string $sex
-     * @param string $sort
-     * @param int $num
-     * @return Collection
-     */
-    public function getFace(string $sex, string $sort, int $num): Collection;
 
     /**
      * diagnosis結果を取得

@@ -7,10 +7,25 @@
         </p>
         <v-form ref="supportForm">
             <div class="main-wrap">
-                <v-text-field v-model="name" :rules="nameRules" label="お名前" background-color="white" required outlined
-                light />
-                <v-text-field v-model="email" :rules="emailRules" label="メールアドレス" background-color="white" required outlined
-                light class="mb-6" />
+                <v-text-field
+                  v-model="name"
+                  :rules="nameRules"
+                  label="お名前"
+                  background-color="white"
+                  required
+                  outlined
+                  light
+                />
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  label="メールアドレス"
+                  background-color="white"
+                  required
+                  outlined
+                  light
+                  class="mb-6"
+                />
                 <div>
                     <h3>問い合わせ項目</h3>
                     <v-select
@@ -34,7 +49,16 @@
                 </div>
                 <v-tooltip v-model="showSupportTooltip" top>
                   <template v-slot:activator="{ attrs }">
-                    <v-btn block height="40px" depressed color="#fd7e00" :loading="supportLoading" class="font-weight-bold mb-8"  v-bind="attrs" @click="sendSupport">
+                    <v-btn
+                      block
+                      height="40px"
+                      depressed
+                      color="#fd7e00"
+                      :loading="supportLoading"
+                      class="font-weight-bold mb-8"
+                      v-bind="attrs"
+                      @click="sendSupport"
+                    >
                       送信
                     </v-btn>
                   </template>
