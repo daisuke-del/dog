@@ -7,7 +7,7 @@
             @click="clickHoliday('picnic')"
           >
             <v-img :src="require('~/assets/image/diagnosis/holiday/picnic.png')" />
-            <v-card-text class="holiday-text">ピクニック！</v-card-text>
+            <v-card-text class="holiday-text">公園で遊ぶ</v-card-text>
           </v-card>
         </v-col>
         <v-col cols="6">
@@ -15,7 +15,7 @@
             @click="clickHoliday('game')"
           >
             <v-img :src="require('~/assets/image/diagnosis/holiday/game.png')" />
-            <v-card-text class="holiday-text">ゲーム！</v-card-text>
+            <v-card-text class="holiday-text">一人で遊ぶ</v-card-text>
           </v-card>
         </v-col>
         <v-col cols="6">
@@ -23,7 +23,7 @@
             @click="clickHoliday('party')"
           >
             <v-img :src="require('~/assets/image/diagnosis/holiday/party.png')" />
-            <v-card-text class="holiday-text">パーティー！</v-card-text>
+            <v-card-text class="holiday-text">パーティー</v-card-text>
           </v-card>
         </v-col>
         <v-col cols="6">
@@ -31,7 +31,7 @@
             @click="clickHoliday('workholiday')"
           >
             <v-img :src="require('~/assets/image/diagnosis/holiday/book.png')" />
-            <v-card-text class="holiday-text">読書！</v-card-text>
+            <v-card-text class="holiday-text">ゆっくり過ごす</v-card-text>
           </v-card>
         </v-col>
       </v-row>

@@ -280,6 +280,11 @@ export default {
             offset:20
         }
     },
+    beforeRouteUpdate(to, from, next) {
+        next(vm => {
+            vm.reloadPage()
+        })
+    },
     computed: {
         filteredUsers() {
             if (this.searchBreedKeyword && this.searchNameKeyword) {
@@ -391,8 +396,13 @@ export default {
         },
         infiniteHandler () {
             this.getDogs()
-        },
-    }
+        }
+    },
+    watch: {
+        $route () {
+            location.reload()
+        }
+    },
 }
 </script>
 

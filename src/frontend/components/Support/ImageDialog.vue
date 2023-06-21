@@ -45,7 +45,6 @@
                 <v-btn class="btn"
                     depressed
                     color="primary"
-                    @click="clickBreed(dogInfo.breed1)"
                 >
                     {{ dogInfo.breed1 }}
                 </v-btn>
@@ -55,7 +54,6 @@
                     class="btn"
                     depressed
                     color="primary"
-                    @click="clickBreed(dogInfo.breed2)"
                 >
                     {{ dogInfo.breed2 }}
                 </v-btn>
@@ -234,6 +232,9 @@ export default {
             }
         },
         clickSend () {
+            console.log('1', this.image1)
+            console.log('2', this.image2)
+            console.log('3', this.image3)
             admin.deleteVoidImage(this.dogInfo.user_id, this.image1, this.image2, this.image3).then(() => { })
         }
     },

@@ -7,16 +7,18 @@
           <v-slider
             v-model="personality1.val"
             :thumb-color="personality1.color"
+            track-color="primary"
             thumb-label="always"
             hide-details
           />
           <p>穏やか</p>
         </div>
         <div class="slider d-flex">
-          <p>奔　放</p>
+          <p>自　由</p>
           <v-slider
             v-model="personality2.val"
             :thumb-color="personality2.color"
+            track-color="primary"
             thumb-label="always"
             hide-details
           />
@@ -27,6 +29,7 @@
           <v-slider
             v-model="personality3.val"
             :thumb-color="personality3.color"
+            track-color="primary"
             thumb-label="always"
             hide-details
           />

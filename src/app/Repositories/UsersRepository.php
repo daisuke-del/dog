@@ -444,7 +444,7 @@ class UsersRepository implements UsersRepositoryInterface
      * @param int $num
      * @return bool
      */
-    public function updateImage($userId, $dogImage, $column, $num=1): bool
+    public function updateImage($userId, $dogImage=null, $column, $num=1): bool
     {
         $now = new Carbon();
         return (new User())

@@ -238,7 +238,6 @@ export default {
         },
         clickBreed (breed) {
             this.$router.push({ path: '/dog', query: { breed: breed } });
-            this.updateData();
         }
     },
     watch: {

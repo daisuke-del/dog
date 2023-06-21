@@ -888,6 +888,7 @@ class UserService
     {
         $userId = $request->input('userId');
         $userInfo = $this->usersRepository->selectUsersById($userId);
+        Log::debug($userInfo);
         $dogImage1 = $userInfo['dog_image1'];
         $dogImage2 = $userInfo['dog_image2'];
         $dogImage3 = $userInfo['dog_image3'];
@@ -896,7 +897,7 @@ class UserService
                 if (!Storage::exists($dogImage3)) {
                     throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
                 }
-                $this->usersRepository->updateImage($userId, null, 'dog_iamge3', 0);
+                $this->usersRepository->updateImage($userId, null, 'dog_image3', 0);
                 Storage::delete($dogImage3);
             }
             if (empty($dogImage2) === false) {

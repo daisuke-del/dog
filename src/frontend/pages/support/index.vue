@@ -6,65 +6,66 @@
             返信が必要なお問い合い合わせに関しては、ご入力いただいたメールアドレスにご連絡させていただきます。
         </p>
         <v-form ref="supportForm">
-            <div class="main-wrap">
-                <v-text-field
-                  v-model="name"
-                  :rules="nameRules"
-                  label="お名前"
-                  background-color="white"
-                  required
-                  outlined
+          <div class="main-wrap">
+            <v-text-field
+              v-model="name"
+              :rules="nameRules"
+              label="お名前"
+              background-color="white"
+              required
+              outlined
+              light
+            />
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              label="メールアドレス"
+              background-color="white"
+              required
+              outlined
+              light
+              class="mb-6"
+            />
+            <div>
+              <h3>問い合わせ項目</h3>
+              <v-select
                   light
-                />
-                <v-text-field
-                  v-model="email"
-                  :rules="emailRules"
-                  label="メールアドレス"
-                  background-color="white"
-                  required
                   outlined
-                  light
+                  v-model="item"
+                  background-color="white"
+                  :items="inquiryItems"
+                  :rules="inquiryItemRules"
                   class="mb-6"
-                />
-                <div>
-                    <h3>問い合わせ項目</h3>
-                    <v-select
-                        light
-                        outlined
-                        v-model="item"
-                        background-color="white"
-                        :items="inquiryItems"
-                        :rules="inquiryItemRules"
-                        class="mb-6"
-                    />
-                    <h3>問い合わせ内容</h3>
-                    <v-textarea
-                        light
-                        outlined
-                        background-color="white"
-                        v-model="content"
-                        :rules="inquiryContentRules"
-                        class="mb-6"
-                    ></v-textarea>
-                </div>
-                <v-tooltip v-model="showSupportTooltip" top>
-                  <template v-slot:activator="{ attrs }">
-                    <v-btn
-                      block
-                      height="40px"
-                      depressed
-                      color="#fd7e00"
-                      :loading="supportLoading"
-                      class="font-weight-bold mb-8"
-                      v-bind="attrs"
-                      @click="sendSupport"
-                    >
-                      送信
-                    </v-btn>
-                  </template>
-                  <span>送信しました</span>
-                </v-tooltip>
+              />
+              <h3>問い合わせ内容</h3>
+              <v-textarea
+                  light
+                  outlined
+                  background-color="white"
+                  v-model="content"
+                  :rules="inquiryContentRules"
+                  class="mb-6"
+              ></v-textarea>
             </div>
+            <v-tooltip v-model="showSupportTooltip" top>
+              <template v-slot:activator="{ attrs }">
+                <v-btn
+                  block
+                  dark
+                  height="40px"
+                  depressed
+                  color="primary"
+                  :loading="supportLoading"
+                  class="font-weight-bold mb-8"
+                  v-bind="attrs"
+                  @click="sendSupport"
+                >
+                  送信
+                </v-btn>
+              </template>
+              <span>送信しました</span>
+            </v-tooltip>
+          </div>
         </v-form>
     </div>
   </template>
