@@ -45,7 +45,7 @@
                     @click="clickUser(user, index)"
                 >
                     <v-img
-                        :src="require(`@/../storage/image/dogimages/${user.dog_image1}`)"
+                        :src="`https://www.dogiland.jp/storage/image/dogimages/${user.dog_image1}`"
                     />
                 </v-card>
                 <a class="name-text mb-0" @click="clickUser(user)">{{ user.name }}</a>

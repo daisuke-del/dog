@@ -1,1 +1,5 @@
 .env
+/vendor/
+docker/nginx
+src/storage
+src/storage/logs

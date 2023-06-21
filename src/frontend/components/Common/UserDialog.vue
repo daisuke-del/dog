@@ -169,18 +169,18 @@ export default {
     },
     data () {
         return {
-            displayImage: require(`@/../storage/image/dogimages/${this.dogInfo.dog_image1}`)
+            displayImage: `https://www.dogiland.jp/storage/image/dogimages/${this.dogInfo.dog_image1}`
         }
     },
     computed: {
         dogImage1 () {
-            return this.dogInfo.dog_image1 && require(`@/../storage/image/dogimages/${this.dogInfo.dog_image1}`)
+            return this.dogInfo.dog_image1 && `https://www.dogiland.jp/storage/image/dogimages/${this.dogInfo.dog_image1}`
         },
         dogImage2 () {
-            return this.dogInfo.dog_image2 && require(`@/../storage/image/dogimages/${this.dogInfo.dog_image2}`)
+            return this.dogInfo.dog_image2 && `https://www.dogiland.jp/storage/image/dogimages/${this.dogInfo.dog_image2}`
         },
         dogImage3 () {
-            return this.dogInfo.dog_image3 && require(`@/../storage/image/dogimages/${this.dogInfo.dog_image3}`)
+            return this.dogInfo.dog_image3 && `https://www.dogiland.jp/storage/image/dogimages/${this.dogInfo.dog_image3}`
         },
         dogAge () {
             const birthDate = new Date(this.dogInfo.birthday);
@@ -243,7 +243,7 @@ export default {
     watch: {
         dogInfo: {
             handler () {
-                this.displayImage = require(`@/../storage/image/dogimages/${this.dogInfo.dog_image1}`)
+                this.displayImage = `https://www.dogiland.jp/storage/image/dogimages/${this.dogInfo.dog_image1}`
             },
             deep: true,
         }

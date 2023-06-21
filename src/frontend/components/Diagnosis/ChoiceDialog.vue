@@ -56,7 +56,7 @@ export default {
     },
     computed: {
         dogImageModal () {
-            return this.dogImage && require(`@/../storage/image/dogimages/${this.dogImage}`)
+            return this.dogImage && `https://www.dogiland.jp/storage/image/dogimages/${this.dogImage}`
         },
         changeDialog () {
             return this.dialog

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\DiagnosisController;
-use App\Http\Controllers\SupportController;
 
 /*
 |--------------------------------------------------------------------------
