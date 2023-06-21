@@ -777,7 +777,7 @@ class UserService
      */
     public function deleteDogImage($imagePath): bool
     {
-        if (Storage::exists($imagePath)) {
+        if (Storage::exists($imagePath) && $imagePath !== 'no-user-image-icon.png') {
             Storage::delete($imagePath);
             return true;
         }
@@ -898,7 +898,7 @@ class UserService
                     throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
                 }
                 $this->usersRepository->updateImage($userId, null, 'dog_image3', 0);
-                Storage::delete($dogImage3);
+                $this->deleteDogImage($dogImage3);
             }
             if (empty($dogImage2) === false) {
                 $userInfo2 = $this->usersRepository->selectUsersById($userId);
@@ -908,13 +908,13 @@ class UserService
                     }
                     $this->usersRepository->updateImage($userId, $userInfo2['dog_image3'], 'dog_image2', 0);
                     $this->usersRepository->updateImage($userId, null, 'dog_image3', 0);
-                    Storage::delete($dogImage2);
+                    $this->deleteDogImage($dogImage2);
                 } else {
                     if (!Storage::exists($dogImage2)) {
                         throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
                     }
                     $this->usersRepository->updateImage($userId, null, 'dog_image2', 0);
-                    Storage::delete($dogImage2);
+                    $this->deleteDogImage($dogImage2);
                 }
             }
             if (empty($dogImage1) === false) {
@@ -924,7 +924,7 @@ class UserService
                         throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
                     }
                     $this->usersRepository->updateImage($userId, $userInfo2['dog_image2'], 'dog_image1', 0);
-                    Storage::delete($dogImage1);
+                    $this->deleteDogImage($dogImage1);
                     if ($userInfo2['dog_image3']) {
                         $this->usersRepository->updateImage($userId, $userInfo2['dog_image3'], 'dog_image2', 0);
                         $this->usersRepository->updateImage($userId, null, 'dog_image3', 0);
@@ -937,7 +937,7 @@ class UserService
                             throw new DOGException(config('const.ERROR.ADMIN.NO_IMAGE'), 400);
                         }
                         $this->usersRepository->updateImage($userId, 'no-user-image-icon.png', 'dog_image1', 2);
-                        Storage::delete($dogImage1);
+                        $this->deleteDogImage($dogImage1);
                     }
                 }
             }
