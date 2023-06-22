@@ -1,3 +1,3 @@
 module.exports = {
-    apiBaseUrl: 'http://localhost/',
+    apiBaseUrl: 'http://dogiland.jp/',
   }
