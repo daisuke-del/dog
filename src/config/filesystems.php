@@ -38,7 +38,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('image/dogimages'),
-            'url' => env('APP_URL', 'http://localhost').'/storage',
+            'url' => env('APP_URL', 'http://dogiland.jp').'/storage',
             'visibility' => 'public',
         ],
 
