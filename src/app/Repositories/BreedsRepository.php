@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Interfaces\breedsRepositoryInterface;
+use App\Repositories\Interfaces\BreedsRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
