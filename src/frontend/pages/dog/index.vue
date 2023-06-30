@@ -1,5 +1,5 @@
 <template>
-    <div class="all mx-4">
+    <div class="all mx-4 mb-6">
         <user-dialog
             :dialog.sync="userDialog"
             :dog-info="dogInfo"

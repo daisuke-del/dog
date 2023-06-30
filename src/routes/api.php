@@ -52,4 +52,5 @@ Route::prefix('support')->name('support.')->group(function () {
 Route::prefix('user')->name('user.')->group(function () {
   Route::get('random', [UserController::class, 'random']);
   Route::get('/{offset}', [UserController::class, 'getUsers']);
+  Route::get('two', [UserController::class, 'two']);
 });

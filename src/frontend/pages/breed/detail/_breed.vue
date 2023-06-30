@@ -1,5 +1,5 @@
 <template>
-    <div class="all pt-4 pb-10">
+    <div class="all pt-4 pb-10 px-2">
         <h1>{{ breedInfo[0].name }}</h1>
         <v-breadcrumbs
             :items="items"

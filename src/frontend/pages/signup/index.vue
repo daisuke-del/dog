@@ -1,6 +1,7 @@
 <template>
   <div class="content mx-auto">
-    <h1 v-if="position === 2">写真をアップロード</h1>
+    <h1 v-if="position ===2 && isChoice">可愛い方を選ぼう</h1>
+    <h1 v-else-if="position === 2">写真をアップロード</h1>
     <h1 v-else>愛犬を登録</h1>
     <v-stepper
       v-model="position"
@@ -43,7 +44,17 @@
       </v-stepper-content>
       <v-stepper-content step="2">
         <div class="mx-auto">
+          <diagnosis-choice
+            v-if="choiceCount < 3 && isChoice"
+            :leftDog="choiceDogs[0]"
+            :rightDog="choiceDogs[1]"
+            @choice-left="choiceLeft"
+            @choice-right="choiceRight"
+            @alert-left="clickAlertLeft"
+            @alert-right="clickAlertRight"
+          />
           <register-image
+          v-else
             @store-face-image="storeDogImage"
             @click-back="transitionContent"
           />
@@ -109,6 +120,9 @@ export default {
       dogImage: null,
       dogImage2: null,
       dogImage3: null,
+      isChoice: false,
+      choiceCount: 0,
+      choiceDogs: null
     }
   },
   mounted () {
@@ -121,6 +135,9 @@ export default {
       this.transitionContent(2)
     },
     storeUserInfo (userInfo) {
+      user.getChoiceUsers().then((response) => {
+        this.choiceDogs = response
+      })
       this.sex = userInfo.sex
       this.name = userInfo.name
       this.email = userInfo.email
@@ -142,28 +159,7 @@ export default {
         this.$store.dispatch('snackbar/setMessage', 'もう一度やり直してください。')
         this.$store.dispatch('snackbar/snackOn')
       } else {
-        await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
-        await user.signup(
-          this.sex,
-          this.name,
-          this.email,
-          this.password,
-          this.weight,
-          this.breed1,
-          this.breed2,
-          this.instagramId,
-          this.twitterId,
-          this.tiktokId,
-          this.blogId,
-          this.dogImage,
-          this.location,
-          this.birthday
-        ).then((response) => {
-          this.position = 3
-          this.$auth.setUserToken('200')
-          this.$store.dispatch('authInfo/setAuthInfo', response)
-          setTimeout(this.$router.push('/mypage'), 2000)
-        })
+        this.isChoice = true
       }
     },
     redirect () {
@@ -186,6 +182,71 @@ export default {
     },
     transitionContent (num) {
       this.position = num
+    },
+    choiceLeft () {
+      diagnosis.choice(this.choiceDogs[0].user_id, this.choiceDogs[1].user_id).then((response) => {
+        if (this.choiceCount < 3) {
+          this.choiceCount++
+          this.choiceDogs = response
+        } else {
+          this.requestSignup
+        }
+      })
+    },
+    choiceRight () {
+      diagnosis.choice(this.choiceDogs[1].user_id, this.choiceDogs[0].user_id).then((response) => {
+        if (this.choiceCount < 3) {
+          this.choiceCount++
+          this.choiceDogs = response
+        } else {
+          this.requestSignup
+        }
+      })
+    },
+    clickAlertLeft () {
+      diagnosis.alert(this.choiceDogs[0].user_id).then((response) => {
+        if (this.choiceCount < 3) {
+          this.choiceCount++
+          this.choiceDogs = response
+        } else {
+          this.requestSignup
+        }
+      })
+    },
+    clickAlertRight () {
+      diagnosis.alert(this.choiceDogs[1].user_id).then((response) => {
+        if (this.choiceCount < 3) {
+          this.choiceCount++
+          this.choiceDogs = response
+        } else {
+          this.requestSignup
+        }
+      })
+    },
+    requestSignup () {
+      this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
+      user.signup(
+        this.sex,
+        this.name,
+        this.email,
+        this.password,
+        this.weight,
+        this.breed1,
+        this.breed2,
+        this.instagramId,
+        this.twitterId,
+        this.tiktokId,
+        this.blogId,
+        this.dogImage,
+        this.location,
+        this.birthday
+      ).then((response) => {
+        this.isChoice = false
+        this.position = 3
+        this.$auth.setUserToken('200')
+        this.$store.dispatch('authInfo/setAuthInfo', response)
+        setTimeout(this.$router.push('/mypage'), 2000)
+      })
     }
   }
 }

@@ -127,5 +127,8 @@ export default {
   },
   getUsersWithFriends (offset) {
     return request('get', `/user/dog/friend/${offset}`)
+  },
+  getChoiceUsers () {
+    return request('get', '/api/user/two')
   }
 }

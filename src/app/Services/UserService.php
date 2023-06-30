@@ -628,7 +628,7 @@ class UserService
      *
      *@return array
      */
-    private function getChoiceInfo(): array
+    public function getChoiceInfo(): array
     {
         $userCnt = $this->usersRepository->getDogCnt();
         $randNum = mt_rand(2, $userCnt);

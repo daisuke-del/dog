@@ -331,4 +331,15 @@ class UserController extends Controller
         $response = $this->userService->getRanking();
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
+
+    /**
+     * choice用に2枚の画像を取得
+     *
+     * @return false|string
+     */
+    public function two()
+    {
+        $response = $this->userService->getChoiceInfo();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
 }
