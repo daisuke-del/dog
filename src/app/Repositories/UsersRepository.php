@@ -150,6 +150,7 @@ class UsersRepository implements UsersRepositoryInterface
             'blog_id' => $user->getBlogId(),
             'location' => $user->getLocation(),
             'birthday' => $user->getBirthday(),
+            'dog_image_void_flg' => $user->getDogImageVoidFlg(),
             'comment' => $user->getComment(),
             'yellow_card' => $user->getYellowCard(),
             'update_dog_at' => $user->getUpdateDogAt(),
