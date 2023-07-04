@@ -615,12 +615,7 @@ class UserService
         $this->usersRepository->upDogPoint($request->input('upDog'));
         $this->usersRepository->downDogPoint($request->input('downDog'));
 
-        $responseInfo = [];
-        while (count($responseInfo) < 2) {
-            $responseInfo = $this->getChoiceInfo();
-        }
-
-        return $responseInfo;
+        return $this->getTwoImages();
     }
 
     /**
@@ -628,13 +623,22 @@ class UserService
      *
      *@return array
      */
-    public function getChoiceInfo(): array
+    private function getChoiceInfo(): array
     {
         $userCnt = $this->usersRepository->getDogCnt();
         $randNum = mt_rand(2, $userCnt);
         $response = $this->usersRepository->getTwoUsersByDogPoint($randNum)->toArray();
 
         return $response;
+    }
+
+    public function getTwoImages() {
+        $responseInfo = [];
+        while (count($responseInfo) < 2) {
+            $responseInfo = $this->getChoiceInfo();
+        }
+
+        return $responseInfo;
     }
 
     /**
