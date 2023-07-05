@@ -192,7 +192,7 @@ export default {
           this.choiceCount++
           this.choiceDogs = response
         } else {
-          this.requestSignup
+          this.requestSignup()
         }
       })
     },
@@ -202,7 +202,7 @@ export default {
           this.choiceCount++
           this.choiceDogs = response
         } else {
-          this.requestSignup
+          this.requestSignup()
         }
       })
     },
@@ -212,7 +212,7 @@ export default {
           this.choiceCount++
           this.choiceDogs = response
         } else {
-          this.requestSignup
+          this.requestSignup()
         }
       })
     },
@@ -222,7 +222,7 @@ export default {
           this.choiceCount++
           this.choiceDogs = response
         } else {
-          this.requestSignup
+          this.requestSignup()
         }
       })
     },
