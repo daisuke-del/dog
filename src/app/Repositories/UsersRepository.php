@@ -713,8 +713,6 @@ class UsersRepository implements UsersRepositoryInterface
         $dt = new Carbon();
         $date = $dt->subDay(1);
         return (new User)
-            ->where('dog_image_void_flg', 0)
-            ->where('update_dog_at', '<', $date)
             ->leftJoin('reactions as m1', function ($join) use ($userId) {
                 $join->on('users.user_id', '=', 'm1.to_user_id')
                     ->where('m1.from_user_id', $userId);
@@ -724,6 +722,8 @@ class UsersRepository implements UsersRepositoryInterface
                     ->where('m2.to_user_id', $userId);
             })
             ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+            ->where('dog_image_void_flg', 0)
+            ->where('update_dog_at', '<', $date)
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
             ->limit(11)
@@ -767,7 +767,6 @@ class UsersRepository implements UsersRepositoryInterface
     public function getUserRandomWithFriends($userId): Collection
     {
         return User::inRandomOrder()
-            ->where('dog_iamge_void_flg', 0)
             ->leftJoin('reactions as m1', function ($join) use ($userId) {
                 $join->on('users.user_id', '=', 'm1.to_user_id')
                     ->where('m1.from_user_id', $userId);
@@ -777,6 +776,7 @@ class UsersRepository implements UsersRepositoryInterface
                     ->where('m2.to_user_id', $userId);
             })
             ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
+            ->where('dog_iamge_void_flg', 0)
             ->limit(4)
             ->get();
     }
