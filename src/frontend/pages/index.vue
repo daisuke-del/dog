@@ -364,18 +364,27 @@ import favorite from '@/plugins/modules/favorite'
 export default {
   components: { UserDialog },
   auth: false,
-  async asyncData() {
+  async asyncData({ app }) {
     let dogRanking = []
-    await ranking.getRanking().then((response) => {
-      dogRanking = response
-    })
+    let users = []
+    if (app.$store.loggedIn) {
+      await ranking.getRankingWishFriends().then((response) => {
+        dogRanking = response
+      })
+      await user.getUsersRandomWithFriends().then((response) => {
+          users = response
+      })
+    } else {
+      await ranking.getRanking().then((response) => {
+        dogRanking = response
+      })
+      await user.getUsersRandom().then((response) => {
+          users = response
+      })
+    }
     let breeds = []
     await breed.getBreedsRandom().then((response) => {
         breeds = response
-    })
-    let users = []
-    await user.getUsersRandom().then((response) => {
-        users = response
     })
     return {
       dogRanking,

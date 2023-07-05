@@ -685,7 +685,7 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * 画像レベル上位三匹を取得
+     * 画像レベル上位11匹を取得
      *
      * @return object
      */
@@ -696,6 +696,34 @@ class UsersRepository implements UsersRepositoryInterface
         return (new User)
             ->where('dog_image_void_flg', 0)
             ->where('update_dog_at', '<', $date)
+            ->orderBy('dog_point', 'desc')
+            ->orderBy('update_dog_at')
+            ->limit(11)
+            ->get();
+    }
+
+    /**
+     * 画像レベル上位11匹を取得（フレンド付き）
+     *
+     * @param $userId
+     * @return object
+     */
+    public function getRankingWithFriends($userId): object
+    {
+        $dt = new Carbon();
+        $date = $dt->subDay(1);
+        return (new User)
+            ->where('dog_image_void_flg', 0)
+            ->where('update_dog_at', '<', $date)
+            ->leftJoin('reactions as m1', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm1.to_user_id')
+                    ->where('m1.from_user_id', $userId);
+            })
+            ->leftJoin('reactions as m2', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm2.from_user_id')
+                    ->where('m2.to_user_id', $userId);
+            })
+            ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
             ->limit(11)
@@ -726,6 +754,29 @@ class UsersRepository implements UsersRepositoryInterface
     {
         return User::inRandomOrder()
             ->where('dog_iamge_void_flg', 0)
+            ->limit(4)
+            ->get();
+    }
+
+    /**
+     * ランダムに4ユーザー取得（フレンド情報付き）
+     *
+     * @param $userId
+     * @return Collection
+     */
+    public function getUserRandomWithFriends($userId): Collection
+    {
+        return User::inRandomOrder()
+            ->where('dog_iamge_void_flg', 0)
+            ->leftJoin('reactions as m1', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm1.to_user_id')
+                    ->where('m1.from_user_id', $userId);
+            })
+            ->leftJoin('reactions as m2', function ($join) use ($userId) {
+                $join->on('users.user_id', '=', 'm2.from_user_id')
+                    ->where('m2.to_user_id', $userId);
+            })
+            ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
             ->limit(4)
             ->get();
     }

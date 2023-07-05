@@ -122,6 +122,9 @@ export default {
   getUsersRandom () {
     return request('get', '/api/user/random')
   },
+  getUsersRandom () {
+    return request('get', '/favorite/random')
+  },
   getUsers (offset) {
     return request('get', `/api/user/${offset}`)
   },

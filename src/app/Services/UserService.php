@@ -997,7 +997,14 @@ class UserService
      */
     public function getRanking(): array
     {
-        return $this->usersRepository->getRanking()->toArray();
+        $result = [];
+        if (Auth::id()) {
+            $userId = Auth::id();
+            $result = $this->usersRepository->getRankingWithFriends($userId);
+        } else {
+            $result = $this->usersRepository->getRanking()->toArray();
+        }
+        return $result;
     }
 
     /**
@@ -1024,6 +1031,13 @@ class UserService
      */
     public function random(): Collection
     {
-        return $this->usersRepository->getUserRandom();
+        $result = [];
+        if (Auth::id()) {
+            $userId = Auth::id();
+            $result = $this->usersRepository->getUserRandomgWithFriends($userId);
+        } else {
+            $result = $this->usersRepository->getUserRandom();
+        }
+        return $result;
     }
 }

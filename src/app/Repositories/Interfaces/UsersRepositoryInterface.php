@@ -279,11 +279,19 @@ interface UsersRepositoryInterface
     public function getVoidUsers(): object;
 
     /**
-     * 顔面レベル上位三名を取得
+     * 顔面レベル上位11名を取得
      *
      * @return object
      */
     public function getRanking(): object;
+
+    /**
+     * 画像レベル上位11匹を取得（フレンド付き）
+     *
+     * @param $userId
+     * @return object
+     */
+    public function getRankingWithFriends($userId): object;
 
     /**
      * ランダムに4ユーザー取得
@@ -291,6 +299,14 @@ interface UsersRepositoryInterface
      * @return Collection
      */
     public function getUserRandom(): Collection;
+
+    /**
+     * ランダムに4ユーザー取得（フレンド付き）
+     *
+     * @param $userId
+     * @return Collection
+     */
+    public function getUserRandomWithFriends($userId): Collection;
 
     /**
      * フレンド情報を加えてユーザー取得
