@@ -48,6 +48,7 @@
             v-if="choiceCount < 3 && isChoice"
             :leftDog="choiceDogs[0]"
             :rightDog="choiceDogs[1]"
+            :isDiagnosis="false"
             @choice-left="choiceLeft"
             @choice-right="choiceRight"
             @alert-left="clickAlertLeft"
@@ -75,6 +76,8 @@ import RegisterImage from '~/components/Signup/RegisterImage'
 import SignupCompletion from '~/components/Signup/SignupCompletion'
 import constants from '~/utils/constants'
 import user from '~/plugins/modules/user'
+import diagnosis from '~/plugins/modules/diagnosis'
+
 export default {
   name: 'PagesSignup',
   auth: false,
@@ -185,7 +188,7 @@ export default {
     },
     choiceLeft () {
       diagnosis.choice(this.choiceDogs[0].user_id, this.choiceDogs[1].user_id).then((response) => {
-        if (this.choiceCount < 3) {
+        if (this.choiceCount < 2) {
           this.choiceCount++
           this.choiceDogs = response
         } else {
@@ -195,7 +198,7 @@ export default {
     },
     choiceRight () {
       diagnosis.choice(this.choiceDogs[1].user_id, this.choiceDogs[0].user_id).then((response) => {
-        if (this.choiceCount < 3) {
+        if (this.choiceCount < 2) {
           this.choiceCount++
           this.choiceDogs = response
         } else {
@@ -205,7 +208,7 @@ export default {
     },
     clickAlertLeft () {
       diagnosis.alert(this.choiceDogs[0].user_id).then((response) => {
-        if (this.choiceCount < 3) {
+        if (this.choiceCount < 2) {
           this.choiceCount++
           this.choiceDogs = response
         } else {
@@ -215,7 +218,7 @@ export default {
     },
     clickAlertRight () {
       diagnosis.alert(this.choiceDogs[1].user_id).then((response) => {
-        if (this.choiceCount < 3) {
+        if (this.choiceCount < 2) {
           this.choiceCount++
           this.choiceDogs = response
         } else {

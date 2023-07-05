@@ -13,7 +13,7 @@
                 <v-card
                     light
                     hover
-                    class="card"
+                    :class="isDiagnosis ? 'card' : 'card2'"
                     @click="choiceLeft"
                 >
                     <v-img :src="leftDogImage" />
@@ -34,7 +34,7 @@
                 <v-card
                     light
                     hover
-                    class="card"
+                    :class="isDiagnosis ? 'card' : 'card2'"
                     @click="choiceRight"
                 >
                     <v-img :src="rightDogImage" />
@@ -69,6 +69,10 @@ export default {
         rightDog: {
             type: Object,
             required: false
+        },
+        isDiagnosis: {
+            type: Boolean,
+            default: true
         }
     },
     data () {
@@ -137,6 +141,13 @@ export default {
     position: relative;
 }
 
+.card2 {
+    display: inline-block;
+    max-width: 150px;
+    margin: 20px;
+    position: relative;
+}
+
 .alert-btn {
     width: 35px;
     height: 35px;
@@ -155,6 +166,11 @@ export default {
 
     .card {
         max-width: 150px;
+        margin: 10px;
+    }
+
+    .card2 {
+        max-width: 100px;
         margin: 10px;
     }
 

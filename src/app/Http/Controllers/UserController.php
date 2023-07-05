@@ -339,10 +339,7 @@ class UserController extends Controller
      */
     public function two()
     {
-        $responseInfo = [];
-        while (count($responseInfo) < 2) {
-            $responseInfo = $this->userService->getTwoImages();
-        }
+        $responseInfo = $this->userService->getTwoImages();
         return json_encode($responseInfo, JSON_UNESCAPED_UNICODE);
     }
 }
