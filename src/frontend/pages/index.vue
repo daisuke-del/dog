@@ -367,7 +367,7 @@ export default {
   async asyncData({ app }) {
     let dogRanking = []
     let users = []
-    if (app.$store.loggedIn) {
+    if (app.store.$auth.loggedIn) {
       await ranking.getRankingWishFriends().then((response) => {
         dogRanking = response
       })

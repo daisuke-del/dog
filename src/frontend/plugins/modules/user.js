@@ -122,7 +122,7 @@ export default {
   getUsersRandom () {
     return request('get', '/api/user/random')
   },
-  getUsersRandom () {
+  getUsersRandomWithFriends () {
     return request('get', '/favorite/random')
   },
   getUsers (offset) {
