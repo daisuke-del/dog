@@ -11,6 +11,9 @@ RUN apk --update add tzdata && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 
+RUN apk add --no-cache libpng-dev \
+    && docker-php-ext-install gd
+
 WORKDIR /var/www/html
 COPY ../src /var/www/html
 

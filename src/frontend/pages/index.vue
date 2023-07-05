@@ -359,7 +359,7 @@ import UserDialog from '@/components/Common/UserDialog'
 import ranking from '@/plugins/modules/ranking'
 import breed from '@/plugins/modules/breed'
 import user from '@/plugins/modules/user'
-import favorite from '~/plugins/modules/favorite'
+import favorite from '@/plugins/modules/favorite'
 
 export default {
   components: { UserDialog },
@@ -386,6 +386,7 @@ export default {
   data () {
     return {
       dogRanking: [],
+      users: [],
       userDialog: false,
       dialogIndex: 0,
       dogInfo: {
@@ -399,7 +400,8 @@ export default {
         instagram_id: '',
         tiktok_id: '',
         blog_id: ''
-      }
+      },
+      pages: null
     }
   },
   computed: {
@@ -469,6 +471,7 @@ export default {
       this.$router.push('diagnosis')
     },
     clickImage (index) {
+      this.pages = 'ranking'
       this.dogInfo = this.dogRanking[index]
       this.userDialog = true
     },
@@ -501,17 +504,23 @@ export default {
       this.$router.push({ path: '/diagnosis', query: { gender: 'female' } });
     },
     clickUser (user) {
+      this.pages = 'user'
       this.userDialog = true
       this.dogInfo = user
     },
     clickAllUsers () {
       this.$router.push('/dog');
     },
-    addFavorite(friendId) {
+    addFavoriteFrom(friendId) {
       if (!this.$auth.loggedIn) {
         this.$router.push('/login')
       } else {
-        favorite.addFavorite(friendId).then(() => {
+        favorite.addFavorite(friendId).then((response) => {
+          if (this.pages === 'users') {
+            this.findUserById(this.users, friendId, response)
+          } else if (this.pages === 'ranking') {
+            this.findUserById(this.dogRanking, friendId, response)
+          }
         })
       }
     },
@@ -520,7 +529,15 @@ export default {
         this.$router.push('/login')
       } else {
         favorite.deleteFavorite(friendId).then(() => {
+          this.findUserById(this.users, friendId, response)
         })
+      }
+    },
+    findUserById(users, userId, response) {
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].user_id === userId) {
+          users[i] = response
+        }
       }
     }
   }

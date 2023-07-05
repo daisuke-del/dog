@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-
+use Intervention\Image\Facades\Image;
 
 class UserService
 {
@@ -721,7 +721,16 @@ class UserService
             $fileName = md5($img) . $randomString;
             $path = $fileName . '.' . $extension;
 
-            Storage::disk('local')->put($path, $fileData);
+            // Intervention Imageを使用して画像をリサイズして保存する
+            $image = Image::make($fileData);
+
+            // 画像が500x500ピクセルを超えている場合、最大500x500ピクセルにリサイズする
+            $image->resize(500, 500, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            $image->save(storage_path('image/dogimages/' . $path));
 
             return $path;
         } catch (Exception $e) {
