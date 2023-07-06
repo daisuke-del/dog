@@ -513,14 +513,14 @@ export default {
       this.$router.push({ path: '/diagnosis', query: { gender: 'female' } });
     },
     clickUser (user) {
-      this.pages = 'user'
+      this.pages = 'users'
       this.userDialog = true
       this.dogInfo = user
     },
     clickAllUsers () {
       this.$router.push('/dog');
     },
-    addFavoriteFrom(friendId) {
+    addFavorite(friendId) {
       if (!this.$auth.loggedIn) {
         this.$router.push('/login')
       } else {
