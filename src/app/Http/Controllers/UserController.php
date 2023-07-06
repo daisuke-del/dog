@@ -298,6 +298,17 @@ class UserController extends Controller
     }
 
     /**
+     * トップページ用ランキングを取得
+     *
+     * @return false|string
+     */
+    public function getRankingWithFriends()
+    {
+        $response = $this->userService->getRankingWithFriends();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * ユーザーを全て取得
      *
      * @param int|null $offset
@@ -329,6 +340,17 @@ class UserController extends Controller
     public function random()
     {
         $response = $this->userService->getRanking();
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * トップページ用ユーザー画像をランダムに取得
+     *
+     * @return false|string
+     */
+    public function randomWithFriends()
+    {
+        $response = $this->userService->getRankingWithFriends();
         return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 

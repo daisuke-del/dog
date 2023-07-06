@@ -118,7 +118,7 @@
                 </v-btn>
                 <v-btn
                     v-else-if="dogInfo.to_user_id === dogInfo.user_id && (dogInfo.user_id !== $store.getters['authInfo/userId'])"
-                    @click="addFavorite(dogInfo.user_id)"
+                    @click="deleteFavorite(dogInfo.user_id)"
                     icon
                 >
                     <v-icon color="pink">

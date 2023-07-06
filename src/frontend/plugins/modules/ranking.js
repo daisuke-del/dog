@@ -4,7 +4,7 @@ export default {
     getRanking() {
         return request('get', '/api/ranking/get')
     },
-    getRankingWishFriends() {
+    getRankingWithFriends() {
         return request('get', '/favorite/ranking')
     }
 }

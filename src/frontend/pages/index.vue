@@ -368,7 +368,7 @@ export default {
     let dogRanking = []
     let users = []
     if (app.store.$auth.loggedIn) {
-      await ranking.getRankingWishFriends().then((response) => {
+      await ranking.getRankingWithFriends().then((response) => {
         dogRanking = response
       })
       await user.getUsersRandomWithFriends().then((response) => {
@@ -537,8 +537,12 @@ export default {
       if (!this.$auth.loggedIn) {
         this.$router.push('/login')
       } else {
-        favorite.deleteFavorite(friendId).then(() => {
-          this.findUserById(this.users, friendId, response)
+        favorite.deleteFavorite(friendId).then((response) => {
+          if (this.pages === 'users') {
+            this.findUserById(this.users, friendId, response)
+          } else if (this.pages === 'ranking') {
+            this.findUserById(this.dogRanking, friendId, response)
+          }
         })
       }
     },
@@ -546,6 +550,7 @@ export default {
       for (var i = 0; i < users.length; i++) {
         if (users[i].user_id === userId) {
           users[i] = response
+          this.dogInfo = response
         }
       }
     }

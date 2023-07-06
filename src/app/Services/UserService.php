@@ -998,9 +998,21 @@ class UserService
     public function getRanking(): array
     {
         $result = [];
+        $result = $this->usersRepository->getRanking()->toArray();
+        return $result;
+    }
+
+    /**
+     * 上位3匹のランキングを取得
+     *
+     * @return array
+     */
+    public function getRankingWithFriends(): array
+    {
+        $result = [];
         if (Auth::id()) {
             $userId = Auth::id();
-            $result = $this->usersRepository->getRankingWithFriends($userId);
+            $result = $this->usersRepository->getRankingWithFriends($userId)->toArray();
         } else {
             $result = $this->usersRepository->getRanking()->toArray();
         }
@@ -1029,12 +1041,29 @@ class UserService
      *
      * @return Collection
      */
+    public function randomWithFriends(): Collection
+    {
+        $result = [];
+        if (Auth::id()) {
+            $userId = Auth::id();
+            $result = $this->usersRepository->getUserRandomWithFriends($userId);
+        } else {
+            $result = $this->usersRepository->getUserRandom();
+        }
+        return $result;
+    }
+
+    /**
+     * 上位3匹のランキングを取得
+     *
+     * @return Collection
+     */
     public function random(): Collection
     {
         $result = [];
         if (Auth::id()) {
             $userId = Auth::id();
-            $result = $this->usersRepository->getUserRandomgWithFriends($userId);
+            $result = $this->usersRepository->getUserRandomWithFriends($userId);
         } else {
             $result = $this->usersRepository->getUserRandom();
         }

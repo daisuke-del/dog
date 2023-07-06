@@ -79,8 +79,8 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::prefix('favorite')->name('favorite.')->group(function () {
     Route::post('add', [MypageController::class, 'addFavorite']);
     Route::delete('delete', [MypageController::class, 'deleteFavorite']);
-    Route::get('ranking', [UserController::class, 'getRanking']);
-    Route::get('random', [UserController::class, 'random']);
+    Route::get('ranking', [UserController::class, 'getRankingWithFriends']);
+    Route::get('random', [UserController::class, 'randomWithFriends']);
   });
 });
 
