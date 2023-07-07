@@ -81,6 +81,7 @@ import diagnosis from '~/plugins/modules/diagnosis'
 export default {
   name: 'PagesSignup',
   auth: false,
+  middleware: 'getUserInfo',
   components: {
     SignupForm,
     RegisterImage,

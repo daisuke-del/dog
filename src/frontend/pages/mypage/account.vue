@@ -107,6 +107,7 @@ export default {
     EditSns
   },
   name: 'Mypageaccount',
+  middleware: 'getUserInfo',
   async asyncData({ app }) {
     let userId = null
     let sex = null

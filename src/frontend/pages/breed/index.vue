@@ -70,6 +70,7 @@ import SelectItems from '@/components/Common/SelectItems.vue';
 export default {
     auth: false,
     name: 'PagesBreed',
+    middleware: 'getUserInfo',
     components: { SelectItems },
     async asyncData () {
         let breeds = []

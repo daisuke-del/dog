@@ -103,6 +103,7 @@ import DiagnosisResult from '@/components/Diagnosis/Result'
 export default {
   auth: false,
   name: 'PagesDiagnosis',
+  middleware: 'getUserInfo',
   components: {
     DiagnosisGender,
     DiagnosisHeight,

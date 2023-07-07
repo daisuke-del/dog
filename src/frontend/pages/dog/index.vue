@@ -83,6 +83,7 @@ import InfiniteLoading from 'vue-infinite-loading';
 export default {
     auth: false,
     name: 'PagesDog',
+    middleware: 'getUserInfo',
     components: {
         SelectItems,
         UserDialog,

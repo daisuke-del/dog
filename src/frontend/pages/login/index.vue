@@ -58,6 +58,7 @@ export default {
   components: { AdminLogin },
   name: 'LoginForm',
   auth: false,
+  middleware: 'getUserInfo',
   asyncData({ app, $auth, redirect }) {
     if ($auth.loggedIn) {
       if (app.store.state.redirect.pageUrl) {

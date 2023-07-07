@@ -38,6 +38,7 @@ import breed from '@/plugins/modules/breed'
 export default {
     name: 'BreedDefault',
     auth: false,
+    middleware: 'getUserInfo',
     async asyncData ({ route }) {
         let breedInfo = []
         const breedPath = route.params.breed

@@ -364,6 +364,7 @@ import favorite from '@/plugins/modules/favorite'
 export default {
   components: { UserDialog },
   auth: false,
+  middleware: 'getUserInfo',
   async asyncData({ app }) {
     let dogRanking = []
     let users = []
