@@ -54,13 +54,16 @@
 import user from '@/plugins/modules/user'
 import constants from '@/utils/constants'
 import AdminLogin from '@/components/Login/AdminLogin'
+
 export default {
   components: { AdminLogin },
   name: 'LoginForm',
   auth: false,
-  middleware: 'getUserInfo',
   asyncData({ app, $auth, redirect }) {
     if ($auth.loggedIn) {
+      user.getUserInfo().then((response) => {
+        app.store.dispatch('authInfo/setAuthInfo', response)
+      })
       if (app.store.state.redirect.pageUrl) {
         redirect(app.store.redirect.pageUrl)
         app.store.dispatch('redirect/deletePageUrl')

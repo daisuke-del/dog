@@ -38,8 +38,12 @@ import breed from '@/plugins/modules/breed'
 export default {
     name: 'BreedDefault',
     auth: false,
-    middleware: 'getUserInfo',
-    async asyncData ({ route }) {
+    async asyncData ({ route, app }) {
+        if (app.$auth.loggedIn) {
+            await user.getUserInfo().then((response) => {
+                app.store.dispatch('authInfo/setAuthInfo', response)
+            })
+        }
         let breedInfo = []
         const breedPath = route.params.breed
         await breed.getBreedInfo(breedPath).then((response) => {

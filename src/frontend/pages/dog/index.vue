@@ -83,7 +83,6 @@ import InfiniteLoading from 'vue-infinite-loading';
 export default {
     auth: false,
     name: 'PagesDog',
-    middleware: 'getUserInfo',
     components: {
         SelectItems,
         UserDialog,
@@ -96,6 +95,9 @@ export default {
             searchBreedKeyword = query.breed
         }
         if (app.$auth.loggedIn) {
+            await user.getUserInfo().then((response) => {
+                app.store.dispatch('authInfo/setAuthInfo', response)
+            })
             await user.getUsersWithFriends(0).then((response) =>{
                 users = response
             })

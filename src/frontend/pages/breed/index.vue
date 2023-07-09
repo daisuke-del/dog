@@ -70,9 +70,13 @@ import SelectItems from '@/components/Common/SelectItems.vue';
 export default {
     auth: false,
     name: 'PagesBreed',
-    middleware: 'getUserInfo',
     components: { SelectItems },
-    async asyncData () {
+    async asyncData ({ app }) {
+        if (app.$auth.loggedIn) {
+            await user.getUserInfo().then((response) => {
+                app.store.dispatch('authInfo/setAuthInfo', response)
+            })
+        }
         let breeds = []
         await breed.getBreeds().then((response) => {
             breeds = response

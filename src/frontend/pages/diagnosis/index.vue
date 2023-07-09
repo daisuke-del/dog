@@ -103,7 +103,6 @@ import DiagnosisResult from '@/components/Diagnosis/Result'
 export default {
   auth: false,
   name: 'PagesDiagnosis',
-  middleware: 'getUserInfo',
   components: {
     DiagnosisGender,
     DiagnosisHeight,
@@ -114,7 +113,12 @@ export default {
     DiagnosisChoice,
     DiagnosisResult
   },
-  async asyncData({ query }) {
+  async asyncData({ query, app }) {
+    if (app.$auth.loggedIn) {
+      await user.getUserInfo().then((response) => {
+        app.store.dispatch('authInfo/setAuthInfo', response)
+      })
+    }
     let position = 1;
     let gender = null
     if (query.gender === 'male' || query.gender === 'female') {

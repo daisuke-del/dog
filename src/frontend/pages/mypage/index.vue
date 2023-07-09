@@ -189,7 +189,6 @@ export default {
     CommonCropperjs
   },
   name: 'Mypage',
-  middleware: 'getUserInfo',
   async asyncData({ app }) {
     let userId = null
     let sex = null

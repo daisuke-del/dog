@@ -81,7 +81,6 @@ import diagnosis from '~/plugins/modules/diagnosis'
 export default {
   name: 'PagesSignup',
   auth: false,
-  middleware: 'getUserInfo',
   components: {
     SignupForm,
     RegisterImage,
@@ -89,6 +88,9 @@ export default {
   },
   asyncData ({ app, $auth }) {
     if ($auth.loggedIn) {
+      user.getUserInfo().then((response) => {
+          app.store.dispatch('authInfo/setAuthInfo', response)
+      })
       app.router.replace('/mypage')
     }
   },
