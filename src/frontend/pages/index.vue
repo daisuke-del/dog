@@ -367,7 +367,7 @@ export default {
   async asyncData({ app }) {
     let dogRanking = []
     let users = []
-    if (app.store.$auth.loggedIn) {
+    if (app.$auth.loggedIn) {
       await user.getUserInfo().then((response) => {
           app.store.dispatch('authInfo/setAuthInfo', response)
       })
@@ -382,7 +382,7 @@ export default {
         dogRanking = response
       })
       await user.getUsersRandom().then((response) => {
-          users = response
+        users = response
       })
     }
     let breeds = []
