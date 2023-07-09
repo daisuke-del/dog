@@ -100,6 +100,8 @@ import DiagnosisFace from '@/components/Diagnosis/Face'
 import DiagnosisHoliday from '@/components/Diagnosis/Holiday'
 import DiagnosisChoice from '@/components/Diagnosis/Choice'
 import DiagnosisResult from '@/components/Diagnosis/Result'
+import user from '@/plugins/modules/user'
+
 export default {
   auth: false,
   name: 'PagesDiagnosis',

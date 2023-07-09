@@ -67,6 +67,8 @@
 <script>
 import breed from '@/plugins/modules/breed';
 import SelectItems from '@/components/Common/SelectItems.vue';
+import user from '@/plugins/modules/user'
+
 export default {
     auth: false,
     name: 'PagesBreed',

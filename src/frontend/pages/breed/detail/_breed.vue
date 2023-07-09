@@ -35,6 +35,8 @@
 
 <script>
 import breed from '@/plugins/modules/breed'
+import user from '@/plugins/modules/user'
+
 export default {
     name: 'BreedDefault',
     auth: false,
