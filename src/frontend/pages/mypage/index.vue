@@ -90,7 +90,7 @@
                   <v-row>
                     <v-col>
                       <v-img
-                        :src="`http://dogiland.jp/storage/${friend['dog_image1']}`"
+                        :src="`https://dogiland.jp/storage/${friend['dog_image1']}`"
                         contain
                         rounded
                         @click="showProfile(friend, index)"
@@ -137,7 +137,7 @@
         >
           <v-card light width="200px">
             <v-img
-              :src="`http://dogiland.jp/storage/${friend['dog_image1']}`"
+              :src="`https://dogiland.jp/storage/${friend['dog_image1']}`"
               width="200px"
               contain
               rounded
@@ -287,13 +287,13 @@ export default {
   },
   computed: {
     userWithImage1 () {
-      return this.dogImage1 && `http://dogiland.jp/storage/${this.dogImage1}`
+      return this.dogImage1 && `https://dogiland.jp/storage/${this.dogImage1}`
     },
     userWithImage2 () {
-      return this.dogImage2 && `http://dogiland.jp/storage/${this.dogImage2}`
+      return this.dogImage2 && `https://dogiland.jp/storage/${this.dogImage2}`
     },
     userWithImage3 () {
-      return this.dogImage3 && `http://dogiland.jp/storage/${this.dogImage3}`
+      return this.dogImage3 && `https://dogiland.jp/storage/${this.dogImage3}`
     },
     dogBirthday () {
       const birthDate = new Date(this.birthday);

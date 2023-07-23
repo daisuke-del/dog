@@ -74,7 +74,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title color="accent">
-                        ユーザー検索
+                        友達を探す
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
@@ -122,7 +122,7 @@ export default {
     },
     computed: {
         userWithImage () {
-            return this.dogImage1 && `http://dogiland.jp/storage/${this.dogImage1}`
+            return this.dogImage1 && `https://dogiland.jp/storage/${this.dogImage1}`
         },
         userName () {
             return this.$store.getters['authInfo/auth'].name

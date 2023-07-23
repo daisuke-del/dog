@@ -84,10 +84,10 @@ export default {
     },
     computed: {
         leftDogImage () {
-            return this.leftDog.dog_image1 && `http://dogiland.jp/storage/${this.leftDog.dog_image1}`
+            return this.leftDog.dog_image1 && `https://dogiland.jp/storage/${this.leftDog.dog_image1}`
         },
         rightDogImage () {
-            return this.rightDog.dog_image1 && `http://dogiland.jp/storage/${this.rightDog.dog_image1}`
+            return this.rightDog.dog_image1 && `https://dogiland.jp/storage/${this.rightDog.dog_image1}`
         }
     },
     methods: {

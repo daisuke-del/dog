@@ -43,7 +43,7 @@ export default {
                 { title: 'わんこ診断', icon: 'mdi-dog', link: '/diagnosis' },
                 { title: 'ログイン', icon: 'mdi-login', link: '/login' },
                 { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' },
-                { title: 'ユーザー検索', icon: 'mdi-magnify', link: '/dog'},
+                { title: '友達を探す', icon: 'mdi-magnify', link: '/dog'},
                 { title: 'サポート', icon: 'mdi-chat-question-outline', link: '/support' }
             ],
         }

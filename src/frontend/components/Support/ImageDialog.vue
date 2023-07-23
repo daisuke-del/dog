@@ -146,7 +146,7 @@ export default {
     },
     data () {
         return {
-            displayImage: `http://dogiland.jp/storage/${this.dogInfo.dog_image1}`,
+            displayImage: `https://dogiland.jp/storage/${this.dogInfo.dog_image1}`,
             image1: false,
             image2: false,
             image3: false
@@ -154,13 +154,13 @@ export default {
     },
     computed: {
         dogImage1 () {
-            return this.dogInfo.dog_image1 && `http://dogiland.jp/storage/${this.dogInfo.dog_image1}`
+            return this.dogInfo.dog_image1 && `https://dogiland.jp/storage/${this.dogInfo.dog_image1}`
         },
         dogImage2 () {
-            return this.dogInfo.dog_image2 && `http://dogiland.jp/storage/${this.dogInfo.dog_image2}`
+            return this.dogInfo.dog_image2 && `https://dogiland.jp/storage/${this.dogInfo.dog_image2}`
         },
         dogImage3 () {
-            return this.dogInfo.dog_image3 && `http://dogiland.jp/storage/${this.dogInfo.dog_image3}`
+            return this.dogInfo.dog_image3 && `https://dogiland.jp/storage/${this.dogInfo.dog_image3}`
         },
         dogAge () {
             const birthDate = new Date(this.dogInfo.birthday);
@@ -241,7 +241,7 @@ export default {
     watch: {
         dogInfo: {
             handler () {
-                this.displayImage = `http://dogiland.jp/storage/${this.dogInfo.dog_image1}`
+                this.displayImage = `https://dogiland.jp/storage/${this.dogInfo.dog_image1}`
             },
             deep: true,
         }
