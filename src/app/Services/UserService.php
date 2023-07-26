@@ -809,7 +809,8 @@ class UserService
     {
         $checkedEmail = (new Email($email))->get();
         if ($this->containUppercase($checkedEmail)) {
-            throw new DOGException(config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
+            throw new DOGException(
+                config('const.ERROR.USER.EMAIL_CONTAIN_UPPERCASE'), 400);
         }
 
         $result = $this->usersRepository->getUserByMail($checkedEmail);
