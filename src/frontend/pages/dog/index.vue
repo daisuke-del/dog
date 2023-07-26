@@ -88,6 +88,7 @@ export default {
         UserDialog,
         InfiniteLoading
     },
+    middleware: ['update_user_status'],
     async asyncData ({ app, query }) {
         let users = []
         let searchBreedKeyword = null
@@ -95,9 +96,6 @@ export default {
             searchBreedKeyword = query.breed
         }
         if (app.$auth.loggedIn) {
-            await user.getUserInfo().then((response) => {
-                app.store.dispatch('authInfo/setAuthInfo', response)
-            })
             await user.getUsersWithFriends(0).then((response) =>{
                 users = response
             })

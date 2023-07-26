@@ -183,12 +183,14 @@ import UserDialog from '@/components/Common/UserDialog';
 import CommonCropperjs from '@/components/Common/Cropper'
 import user from '@/plugins/modules/user'
 import favorite from '@/plugins/modules/favorite'
+
 export default {
   components: {
     UserDialog,
     CommonCropperjs
   },
   name: 'Mypage',
+  middleware: ['update_user_status'],
   async asyncData({ app }) {
     let userId = null
     let sex = null

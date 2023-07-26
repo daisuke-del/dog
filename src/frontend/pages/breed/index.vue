@@ -67,18 +67,13 @@
 <script>
 import breed from '@/plugins/modules/breed';
 import SelectItems from '@/components/Common/SelectItems.vue';
-import user from '@/plugins/modules/user'
 
 export default {
     auth: false,
     name: 'PagesBreed',
     components: { SelectItems },
-    async asyncData ({ app }) {
-        if (app.$auth.loggedIn) {
-            await user.getUserInfo().then((response) => {
-                app.store.dispatch('authInfo/setAuthInfo', response)
-            })
-        }
+    middleware: ['update_user_status'],
+    async asyncData () {
         let breeds = []
         await breed.getBreeds().then((response) => {
             breeds = response

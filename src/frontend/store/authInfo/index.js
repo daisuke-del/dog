@@ -1,3 +1,5 @@
+import user from "@/plugins/modules/user"
+
 export const state = () => ({
   auth: {
     userId: null,
@@ -125,5 +127,12 @@ export const actions = {
   },
   setBreed2({ commit }, breed2) {
     commit('setBreed2', breed2)
+  },
+  async setUserStatus ({ commit }) {
+    if (this.$auth.loggedIn) {
+      await user.getUserInfo().then((response) => {
+        commit('setAuthInfo', response['userInfo'])
+      })
+    }
   }
 }

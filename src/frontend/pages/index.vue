@@ -364,13 +364,11 @@ import favorite from '@/plugins/modules/favorite'
 export default {
   components: { UserDialog },
   auth: false,
+  middleware: ['update_user_status'],
   async asyncData({ app }) {
     let dogRanking = []
     let users = []
     if (app.$auth.loggedIn) {
-      await user.getUserInfo().then((response) => {
-          app.store.dispatch('authInfo/setAuthInfo', response)
-      })
       await ranking.getRankingWithFriends().then((response) => {
         dogRanking = response
       })

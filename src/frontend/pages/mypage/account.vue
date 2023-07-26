@@ -107,6 +107,7 @@ export default {
     EditSns
   },
   name: 'Mypageaccount',
+  middleware: ['update_user_status'],
   async asyncData({ app }) {
     let userId = null
     let sex = null

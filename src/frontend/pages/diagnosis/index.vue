@@ -115,12 +115,8 @@ export default {
     DiagnosisChoice,
     DiagnosisResult
   },
-  async asyncData({ query, app }) {
-    if (app.$auth.loggedIn) {
-      await user.getUserInfo().then((response) => {
-        app.store.dispatch('authInfo/setAuthInfo', response)
-      })
-    }
+  middleware: ['update_user_status'],
+  async asyncData({ query }) {
     let position = 1;
     let gender = null
     if (query.gender === 'male' || query.gender === 'female') {

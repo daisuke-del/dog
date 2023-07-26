@@ -40,12 +40,8 @@ import user from '@/plugins/modules/user'
 export default {
     name: 'BreedDefault',
     auth: false,
-    async asyncData ({ route, app }) {
-        if (app.$auth.loggedIn) {
-            await user.getUserInfo().then((response) => {
-                app.store.dispatch('authInfo/setAuthInfo', response)
-            })
-        }
+    middleware: ['update_user_status'],
+    async asyncData ({ route }) {
         let breedInfo = []
         const breedPath = route.params.breed
         await breed.getBreedInfo(breedPath).then((response) => {
