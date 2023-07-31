@@ -180,8 +180,10 @@
 </template>
 
 <script>
-import VueCropper from "vue-cropperjs";
-import "cropperjs/dist/cropper.css";
+import VueCropper from "vue-cropperjs"
+import "cropperjs/dist/cropper.css"
+import resize from "@/utils/resize"
+
 export default {
   name: 'CommonCropper',
   components: {
@@ -196,8 +198,9 @@ export default {
     }
   },
   methods: {
-    setImage (e) {
-      const file = e.target.files[0];
+    async setImage (e) {
+      const prefile = e.target.files[0];
+      const file = await resize.getCompressImageFileAsync(prefile)
       if (!file.type.includes("image/")) {
         alert("Please select an image file");
         return;

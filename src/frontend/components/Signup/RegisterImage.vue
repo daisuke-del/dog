@@ -229,9 +229,10 @@ export default {
         alert("Sorry, FileReader API not supported");
       }
     },
-    setImageAgain (e) {
+    async setImageAgain (e) {
       this.cropImg = ''
-      const file = e.target.files[0];
+      const prefile = e.target.files[0];
+      const file = await resize.getCompressImageFileAsync(prefile)
       if (!file.type.includes("image/")) {
         alert("Please select an image file");
         return;
