@@ -14,6 +14,12 @@
     "lintfix": "prettier --write --list-different . && npm run lint:js -- --fix && npm run lint:style -- --fix",
     "test": "jest"
   },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
+  },
   "lint-staged": {
     "*.{js,vue}": "eslint --cache",
     "*.{css,scss,sass,html,vue}": "stylelint",
