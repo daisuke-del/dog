@@ -364,7 +364,7 @@ import favorite from '@/plugins/modules/favorite'
 export default {
   components: { UserDialog },
   auth: false,
-  middleware: ['update_user_status'],
+  middleware: 'update_user_status',
   async asyncData({ app }) {
     let dogRanking = []
     let users = []
@@ -558,7 +558,9 @@ export default {
   }
 }
 </script>
+
 <style scoped>
+
 a {
   text-decoration: none;
 }

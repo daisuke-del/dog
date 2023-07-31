@@ -40,7 +40,7 @@ import user from '@/plugins/modules/user'
 export default {
     name: 'BreedDefault',
     auth: false,
-    middleware: ['update_user_status'],
+    middleware: 'update_user_status',
     async asyncData ({ route }) {
         let breedInfo = []
         const breedPath = route.params.breed

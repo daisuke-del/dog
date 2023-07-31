@@ -3,7 +3,7 @@
     <p class="warn-text mb-1">登録した写真はアプリ内で公開されます</p>
     <p class="warn-text">サイズの大きい画像は登録できない場合がございます</p>
     <div class="face-image">
-      <label  v-if="!cropImg" class="btn mt-2 mb-4">
+      <label v-if="!cropImg" class="btn mt-2 mb-4">
         <input
           type="file"
           name="image"
@@ -14,7 +14,7 @@
         <v-icon color="white"> mdi-image-multiple </v-icon>
         写真を選ぶ
       </label>
-      <label  v-else class="btn mt-2 mb-4">
+      <label v-else class="btn mt-2 mb-4">
         <input
           type="file"
           name="image"
@@ -193,8 +193,10 @@
 </template>
 
 <script>
-import VueCropper from "vue-cropperjs";
-import "cropperjs/dist/cropper.css";
+import VueCropper from "vue-cropperjs"
+import "cropperjs/dist/cropper.css"
+import resize from "@/utils/resize"
+
 export default {
   name: 'CommonCropper',
   components: {
@@ -209,8 +211,9 @@ export default {
     }
   },
   methods: {
-    setImage (e) {
-      const file = e.target.files[0];
+    async setImage (e) {
+      const prefile = e.target.files[0]
+      const file = await resize.getCompressImageFileAsync(prefile)
       if (!file.type.includes("image/")) {
         alert("Please select an image file");
         return;

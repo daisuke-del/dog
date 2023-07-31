@@ -88,7 +88,7 @@ export default {
         UserDialog,
         InfiniteLoading
     },
-    middleware: ['update_user_status'],
+    middleware: 'update_user_status',
     async asyncData ({ app, query }) {
         let users = []
         let searchBreedKeyword = null

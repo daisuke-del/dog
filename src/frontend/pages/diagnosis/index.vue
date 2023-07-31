@@ -115,7 +115,7 @@ export default {
     DiagnosisChoice,
     DiagnosisResult
   },
-  middleware: ['update_user_status'],
+  middleware: 'update_user_status',
   async asyncData({ query }) {
     let position = 1;
     let gender = null

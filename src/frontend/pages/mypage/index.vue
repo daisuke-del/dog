@@ -190,7 +190,7 @@ export default {
     CommonCropperjs
   },
   name: 'Mypage',
-  middleware: ['update_user_status'],
+  middleware: 'update_user_status',
   async asyncData({ app }) {
     let userId = null
     let sex = null

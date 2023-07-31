@@ -72,7 +72,7 @@ export default {
     auth: false,
     name: 'PagesBreed',
     components: { SelectItems },
-    middleware: ['update_user_status'],
+    middleware: 'update_user_status',
     async asyncData () {
         let breeds = []
         await breed.getBreeds().then((response) => {
