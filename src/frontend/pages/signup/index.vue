@@ -250,7 +250,7 @@ export default {
         this.isChoice = false
         this.position = 3
         this.$auth.setUserToken('200')
-        this.$store.dispatch('authInfo/setAuthInfo', response)
+        this.$store.dispatch('authInfo/setAuthInfo', response.data)
         setTimeout(this.$router.push('/mypage'), 2000)
       })
     }
