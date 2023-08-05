@@ -131,7 +131,7 @@ export const actions = {
   async setUserStatus ({ commit }) {
     if (this.$auth.loggedIn) {
       await user.getUserInfo().then((response) => {
-        commit('setAuthInfo', response['userInfo'])
+        commit('setAuthInfo', response)
       })
     }
   }
