@@ -161,7 +161,7 @@ export default {
     }
   },
   router: {
-    middleware: ['auth']
+    middleware: ['auth', 'update_user_status']
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
