@@ -30,12 +30,21 @@
             <h3>性格</h3>
             <p>{{ breedInfo[0].personal }}</p>
         </div>
+        <div class="text-center">
+            <v-btn
+                class="mt-5"
+                color="primary"
+                depressed
+                @click="clickBack"
+            >
+                犬種一覧に戻る
+            </v-btn>
+        </div>
     </div>
 </template>
 
 <script>
 import breed from '@/plugins/modules/breed'
-import user from '@/plugins/modules/user'
 
 export default {
     name: 'BreedDefault',
@@ -82,6 +91,11 @@ export default {
             disabled: true,
             href: `/breed/detail/${this.$route.params.breed}`
         })
+    },
+    methods: {
+        clickBack () {
+            this.$router.push('/breed')
+        }
     }
 }
 </script>
