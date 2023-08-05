@@ -16,9 +16,9 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'dogisland' },
       { name: 'format-detection', content: 'telephone=no' },
-      { name: 'twitter:image', content: 'https://www.dogiland.jp/storage/images/logo-dog-small.png'},
+      { name: 'twitter:image', content: 'https://www.dogiland.jp/storage/image/logo-dog-small.png'},
       { name: 'twitter:title', content: 'ドッグアイランド'},
-      { name: 'twitter:description', content: '【完全無料】愛犬を登録してみよう！ランクインして、目指せインフルエンサー犬！！'}
+      { name: 'twitter:description', content: '【完全無料】愛犬を登録してみよう！ランクインして、目指せインフルエンサー犬！'}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -26,7 +26,7 @@ export default {
       { rel: "preconnect", href: "https://fonts.gstatic.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;700&display=swap" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" },
-      { rel: "android-icon", sizes: "152x152", href: "https://www.dogiland.jp/storage/images/logo-dog-small.png"},
+      { rel: "android-icon", sizes: "152x152", href: "https://www.dogiland.jp/storage/image/logo-dog-small.png"},
       {
         rel: 'stylesheet',
         href: 'https://use.fontawesome.com/releases/v5.15.3/css/all.css',
