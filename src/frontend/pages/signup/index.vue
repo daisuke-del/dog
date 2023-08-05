@@ -141,23 +141,25 @@ export default {
       this.transitionContent(2)
     },
     storeUserInfo (userInfo) {
-      user.getChoiceUsers().then((response) => {
-        this.choiceDogs = response
+      user.checkEmail(userInfo.email).then(() => {
+        user.getChoiceUsers().then((response) => {
+          this.choiceDogs = response
+        })
+        this.sex = userInfo.sex
+        this.name = userInfo.name
+        this.email = userInfo.email
+        this.password = userInfo.password
+        this.weight = userInfo.weight
+        this.breed1 = userInfo.breed1
+        this.breed2 = userInfo.breed2 ? userInfo.breed2 : null
+        this.location = userInfo.location
+        this.instagramId = userInfo.instagramId ? userInfo.instagramId : null
+        this.twitterId = userInfo.twitterId ? userInfo.twitterId : null
+        this.tiktokId = userInfo.tiktokId ? userInfo.tiktokId : null
+        this.blogId = userInfo.blogId ? userInfo.blogId : null
+        this.birthday = userInfo.birthday
+        this.position = 2
       })
-      this.sex = userInfo.sex
-      this.name = userInfo.name
-      this.email = userInfo.email
-      this.password = userInfo.password
-      this.weight = userInfo.weight
-      this.breed1 = userInfo.breed1
-      this.breed2 = userInfo.breed2 ? userInfo.breed2 : null
-      this.location = userInfo.location
-      this.instagramId = userInfo.instagramId ? userInfo.instagramId : null
-      this.twitterId = userInfo.twitterId ? userInfo.twitterId : null
-      this.tiktokId = userInfo.tiktokId ? userInfo.tiktokId : null
-      this.blogId = userInfo.blogId ? userInfo.blogId : null
-      this.birthday = userInfo.birthday
-      this.position = 2
     },
     async storeDogImage (dogImage) {
       this.dogImage = dogImage
