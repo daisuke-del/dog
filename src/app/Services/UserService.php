@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\DOGException;
-use App\Http\Requests\UserRequest;
 use App\Repositories\ReactionsRepository;
 use App\ValueObjects\User\Email;
 use App\ValueObjects\User\Password;
@@ -328,7 +327,6 @@ class UserService
         } else if ($day) {
             $birthday = $yeraString . '-' . $monthString . '-' . $day . ' 00:00:00';
         }
-        Log::debug($birthday);
         $user['birthday'] = $birthday;
         $users = $this->usersRepository->new($user);
         $this->usersRepository->updateBirthday($users);
@@ -472,39 +470,6 @@ class UserService
     }
 
     /**
-     * Userテーブルの登録を行う (レコードが存在していたら更新)
-     *
-     * @param array $users
-     * @param array $request
-     * @return array
-     * @throws Exception
-     */
-    private function registerUsers(array $users, array $request)
-    {
-        if ($this->usersRepository->existsUsers($users['uid'])) {
-            $user = $this->usersRepository->selectUsersById($users['uid']);
-            $users = array_merge($user->toArray(), $users);
-            $now = new Carbon();
-            $authCode = mt_rand(100000, 999999);
-            $users['auth_code'] = $authCode;
-            $userEntity = $this->usersRepository->new($users);
-            $this->usersRepository->updateUsers($userEntity);
-            return [
-                'user_id' => $users['uid'],
-                'auth_code' => $authCode
-            ];
-        }
-
-        $entityParam = $this->getRegisterEntityParam($request, $users['uid']);
-        $userEntity = $this->usersRepository->new($entityParam);
-        $this->usersRepository->saveUsers($userEntity);
-        return [
-            'user_id' => $users['uid'],
-            'auth_code' => $entityParam['auth_code']
-        ];
-    }
-
-    /**
      * 登録時に必要なパラメーターを取得する
      *
      * @param array $request
@@ -557,12 +522,7 @@ class UserService
     {
         $users = $this->usersRepository->selectusersById($userId)->toArray();
         if (empty($users)) {
-            // ユーザー情報が取得できない
-            $error = [
-                'error_code' => config('const.ERROR_CODE.SETTLEMENT.NO_USER'),
-                'user_id' => $userId
-            ];
-            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404, $error);
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
         }
         return $users;
     }
@@ -779,7 +739,6 @@ class UserService
                 $column => $newImage,
             ];
         } catch (Exception $e) {
-            Log::error($e);
             throw new DOGException('画像の更新に失敗しました', 400);
         }
     }
@@ -902,7 +861,6 @@ class UserService
     {
         $userId = $request->input('userId');
         $userInfo = $this->usersRepository->selectUsersById($userId);
-        Log::debug($userInfo);
         $dogImage1 = $userInfo['dog_image1'];
         $dogImage2 = $userInfo['dog_image2'];
         $dogImage3 = $userInfo['dog_image3'];
@@ -956,7 +914,6 @@ class UserService
                 }
             }
         } catch (Exception $e) {
-            Log::error($e);
             throw new DOGException(config('const.ERROR.ADMIN.FAILED'), 400);
         }
         return true;
