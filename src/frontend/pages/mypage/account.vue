@@ -412,8 +412,7 @@ export default {
     leaveClick() {
       if (confirm('本当に退会しますか？')) {
         user.leave().then(() => {
-          this.$auth.logout()
-          this.$router.push('/')
+          user.logout()
         }).catch(() => {
           this.$store.dispatch('snackbar/setMessage', '退会できませんでした')
           this.$store.dispatch('snackbar/snackOn')
