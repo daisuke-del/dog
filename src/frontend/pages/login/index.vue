@@ -77,7 +77,7 @@ export default {
       vm.previousPage = from.path
     })
   },
-  data() {
+  data () {
     return {
       email: null,
       password: null,
@@ -95,7 +95,7 @@ export default {
     }
   },
   methods: {
-    async clickLogin() {
+    async clickLogin () {
       if (this.$refs.loginForm.validate()) {
         this.loginLoading = true
         await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
@@ -103,12 +103,12 @@ export default {
           this.$auth.setUserToken('200')
           this.$store.dispatch('authInfo/setAuthInfo', response.data)
           this.$router.replace('/mypage')
-        }).catch(() => {
+        }).finally(() => {
           this.loginLoading = false
         })
       }
     },
-    redirect() {
+    redirect () {
       const redirectUrl = this.$store.state.redirect.pageUrl
       if (redirectUrl) {
         this.$router.replace(redirectUrl)
@@ -117,10 +117,10 @@ export default {
       }
       this.$store.dispatch('redirect/deletePageUrl')
     },
-    pulsA() {
+    pulsA () {
       this.admin = this.admin + 'a'
     },
-    pulsB() {
+    pulsB () {
       this.admin = this.admin + 'b'
     }
   }
