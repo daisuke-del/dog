@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <v-row class="mt-3 mb-0" justify="center" align="center">
+    <v-row class="my-3 mb-0" justify="center" align="center">
       <v-col cols="12" sm="8" xl="5" class="pa-0">
         <h1 class="my-0 mx-3 mx-sm-0">
           登録情報
@@ -410,7 +410,7 @@ export default {
       this.blogLoading = false
     },
     leaveClick() {
-      if (confirm('本当に退会して良いですか？')) {
+      if (confirm('本当に退会しますか？')) {
         user.leave().then(() => {
           this.$auth.logout()
           this.$router.push('/')
