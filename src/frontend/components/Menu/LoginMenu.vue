@@ -122,7 +122,7 @@ export default {
     },
     computed: {
         userWithImage () {
-            return this.dogImage1 && `https://dogiland.jp/storage/${this.dogImage1}`
+            return this.dogImage1 && require(`@/../storage/image/dogimages/${this.dogImage1}`)
         },
         userName () {
             return this.$store.getters['authInfo/auth'].name

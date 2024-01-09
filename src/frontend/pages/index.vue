@@ -416,37 +416,37 @@ export default {
   },
   computed: {
     firstDog () {
-      return this.dogRanking[0].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[0].dog_image1}`
+      return this.dogRanking[0].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[0].dog_image1}`)
     },
     secondDog () {
-      return this.dogRanking[1].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[1].dog_image1}`
+      return this.dogRanking[1].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[1].dog_image1}`)
     },
     thirdDog () {
-      return this.dogRanking[2].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[2].dog_image1}`
+      return this.dogRanking[2].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[2].dog_image1}`)
     },
     fourthDog () {
-      return this.dogRanking[3].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[3].dog_image1}`
+      return this.dogRanking[3].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[3].dog_image1}`)
     },
     fifthDog () {
-      return this.dogRanking[4].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[4].dog_image1}`
+      return this.dogRanking[4].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[4].dog_image1}`)
     },
     sixthDog () {
-      return this.dogRanking[5].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[5].dog_image1}`
+      return this.dogRanking[5].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[5].dog_image1}`)
     },
     seventhDog () {
-      return this.dogRanking[6].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[6].dog_image1}`
+      return this.dogRanking[6].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[6].dog_image1}`)
     },
     eighthDog () {
-      return this.dogRanking[7].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[7].dog_image1}`
+      return this.dogRanking[7].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[7].dog_image1}`)
     },
     ninethDog () {
-      return this.dogRanking[8].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[8].dog_image1}`
+      return this.dogRanking[8].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[8].dog_image1}`)
     },
     tenthDog () {
-      return this.dogRanking[9].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[9].dog_image1}`
+      return this.dogRanking[9].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[9].dog_image1}`)
     },
     eleventhDog () {
-      return this.dogRanking[10].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[10].dog_image1}`
+      return this.dogRanking[10].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[10].dog_image1}`)
     },
     breedImage1 () {
       return this.breeds[0].dog_image && require(`@/assets/image/breed/${this.breeds[0].dog_image}`)
@@ -461,16 +461,16 @@ export default {
       return this.breeds[3].dog_image && require(`@/assets/image/breed/${this.breeds[3].dog_image}`)
     },
     userImage1 () {
-      return this.users[0].dog_image1 && `https://dogiland.jp/storage/${this.users[0].dog_image1}`
+      return this.users[0].dog_image1 && require(`@/../storage/image/dogimages/${this.users[0].dog_image1}`)
     },
     userImage2 () {
-      return this.users[1].dog_image1 && `https://dogiland.jp/storage/${this.users[1].dog_image1}`
+      return this.users[1].dog_image1 && require(`@/../storage/image/dogimages/${this.users[1].dog_image1}`)
     },
     userImage3 () {
-      return this.users[2].dog_image1 && `https://dogiland.jp/storage/${this.users[2].dog_image1}`
+      return this.users[2].dog_image1 && require(`@/../storage/image/dogimages/${this.users[2].dog_image1}`)
     },
     userImage4 () {
-      return this.users[3].dog_image1 && `https://dogiland.jp/storage/${this.users[3].dog_image1}`
+      return this.users[3].dog_image1 && require(`@/../storage/image/dogimages/${this.users[3].dog_image1}`)
     }
   },
   methods: {
