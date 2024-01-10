@@ -452,6 +452,29 @@ class UserService
     }
 
     /**
+     * 会員情報変更 - comment
+     *
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    public function updateComment(Request $request): array
+    {
+        $userId = Auth::id();
+        $user = $this->getUsersById($userId);
+        if (is_null($user)) {
+            // ユーザーが取得できない
+            throw new DOGException(config('const.ERROR.USER.NO_USER'), 404);
+        }
+        $user['comment'] = $request->input('comment');
+        $users = $this->usersRepository->new($user);
+        $this->usersRepository->updateComment($users);
+        return [
+            'blog_id' => $users->getBlogId()
+        ];
+    }
+
+    /**
      * ランダムにUserIdを生成する
      *
      * @return string

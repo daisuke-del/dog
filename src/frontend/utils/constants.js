@@ -4,6 +4,7 @@ export default Object.freeze({
   minPasswordLength: 6,
   maxPasswordLength: 32,
   maxNameLength: 10,
+  maxCommentLength: 100,
   maxWeightLength: 2,
   errorMessage: '予期せぬエラーが発生しました。',
   numberValidation: '^[0-9]*$',

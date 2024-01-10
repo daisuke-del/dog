@@ -20,6 +20,7 @@ export const state = () => ({
     birthday: null,
     breed1: null,
     breed2: null,
+    Comment: null,
     voidFlg: 0,
   },
 })
@@ -54,6 +55,7 @@ export const mutations = {
     state.auth.birthday = userInfo.birthday
     state.auth.breed1 = userInfo.breed1
     state.auth.breed2 = userInfo.breed2 ? userInfo.breed2 : null
+    state.auth.comment = userInfo.comment ? userInfo.comment : null
     state.auth.voidFlg = userInfo.void_flg ? userInfo.void_flg : 0
   },
   setEmail(state, email) {
@@ -88,6 +90,9 @@ export const mutations = {
   },
   setBreed2(state, breed2) {
     state.auth.breed1 = breed2
+  },
+  setComment(state, comment) {
+    state.auth.comment = comment
   }
 }
 
@@ -127,6 +132,9 @@ export const actions = {
   },
   setBreed2({ commit }, breed2) {
     commit('setBreed2', breed2)
+  },
+  setComment({ commit }, comment) {
+    commit('setComment', comment)
   },
   async setUserStatus ({ commit }) {
     if (this.$auth.loggedIn) {

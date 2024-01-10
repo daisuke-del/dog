@@ -147,6 +147,30 @@ interface UsersRepositoryInterface
     public function updateTwitter(UserEntity $user): bool;
 
     /**
+     * usersのtiktok_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateTiktok(UserEntity $user): bool;
+
+    /**
+     * usersのtiktok_idを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateBlog(UserEntity $user): bool;
+
+    /**
+     * usersのcommentを更新する
+     *
+     * @param UserEntity $user
+     * @return bool
+     */
+    public function updateComment(UserEntity $user): bool;
+
+    /**
      * face_image,update_face_at,face_image_void_flgを更新する
      *
      * @param stirng $userId

@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('update/twitter', [UserController::class, 'updatetwitter']);
   Route::post('update/tiktok', [UserController::class, 'updateTiktok']);
   Route::post('update/blog', [UserController::class, 'updateBlog']);
+  Route::post('update/comment', [UserController::class, 'updateComment']);
 });
 
 // お気に入り
