@@ -3,8 +3,8 @@
     <h1>{{ nameWithSuffix }}</h1>
     <div class="main-all">
       <v-breadcrumbs
-        :items="items"
-        divider=">"
+            :items="items"
+            divider=">"
       />
       <common-cropperjs
         v-show="modalCropper"
@@ -76,23 +76,6 @@
           </div>
           <p class="info-text">居住地：{{ location }}</p>
           <p class="info-text">生年月日：{{ dogBirthday }}</p>
-          <p v-if="comment !== '' && comment !== null" class="text mx-10 mt-4">
-            {{ comment }}
-          </p>
-        </div>
-        <div class="text-center mt-4">
-          <v-btn
-            depressed
-            color="primary"
-            dark
-            class="font-weight-bold"
-            @click="updateProfile"
-          >
-            プロフィールを変更する
-            <v-icon>
-              mdi-dog
-            </v-icon>
-          </v-btn>
         </div>
       </div>
       <v-row>
@@ -141,8 +124,8 @@
         </v-col>
       </v-row>
       <p v-if="friends.length > 0" class="small-text under-line mt-3 mb-5">
-        フレンドリスト
-      </p>
+            フレンドリスト
+          </p>
       <v-row v-show="isShowFriend">
         <v-col
           v-for="(friend, index) in friends"
@@ -186,7 +169,7 @@
           >
             友達を探しに行く
             <v-icon>
-              mdi-magnify
+              mdi-dog
             </v-icon>
           </v-btn>
         </v-col>
@@ -196,7 +179,7 @@
 </template>
 
 <script>
-import UserDialog from '@/components/Common/UserDialog'
+import UserDialog from '@/components/Common/UserDialog';
 import CommonCropperjs from '@/components/Common/Cropper'
 import user from '@/plugins/modules/user'
 import favorite from '@/plugins/modules/favorite'
@@ -220,7 +203,6 @@ export default {
     let birthday = null
     let breed1 = null
     let breed2 = null
-    let comment = null
     let voidFlg = 0
     let friends = []
     let givens = []
@@ -236,9 +218,8 @@ export default {
       birthday = response['birthday']
       breed1 = response['breed1']
       breed2 = response['breed2']
-      comment = response['comment']
       voidFlg = response['dog_image_void_flg'] ? response['dog_image_void_flg'] : 0
-      friends = response['friends']
+      friends = response['friends'],
       givens = response['givens']
     })
     return {
@@ -253,7 +234,6 @@ export default {
       birthday,
       breed1,
       breed2,
-      comment,
       voidFlg,
       friends,
       givens
@@ -274,7 +254,7 @@ export default {
         dog_image1: '4.jpg',
         dog_image2: '1.jpg',
         dog_image3: '3.jpg',
-        comment: '',
+        comment: 'バニラ',
         twitter_id: '',
         instagram_id: '',
         tiktok_id: '',
@@ -330,7 +310,7 @@ export default {
       } else {
         return this.name + "ちゃん";
       }
-    }
+    },
   },
   methods: {
     modalCroppers() {
@@ -340,6 +320,7 @@ export default {
       this.dogInfo = userInfo
       this.index = index
       this.userDialog = true
+      console.log(this.dogInfo)
     },
     summaryMethod(status) {
       this.modal = status
@@ -375,6 +356,9 @@ export default {
           this.friends.splice(index, 1)
         })
       }
+    },
+    scoreClick() {
+      this.scoreDialog = true
     },
     changeImage (num) {
       if (num === 1) {
@@ -419,9 +403,6 @@ export default {
     },
     findFriend () {
       this.$router.push('/dog')
-    },
-    updateProfile () {
-      this.$router.push('/mypage/account')
     }
   }
 }
@@ -433,7 +414,6 @@ h1 {
     color: dimgrey;
     text-align: center;
 }
-
 .all {
   padding: 10px 10px 30px 10px;
   min-width: 350px;
@@ -442,9 +422,21 @@ h1 {
   margin: 0 auto;
 }
 
+.name-text {
+  font-size: 1.5em;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: dimgrey;
+  font-weight: bolder;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.1);
+  padding: 5px;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+}
+
 .info-wrap {
   background-color: rgba(128, 128, 128, 0.1);
-  padding: 15px 5px;
+  padding: 5px;
   border-radius: 5px;
   backdrop-filter: blur(5px);
 }
@@ -456,11 +448,6 @@ h1 {
   font-weight: bolder;
   max-width: 300px;
   margin: 0 auto;
-}
-
-.text {
-  font-family: 'Noto Sans JP', sans-serif;
-  color: dimgrey;
 }
 
 .dog-card {
