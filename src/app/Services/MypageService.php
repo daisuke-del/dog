@@ -67,7 +67,8 @@ class MypageService
             'location' => $userInfo['location'],
             'birthday' => $userInfo['birthday'],
             'breed1' => $userInfo['breed1'],
-            'breed2' => $userInfo['breed2']
+            'breed2' => $userInfo['breed2'],
+            'comment' => $userInfo['comment'] ?: null
         ];
     }
 

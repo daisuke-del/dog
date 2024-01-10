@@ -237,6 +237,19 @@ class UserController extends Controller
     }
 
     /**
+     * 会員情報変更 - comment
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws Exception
+     */
+    public function updateComment(Request $request)
+    {
+        $response = $this->userService->updateComment($request);
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * メールアドレスが登録済か確認
      *
      * @param Request $request

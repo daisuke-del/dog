@@ -27,7 +27,7 @@
             class="my-5 mx-2 mx-sm-0"
             :input-name.sync="name"
             :name-rules="nameRules"
-            :loading="nameSendLoading"
+            :loading="nameLoading"
             :show-tooltip="showNameTooltip"
             @editName="editName"
           />
@@ -55,6 +55,15 @@
             @editWeight="editWeight"
             @editBirthday="editBirthday"
             @editLocation="editLocation"
+          />
+          <edit-comment
+            ref="editComment"
+            class="my-5 mx-2 mx-sm-0"
+            :comment-rules="commentRules"
+            :input-comment.sync="comment"
+            :loading="commentLoading"
+            :show-tooltip="showCommentTooltip"
+            @editComment="editComment"
           />
           <edit-sns
             ref="editSns"
@@ -95,6 +104,7 @@
 import EditEmail from '@/components/Mypage/EditEmail'
 import EditName from '@/components/Mypage/EditName'
 import EditProfile from '@/components/Mypage/EditProfile'
+import EditComment from '@/components/Mypage/EditComment'
 import EditSns from '@/components/Mypage/EditSns'
 import constants from '@/utils/constants'
 import user from '~/plugins/modules/user'
@@ -104,6 +114,7 @@ export default {
     EditEmail,
     EditName,
     EditProfile,
+    EditComment,
     EditSns
   },
   name: 'Mypageaccount',
@@ -124,6 +135,7 @@ export default {
     let twitterId = ''
     let tiktokId = ''
     let blogId = ''
+    let comment = null
     await user.getUserInfo().then((response) => {
       app.store.dispatch('authInfo/setAuthInfo', response)
       userId = response['user_id']
@@ -141,6 +153,7 @@ export default {
       twitterId = response['twitter_id'] ? response['twitter_id'] : ''
       tiktokId = response['tiktok_id'] ? response['tiktok_id'] : ''
       blogId = response['blog_id'] ? response['blog_id'] : ''
+      comment = response['comment']
     })
     return {
       userId,
@@ -157,7 +170,8 @@ export default {
       instagramId,
       twitterId,
       tiktokId,
-      blogId
+      blogId,
+      comment
     }
   },
   data () {
@@ -197,6 +211,7 @@ export default {
       twitterLoading: false,
       tiktokLoading: false,
       blogLoading: false,
+      commentLoading: false,
       emailRules: [
         value => !!value || 'メールアドレスが入力されていません。',
         value => value.match(constants.mailValidation) != null || 'メールアドレスの形式ではありません。'
@@ -236,6 +251,9 @@ export default {
       blogRules: [
         value => !!value || 'ブログのURLが入力されていません。'
       ],
+      commentRules: [
+        value => (value || '').length <= constants.maxCommentLength || '100文字以内で入力してください'
+      ],
       newEmail: '',
       showPasswordTooltip: false,
       showNameTooltip: false,
@@ -247,9 +265,9 @@ export default {
       showTwitterTooltip: false,
       showTiktokTooltip: false,
       showBlogTooltip: false,
+      showCommentTooltip: false,
       passwordSendLoading: false,
-      passwordMessage: '',
-      nameSendLoading: false,
+      passwordMessage: ''
     }
   },
   methods: {
@@ -275,7 +293,7 @@ export default {
       })
     },
     async editName (name) {
-      this.nameSendLoading = true
+      this.nameLoading = true
       await user.updateName(name).then(() => {
         this.showNameTooltip = true
         this.$store.dispatch('authInfo/setName', name)
@@ -286,7 +304,7 @@ export default {
         this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
         this.$store.dispatch('snackbar/snackOn')
       })
-      this.nameSendLoading = false
+      this.nameLoading = false
     },
     async editBreed (breed1, breed2 = '') {
       this.breedLoading = true
@@ -399,7 +417,7 @@ export default {
       this.blogLoading = true
       await user.updateBlog(blog).then(() => {
         this.showBlogTooltip = true
-        this.$store.dispatch('authInfo/setBlogId', tiktok)
+        this.$store.dispatch('authInfo/setBlogId', blog)
         setTimeout(() => {
           this.showBlogTooltip = false
         }, 3000)
@@ -408,6 +426,20 @@ export default {
         this.$store.dispatch('snackbar/snackOn')
       })
       this.blogLoading = false
+    },
+    async editComment (comment) {
+      this.commentLoading = true
+      await user.updateComment(comment).then(() => {
+        this.showCommentTooltip = true
+        this.$store.dispatch('authInfo/setComment', comment)
+        setTimeout(() => {
+          this.showCommentTooltip = false
+        }, 3000)
+      }).catch(() => {
+        this.$store.dispatch('snackbar/setMessage', '更新に失敗しました。')
+        this.$store.dispatch('snackbar/snackOn')
+      })
+      this.commentLoading = false
     },
     leaveClick() {
       if (confirm('本当に退会しますか？')) {

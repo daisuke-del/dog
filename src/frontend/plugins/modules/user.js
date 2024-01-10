@@ -119,6 +119,11 @@ export default {
       blog
     })
   },
+  updateComment (comment) {
+    return request('post', '/update/comment', {
+      comment
+    })
+  },
   getUsersRandom () {
     return request('get', '/api/user/random')
   },
