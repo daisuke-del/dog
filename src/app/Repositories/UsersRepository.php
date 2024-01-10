@@ -710,7 +710,7 @@ class UsersRepository implements UsersRepositoryInterface
         $date = $dt->subDay(1);
         return (new User)
             ->where('dog_image_void_flg', 0)
-            // ->where('update_dog_at', '<', $date)
+            ->where('update_dog_at', '<', $date)
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
             ->limit(11)
@@ -738,7 +738,7 @@ class UsersRepository implements UsersRepositoryInterface
             })
             ->select('users.*', 'm1.to_user_id', 'm2.from_user_id', DB::raw('IF(m1.from_user_id IS NOT NULL AND m2.to_user_id IS NOT NULL, 1, 0) as is_matched'))
             ->where('dog_image_void_flg', 0)
-            // ->where('update_dog_at', '<', $date)
+            ->where('update_dog_at', '<', $date)
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
             ->limit(11)
