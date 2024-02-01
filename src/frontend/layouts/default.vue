@@ -33,7 +33,8 @@
         fixed
         temporary
         right
-        width="210px"
+        width="250"
+        height="90%"
       >
         <login-menu
           v-if="$store.$auth.loggedIn"
@@ -45,13 +46,6 @@
           :drawer="drawer"
           @click-close="closeDrawer"
         />
-        <v-list-item
-          @click=$router.push(home)
-          class="menu-logo"
-          link
-        >
-          <v-img :src="require('@/assets/image/logo/logotouka.png')" />
-        </v-list-item>
       </v-navigation-drawer>
     </v-sheet>
   </v-app>
@@ -104,7 +98,8 @@ html {
 }
 
 .menu {
-  background: url("~/assets/image/backGrounds/menu-background.png") top center no-repeat;
+  background-color: #84D1E2;
+  border-radius: 30px 0 0 30px;
 }
 
 .menu-logo {

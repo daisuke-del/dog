@@ -1,50 +1,50 @@
 <template>
     <div class="all">
         <v-list-item light>
-            <v-list-item-avatar @click="clickMypage">
-                <v-img :src="require('@/assets/image/dog/no-user-image-icon.png')" />
-            </v-list-item-avatar>
-
-            <v-list-item-content @click="clickMypage">
-                <v-list-item-title>Guest</v-list-item-title>
-            </v-list-item-content>
+            <Logo @click="clickLogo" class="ma-5" />
             <v-icon @click.stop="clickClose" :value="drawer" class="close">
                 mdi-close-thick
             </v-icon>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list dense light>
-            <v-list-item v-for="item in items" @click=$router.push(item.link) :key="item.title" link>
-                <v-list-item-icon>
-                    <v-icon>
-                        {{ item.icon }}
-                    </v-icon>
-                </v-list-item-icon>
+        <v-list v-for="item in items" :key="item.title" dense light class="mx-5 py-0">
+            <v-list-item  @click=$router.push(item.link) link class="py-2">
                 <v-list-item-content>
-                    <v-list-item-title color="accent">
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: isCurrentPage(item.link) ? '#EEE' : '#505050' }"
+                    >
                         {{ item.title }}
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            <v-divider></v-divider>
         </v-list>
     </div>
 </template>
 
 <script>
+import Logo from '@/assets/image/svg/logo.svg'
 export default {
     name: 'GuestMenu',
+    components: {
+        Logo
+    },
     props: {
         drawer: Boolean
     },
     data() {
         return {
             items: [
-                { title: '犬種図鑑', icon: 'mdi-book-open-variant', link: '/breed'},
-                { title: 'わんこ診断', icon: 'mdi-dog', link: '/diagnosis' },
-                { title: 'ログイン', icon: 'mdi-login', link: '/login' },
-                { title: '会員登録', icon: 'mdi-account-plus', link: '/signup' },
-                { title: '友達を探す', icon: 'mdi-magnify', link: '/dog'},
-                { title: 'サポート', icon: 'mdi-chat-question-outline', link: '/support' }
+                { title: 'ログイン', link: '/login' },
+                { title: '新規登録', link: '/signup' },
+                { title: 'わんこランキング', link: '/' },
+                { title: 'わんこ友達を探す', link: '/dog'},
+                { title: '犬種診断', link: '/diagnosis' },
+                { title: '犬種図鑑', link: '/breed'},
+                { title: 'サポート', link: '/support' },
+                { title: '利用規約', link: '/support/terms' }
             ],
         }
     },
@@ -52,9 +52,36 @@ export default {
         clickClose () {
             this.$emit('click-close', !this.drawer)
         },
-        clickMypage() {
-            this.$router.push('/mypage')
+        clickLogo() {
+            this.$router.push('/')
+        },
+        isCurrentPage(link) {
+            if (link === '/') {
+                return this.$route.path === link;
+            } else {
+                return this.$route.path.startsWith(link);
+            }
         }
     }
 }
 </script>
+
+<style scoped>
+.close {
+    flex: auto;
+    color: #505050;
+}
+
+.text {
+    font-size: 1rem !important;
+    line-height: normal !important;
+    font-family: 'Plus Jakarta Sans' !important;
+    font-weight: bold !important;
+    letter-spacing: 1.7px !important;
+}
+
+.v-divider {
+    border-color: #EEE !important;
+    border-width:  0.5px !important;
+}
+</style>

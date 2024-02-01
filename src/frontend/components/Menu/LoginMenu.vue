@@ -1,167 +1,189 @@
 <template>
-    <div>
+    <div class="all">
         <v-list-item light>
-            <v-list-item-avatar @click="clickMypage">
-                <v-img :src="userWithImage" class="my-icon" />
-            </v-list-item-avatar>
-
-            <v-list-item-content @click="clickMypage">
-                <v-list-item-title>{{ userName }}</v-list-item-title>
-            </v-list-item-content>
+            <Logo @click="clickTop" class="ma-5" />
             <v-icon @click.stop="clickClose" :value="drawer" class="close">
                 mdi-close-thick
             </v-icon>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list dense light>
-            <v-list-item @click="clickBreed" link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-book-open-variant
-                    </v-icon>
-                </v-list-item-icon>
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickMypage" link class="py-2">
                 <v-list-item-content>
-                    <v-list-item-title color="accent">
-                        犬種図鑑
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item @click="clickDiagnosis" link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-dog
-                    </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title color="accent">
-                        わんこ診断
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item @click="clickMypage" link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-home-account
-                    </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title color="accent">
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path.startsWith('/mypage') ? '#EEE' : '#505050' }"
+                    >
                         マイページ
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
 
-            <v-list-item @click="clickAccount" link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-account-outline
-                    </v-icon>
-                </v-list-item-icon>
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickTop" link class="py-2">
                 <v-list-item-content>
-                    <v-list-item-title color="accent">
-                        登録情報
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path === '/' ? '#EEE' : '#505050' }"
+                    >
+                        わんこランキング
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
 
-            <v-list-item @click="clickSearch" link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-magnify
-                    </v-icon>
-                </v-list-item-icon>
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickFriends" link class="py-2">
                 <v-list-item-content>
-                    <v-list-item-title color="accent">
-                        友達を探す
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path.startsWith('/dog') ? '#EEE' : '#505050' }"
+                    >
+                        わんこ友達をさがす
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
 
-            <v-list-item @click=clickLogout link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-door-open
-                    </v-icon>
-                </v-list-item-icon>
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickDiagnosis" link class="py-2">
                 <v-list-item-content>
-                    <v-list-item-title color="accent">
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path.startsWith('/diagnosis') ? '#EEE' : '#505050' }"
+                    >
+                        犬種診断
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickBreeds" link class="py-2">
+                <v-list-item-content>
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path.startsWith('/breed') ? '#EEE' : '#505050' }"
+                    >
+                        犬種図鑑
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickSupport" link class="py-2">
+                <v-list-item-content>
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path === '/support' ? '#EEE' : '#505050' }"
+                    >
+                        お問い合わせ
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickTerms" link class="py-2">
+                <v-list-item-content>
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: $route.path === '/support/terms' ? '#EEE' : '#505050' }"
+                    >
+                        ご利用規約
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+
+        <v-list dense light class="mx-5 py-0">
+            <v-list-item  @click="clickLogout" link class="py-2">
+                <v-list-item-content>
+                    <v-list-item-title
+                        color="accent"
+                        class="text"
+                        :style="{ color: '#505050' }"
+                    >
                         ログアウト
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-
-            <v-list-item @click=clickSupport link>
-                <v-list-item-icon>
-                    <v-icon>
-                        mdi-chat-question-outline
-                    </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title color="accent">
-                        サポート
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+            <v-divider></v-divider>
         </v-list>
     </div>
 </template>
 
 <script>
-import user from '~/plugins/modules/user'
+import Logo from '@/assets/image/svg/logo.svg'
 export default {
     name: 'LoginMenu',
+    components: {
+        Logo
+    },
     props: {
         drawer: Boolean
-    },
-    data () {
-        return {
-            dogImage1: this.$store.getters['authInfo/auth'].dogImage1
-        }
-    },
-    computed: {
-        userWithImage () {
-            return this.dogImage1 && `https://dogiland.jp/storage/${this.dogImage1}`
-        },
-        userName () {
-            return this.$store.getters['authInfo/auth'].name
-        }
     },
     methods: {
         clickClose () {
             this.$emit('click-close', !this.drawer)
         },
-        async clickLogout() {
-            await this.$axios.get('/sanctum/csrf-cookie', { withCredentials: true })
-            await user.logout().then(() => {
-                this.clickClose()
-            })
+        clickTop() {
+            this.$router.push('/')
         },
-        clickMypage () {
+        clickMypage() {
             this.$router.push('/mypage')
         },
-        clickDiagnosis () {
+        clickFriends() {
+            this.$router.push('/dog')
+        },
+        clickDiagnosis() {
             this.$router.push('/diagnosis')
         },
-        clickBreed () {
+        clickBreeds() {
             this.$router.push('/breed')
         },
-        clickAccount () {
-            this.$router.push('/mypage/account')
-        },
-        clickSupport () {
+        clickSupport() {
             this.$router.push('/support')
         },
-        clickSearch () {
-            this.$router.push('/dog')
-        }
+        clickTerms() {
+            this.$router.push('/support/terms')
+        },
     }
 }
 </script>
 
 <style scoped>
-.my-icon {
-    cursor: pointer;
+.close {
+    flex: auto;
+    color: #505050;
+}
+
+.text {
+    font-size: 1rem !important;
+    line-height: normal !important;
+    font-family: 'Plus Jakarta Sans' !important;
+    font-weight: bold !important;
+    letter-spacing: 1.7px !important;
+}
+
+.v-divider {
+    border-color: #EEE !important;
+    border-width:  0.5px !important;
 }
 </style>
