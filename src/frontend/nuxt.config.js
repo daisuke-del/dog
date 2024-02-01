@@ -26,6 +26,7 @@ export default {
       { rel: "preconnect", href: "https://fonts.gstatic.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;700&display=swap" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Plus Jakarta Sans" },
       { rel: "android-icon", sizes: "152x152", href: "https://www.dogiland.jp/storage/image/logo-dog-small.png"},
       {
         rel: 'stylesheet',
@@ -72,6 +73,7 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    'nuxt-svg-loader'
   ],
 
   proxy: {
