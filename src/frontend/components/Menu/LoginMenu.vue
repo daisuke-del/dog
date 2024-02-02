@@ -130,6 +130,7 @@
 </template>
 
 <script>
+import user from '@/plugins/modules/user'
 import Logo from '@/assets/image/svg/logo.svg'
 export default {
     name: 'LoginMenu',
@@ -164,6 +165,9 @@ export default {
         clickTerms() {
             this.$router.push('/support/terms')
         },
+        clickLogout() {
+            user.logout()
+        }
     }
 }
 </script>

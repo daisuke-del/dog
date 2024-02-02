@@ -1,25 +1,29 @@
 <template>
-  <v-app class="bg">
+  <v-app>
     <v-sheet
       class="overflow-hidden bg"
     >
     <v-app-bar
-      dense
       app
       elevate-on-scroll
-      color="secondary"
-      class="menu-bar"
+      color="white"
+      min-height="65px"
+      elevation="0"
     >
-      <v-img
-        class="logo"
-        :src="require('@/assets/image/logo/logotouka.png')"
-        @click="clickTop"
-      />
+      <LogoColor @click="clickLogo" class="mx-2 mt-1" />
       <v-spacer></v-spacer>
 
-      <v-icon color="accent" large @click.stop="drawer = !drawer">
-        mdi-menu
-      </v-icon>
+      <v-btn
+        class="my-auto"
+        fab
+        elevation="0"
+        color="#84D1E2"
+        height="53"
+        width="53"
+        @click.stop="drawer = !drawer"
+      >
+        <Menu class="ma-1" />
+      </v-btn>
     </v-app-bar>
       <v-snackbar
         v-model="snackbarVisible" color="red"
@@ -47,17 +51,29 @@
           @click-close="closeDrawer"
         />
       </v-navigation-drawer>
+      <v-footer
+        color="#84D1E2"
+      >
+        <Logo class="mx-auto my-2 foot-logo" @click="clickLogo" />
+        <p class="mx-auto text mb-1">© dogisland All rights reserved.</p>
+      </v-footer>
     </v-sheet>
   </v-app>
 </template>
 
 <script>
+import Menu from '@/assets/image/svg/menu.svg'
+import LogoColor from '@/assets/image/svg/logo-color.svg'
+import Logo from '@/assets/image/svg/logo.svg'
 import LoginMenu from '@/components/Menu/LoginMenu'
 import GuestMenu from '@/components/Menu/GuestMenu'
 
 export default {
   name: 'DefaultLayout',
   components: {
+    Menu,
+    Logo,
+    LogoColor,
     LoginMenu,
     GuestMenu
   },
@@ -82,7 +98,7 @@ export default {
     closeDrawer(value) {
       this.drawer = value
     },
-    clickTop () {
+    clickLogo() {
       this.$router.push('/')
     }
   }
@@ -93,34 +109,17 @@ html {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
-.bg {
-  background: url("~/assets/image/backGrounds/default1500.png") top center no-repeat;
-}
-
 .menu {
   background-color: #84D1E2;
   border-radius: 30px 0 0 30px;
 }
 
-.menu-logo {
-  padding: 10px 30px;
+.foot-logo {
+  width: 100%;
 }
 
-.logo {
-  max-width: 100px;
-}
-
-.menu-bar {
-  border-bottom: 1px solid #d5cdc8 !important;
-}
-
-@media screen and (min-width: 750px) {
-  .header-btn {
-    position: fixed;
-    top: 5%;
-    right: 5%;
-    width: 60px;
-    height: 60px;
-  }
+.text {
+  color: white;
+  font-size: 10px;
 }
 </style>
