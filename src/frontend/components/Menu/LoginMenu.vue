@@ -28,7 +28,7 @@
                     <v-list-item-title
                         color="accent"
                         class="text"
-                        :style="{ color: $route.path === '/' ? '#EEE' : '#505050' }"
+                        :style="{ color: $route.path === '/ranking' ? '#EEE' : '#505050' }"
                     >
                         わんこランキング
                     </v-list-item-title>

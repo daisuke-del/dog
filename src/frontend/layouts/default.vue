@@ -1,36 +1,35 @@
 <template>
-  <v-app>
+  <v-app class="all">
     <v-sheet
       class="overflow-hidden bg"
     >
-    <v-app-bar
-      app
-      elevate-on-scroll
-      color="white"
-      min-height="65px"
-      elevation="0"
-    >
-      <LogoColor @click="clickLogo" class="mx-2 mt-1" />
-      <v-spacer></v-spacer>
-
-      <v-btn
-        class="my-auto"
-        fab
+      <v-app-bar
+        app
+        elevate-on-scroll
+        color="white"
+        min-height="65px"
         elevation="0"
-        color="#84D1E2"
-        height="53"
-        width="53"
-        @click.stop="drawer = !drawer"
       >
-        <Menu class="ma-1" />
-      </v-btn>
-    </v-app-bar>
+        <LogoColor @click="clickLogo" class="mx-2 mt-1" />
+        <v-spacer></v-spacer>
+
+        <v-btn
+          class="my-auto"
+          fab
+          elevation="0"
+          color="#84D1E2"
+          height="53"
+          width="53"
+          @click.stop="drawer = !drawer"
+        >
+          <Menu class="ma-1" />
+        </v-btn>
+      </v-app-bar>
       <v-snackbar
         v-model="snackbarVisible" color="red"
       >
         {{ this.$store.getters['snackbar/message'] }}
       </v-snackbar>
-      <Nuxt class="mt-16"/>
       <v-navigation-drawer
         v-model="drawer"
         class="menu"
@@ -51,7 +50,9 @@
           @click-close="closeDrawer"
         />
       </v-navigation-drawer>
+      <Nuxt class="mt-16 mb-10" />
       <v-footer
+        class="sticky-footer"
         color="#84D1E2"
       >
         <Logo class="mx-auto my-2 foot-logo" @click="clickLogo" />
@@ -105,8 +106,8 @@ export default {
 }
 </script>
 <style scoped>
-html {
-  font-family: 'Noto Sans JP', sans-serif;
+.bg {
+  height: 100%;
 }
 
 .menu {
@@ -121,5 +122,10 @@ html {
 .text {
   color: white;
   font-size: 10px;
+}
+
+.sticky-footer {
+  position: sticky;
+  top: 100vh;
 }
 </style>

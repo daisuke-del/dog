@@ -25,7 +25,6 @@ export default {
       { rel: "preconnect", href: "https://fonts.googleapis.com"},
       { rel: "preconnect", href: "https://fonts.gstatic.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;700&display=swap" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Plus Jakarta Sans" },
       { rel: "android-icon", sizes: "152x152", href: "https://www.dogiland.jp/storage/image/logo-dog-small.png"},
       {
@@ -184,20 +183,24 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: '#97B6B8',
+          primary: '#84D1E2',
           secondary: '#F0E8E0',
           accent: '#7D7D7D',
           info: '#384878',
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
+          test: '#505050'
         },
         light: {
-          primary: '#97B6B8',
+          primary: '#84D1E2',
           secondary: '#F0E8E0',
           accent: '#7D7D7D',
           info: '#384878',
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
           success: colors.green.accent3,
+          test: '#505050'
         },
       },
     },

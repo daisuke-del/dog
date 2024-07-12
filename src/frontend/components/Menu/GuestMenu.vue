@@ -39,7 +39,7 @@ export default {
             items: [
                 { title: 'ログイン', link: '/login' },
                 { title: '新規登録', link: '/signup' },
-                { title: 'わんこランキング', link: '/' },
+                { title: 'わんこランキング', link: '/ranking' },
                 { title: 'わんこ友達を探す', link: '/dog'},
                 { title: '犬種診断', link: '/diagnosis' },
                 { title: '犬種図鑑', link: '/breed'},

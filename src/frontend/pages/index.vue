@@ -1,5 +1,5 @@
 <template>
-  <div class='all'>
+    <div class='all'>
     <user-dialog
       :dialog.sync="userDialog"
       :dog-info="dogInfo"
@@ -7,46 +7,118 @@
       @add-favorite="addFavorite"
       @delete-favorite="deleteFavorite"
     />
-    <v-img
-      class="logo"
-      :src="require('@/assets/image/logo/logotouka.png')"
-    />
-    <div class='main-wrapper justify-center mt-7'>
+    <v-card
+      flat
+      tile
+      class="pt-2"
+    >
+      <v-window
+      v-model="onboarding"
+      reverse
+      >
+        <v-window-item
+          v-for="n in length"
+          :key="n.index"
+          eager
+          class="banner"
+        >
+          <v-img
+            :src="require(`@/../storage/image/dogimages/${dogRanking[n - 1].dog_image1}`)"
+          />
+        </v-window-item>
+      </v-window>
+
+      <v-card-actions class="justify-space-between">
+        <v-btn
+          text
+          @click="prev"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+        <v-item-group
+          v-model="onboarding"
+          class="text-center"
+          mandatory
+        >
+          <v-item
+            v-for="n in length"
+            :key="`btn-${n}`"
+            v-slot="{ active }"
+          >
+            <v-btn
+              :input-value="active"
+              icon
+              small
+              :disabled="!active"
+            >
+              <v-icon
+                dense
+                small
+                disable
+                :color="active ? 'primary' : 'black'"
+              >
+                mdi-record
+              </v-icon>
+            </v-btn>
+          </v-item>
+        </v-item-group>
+        <v-btn
+          text
+          @click="next"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-row class="text-wrap mt-2">
+      <v-col cols="auto" class="text">
+        <p class="mb-0">ドッグアイランドは</p>
+        <p class="mb-0"><span class="text-liner"><span class="big-text">わんこ</span>が<span class="big-text">大好き</span></span>な</p>
+        <p class="mb-0">みんなのための</p>
+        <p class="mb-0">ソーシャルメディアです</p>
+      </v-col>
+      <v-col cols="12">
+        <div v-if="$store.$auth.loggedIn" class='btn-wrap'>
+          <a class='btn-text blue-btn' @click='clickDiagnosis'>あなたの犬種診断を開始</a>
+        </div>
+        <div v-else class='btn-wrap'>
+          <a class='btn-text blue-btn' @click='clickDiagnosis'>今すぐ登録してはじめる</a>
+        </div>
+      </v-col>
+    </v-row>
+    <div class='mt-10 main-wrap'>
+      <div class="text mb-12">
+        <p class="mb-0 text-center">ドッグアイランドで</p>
+        <p class="mb-0 text-center">できること</p>
+      </div>
       <div class='ranking-wrap'>
-        <h3 class='ranking-headline'>人気のわんこランキング</h3>
+        <h3 class='ranking-headline'>
+          <PawsIcon class="headline-text" /><span class="headline-text ml-1">人気のわんこランキング</span>
+        </h3>
         <v-row>
           <v-col cols='4' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/1st.png')"
-              class='ranking-icon-crown'
-            />
-            <v-card>
+            <RankFirst class='ranking-icon' />
+            <v-card elevation="0">
               <v-img
-                :src='firstDog'
+                :src='dog1'
                 @click='clickImage(0)'
               />
             </v-card>
           </v-col>
           <v-col cols='4' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/2nd.png')"
-              class='ranking-icon-crown'
-            />
-            <v-card>
+            <RankSecound class='ranking-icon' />
+            <v-card elevation="0">
               <v-img
-                :src='secondDog'
+                :src='dog2'
                 @click='clickImage(1)'
               />
             </v-card>
           </v-col>
           <v-col cols='4' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/3rd.png')"
-              class='ranking-icon-crown'
-            />
-            <v-card>
+            <RankThird class='ranking-icon' />
+            <v-card elevation="0">
               <v-img
-                :src='thirdDog'
+                :src='dog3'
                 @click='clickImage(2)'
               />
             </v-card>
@@ -54,109 +126,84 @@
         </v-row>
 
         <v-row>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/4th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='fourthDog'
                 @click='clickImage(3)'
               />
             </v-card>
           </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/5th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='fifthDog'
                 @click='clickImage(4)'
               />
             </v-card>
           </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/6th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='sixthDog'
                 @click='clickImage(5)'
               />
             </v-card>
           </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/7th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+        </v-row>
+
+        <v-row>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='seventhDog'
                 @click='clickImage(6)'
               />
             </v-card>
           </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/8th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='eighthDog'
                 @click='clickImage(7)'
               />
             </v-card>
           </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/9th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='ninethDog'
                 @click='clickImage(8)'
               />
             </v-card>
           </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/10th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+        </v-row>
+        <v-row>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='tenthDog'
                 @click='clickImage(9)'
               />
             </v-card>
           </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-img
-              :src="require('@/assets/image/rank/11th.png')"
-              class='ranking-icon'
-            />
-            <v-card>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
               <v-img
                 :src='eleventhDog'
                 @click='clickImage(10)'
               />
             </v-card>
           </v-col>
+          <v-col cols='4' class='ranking-col'>
+            <v-card elevation="0">
+              <v-img
+                :src='twelvethDog'
+                @click='clickImage(11)'
+              />
+            </v-card>
+          </v-col>
         </v-row>
-      </div>
-      <div class='btn-wrap'>
-        <a class='btn-text blue-btn' @click='clickDiagnosis'>あなたの犬種診断を開始</a>
       </div>
       <div class='intro-wrap'>
         <div class='intro-text-wrap'>
@@ -346,7 +393,7 @@
             </p>
           </div>
           <div class='btn-wrap'>
-            <a class='btn-text pink-btn' @click='clickSignup'>無料登録して始める</a>
+            <a class='btn-text blue-btn' @click='clickSignup'>無料登録して始める</a>
           </div>
         </div>
       </div>
@@ -355,6 +402,10 @@
 </template>
 
 <script>
+import PawsIcon from '@/assets/image/svg/paws-icon.svg'
+import RankFirst from '@/assets/image/svg/rank/1st.svg'
+import RankSecound from '@/assets/image/svg/rank/2nd.svg'
+import RankThird from '@/assets/image/svg/rank/3rd.svg'
 import UserDialog from '@/components/Common/UserDialog'
 import ranking from '@/plugins/modules/ranking'
 import breed from '@/plugins/modules/breed'
@@ -362,7 +413,13 @@ import user from '@/plugins/modules/user'
 import favorite from '@/plugins/modules/favorite'
 
 export default {
-  components: { UserDialog },
+  components: {
+    UserDialog,
+    PawsIcon,
+    RankFirst,
+    RankSecound,
+    RankThird
+  },
   auth: false,
   middleware: 'update_user_status',
   async asyncData({ app }) {
@@ -373,7 +430,7 @@ export default {
         dogRanking = response
       })
       await user.getUsersRandomWithFriends().then((response) => {
-          users = response
+        users = response
       })
     } else {
       await ranking.getRanking().then((response) => {
@@ -411,18 +468,20 @@ export default {
         tiktok_id: '',
         blog_id: ''
       },
-      pages: null
+      pages: null,
+      length: 3,
+      onboarding: 0,
     }
   },
   computed: {
-    firstDog () {
-      return this.dogRanking[0].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[0].dog_image1}`
+    dog1 () {
+      return this.dogRanking[0].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[0].dog_image1}`)
     },
-    secondDog () {
-      return this.dogRanking[1].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[1].dog_image1}`
+    dog2 () {
+      return this.dogRanking[1].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[1].dog_image1}`)
     },
-    thirdDog () {
-      return this.dogRanking[2].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[2].dog_image1}`
+    dog3 () {
+      return this.dogRanking[2].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[2].dog_image1}`)
     },
     fourthDog () {
       return this.dogRanking[3].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[3].dog_image1}`
@@ -447,6 +506,9 @@ export default {
     },
     eleventhDog () {
       return this.dogRanking[10].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[10].dog_image1}`
+    },
+    twelvethDog () {
+      return this.dogRanking[11].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[11].dog_image1}`)
     },
     breedImage1 () {
       return this.breeds[0].dog_image && require(`@/assets/image/breed/${this.breeds[0].dog_image}`)
@@ -554,7 +616,13 @@ export default {
           this.dogInfo = response
         }
       }
-    }
+    },
+    next () {
+      this.onboarding = this.onboarding + 1 === this.length ? 0 : this.onboarding + 1
+    },
+    prev () {
+      this.onboarding = this.onboarding - 1 < 0 ? this.length - 1 : this.onboarding - 1
+    },
   }
 }
 </script>
@@ -565,24 +633,17 @@ a {
   text-decoration: none;
 }
 
-h2 {
-  font-family: 'Noto Sans JP', sans-serif;
-  color: dimgrey;
-
-}
-
-h3 {
-  font-family: 'Rampart One', cursive;
-}
-
 .all {
   min-width: 350px;
-  margin-top: 40px !important;
 }
 
-.logo {
-  max-width: 500px;
-  margin: 0 auto;
+.banner {
+  height: 375px;
+}
+
+.headline-text {
+  vertical-align: middle;
+  color: #505050;
 }
 
 .ranking-col {
@@ -597,29 +658,23 @@ h3 {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: left;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .ranking-icon {
   z-index: 2;
   position: absolute;
-  top: 1%;
-  left: 0;
-  max-width: 20px;
+  max-width: 45px;
 }
 
-.ranking-icon-crown {
-  z-index: 2;
-  position: absolute;
-  top: 1%;
-  left: -3%;
-  max-width: 30px;
+.main-wrap {
+  background-color: #D7EDF2;
+  border-radius: 500px / 100px;
+  padding-top: 50px;
 }
 
 .btn-wrap {
   text-align: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
 }
 
 .btn-text {
@@ -627,26 +682,17 @@ h3 {
   color: white;
   padding: 15px;
   display: inline-block;
-  font-size: 15px;
   font-weight: bolder;
-  width: 75%;
   max-width: 400px;
   min-width: 200px;
 }
 
-.pink-btn {
-  background-color: #97B6B8;
-}
-
 .blue-btn {
-  background-color: #97B6B8;
-}
-
-.how-to-wrap {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  background-color: #84D1E2;
+  max-width: 600px;
   width: 100%;
-  background-color: #fffdf3;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .intro-wrap {
@@ -665,7 +711,7 @@ h3 {
   margin-top: 20px;
   margin-bottom: 10px;
   text-align: left;
-  color: black;
+  color: #505050;
   text-decoration: underline;
   text-decoration-thickness: 0.5em;
   text-decoration-color: rgba(255, 228, 0, 0.4);
@@ -676,7 +722,7 @@ h3 {
 .intro-text {
   text-align: left;
   font-size: 15px;
-  color: black;
+  color: #505050;
   padding: 10px 0;
   margin-bottom: 0;
 }
@@ -690,18 +736,35 @@ h3 {
 }
 
 .name-text a {
-    color: slategray;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
+  color: slategray;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.text {
+  font-size: 28px;
+  margin: 0 auto;
+  max-width: 600px;
+  color: #505050;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.big-text {
+  font-size: 38px;
+}
+
+.text-liner {
+  background : linear-gradient(transparent 70%, rgba(132, 209, 226, .6) 70%);
+}
+
+.text-wrap {
+  max-width: 360px;
+  margin: 0 auto;
 }
 
 @media screen and (min-width: 600px) {
-  .top-text-wrap {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
   .ranking-wrap {
     max-width: 600px;
     margin: 0 auto;
@@ -731,18 +794,6 @@ h3 {
   .intro-text {
     font-size: 20px;
     letter-spacing: 5px;
-  }
-
-  .how-to-wrap {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    width: 100%;
-    background-color: #fffdf3;
-  }
-
-  .how-to-image {
-    max-width: 800px;
-    margin: 0 auto;
   }
 }
 </style>

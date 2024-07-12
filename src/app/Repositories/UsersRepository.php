@@ -713,7 +713,7 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('update_dog_at', '<', $date)
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
-            ->limit(11)
+            ->limit(12)
             ->get();
     }
 
@@ -741,7 +741,7 @@ class UsersRepository implements UsersRepositoryInterface
             ->where('update_dog_at', '<', $date)
             ->orderBy('dog_point', 'desc')
             ->orderBy('update_dog_at')
-            ->limit(11)
+            ->limit(12)
             ->get();
     }
 
