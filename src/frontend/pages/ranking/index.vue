@@ -185,7 +185,8 @@ export default {
         tiktok_id: '',
         blog_id: ''
       },
-      pages: null
+      pages: 'ranking',
+      userDialog: false
     }
   },
   computed: {
@@ -240,11 +241,7 @@ export default {
         this.$router.push('/login')
       } else {
         favorite.addFavorite(friendId).then((response) => {
-          if (this.pages === 'users') {
-            this.findUserById(this.users, friendId, response)
-          } else if (this.pages === 'ranking') {
-            this.findUserById(this.dogRanking, friendId, response)
-          }
+          this.findUserById(this.dogRanking, friendId, response)
         })
       }
     },
@@ -253,11 +250,7 @@ export default {
         this.$router.push('/login')
       } else {
         favorite.deleteFavorite(friendId).then((response) => {
-          if (this.pages === 'users') {
-            this.findUserById(this.users, friendId, response)
-          } else if (this.pages === 'ranking') {
-            this.findUserById(this.dogRanking, friendId, response)
-          }
+          this.findUserById(this.dogRanking, friendId, response)
         })
       }
     },
