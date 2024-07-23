@@ -1,5 +1,5 @@
 <template>
-    <div class='all'>
+  <div class='all'>
     <user-dialog
       :dialog.sync="userDialog"
       :dog-info="dogInfo"
@@ -10,31 +10,44 @@
     <v-card
       flat
       tile
-      class="pt-2"
+      class="pt-2 banner-wrap"
     >
       <v-window
-      v-model="onboarding"
-      reverse
+        v-model="onboarding"
+        show-arrows
+        class="banner"
       >
+        <template v-slot:prev>
+          <v-btn
+            icon
+            class="custom-arrow"
+            @click="clickLeft"
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+        </template>
+        <template v-slot:next>
+          <v-btn
+            icon
+            class="custom-arrow"
+            @click="clickRight"
+          >
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </template>
         <v-window-item
           v-for="n in length"
           :key="n.index"
           eager
-          class="banner"
         >
           <v-img
             :src="require(`@/../storage/image/dogimages/${dogRanking[n - 1].dog_image1}`)"
+            class=" ml-8 mr-8"
           />
         </v-window-item>
       </v-window>
 
-      <v-card-actions class="justify-space-between">
-        <v-btn
-          text
-          @click="prev"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
+      <v-card-actions class="d-flex justify-center">
         <v-item-group
           v-model="onboarding"
           class="text-center"
@@ -45,29 +58,18 @@
             :key="`btn-${n}`"
             v-slot="{ active }"
           >
-            <v-btn
-              :input-value="active"
-              icon
+            <v-icon
+              dense
               small
-              :disabled="!active"
+              disable
+              :color="active ? 'primary' : '#F1F1F1'"
+              style="font-size: 16px;"
+              class="pa-1"
             >
-              <v-icon
-                dense
-                small
-                disable
-                :color="active ? 'primary' : 'black'"
-              >
-                mdi-record
-              </v-icon>
-            </v-btn>
+              mdi-record
+            </v-icon>
           </v-item>
         </v-item-group>
-        <v-btn
-          text
-          @click="next"
-        >
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
       </v-card-actions>
     </v-card>
     <v-row class="text-wrap mt-2">
@@ -617,11 +619,11 @@ export default {
         }
       }
     },
-    next () {
-      this.onboarding = this.onboarding + 1 === this.length ? 0 : this.onboarding + 1
+    clickLeft () {
+      this.onboarding = (this.onboarding - 1 + this.length) % this.length
     },
-    prev () {
-      this.onboarding = this.onboarding - 1 < 0 ? this.length - 1 : this.onboarding - 1
+    clickRight () {
+      this.onboarding = (this.onboarding + 1) % this.length
     },
   }
 }
@@ -633,12 +635,32 @@ a {
   text-decoration: none;
 }
 
+.custom-arrow {
+  color: #84D1E2 !important;
+  background-color: rgba(215, 237, 242, 0.5) !important;
+  border-radius: 50% !important;
+}
+
+.banner >>> .v-window__prev {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.banner >>> .v-window__next {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
 .all {
   min-width: 350px;
 }
 
+.banner-wrap {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
 .banner {
-  height: 375px;
+  max-height: 500px;
+  max-width: 500px;
 }
 
 .headline-text {
