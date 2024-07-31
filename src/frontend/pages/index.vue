@@ -41,7 +41,7 @@
           eager
         >
           <v-img
-            :src="require(`@/../storage/image/dogimages/${dogRanking[n - 1].dog_image1}`)"
+            :src="`https://dogiland.jp/storage/${dogRanking[n - 1].dog_image1}`"
             class=" ml-8 mr-8"
           />
         </v-window-item>
@@ -440,13 +440,13 @@ export default {
   },
   computed: {
     dog1 () {
-      return this.dogRanking[0].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[0].dog_image1}`)
+      return this.dogRanking[0].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[0].dog_image1}`
     },
     dog2 () {
-      return this.dogRanking[1].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[1].dog_image1}`)
+      return this.dogRanking[1].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[1].dog_image1}`
     },
     dog3 () {
-      return this.dogRanking[2].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[2].dog_image1}`)
+      return this.dogRanking[2].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[2].dog_image1}`
     },
     fourthDog () {
       return this.dogRanking[3].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[3].dog_image1}`
