@@ -79,28 +79,29 @@
         <p class="mb-0">みんなのための</p>
         <p class="mb-0">ソーシャルメディアです</p>
       </v-col>
-      <v-col cols="12">
-        <div v-if="$store.$auth.loggedIn" class='btn-wrap'>
-          <a class='btn-text blue-btn' @click='clickDiagnosis'>あなたの犬種診断を開始</a>
-        </div>
-        <div v-else class='btn-wrap'>
-          <a class='btn-text blue-btn' @click='clickDiagnosis'>今すぐ登録してはじめる</a>
-        </div>
-      </v-col>
     </v-row>
-    <div class='mt-10 main-wrap'>
-      <div class="text mb-12">
+    <div v-if="$store.$auth.loggedIn" class='btn-wrap ml-4 mr-4'>
+      <a class='btn-text blue-btn' @click="clickAllUsers()">わんこのお友達を探す<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+    </div>
+    <div v-else class='btn-wrap ml-4 mr-4'>
+      <a class='btn-text blue-btn' @click='clickSignup()'>今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+    </div>
+    <div class='mt-10 pl-4 pr-4 main-wrap'>
+      <div class="text mb-8">
         <p class="mb-0 text-center">ドッグアイランドで</p>
         <p class="mb-0 text-center">できること</p>
       </div>
-      <div class='ranking-wrap'>
-        <h3 class='ranking-headline'>
+      <div>
+        <h3 class='headline'>
           <PawsIcon class="headline-text" /><span class="headline-text ml-1">人気のわんこランキング</span>
         </h3>
-        <v-row>
+        <p class='intro-text'>
+          いいねして上位を目指そう！
+        </p>
+        <v-row align="end" class="ranking-line">
           <v-col cols='4' class='ranking-col'>
             <RankFirst class='ranking-icon' />
-            <v-card elevation="0">
+            <v-card>
               <v-img
                 :src='dog1'
                 @click='clickImage(0)'
@@ -109,7 +110,7 @@
           </v-col>
           <v-col cols='4' class='ranking-col'>
             <RankSecound class='ranking-icon' />
-            <v-card elevation="0">
+            <v-card>
               <v-img
                 :src='dog2'
                 @click='clickImage(1)'
@@ -118,7 +119,7 @@
           </v-col>
           <v-col cols='4' class='ranking-col'>
             <RankThird class='ranking-icon' />
-            <v-card elevation="0">
+            <v-card>
               <v-img
                 :src='dog3'
                 @click='clickImage(2)'
@@ -127,92 +128,139 @@
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+        <v-row class="ranking-line">
+          <v-col cols='3' align="end" class='ranking-col'>
+            <v-card>
               <v-img
                 :src='fourthDog'
                 @click='clickImage(3)'
               />
             </v-card>
           </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
                 :src='fifthDog'
                 @click='clickImage(4)'
               />
             </v-card>
           </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
                 :src='sixthDog'
                 @click='clickImage(5)'
               />
             </v-card>
           </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
-                :src='seventhDog'
+                :src='sixthDog'
                 @click='clickImage(6)'
               />
             </v-card>
           </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+        </v-row>
+
+        <v-row class="ranking-line">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
                 :src='eighthDog'
                 @click='clickImage(7)'
               />
             </v-card>
           </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
                 :src='ninethDog'
                 @click='clickImage(8)'
               />
             </v-card>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
-                :src='tenthDog'
+                :src='seventhDog'
                 @click='clickImage(9)'
               />
             </v-card>
           </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
+          <v-col cols='3' class='ranking-col'>
+            <v-card>
               <v-img
-                :src='eleventhDog'
+                :src='seventhDog'
                 @click='clickImage(10)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='twelvethDog'
-                @click='clickImage(11)'
               />
             </v-card>
           </v-col>
         </v-row>
       </div>
-      <div class='intro-wrap'>
+      <div v-if="$store.$auth.loggedIn" class='btn-wrap mt-5'>
+        <a class='btn-text blue-btn' @click="clickAllUsers()">わんこのお友達を探す<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      </div>
+      <div v-else class='btn-wrap mt-5'>
+        <a class='btn-text blue-btn' @click='clickSignup()'>今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      </div>
+      <div v-if="!$store.$auth.loggedIn" class="text-center mt-5">
+        <a class="btn-under-text" @click="clickLogin()">アカウントをお持ちの方はこちら</a>
+      </div>
+      <div class='intro-wrap mt-8'>
         <div class='intro-text-wrap'>
-          <div class='intro-small-wrap'>
-            <h3 class='intro-headline'>あなたの犬種診断</h3>
+          <div>
+            <h3 class='headline'>
+              <PawsIcon class="headline-text" /><span class="headline-text ml-1">わんこのお友達を探す</span>
+            </h3>
             <p class='intro-text'>
-              自分の性別の写真を選択して診断開始！
+              たくさんのお友達があなたを待っています<br>SNSと連携することで宣伝効果も！
+            </p>
+            <h4 class='intro-headline'>最近登録したわんこ</h4>
+            <v-row>
+              <v-col cols="4">
+                <v-card
+                  hover
+                  class="card"
+                  @click="clickUser(users[0])"
+                >
+                  <v-img :src='userImage1' />
+                </v-card>
+              </v-col>
+              <v-col cols="4">
+                <v-card
+                  hover
+                  class="card"
+                  @click="clickUser(users[1])"
+                >
+                  <v-img :src='userImage2' />
+                </v-card>
+              </v-col>
+              <v-col cols="4">
+                <v-card
+                  hover
+                  class="card"
+                  @click="clickUser(users[2])"
+                >
+                  <v-img :src='userImage3' />
+                </v-card>
+              </v-col>
+            </v-row>
+            <div class='btn-wrap mt-10'>
+              <a
+                class='white-btn white-btn-text'
+                @click="clickAllUsers()"
+              >
+                お友達をもっと見る<v-icon class="btn-icon black-icon">mdi-chevron-right</v-icon>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class='headline'>
+              <PawsIcon class="headline-text" /><span class="headline-text ml-1">飼い主さんの犬種診断</span>
+            </h3>
+            <p class='intro-text'>
+              あなたを犬に例えると...?<br>性別を選択して診断してみよう！
             </p>
             <v-row>
               <v-col cols="6">
@@ -221,7 +269,7 @@
                 class="card"
                 @click="clickGenderMale()"
               >
-                  <v-img :src="require('~/assets/image/diagnosis/male2.png')" />
+                  <v-img :src="require('~/assets/image/diagnosis/male.png')" />
                 </v-card>
               </v-col>
               <v-col cols="6">
@@ -230,15 +278,20 @@
                   class="card"
                   @click="clickGenderFemale()"
                 >
-                  <v-img :src="require('~/assets/image/diagnosis/female2.png')" />
+                  <v-img :src="require('~/assets/image/diagnosis/female.png')" />
                 </v-card>
               </v-col>
             </v-row>
           </div>
-          <div class='intro-small-wrap'>
-            <h3 class='intro-headline'>犬種図鑑</h3>
+          <div>
+            <h3 class='headline'>
+              <PawsIcon class="headline-text" /><span class="headline-text ml-1">犬種図鑑</span>
+            </h3>
+            <p class='intro-text'>
+              犬博士になろう！
+            </p>
             <v-row>
-              <v-col cols="6">
+              <v-col cols="4">
                 <v-card
                   hover
                   class="card"
@@ -253,7 +306,7 @@
                   </a>
                 </div>
               </v-col>
-              <v-col cols="6">
+              <v-col cols="4">
                 <v-card
                   hover
                   class="card"
@@ -268,13 +321,11 @@
                   </a>
                 </div>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="6">
+              <v-col cols="4">
                 <v-card
                   hover
                   class="card"
-                  @click="clickBreed3()"
+                  @click="clickBreed2()"
                 >
                   <v-img :src='breedImage3' />
                 </v-card>
@@ -285,119 +336,31 @@
                   </a>
                 </div>
               </v-col>
-              <v-col cols="6">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickBreed4()"
-                >
-                  <v-img :src='breedImage4' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickBreed4()">
-                    {{ breeds[3].name }}
-                  </a>
-                </div>
-              </v-col>
             </v-row>
-            <v-btn
-              class="mt-5 all-btn"
-              color="primary"
-              depressed
-              @click="clickAllBreed()"
-            >
-              全ての犬種を見る
-            </v-btn>
-          </div>
-          <div class='intro-small-wrap'>
-            <h3 class='intro-headline'>友達を探す</h3>
-            <p class='intro-text'>
-              友達を探しに行こう！<br>みんなのSNSも見られるよ！
-            </p>
-            <v-row>
-              <v-col cols="6">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickUser(users[0])"
-                >
-                  <v-img :src='userImage1' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickUser(users[0])">
-                    {{ users[0].name }}
-                  </a>
-                </div>
-              </v-col>
-              <v-col cols="6">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickUser(users[1])"
-                >
-                  <v-img :src='userImage2' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickUser(users[1])">
-                    {{ users[1].name }}
-                  </a>
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="6">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickUser(users[2])"
-                >
-                  <v-img :src='userImage3' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickUser(users[2])">
-                    {{ users[2].name }}
-                  </a>
-                </div>
-              </v-col>
-              <v-col cols="6">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickUser(users[3])"
-                >
-                  <v-img :src='userImage4' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickUser(users[3])">
-                    {{ users[3].name }}
-                  </a>
-                </div>
-              </v-col>
-            </v-row>
-            <v-btn
-              class="mt-5 all-btn"
-              color="primary"
-              depressed
-              @click="clickAllUsers()"
-            >
-              もっと見る
-            </v-btn>
-          </div>
-          <div class='intro-small-wrap'>
-            <h3 class='intro-headline'>人気ランキング</h3>
-            <p class='intro-text'>
-              人気ランキング上位を狙おう！<br>上位にランクインするとトップページに掲載
-            </p>
-          </div>
-          <div class='btn-wrap'>
-            <a class='btn-text blue-btn' @click='clickSignup'>無料登録して始める</a>
+            <div class='btn-wrap mt-10'>
+              <a
+                class='white-btn white-btn-text'
+                @click="clickAllBreed()"
+              >
+                犬種図鑑をもっと見る<v-icon class="btn-icon black-icon">mdi-chevron-right</v-icon>
+              </a>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-if="!$store.$auth.loggedIn" class="text-center ml-4 mr-4">
+      <p class='big2-text mb-0 mt-10'>
+        簡単登録してはじめよう！
+      </p>
+      <p class='intro-text'>
+        愛犬のなまえ、性別、犬種、SNSアカウントを登録してわんこランキングに参加しよう！
+      </p>
+      <div class='btn-wrap mt-5'>
+        <a class='btn-text blue-btn' @click='clickSignup()'>今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      </div>
+      <div class="text-center mt-5">
+        <a class="btn-under-text" @click="clickLogin()">アカウントをお持ちの方はこちら</a>
       </div>
     </div>
   </div>
@@ -472,7 +435,7 @@ export default {
       },
       pages: null,
       length: 3,
-      onboarding: 0,
+      onboarding: 1,
     }
   },
   computed: {
@@ -508,9 +471,6 @@ export default {
     },
     eleventhDog () {
       return this.dogRanking[10].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[10].dog_image1}`
-    },
-    twelvethDog () {
-      return this.dogRanking[11].dog_image1 && require(`@/../storage/image/dogimages/${this.dogRanking[11].dog_image1}`)
     },
     breedImage1 () {
       return this.breeds[0].dog_image && require(`@/assets/image/breed/${this.breeds[0].dog_image}`)
@@ -585,6 +545,9 @@ export default {
     clickAllUsers () {
       this.$router.push('/dog');
     },
+    clickLogin () {
+      this.$router.push('/login');
+    },
     addFavorite(friendId) {
       if (!this.$auth.loggedIn) {
         this.$router.push('/login')
@@ -654,13 +617,13 @@ a {
 }
 
 .banner-wrap {
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .banner {
-  max-height: 500px;
-  max-width: 500px;
+  max-height: 600px;
+  max-width: 600px;
 }
 
 .headline-text {
@@ -669,24 +632,26 @@ a {
 }
 
 .ranking-col {
+  padding: 4px;
   position: relative;
 }
 
-.ranking-wrap {
-  margin: 0 20px;
+.headline {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.ranking-headline {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: left;
-  font-size: 20px;
+.ranking-line {
+  margin: -4px;
 }
 
 .ranking-icon {
-  z-index: 2;
   position: absolute;
-  max-width: 45px;
+  z-index: 2;
+  bottom: 7px;
+  right: 7px
 }
 
 .main-wrap {
@@ -705,7 +670,17 @@ a {
   padding: 15px;
   display: inline-block;
   font-weight: bolder;
-  max-width: 400px;
+  max-width: 600px;
+  min-width: 200px;
+}
+
+.white-btn-text {
+  border-radius: 30px;
+  color: #505050;
+  padding: 15px;
+  display: inline-block;
+  font-weight: bolder;
+  max-width: 600px;
   min-width: 200px;
 }
 
@@ -717,6 +692,30 @@ a {
   padding-bottom: 20px;
 }
 
+.white-btn {
+  background-color: #ffffff;
+  max-width: 600px;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border: 4px solid;
+  border-color: #84D1E2;
+}
+
+.btn-icon {
+  margin-bottom: 2px;
+}
+
+.black-icon {
+  color: #505050;
+}
+
+.btn-under-text {
+  color: black;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
 .intro-wrap {
   text-align: center;
   width: 100%;
@@ -724,19 +723,18 @@ a {
 }
 
 .intro-text-wrap {
-  max-width: 300px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .intro-headline {
-  font-size: 25px;
-  margin-top: 20px;
+  font-size: 16px;
   margin-bottom: 10px;
   text-align: left;
   color: #505050;
   text-decoration: underline;
   text-decoration-thickness: 0.5em;
-  text-decoration-color: rgba(255, 228, 0, 0.4);
+  text-decoration-color: rgba(132, 209, 226, 0.6);
   text-underline-offset: -0.2em;
   text-decoration-skip-ink: none;
 }
@@ -747,10 +745,6 @@ a {
   color: #505050;
   padding: 10px 0;
   margin-bottom: 0;
-}
-
-.all-btn {
-  font-weight: bold;
 }
 
 .name-text {
@@ -777,12 +771,17 @@ a {
   font-size: 38px;
 }
 
+.big2-text {
+  font-size: 25px;
+  font-weight: bold;
+}
+
 .text-liner {
   background : linear-gradient(transparent 70%, rgba(132, 209, 226, .6) 70%);
 }
 
 .text-wrap {
-  max-width: 360px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -792,16 +791,12 @@ a {
     margin: 0 auto;
   }
 
-  .ranking-headline {
+  .headline {
     font-size: 25px;
   }
 
   .ranking-icon {
     max-width: 30px;
-  }
-
-  .ranking-icon-crown {
-    max-width: 50px;
   }
 
   .intro-headline {
@@ -810,7 +805,7 @@ a {
   }
 
   .intro-text-wrap {
-    max-width: 450px;
+    max-width: 600px;
   }
 
   .intro-text {

@@ -10,7 +10,7 @@
     <div class='main-wrapper justify-center'>
       <div class='ranking-wrap'>
         <h3 class='ranking-headline'><PawsIcon class="headline-text" /><span class="headline-text">人気のわんこランキング</span></h3>
-        <v-row>
+        <v-row align="end">
           <v-col cols='4' class='ranking-col'>
             <RankFirst class='ranking-icon' />
             <v-card elevation="0">
@@ -300,11 +300,10 @@ p {
 }
 
 .ranking-icon {
-  z-index: 2;
-  bottom: 26%;
-  right: 10%;
   position: absolute;
-  max-width: 45px;
+  z-index: 2;
+  bottom: 35px;
+  right: 15px
 }
 
 @media screen and (min-width: 600px) {
