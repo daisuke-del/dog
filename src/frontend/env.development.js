@@ -1,3 +1,4 @@
 module.exports = {
-    apiBaseUrl: 'http://localhost:80/'
+    apiBaseUrl: 'http://localhost:80/',
+    imageBaseUrl: 'http://localhost/storage/',
   }
