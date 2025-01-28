@@ -41,8 +41,10 @@
           eager
         >
           <v-img
-            :src="`https://dogiland.jp/storage/${dogRanking[n - 1].dog_image1}`"
+            v-if="dogRanking.length > n"
+            :src="getImageUrl(`${dogRanking[n - 1].dog_image1}`)"
             class=" ml-8 mr-8"
+            eager
           />
         </v-window-item>
       </v-window>
@@ -92,107 +94,59 @@
         <p class="mb-0 text-center">できること</p>
       </div>
       <div>
-        <h3 class='headline'>
-          <PawsIcon class="headline-text" /><span class="headline-text ml-1">人気のわんこランキング</span>
+        <h3 class="headline">
+          <PawsIcon class="headline-text" />
+          <span class="headline-text ml-1">人気のわんこランキング</span>
         </h3>
-        <p class='intro-text'>
-          いいねして上位を目指そう！
-        </p>
-        <v-row align="end" class="ranking-line">
-          <v-col cols='4' class='ranking-col'>
-            <RankFirst class='ranking-icon' />
+        <p class="intro-text">いいねして上位を目指そう！</p>
+
+        <v-row v-if="dogRanking.length > 0" align="end" class="ranking-line">
+          <v-col
+            v-for="(dog, index) in dogRanking.slice(0, 3)"
+            :key="index"
+            cols="4"
+            class="ranking-col"
+          >
+            <component
+              :is="getRankComponent(index)"
+              class="ranking-icon"
+            />
             <v-card>
               <v-img
-                :src='dog1'
-                @click='clickImage(0)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <RankSecound class='ranking-icon' />
-            <v-card>
-              <v-img
-                :src='dog2'
-                @click='clickImage(1)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <RankThird class='ranking-icon' />
-            <v-card>
-              <v-img
-                :src='dog3'
-                @click='clickImage(2)'
+                :src="getImageUrl(dog.dog_image1)"
+                @click="clickImage(index)"
               />
             </v-card>
           </v-col>
         </v-row>
 
         <v-row class="ranking-line">
-          <v-col cols='3' align="end" class='ranking-col'>
+          <v-col
+            v-for="(dog, index) in dogRanking.slice(3, 7)"
+            :key="index + 3"
+            cols="3"
+            class="ranking-col"
+          >
             <v-card>
               <v-img
-                :src='fourthDog'
-                @click='clickImage(3)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-card>
-              <v-img
-                :src='fifthDog'
-                @click='clickImage(4)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-card>
-              <v-img
-                :src='sixthDog'
-                @click='clickImage(5)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-card>
-              <v-img
-                :src='sixthDog'
-                @click='clickImage(6)'
+                :src="getImageUrl(dog.dog_image1)"
+                @click="clickImage(index + 3)"
               />
             </v-card>
           </v-col>
         </v-row>
 
-        <v-row class="ranking-line">
-          <v-col cols='3' class='ranking-col'>
+        <v-row v-if="dogRanking.length > 0" class="ranking-line">
+          <v-col
+            v-for="(dog, index) in dogRanking.slice(7, 11)"
+            :key="index + 7"
+            cols="3"
+            class="ranking-col"
+          >
             <v-card>
               <v-img
-                :src='eighthDog'
-                @click='clickImage(7)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-card>
-              <v-img
-                :src='ninethDog'
-                @click='clickImage(8)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-card>
-              <v-img
-                :src='seventhDog'
-                @click='clickImage(9)'
-              />
-            </v-card>
-          </v-col>
-          <v-col cols='3' class='ranking-col'>
-            <v-card>
-              <v-img
-                :src='seventhDog'
-                @click='clickImage(10)'
+                :src="getImageUrl(dog.dog_image1)"
+                @click="clickImage(index + 7)"
               />
             </v-card>
           </v-col>
@@ -217,32 +171,18 @@
               たくさんのお友達があなたを待っています<br>SNSと連携することで宣伝効果も！
             </p>
             <h4 class='intro-headline'>最近登録したわんこ</h4>
-            <v-row>
-              <v-col cols="4">
+            <v-row v-if="users.length > 0">
+              <v-col
+                v-for="(user, index) in users.slice(0, 3)"
+                :key="index"
+                cols="4"
+              >
                 <v-card
                   hover
                   class="card"
-                  @click="clickUser(users[0])"
+                  @click="clickUser(user)"
                 >
-                  <v-img :src='userImage1' />
-                </v-card>
-              </v-col>
-              <v-col cols="4">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickUser(users[1])"
-                >
-                  <v-img :src='userImage2' />
-                </v-card>
-              </v-col>
-              <v-col cols="4">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickUser(users[2])"
-                >
-                  <v-img :src='userImage3' />
+                  <v-img :src="getImageUrl(user.dog_image1)" />
                 </v-card>
               </v-col>
             </v-row>
@@ -284,65 +224,38 @@
             </v-row>
           </div>
           <div>
-            <h3 class='headline'>
-              <PawsIcon class="headline-text" /><span class="headline-text ml-1">犬種図鑑</span>
+            <h3 class="headline">
+              <PawsIcon class="headline-text" />
+              <span class="headline-text ml-1">犬種図鑑</span>
             </h3>
-            <p class='intro-text'>
-              犬博士になろう！
-            </p>
-            <v-row>
-              <v-col cols="4">
+            <p class="intro-text">犬博士になろう！</p>
+            <v-row v-if="breeds.length > 0">
+              <v-col
+                v-for="(breed, index) in breeds.slice(0, 3)"
+                :key="index"
+                cols="4"
+              >
                 <v-card
                   hover
                   class="card"
-                  @click="clickBreed1()"
+                  @click="clickBreed(index)"
                 >
-                  <v-img :src='breedImage1' />
+                  <v-img :src="require(`@/assets/image/breed/${breed.dog_image}`)" />
                 </v-card>
                 <div class="name-text mb-0">
-                  <a
-                    @click="clickBreed1()">
-                    {{ breeds[0].name }}
-                  </a>
-                </div>
-              </v-col>
-              <v-col cols="4">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickBreed2()"
-                >
-                  <v-img :src='breedImage2' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickBreed2()">
-                    {{ breeds[1].name }}
-                  </a>
-                </div>
-              </v-col>
-              <v-col cols="4">
-                <v-card
-                  hover
-                  class="card"
-                  @click="clickBreed2()"
-                >
-                  <v-img :src='breedImage3' />
-                </v-card>
-                <div class="name-text mb-0">
-                  <a
-                    @click="clickBreed3()">
-                    {{ breeds[2].name }}
+                  <a @click="clickBreed(index)">
+                    {{ breed.name }}
                   </a>
                 </div>
               </v-col>
             </v-row>
-            <div class='btn-wrap mt-10'>
+            <div class="btn-wrap mt-10">
               <a
-                class='white-btn white-btn-text'
-                @click="clickAllBreed()"
+                class="white-btn white-btn-text"
+                @click="clickAllBreed"
               >
-                犬種図鑑をもっと見る<v-icon class="btn-icon black-icon">mdi-chevron-right</v-icon>
+                犬種図鑑をもっと見る
+                <v-icon class="btn-icon black-icon">mdi-chevron-right</v-icon>
               </a>
             </div>
           </div>
@@ -387,38 +300,11 @@ export default {
   },
   auth: false,
   middleware: 'update_user_status',
-  async asyncData({ app }) {
-    let dogRanking = []
-    let users = []
-    if (app.$auth.loggedIn) {
-      await ranking.getRankingWithFriends().then((response) => {
-        dogRanking = response
-      })
-      await user.getUsersRandomWithFriends().then((response) => {
-        users = response
-      })
-    } else {
-      await ranking.getRanking().then((response) => {
-        dogRanking = response
-      })
-      await user.getUsersRandom().then((response) => {
-        users = response
-      })
-    }
-    let breeds = []
-    await breed.getBreedsRandom().then((response) => {
-        breeds = response
-    })
-    return {
-      dogRanking,
-      breeds,
-      users
-    }
-  },
   data () {
     return {
       dogRanking: [],
       users: [],
+      breeds: [],
       userDialog: false,
       dialogIndex: 0,
       dogInfo: {
@@ -438,66 +324,23 @@ export default {
       onboarding: 1,
     }
   },
-  computed: {
-    dog1 () {
-      return this.dogRanking[0].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[0].dog_image1}`
-    },
-    dog2 () {
-      return this.dogRanking[1].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[1].dog_image1}`
-    },
-    dog3 () {
-      return this.dogRanking[2].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[2].dog_image1}`
-    },
-    fourthDog () {
-      return this.dogRanking[3].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[3].dog_image1}`
-    },
-    fifthDog () {
-      return this.dogRanking[4].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[4].dog_image1}`
-    },
-    sixthDog () {
-      return this.dogRanking[5].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[5].dog_image1}`
-    },
-    seventhDog () {
-      return this.dogRanking[6].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[6].dog_image1}`
-    },
-    eighthDog () {
-      return this.dogRanking[7].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[7].dog_image1}`
-    },
-    ninethDog () {
-      return this.dogRanking[8].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[8].dog_image1}`
-    },
-    tenthDog () {
-      return this.dogRanking[9].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[9].dog_image1}`
-    },
-    eleventhDog () {
-      return this.dogRanking[10].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[10].dog_image1}`
-    },
-    breedImage1 () {
-      return this.breeds[0].dog_image && require(`@/assets/image/breed/${this.breeds[0].dog_image}`)
-    },
-    breedImage2 () {
-      return this.breeds[1].dog_image && require(`@/assets/image/breed/${this.breeds[1].dog_image}`)
-    },
-    breedImage3 () {
-      return this.breeds[2].dog_image && require(`@/assets/image/breed/${this.breeds[2].dog_image}`)
-    },
-    breedImage4 () {
-      return this.breeds[3].dog_image && require(`@/assets/image/breed/${this.breeds[3].dog_image}`)
-    },
-    userImage1 () {
-      return this.users[0].dog_image1 && `https://dogiland.jp/storage/${this.users[0].dog_image1}`
-    },
-    userImage2 () {
-      return this.users[1].dog_image1 && `https://dogiland.jp/storage/${this.users[1].dog_image1}`
-    },
-    userImage3 () {
-      return this.users[2].dog_image1 && `https://dogiland.jp/storage/${this.users[2].dog_image1}`
-    },
-    userImage4 () {
-      return this.users[3].dog_image1 && `https://dogiland.jp/storage/${this.users[3].dog_image1}`
-    }
+  created() {
+    this.fetchData()
   },
   methods: {
+    async fetchData() {
+      if (this.$auth.loggedIn) {
+        this.dogRanking = await ranking.getRankingWithFriends().then((response) => response)
+        this.users = await user.getUsersRandomWithFriends().then((response) => response)
+      } else {
+        this.dogRanking = await ranking.getRanking().then((response) => response)
+        console.log('breeds', this.dogRanking)
+        this.users = await user.getUsersRandom().then((response) => response)
+        console.log('breeds', this.users)
+      }
+      this.breeds = await breed.getBreedsRandom().then((response) => response)
+      console.log('breeds', this.breeds)
+    },
     clickSignup () {
       this.$router.push('signup')
     },
@@ -515,21 +358,9 @@ export default {
     clickAllBreed () {
       this.$router.push('/breed');
     },
-    clickBreed1 () {
-      const breed1 = this.breeds[0].dog_image.replace(".png", "")
-      this.$router.push(`/breed/detail/${breed1}`);
-    },
-    clickBreed2 () {
-      const breed2 = this.breeds[1].dog_image.replace(".png", "")
-      this.$router.push(`/breed/detail/${breed2}`);
-    },
-    clickBreed3 () {
-      const breed3 = this.breeds[2].dog_image.replace(".png", "")
-      this.$router.push(`/breed/detail/${breed3}`);
-    },
-    clickBreed4 () {
-      const breed4 = this.breeds[3].dog_image.replace(".png", "")
-      this.$router.push(`/breed/detail/${breed4}`);
+    clickBreed (index) {
+      const breed = this.breeds[index].dog_image.replace(".png", "")
+      this.$router.push(`/breed/detail/${breed}`);
     },
     clickGenderMale () {
       this.$router.push({ path: '/diagnosis', query: { gender: 'male' } });
@@ -588,6 +419,18 @@ export default {
     clickRight () {
       this.onboarding = (this.onboarding + 1) % this.length
     },
+    getImageUrl (image) {
+      if (!image) {
+        image = '1.jpg';
+      }
+      return `${process.env.imageBaseUrl}/${image}`;
+    },
+    getRankComponent (index) {
+      if (index === 0) return "RankFirst";
+      if (index === 1) return "RankSecound";
+      if (index === 2) return "RankThird";
+      return null;
+    },
   }
 }
 </script>
@@ -614,9 +457,6 @@ a {
 
 .all {
   min-width: 350px;
-}
-
-.banner-wrap {
   max-width: 600px;
   margin: 0 auto;
 }
@@ -786,11 +626,6 @@ a {
 }
 
 @media screen and (min-width: 600px) {
-  .ranking-wrap {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
   .headline {
     font-size: 25px;
   }
