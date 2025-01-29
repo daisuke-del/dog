@@ -395,42 +395,42 @@ export default {
       }
       this.breeds = await breed.getBreedsRandom().then((response) => response)
     },
-    clickSignup () {
+    clickSignup() {
       this.$router.push('signup')
     },
-    clickDiagnosis () {
+    clickDiagnosis() {
       this.$router.push('diagnosis')
     },
-    clickImage (index) {
+    clickImage(index) {
       this.pages = 'ranking'
       this.dogInfo = this.dogRanking[index]
       this.userDialog = true
     },
-    choiceClose () {
+    choiceClose() {
       this.userDialog = false
     },
-    clickAllBreed () {
+    clickAllBreed() {
       this.$router.push('/breed');
     },
-    clickBreed (index) {
+    clickBreed(index) {
       const breed = this.breeds[index].dog_image.replace(".png", "")
       this.$router.push(`/breed/detail/${breed}`);
     },
-    clickGenderMale () {
+    clickGenderMale() {
       this.$router.push({ path: '/diagnosis', query: { gender: 'male' } });
     },
-    clickGenderFemale () {
+    clickGenderFemale() {
       this.$router.push({ path: '/diagnosis', query: { gender: 'female' } });
     },
-    clickUser (user) {
+    clickUser(user) {
       this.pages = 'users'
       this.userDialog = true
       this.dogInfo = user
     },
-    clickAllUsers () {
+    clickAllUsers() {
       this.$router.push('/dog');
     },
-    clickLogin () {
+    clickLogin() {
       this.$router.push('/login');
     },
     addFavorite(friendId) {
@@ -467,19 +467,19 @@ export default {
         }
       }
     },
-    clickLeft () {
+    clickLeft() {
       this.onboarding = (this.onboarding - 1 + this.length) % this.length
     },
-    clickRight () {
+    clickRight() {
       this.onboarding = (this.onboarding + 1) % this.length
     },
-    getImageUrl (image) {
+    getImageUrl(image) {
       if (!image) {
         image = '1.jpg';
       }
       return `${process.env.imageBaseUrl}/${image}`;
     },
-    getRankComponent (index) {
+    getRankComponent(index) {
       if (index === 0) return "RankFirst";
       if (index === 1) return "RankSecound";
       if (index === 2) return "RankThird";

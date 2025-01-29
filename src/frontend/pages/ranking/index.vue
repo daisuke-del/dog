@@ -67,7 +67,7 @@ export default {
   created() {
     this.fetchRanking()
   },
-  data() {
+  data () {
     return {
       dogRanking: [],
       dogInfo: {
