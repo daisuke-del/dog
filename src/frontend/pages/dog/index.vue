@@ -8,7 +8,7 @@
       @delete-favorite="deleteFavorite"
     />
     <h3 class="headline-dog pt-10">
-      <PawsIcon class="headline-text" />
+      <PawsIcon class="paws-icon headline-text" />
       <span class="headline-text">わんこの友達を探す</span>
     </h3>
     <v-container class="search-container" fluid>
@@ -430,6 +430,7 @@ export default {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: left;
+  color: #505050;
 }
 
 .headline-text {
@@ -462,6 +463,15 @@ export default {
   .all {
     padding-left: 40px;
     padding-right: 40px;
+  }
+
+  .headline-text {
+    font-size: 1.5em;
+  }
+
+  .paws-icon {
+    width: 1.5em;
+    height: 1.5em;
   }
 }
 

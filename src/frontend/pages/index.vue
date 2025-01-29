@@ -110,9 +110,9 @@
         </p>
       </div>
       <div>
-        <h3 class="headline">
-          <PawsIcon class="headline-text" />
-          <span class="headline-text ml-1">人気のわんこランキング</span>
+        <h3 class="headline-dog">
+          <PawsIcon class="paws-icon headline-text" />
+          <span class="headline-text">人気のわんこランキング</span>
         </h3>
         <p class="intro-text">
           いいねして上位を目指そう！
@@ -194,7 +194,7 @@
       </div>
       <div
         v-if="!$store.$auth.loggedIn"
-        class="text-center mt-5"
+        class="text-center mt-5 mb-12"
       >
         <a
           class="btn-under-text"
@@ -206,8 +206,9 @@
       <div class='intro-wrap mt-8'>
         <div class='intro-text-wrap'>
           <div>
-            <h3 class='headline'>
-              <PawsIcon class="headline-text" /><span class="headline-text ml-1">わんこのお友達を探す</span>
+            <h3 class='headline-dog'>
+              <PawsIcon class="paws-icon headline-text" />
+              <span class="headline-text">わんこのお友達を探す</span>
             </h3>
             <p class='intro-text'>
               たくさんのお友達があなたを待っています<br>SNSと連携することで宣伝効果も！
@@ -228,7 +229,7 @@
                 </v-card>
               </v-col>
             </v-row>
-            <div class='btn-wrap mt-10'>
+            <div class='btn-wrap mt-10 mb-12'>
               <a
                 class='white-btn white-btn-text'
                 @click="clickAllUsers()"
@@ -237,9 +238,10 @@
               </a>
             </div>
           </div>
-          <div>
-            <h3 class='headline'>
-              <PawsIcon class="headline-text" /><span class="headline-text ml-1">飼い主さんの犬種診断</span>
+          <div class="mb-12">
+            <h3 class='headline-dog'>
+              <PawsIcon class="paws-icon headline-text" />
+              <span class="headline-text">飼い主さんの犬種診断</span>
             </h3>
             <p class='intro-text'>
               あなたを犬に例えると...?<br>性別を選択して診断してみよう！
@@ -266,9 +268,9 @@
             </v-row>
           </div>
           <div>
-            <h3 class="headline">
-              <PawsIcon class="headline-text" />
-              <span class="headline-text ml-1">犬種図鑑</span>
+            <h3 class="headline-dog">
+              <PawsIcon class="paws-icon headline-text" />
+              <span class="headline-text">犬種図鑑</span>
             </h3>
             <p class="intro-text">
               犬博士になろう！
@@ -521,6 +523,7 @@ a {
 }
 
 .headline-text {
+  font-size: 1.2em;
   vertical-align: middle;
   color: #505050;
 }
@@ -530,11 +533,15 @@ a {
   position: relative;
 }
 
-.headline {
+.headline-dog {
   margin-top: 20px;
+  margin-bottom: 10px;
   text-align: left;
-  font-size: 18px;
-  font-weight: bold;
+}
+
+.paws-icon {
+  width: 1.2em;
+  height: 1.2em;
 }
 
 .ranking-line {

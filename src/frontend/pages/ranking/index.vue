@@ -9,8 +9,8 @@
     />
     <div class="main-wrapper justify-center">
       <div class="ranking-wrap">
-        <h3 class="ranking-headline pt-10">
-          <PawsIcon class="headline-text" />
+        <h3 class="headline-dog pt-10">
+          <PawsIcon class="paws-icon headline-text" />
           <span class="headline-text">人気のわんこランキング</span>
         </h3>
         <v-row
@@ -182,10 +182,11 @@ p {
   margin: 0 20px;
 }
 
-.ranking-headline {
+.headline-dog {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: left;
+  color: #505050;
 }
 
 .ranking-icon {
@@ -205,5 +206,13 @@ p {
       max-width: 60px;
   }
 
+  .headline-text {
+    font-size: 1.5em;
+  }
+
+  .paws-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
 }
 </style>
