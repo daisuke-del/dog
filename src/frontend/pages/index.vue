@@ -1,5 +1,5 @@
 <template>
-  <div class='all'>
+  <div class='all pb-12'>
     <user-dialog
       :dialog.sync="userDialog"
       :dog-info="dogInfo"
@@ -76,29 +76,47 @@
     </v-card>
     <v-row class="text-wrap mt-2">
       <v-col cols="auto" class="text">
-        <p class="mb-0">ドッグアイランドは</p>
-        <p class="mb-0"><span class="text-liner"><span class="big-text">わんこ</span>が<span class="big-text">大好き</span></span>な</p>
-        <p class="mb-0">みんなのための</p>
-        <p class="mb-0">ソーシャルメディアです</p>
+        <p class="mb-0">
+          ドッグアイランドは
+        </p>
+        <p class="mb-0">
+          <span class="text-liner"><span class="big-text">わんこ</span>が<span class="big-text">大好き</span></span>な
+        </p>
+        <p class="mb-0">
+          みんなのための
+        </p>
+        <p class="mb-0">
+          ソーシャルメディアです
+        </p>
       </v-col>
     </v-row>
     <div v-if="$store.$auth.loggedIn" class='btn-wrap ml-4 mr-4'>
-      <a class='btn-text blue-btn' @click="clickAllUsers()">わんこのお友達を探す<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      <a class='btn-text blue-btn' @click="clickAllUsers()">
+        わんこのお友達を探す<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon>
+      </a>
     </div>
     <div v-else class='btn-wrap ml-4 mr-4'>
-      <a class='btn-text blue-btn' @click='clickSignup()'>今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      <a class='btn-text blue-btn' @click='clickSignup()'>
+        今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon>
+      </a>
     </div>
     <div class='mt-10 pl-4 pr-4 main-wrap'>
       <div class="text mb-8">
-        <p class="mb-0 text-center">ドッグアイランドで</p>
-        <p class="mb-0 text-center">できること</p>
+        <p class="mb-0 text-center">
+          ドッグアイランドで
+        </p>
+        <p class="mb-0 text-center">
+          できること
+        </p>
       </div>
       <div>
         <h3 class="headline">
           <PawsIcon class="headline-text" />
           <span class="headline-text ml-1">人気のわんこランキング</span>
         </h3>
-        <p class="intro-text">いいねして上位を目指そう！</p>
+        <p class="intro-text">
+          いいねして上位を目指そう！
+        </p>
 
         <v-row v-if="dogRanking.length > 0" align="end" class="ranking-line">
           <v-col
@@ -152,14 +170,38 @@
           </v-col>
         </v-row>
       </div>
-      <div v-if="$store.$auth.loggedIn" class='btn-wrap mt-5'>
-        <a class='btn-text blue-btn' @click="clickAllUsers()">わんこのお友達を探す<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      <div
+        v-if="$store.$auth.loggedIn"
+        class='btn-wrap mt-5'
+      >
+        <a
+          class='btn-text blue-btn'
+          @click="clickAllUsers()"
+        >
+          わんこのお友達を探す<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon>
+        </a>
       </div>
-      <div v-else class='btn-wrap mt-5'>
-        <a class='btn-text blue-btn' @click='clickSignup()'>今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+      <div
+        v-else
+        class='btn-wrap mt-5'
+      >
+        <a
+          class='btn-text blue-btn'
+          @click='clickSignup()'
+        >
+          今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon>
+        </a>
       </div>
-      <div v-if="!$store.$auth.loggedIn" class="text-center mt-5">
-        <a class="btn-under-text" @click="clickLogin()">アカウントをお持ちの方はこちら</a>
+      <div
+        v-if="!$store.$auth.loggedIn"
+        class="text-center mt-5"
+      >
+        <a
+          class="btn-under-text"
+          @click="clickLogin()"
+        >
+          アカウントをお持ちの方はこちら
+        </a>
       </div>
       <div class='intro-wrap mt-8'>
         <div class='intro-text-wrap'>
@@ -228,7 +270,9 @@
               <PawsIcon class="headline-text" />
               <span class="headline-text ml-1">犬種図鑑</span>
             </h3>
-            <p class="intro-text">犬博士になろう！</p>
+            <p class="intro-text">
+              犬博士になろう！
+            </p>
             <v-row v-if="breeds.length > 0">
               <v-col
                 v-for="(breed, index) in breeds.slice(0, 3)"
@@ -262,7 +306,10 @@
         </div>
       </div>
     </div>
-    <div v-if="!$store.$auth.loggedIn" class="text-center ml-4 mr-4">
+    <div
+      v-if="!$store.$auth.loggedIn"
+      class="text-center ml-4 mr-4"
+    >
       <p class='big2-text mb-0 mt-10'>
         簡単登録してはじめよう！
       </p>
@@ -270,10 +317,20 @@
         愛犬のなまえ、性別、犬種、SNSアカウントを登録してわんこランキングに参加しよう！
       </p>
       <div class='btn-wrap mt-5'>
-        <a class='btn-text blue-btn' @click='clickSignup()'>今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon></a>
+        <a
+          class='btn-text blue-btn'
+          @click='clickSignup()'
+        >
+          今すぐ登録して始める<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon>
+        </a>
       </div>
       <div class="text-center mt-5">
-        <a class="btn-under-text" @click="clickLogin()">アカウントをお持ちの方はこちら</a>
+        <a
+          class="btn-under-text"
+          @click="clickLogin()"
+        >
+          アカウントをお持ちの方はこちら
+        </a>
       </div>
     </div>
   </div>
@@ -334,12 +391,9 @@ export default {
         this.users = await user.getUsersRandomWithFriends().then((response) => response)
       } else {
         this.dogRanking = await ranking.getRanking().then((response) => response)
-        console.log('breeds', this.dogRanking)
         this.users = await user.getUsersRandom().then((response) => response)
-        console.log('breeds', this.users)
       }
       this.breeds = await breed.getBreedsRandom().then((response) => response)
-      console.log('breeds', this.breeds)
     },
     clickSignup () {
       this.$router.push('signup')

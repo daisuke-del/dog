@@ -1,5 +1,5 @@
 <template>
-  <div class='all'>
+  <div class="all pb-12">
     <user-dialog
       :dialog.sync="userDialog"
       :dog-info="dogInfo"
@@ -7,127 +7,36 @@
       @add-favorite="addFavorite"
       @delete-favorite="deleteFavorite"
     />
-    <div class='main-wrapper justify-center'>
-      <div class='ranking-wrap'>
-        <h3 class='ranking-headline'><PawsIcon class="headline-text" /><span class="headline-text">人気のわんこランキング</span></h3>
-        <v-row align="end">
-          <v-col cols='4' class='ranking-col'>
-            <RankFirst class='ranking-icon' />
+    <div class="main-wrapper justify-center">
+      <div class="ranking-wrap">
+        <h3 class="ranking-headline">
+          <PawsIcon class="headline-text" />
+          <span class="headline-text">人気のわんこランキング</span>
+        </h3>
+        <v-row
+          align="end"
+          v-for="(row, rowIndex) in groupedRanking"
+          :key="rowIndex"
+        >
+          <v-col
+            v-for="(dog, colIndex) in row"
+            :key="colIndex"
+            cols="4"
+            class="ranking-col"
+          >
+            <component
+              :is="getRankIcon(rowIndex * 3 + colIndex)"
+              v-if="rowIndex * 3 + colIndex < 3"
+              class="ranking-icon"
+            />
             <v-card elevation="0">
               <v-img
-                :src='dog1'
-                @click='clickImage(0)'
+                :src="getImageUrl(dog.dog_image1)"
+                @click="clickImage(rowIndex * 3 + colIndex)"
               />
-              <p class="mb-0 ml-1">{{ dogRanking[0].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <RankSecound class='ranking-icon' />
-            <v-card elevation="0">
-              <v-img
-                :src='dog2'
-                @click='clickImage(1)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[1].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <RankThird class='ranking-icon' />
-            <v-card elevation="0">
-              <v-img
-                :src='dog3'
-                @click='clickImage(2)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[2].name }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='fourthDog'
-                @click='clickImage(3)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[3].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='fifthDog'
-                @click='clickImage(4)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[4].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='sixthDog'
-                @click='clickImage(5)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[5].name }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='seventhDog'
-                @click='clickImage(6)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[6].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='eighthDog'
-                @click='clickImage(7)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[7].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='ninethDog'
-                @click='clickImage(8)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[8].name }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='tenthDog'
-                @click='clickImage(9)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[9].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='eleventhDog'
-                @click='clickImage(10)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[10].name }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols='4' class='ranking-col'>
-            <v-card elevation="0">
-              <v-img
-                :src='twelvethDog'
-                @click='clickImage(11)'
-              />
-              <p class="mb-0 ml-1">{{ dogRanking[11].name }}</p>
+              <p class="mb-0 ml-1">
+                {{ dog.name }}
+              </p>
             </v-card>
           </v-col>
         </v-row>
@@ -137,13 +46,13 @@
 </template>
 
 <script>
-import PawsIcon from '@/assets/image/svg/paws-icon.svg'
-import RankFirst from '@/assets/image/svg/rank/1st.svg'
-import RankSecound from '@/assets/image/svg/rank/2nd.svg'
-import RankThird from '@/assets/image/svg/rank/3rd.svg'
-import UserDialog from '@/components/Common/UserDialog'
-import ranking from '@/plugins/modules/ranking'
-import favorite from '@/plugins/modules/favorite'
+import PawsIcon from "@/assets/image/svg/paws-icon.svg";
+import RankFirst from "@/assets/image/svg/rank/1st.svg";
+import RankSecound from "@/assets/image/svg/rank/2nd.svg";
+import RankThird from "@/assets/image/svg/rank/3rd.svg";
+import UserDialog from "@/components/Common/UserDialog";
+import ranking from "@/plugins/modules/ranking";
+import favorite from "@/plugins/modules/favorite";
 
 export default {
   components: {
@@ -151,119 +60,100 @@ export default {
     PawsIcon,
     RankFirst,
     RankSecound,
-    RankThird
+    RankThird,
   },
   auth: false,
-  middleware: 'update_user_status',
-  async asyncData({ app }) {
-    let dogRanking = []
-    if (app.$auth.loggedIn) {
-      await ranking.getRankingWithFriends().then((response) => {
-        dogRanking = response
-      })
-    } else {
-      await ranking.getRanking().then((response) => {
-        dogRanking = response
-      })
-    }
-    return {
-      dogRanking
-    }
+  middleware: "update_user_status",
+  created() {
+    this.fetchRanking()
   },
-  data () {
+  data() {
     return {
       dogRanking: [],
       dogInfo: {
-        name: 'バニラ',
-        birthday: '2022年1月3日',
-        dog_image1: '4.jpg',
-        dog_image2: '1.jpg',
-        dog_image3: '3.jpg',
-        comment: 'バニラ',
-        twitter_id: '',
-        instagram_id: '',
-        tiktok_id: '',
-        blog_id: ''
+        name: "バニラ",
+        birthday: "2022年1月3日",
+        dog_image1: "4.jpg",
+        dog_image2: "1.jpg",
+        dog_image3: "3.jpg",
+        comment: "バニラ",
+        twitter_id: "",
+        instagram_id: "",
+        tiktok_id: "",
+        blog_id: "",
       },
-      pages: 'ranking',
-      userDialog: false
-    }
+      pages: "ranking",
+      userDialog: false,
+    };
   },
   computed: {
-    dog1 () {
-      return this.dogRanking[0].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[0].dog_image1}`
+    groupedRanking() {
+      return this.dogRanking.reduce((result, dog, index) => {
+        const groupIndex = Math.floor(index / 3);
+        if (!result[groupIndex]) {
+          result[groupIndex] = [];
+        }
+        result[groupIndex].push(dog);
+        return result;
+      }, []);
     },
-    dog2 () {
-      return this.dogRanking[1].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[1].dog_image1}`
-    },
-    dog3 () {
-      return this.dogRanking[2].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[2].dog_image1}`
-    },
-    fourthDog () {
-      return this.dogRanking[3].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[3].dog_image1}`
-    },
-    fifthDog () {
-      return this.dogRanking[4].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[4].dog_image1}`
-    },
-    sixthDog () {
-      return this.dogRanking[5].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[5].dog_image1}`
-    },
-    seventhDog () {
-      return this.dogRanking[6].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[6].dog_image1}`
-    },
-    eighthDog () {
-      return this.dogRanking[7].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[7].dog_image1}`
-    },
-    ninethDog () {
-      return this.dogRanking[8].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[8].dog_image1}`
-    },
-    tenthDog () {
-      return this.dogRanking[9].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[9].dog_image1}`
-    },
-    eleventhDog () {
-      return this.dogRanking[10].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[10].dog_image1}`
-    },
-    twelvethDog () {
-      return this.dogRanking[11].dog_image1 && `https://dogiland.jp/storage/${this.dogRanking[11].dog_image1}`
-    }
   },
   methods: {
-    clickImage (index) {
-      this.pages = 'ranking'
-      this.dogInfo = this.dogRanking[index]
-      this.userDialog = true
+    async fetchRanking() {
+      if (this.$auth.loggedIn) {
+        this.dogRanking = await ranking.getRankingWithFriends().then((response) => response)
+      } else {
+        this.dogRanking = await ranking.getRanking().then((response) => response)
+      }
     },
-    choiceClose () {
-      this.userDialog = false
+    clickImage(index) {
+      this.pages = "ranking";
+      this.dogInfo = this.dogRanking[index];
+      this.userDialog = true;
+    },
+    choiceClose() {
+      this.userDialog = false;
     },
     addFavorite(friendId) {
       if (!this.$auth.loggedIn) {
-        this.$router.push('/login')
+        this.$router.push("/login");
       } else {
         favorite.addFavorite(friendId).then((response) => {
-          this.findUserById(this.dogRanking, friendId, response)
-        })
+          this.findUserById(this.dogRanking, friendId, response);
+        });
       }
     },
     deleteFavorite(friendId) {
       if (!this.$auth.loggedIn) {
-        this.$router.push('/login')
+        this.$router.push("/login");
       } else {
         favorite.deleteFavorite(friendId).then((response) => {
-          this.findUserById(this.dogRanking, friendId, response)
-        })
+          this.findUserById(this.dogRanking, friendId, response);
+        });
       }
     },
     findUserById(users, userId, response) {
-      for (var i = 0; i < users.length; i++) {
+      for (let i = 0; i < users.length; i++) {
         if (users[i].user_id === userId) {
-          users[i] = response
-          this.dogInfo = response
+          users[i] = response;
+          this.dogInfo = response;
         }
       }
-    }
-  }
-}
+    },
+    getImageUrl(image) {
+      if (!image) {
+        image = "1.jpg";
+      }
+      return `${process.env.imageBaseUrl}/${image}`;
+    },
+    getRankIcon(index) {
+      if (index === 0) return "RankFirst";
+      if (index === 1) return "RankSecound";
+      if (index === 2) return "RankThird";
+      return null;
+    },
+  },
+};
 </script>
 
 <style scoped>
