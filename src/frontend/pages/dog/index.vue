@@ -290,9 +290,6 @@ export default {
       vm.reloadPage()
     })
   },
-  created() {
-    this.getDogs()
-  },
   computed: {
     filteredUsers() {
       if (this.searchBreedKeyword && this.searchNameKeyword) {
