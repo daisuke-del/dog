@@ -17,7 +17,8 @@
           <v-text-field
             v-model="searchNameKeyword"
             class="mb-2"
-            label="名前検索"
+            label="名前で検索"
+            prepend-inner-icon="mdi-magnify"
             outlined
             clearable
             dense
@@ -28,7 +29,8 @@
           <v-text-field
             v-model="searchBreedKeyword"
             class="mb-2"
-            label="犬種検索"
+            label="犬種で検索"
+            prepend-inner-icon="mdi-magnify"
             outlined
             clearable
             dense

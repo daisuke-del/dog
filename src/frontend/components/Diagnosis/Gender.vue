@@ -1,13 +1,33 @@
 <template>
     <div class="all">
-      <p class="big-text d-flex justify-center mb-2">性別を選択してください</p>
+      <p class="big-text d-flex justify-center mb-8">性別</p>
       <div class="card-wrap">
-        <v-card hover class="card" @click="clickGender('male')">
-          <v-img :src="require('~/assets/image/diagnosis/male.png')" />
-        </v-card>
-        <v-card hover class="card" @click="clickGender('female')">
-          <v-img :src="require('~/assets/image/diagnosis/female.png')" />
-        </v-card>
+        <v-row>
+          <v-col cols="6">
+            <v-btn
+              @click="clickGender('male')"
+              depressed
+              :color="selectedGender === 'female' ? 'grey lighten-2' : 'primary'"
+              block
+              dark
+              class="responsive-btn"
+            >
+              男性
+            </v-btn>
+          </v-col>
+          <v-col cols="6">
+            <v-btn
+              @click="clickGender('female')"
+              depressed
+              :color="selectedGender === 'male' ? 'grey lighten-2' : 'primary'"
+              block
+              dark
+              class="responsive-btn"
+            >
+              女性
+            </v-btn>
+          </v-col>
+        </v-row>
       </div>
     </div>
   </template>
@@ -15,34 +35,30 @@
   <script>
   export default {
     name: 'DiagnosisGender',
+    data() {
+      return {
+        selectedGender: null
+      };
+    },
     methods: {
       clickGender(gender) {
-        this.$emit('click-gender', gender)
+        this.selectedGender = gender;
+        this.$emit('click-gender', this.selectedGender)
       }
     }
   }
   </script>
 
   <style scoped>
-  .all {
-    margin-right: 20px;
-  }
-
   .big-text {
-    font-size: 1.3em;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: slategray;
+    font-size: 1.2em;
+    color: #505050;
+    font-weight: bold;
   }
 
   .card-wrap {
+    padding-top: 30px;
     text-align: center;
-  }
-
-  .card {
-    display: inline-block;
-    width: 40%;
-    max-width: 250px;
-    margin: 10px;
   }
 
   .btn-wrap {
@@ -54,9 +70,34 @@
     border: 2px solid #B9C9CE;
   }
 
+  .responsive-btn {
+    font-weight: bold;
+    font-size: 1.2em;
+    height: auto;
+    min-height: 50px;
+    padding: 15px 0;
+  }
+
+  @media screen and (min-width: 600px) {
+    .responsive-btn {
+      font-size: 1.5em;
+      min-height: 70px;
+      padding: 20px 0;
+    }
+  }
+
+  @media screen and (min-width: 900px) {
+    .responsive-btn {
+      font-size: 2em;
+      min-height: 100px;
+      padding: 30px 0;
+    }
+  }
+
   @media screen and (min-width: 600px) {
     .big-text {
-      font-size: 2.3em;
+      font-size: 1.8em;
+      color: #505050;
     }
 
     .card {

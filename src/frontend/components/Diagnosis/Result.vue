@@ -71,30 +71,22 @@ export default {
 .v-card__subtitle {
   padding: 8px;
   font-size: 18px;
-  color: slategray;
+  color: #505050;
 }
 
 .result-dog-text {
   font-size: 25px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   text-align: center;
-  color: slategray;
-  font-family: 'Noto Sans JP', sans-serif;
-  text-decoration: underline;
-  text-decoration-thickness: 0.5em;
-  text-decoration-color: rgba(255, 228, 0, 0.4);
-  text-underline-offset: -0.2em;
-  text-decoration-skip-ink: none;
+  color: #505050;
 }
 
 .result-text {
-  color: slategray;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: bold;
-  font-size: 1.2em;
+  color: #505050;
+  font-size: 1em;
   margin-bottom: 0;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .result-textfield {
@@ -108,12 +100,12 @@ export default {
 .result-headline {
   text-align: left;
   margin-left: 12px;
-  color: slategray;
+  color: #505050;
 }
 
 @media screen and (min-width: 600px) {
   .result-text {
-    font-size: 1.5em;
+    font-size: 1.4em;
   }
 }
 </style>

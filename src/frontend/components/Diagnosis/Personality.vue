@@ -1,14 +1,12 @@
 <template>
     <div class="all">
-      <p class="big-text d-flex justify-center">あなたの性格を分析</p>
+      <p class="big-text d-flex justify-center">あなたの性格</p>
       <div>
         <div class="slider d-flex pt-10">
           <p>元　気</p>
           <v-slider
             v-model="personality1.val"
-            :thumb-color="personality1.color"
             track-color="primary"
-            thumb-label="always"
             hide-details
           />
           <p>穏やか</p>
@@ -17,9 +15,7 @@
           <p>自　由</p>
           <v-slider
             v-model="personality2.val"
-            :thumb-color="personality2.color"
             track-color="primary"
-            thumb-label="always"
             hide-details
           />
           <p>真面目</p>
@@ -28,28 +24,29 @@
           <p>内向的</p>
           <v-slider
             v-model="personality3.val"
-            :thumb-color="personality3.color"
             track-color="primary"
-            thumb-label="always"
             hide-details
           />
           <p>外向的</p>
         </div>
       </div>
-      <div class="btn-wrap">
-        <button
-          class="btn"
-          @click="clickBack()"
-        >
-          戻る
-        </button>
-        <button
-          class="btn"
-          @click="clickPersonality()"
-        >
-          次へ
-        </button>
-      </div>
+      <v-btn
+        text
+        :x-large="$vuetify.breakpoint.smAndUp"
+        color="primary"
+        @click="clickBack()"
+        class="mt-4"
+      >
+        戻る
+      </v-btn>
+      <v-btn
+        :x-large="$vuetify.breakpoint.smAndUp"
+        color="primary"
+        @click="clickPersonality()"
+        class="mt-4"
+      >
+        次へ
+      </v-btn>
     </div>
   </template>
 
@@ -98,46 +95,15 @@
   }
 
   .big-text {
-    font-size: 1.3em;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: slategray;
-  }
-
-  .btn-wrap {
-    text-align: center;
-  }
-
-  .btn {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 1em;
-    color: slategray;
-    background-color: white;
-    width: 100px;
-    height: 30px;
-    border-radius: .3em;
-    outline: 1px solid #B9C9CE;
-    margin: 20px 17px 5px 0;
-  }
-
-  .back-btn:hover {
-    outline: none;
-    border: 2px solid #B9C9CE;
+    font-size: 1.2em;
+    color: #505050;
+    font-weight: bold;
   }
 
   @media screen and (min-width: 600px) {
     .big-text {
-      font-size: 2.3em;
-    }
-
-    .btn {
-      font-size: 1.5em;
-      width: 200px;
-      height: 50px;
-    }
-
-    .btn-wrap {
-      margin-top: 30px;
-      margin-right: 30px;
+      font-size: 1.8em;
+      color: #505050;
     }
   }
   </style>

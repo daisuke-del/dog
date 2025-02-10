@@ -597,8 +597,8 @@ a {
   background-color: #ffffff;
   max-width: 600px;
   width: 100%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   border: 4px solid;
   border-color: #84D1E2;
 }
@@ -612,7 +612,7 @@ a {
 }
 
 .btn-under-text {
-  color: black;
+  color: #505050;
   text-decoration: underline;
   text-underline-offset: 5px;
 }

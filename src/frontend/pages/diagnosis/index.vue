@@ -1,8 +1,9 @@
 <template>
   <div class="all">
-    <h1 v-if="choiceCount < 3 && position === 7">どっちが可愛い？</h1>
-    <h1 v-else-if="position === 7">診断結果</h1>
-    <h1 v-else>あなたの犬種診断</h1>
+    <h3 class="headline-dog pt-10">
+      <PawsIcon class="paws-icon headline-text" />
+      <span class="headline-text">飼い主さんの犬種診断</span>
+    </h3>
     <diagnosis-choice
       v-if="choiceCount < 3 && position === 7"
       :leftDog="choiceDogs[0]"
@@ -12,41 +13,38 @@
       @alert-left="clickAlertLeft"
       @alert-right="clickAlertRight"
     />
-    <diagnosis-result v-else-if="position === 7" :diagnosisResult="diagnosisResult" @add-favorite="addFavorite"
-      @delete-favorite="deleteFavorite" />
-    <v-stepper v-else v-model="position" class="ma-4" light>
+    <diagnosis-result
+      v-else-if="position === 7" :diagnosisResult="diagnosisResult"
+      @add-favorite="addFavorite"
+      @delete-favorite="deleteFavorite"
+    />
+    <v-stepper v-else v-model="position" class="ma-4" light flat>
       <v-stepper-header>
         <v-stepper-step :complete="position > 1" step="1">
-          性別
         </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="position > 2" step="2">
-          身長
         </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="position > 3" step="3">
-          体重
         </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="position > 4" step="4">
-          性格
         </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="position > 5" step="5">
-          顔のタイプ
         </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="position > 6" step="6">
-          休日
         </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
         <v-stepper-content step="1">
-        <DiagnosisGender
-           ref="gender"
-           @click-gender="inputGender"
-        />
+          <DiagnosisGender
+            ref="gender"
+            @click-gender="inputGender"
+          />
         </v-stepper-content>
         <v-stepper-content step="2">
           <DiagnosisHeight
@@ -78,18 +76,19 @@
           />
         </v-stepper-content>
         <v-stepper-content step="6">
-        <DiagnosisHoliday
-          ref="place"
-          @click-holiday="inputHoliday"
-          @click-back="backContent"
-        />
-      </v-stepper-content>
+          <DiagnosisHoliday
+            ref="place"
+            @click-holiday="inputHoliday"
+            @click-back="backContent"
+          />
+        </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
   </div>
 </template>
 
 <script>
+import PawsIcon from "@/assets/image/svg/paws-icon.svg";
 import diagnosis from '@/plugins/modules/diagnosis'
 import favorite from '@/plugins/modules/favorite'
 import DiagnosisGender from '@/components/Diagnosis/Gender'
@@ -100,12 +99,12 @@ import DiagnosisFace from '@/components/Diagnosis/Face'
 import DiagnosisHoliday from '@/components/Diagnosis/Holiday'
 import DiagnosisChoice from '@/components/Diagnosis/Choice'
 import DiagnosisResult from '@/components/Diagnosis/Result'
-import user from '@/plugins/modules/user'
 
 export default {
   auth: false,
   name: 'PagesDiagnosis',
   components: {
+    PawsIcon,
     DiagnosisGender,
     DiagnosisHeight,
     DiagnosisWeight,
@@ -272,13 +271,39 @@ export default {
   text-align: center;
   max-width: 800px;
   min-width: 250px;
-  margin-left: auto;
-  margin-right: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin: 0 auto;
 }
 
-h1 {
-  font-family: 'Rampart One', cursive;
-  color: dimgrey;
-  margin: 20px;
+.headline-dog {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  color: #505050;
+}
+
+.headline-text {
+  vertical-align: middle;
+}
+
+.v-stepper__header {
+  box-shadow: none !important;
+}
+
+@media screen and (min-width: 600px) {
+  .all {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .headline-text {
+    font-size: 1.5em;
+  }
+
+  .paws-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
 }
 </style>

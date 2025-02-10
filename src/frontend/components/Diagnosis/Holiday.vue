@@ -35,9 +35,16 @@
           </v-card>
         </v-col>
       </v-row>
-      <div class="btn-wrap">
-        <button class="back-btn" @click="clickBack()">戻る</button>
-      </div>
+      <v-btn
+        text
+        large
+        :x-large="$vuetify.breakpoint.smAndUp"
+        color="primary"
+        @click="clickBack()"
+        class="mt-4"
+      >
+        戻る
+      </v-btn>
     </div>
   </template>
 
@@ -71,8 +78,8 @@
 
   .big-text {
     font-size: 1.2em;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: slategray;
+    color: #505050;
+    font-weight: bold;
   }
 
   .holiday-wrap {
@@ -84,37 +91,10 @@
     padding: 4px;
   }
 
-  .btn-wrap {
-    text-align: center;
-  }
-
-  .back-btn {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 1em;
-    color: slategray;
-    background-color: white;
-    width: 100px;
-    height: 30px;
-    border-radius: 0.3em;
-    outline: 1px solid #b9c9ce;
-    margin-top: 30px;
-    margin-bottom: 10px;
-  }
-
-  .back-btn:hover {
-    outline: none;
-    border: 2px solid #b9c9ce;
-  }
-
   @media screen and (min-width: 600px) {
     .big-text {
-      font-size: 2em;
-    }
-
-    .back-btn {
-      font-size: 1.5em;
-      width: 200px;
-      height: 50px;
+      font-size: 1.8em;
+      color: #505050;
     }
   }
   </style>

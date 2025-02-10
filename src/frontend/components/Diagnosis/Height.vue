@@ -10,9 +10,15 @@
       </label>
       <p class="height-text big-text">cm</p>
     </div>
-    <div class="btn-wrap">
-      <button class="back-btn" @click="clickBack()">戻る</button>
-    </div>
+    <v-btn
+      text
+      :x-large="$vuetify.breakpoint.smAndUp"
+      color="primary"
+      @click="clickBack()"
+      class="mt-4"
+    >
+      戻る
+    </v-btn>
   </div>
 </template>
 
@@ -60,25 +66,25 @@ export default {
 }
 
 .big-text {
-  font-size: 1.3em;
-  font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
+  font-size: 1.2em;
+  color: #505050;
+  font-weight: bold;
 }
 
 .height-wrap {
+  padding-top: 30px;
   text-align: center;
 }
 
 .number {
-  border: 2px solid #B9C9CE;
-  border-radius: 5px;
+  border: 1px solid #505050;
+  border-radius: 20%;
   height: 50px;
   max-width: 50px;
   margin: 3px;
   font-size: 1.7em;
   text-align: center;
-  font-family: 'Noto Sans JP', sans-serif;
-  color: slategray;
+  color: #505050;
 }
 
 .height-text {
@@ -86,30 +92,10 @@ export default {
   margin: 0;
 }
 
-.btn-wrap {
-  text-align: center;
-}
-
-.back-btn {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1em;
-  color: slategray;
-  background-color: white;
-  width: 100px;
-  height: 30px;
-  border-radius: .3em;
-  outline: 1px solid #B9C9CE;
-  margin: 20px 17px 5px 0;
-}
-
-.back-btn:hover {
-  outline: none;
-  border: 2px solid #B9C9CE;
-}
-
 @media screen and (min-width: 600px) {
   .big-text {
-    font-size: 2.3em;
+    font-size: 1.8em;
+    color: #505050;
   }
 
   .height-wrap {
@@ -117,25 +103,14 @@ export default {
   }
 
   .number {
-    height: 100px;
-    max-width: 100px;
-    margin: 10px;
-    font-size: 2.5em;
+    height: 80px;
+    max-width: 80px;
+    margin: 8px;
+    font-size: 1.8em;
   }
 
   .height-text {
     margin-left: 10px;
-  }
-
-  .back-btn {
-    font-size: 1.5em;
-    width: 200px;
-    height: 50px;
-  }
-
-  .btn-wrap {
-    margin-top: 30px;
-    margin-right: 30px;
   }
 }
 </style>
