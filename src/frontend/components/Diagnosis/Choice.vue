@@ -19,7 +19,7 @@
           :class="isDiagnosis ? 'card' : 'card2'"
           @click="choiceRight"
         >
-          <v-img :src="getImageUrl(rightDog.dog_image)" />
+          <v-img :src="getImageUrl(rightDog.dog_image1)" />
         </v-card>
       </div>
     </div>
