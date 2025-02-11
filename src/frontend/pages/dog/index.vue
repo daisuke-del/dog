@@ -440,8 +440,7 @@ export default {
 }
 
 .name-text {
-  color: slategray;
-  font-family: 'Noto Sans JP', sans-serif;
+  color: #505050;
   font-size: 12px;
   font-weight: bold;
 }
@@ -449,7 +448,7 @@ export default {
 .non-text {
   text-align: center;
   font-weight: bold;
-  color: slategray;
+  color: #505050;
   font-size: 1.2em;
   margin-top: 40px;
 }
