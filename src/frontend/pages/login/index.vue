@@ -1,6 +1,9 @@
 <template>
-  <div class="login-wrap mx-auto">
-    <h1><a @click="pulsA">ログ</a><a @click="pulsB">イン</a></h1>
+  <div class="login-wrap px-4 mx-auto">
+    <h3 class="headline-dog pt-10">
+      <PawsIcon class="paws-icon headline-text" />
+      <span class="headline-text"><a @click="pulsA">ログ</a><a @click="pulsB">イン</a></span>
+    </h3>
     <admin-login v-if="admin === 'abbaabb'"/>
     <v-form ref="loginForm" v-else>
       <div class="main-wrap">
@@ -9,6 +12,7 @@
           :rules="emailRules"
           label="メールアドレス"
           background-color="white"
+          color="primary"
           required
           outlined
           light class="mail form-content"
@@ -21,31 +25,32 @@
           class="password form-content"
           label="パスワード"
           background-color="white"
+          color="primary"
           required
           outlined
           light
         />
-        <v-btn
-          block
-          height="40px"
-          depressed
-          color="primary"
-          :loading="loginLoading"
-          class="font-weight-bold mb-8 btn"
-          @click="clickLogin"
-        >
-          ログイン
-        </v-btn>
-        <v-btn
-          block
-          height="40px"
-          depressed
-          color="accent"
-          class="font-weight-bold mb-5 btn"
-          @click="$router.push('signup')"
-        >
-          会員登録
-        </v-btn>
+        <div class='btn-wrap'>
+          <a
+            class='btn-text blue-btn'
+            @click="clickLogin()"
+          >
+            ログイン<v-icon color="white" class="btn-icon">mdi-chevron-right</v-icon>
+          </a>
+        </div>
+        <h3 class="headline-dog pt-10">
+          <PawsIcon class="paws-icon headline-text" />
+          <span class="headline-text">初めてご利用の方はこちら</span>
+        </h3>
+        <div class="btn-wrap mt-10">
+          <a
+            class="white-btn white-btn-text"
+            @click="$router.push('signup')"
+          >
+            会員登録
+            <v-icon class="btn-icon black-icon">mdi-chevron-right</v-icon>
+          </a>
+        </div>
       </div>
     </v-form>
   </div>
@@ -54,9 +59,13 @@
 import user from '@/plugins/modules/user'
 import constants from '@/utils/constants'
 import AdminLogin from '@/components/Login/AdminLogin'
+import PawsIcon from "@/assets/image/svg/paws-icon.svg";
 
 export default {
-  components: { AdminLogin },
+  components: {
+    AdminLogin,
+    PawsIcon
+  },
   name: 'LoginForm',
   auth: false,
   asyncData({ app, $auth, redirect }) {
@@ -128,21 +137,24 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  font-family: 'Rampart One', cursive;
-  color: dimgrey;
-  margin: 20px;
-  text-align: center;
+.headline-dog {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  color: #505050;
+}
+
+.headline-text {
+  vertical-align: middle;
 }
 
 a {
   text-decoration: none;
-  color: dimgrey;
+  color: #505050;
   cursor: default;
 }
 
 .login-wrap {
-  padding: 10px 20px;
   max-width: 450px;
 }
 
@@ -150,7 +162,67 @@ a {
   margin-bottom: 30px;
 }
 
-.btn {
-  color: #fff;
+.btn-wrap {
+  text-align: center;
+}
+
+.btn-text {
+  border-radius: 30px;
+  color: white;
+  padding: 15px;
+  display: inline-block;
+  font-weight: bolder;
+  max-width: 600px;
+  min-width: 200px;
+  font-size: 1.1em;
+}
+
+.white-btn-text {
+  border-radius: 30px;
+  color: #505050;
+  padding: 15px;
+  display: inline-block;
+  font-weight: bolder;
+  max-width: 600px;
+  min-width: 200px;
+  font-size: 1.1em;
+}
+
+.blue-btn {
+  background-color: #84D1E2;
+  max-width: 600px;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.white-btn {
+  background-color: #ffffff;
+  max-width: 600px;
+  width: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border: 4px solid;
+  border-color: #84D1E2;
+}
+
+.btn-icon {
+  margin-bottom: 2px;
+}
+
+.black-icon {
+  color: #505050;
+}
+
+@media screen and (min-width: 600px) {
+
+  .headline-text {
+    font-size: 1.5em;
+  }
+
+  .paws-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
 }
 </style>
