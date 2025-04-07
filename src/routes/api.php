@@ -5,6 +5,7 @@ use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\BreedController;
+use App\Http\Controllers\EscapeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,4 +54,9 @@ Route::prefix('user')->name('user.')->group(function () {
   Route::get('random', [UserController::class, 'random']);
   Route::get('two', [UserController::class, 'two']);
   Route::get('/{offset}', [UserController::class, 'getUsers']);
+});
+
+// 脱出 回答
+Route::prefix('escape')->name('escape.')->group(function () {
+  Route::post('solve', [EscapeController::class, 'solve']);
 });
