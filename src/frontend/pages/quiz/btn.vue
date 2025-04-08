@@ -57,11 +57,25 @@
 
             <v-divider class="my-4" />
 
+            <h4>順番（上が先）:</h4>
+            <ol>
+              <li
+                v-for="(p, index) in pressedQueue.slice(0, 3)"
+                :key="p"
+                :class="{ highlight: index === 0 }"
+              >
+                {{ index === 0 ? '🎤' : '' }} {{ p }}（{{ scores[p] || 0 }}P）
+              </li>
+            </ol>
+
+            <v-divider class="my-4" />
+
             <h4>現在のスコア：</h4>
             <ul>
               <li v-for="(score, name) in scores" :key="name">{{ name }}：{{ score }}P</li>
             </ul>
           </v-tab-item>
+
         </v-tabs-items>
       </div>
     </v-card-text>
@@ -92,8 +106,11 @@ export default {
     }
   },
   mounted () {
-    const socketUrl = process.env.WS_URL || 'http://localhost:3001'
-    this.socket = io(socketUrl)
+    const socketUrl = process.env.WS_URL
+    this.socket = io(socketUrl, {
+      path: '/socket.io/',
+      transports: ['websocket']
+    })
     this.socket.on('state', (state) => {
       this.pressedQueue = state.pressedQueue
       this.scores = state.scores
