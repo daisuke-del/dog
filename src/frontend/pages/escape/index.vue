@@ -112,7 +112,7 @@ export default {
   },
   data () {
     return {
-      position: 2,
+      position: 1,
       maxHearts: 3,
       skullCount: 0,
       explosionAudio: null,
