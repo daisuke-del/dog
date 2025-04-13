@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <!-- 💀 Skull Bar + Countdown -->
+    <!-- 💖 Heart to Skull Bar + Countdown -->
     <div class="skull-bar text-center my-4">
-      <div v-if="skullCount < 13">
-        <span v-for="n in 13" :key="n">
+      <div v-if="skullCount < maxHearts">
+        <span v-for="n in maxHearts" :key="n">
           <span v-if="n <= skullCount">💀</span>
-          <span v-else>⚪️</span>
+          <span v-else>💖</span>
         </span>
         <div class="countdown mt-2">
-          次のドクロまで残り {{ formattedTime }}
+          残り時間 {{ formattedTime }}
         </div>
       </div>
       <div v-else class="explosion">
@@ -31,11 +31,12 @@
               cols="12"
               md="6"
             >
-              <ProblemPanel
-                :problem="problem"
-                @solved="markSolved(index)"
-                @failed="handleFailed"
-              />
+            <ProblemPanel
+              :problem="problem"
+              :disabled="problem.solved"
+              @solved="markSolved(index)"
+              @failed="handleFailed"
+            />
             </v-col>
           </v-row>
           <v-btn
@@ -49,7 +50,9 @@
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <FinalProblem @failed="addSkull" />
+          <FinalProblem
+            @failed="addSkull"
+          />
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -109,7 +112,8 @@ export default {
   },
   data () {
     return {
-      position: 1,
+      position: 2,
+      maxHearts: 3,
       skullCount: 0,
       explosionAudio: null,
       skullTimer: null,
@@ -177,7 +181,7 @@ export default {
   mounted () {
     this.explosionAudio = new Audio('/sounds/explosion.mp3')
     this.skullTimer = setInterval(() => {
-      if (this.skullCount < 13) {
+      if (this.skullCount < this.maxHearts) {
         this.skullCount++
         this.timeLeft = 600
       }
@@ -195,7 +199,7 @@ export default {
   },
   watch: {
     skullCount (val) {
-      if (val === 13) {
+      if (val >= this.maxHearts) {
         this.triggerExplosion()
       }
     }
@@ -204,6 +208,7 @@ export default {
     markSolved(index) {
       this.$set(this.problems[index], 'solved', true)
       this.$set(this.problems[index], 'structureErrors', [])
+      this.maxHearts += 2 // 正解でハート2つ増える
       if (this.problems.every(p => p.solved)) {
         this.finalUnlocked = true
       }
@@ -214,7 +219,7 @@ export default {
       this.addSkull()
     },
     addSkull () {
-      if (this.skullCount < 13) {
+      if (this.skullCount < this.maxHearts) {
         this.skullCount++
       }
     },

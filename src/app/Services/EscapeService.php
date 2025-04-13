@@ -98,7 +98,7 @@ class EscapeService
   public function solve3(string $code): array
   {
     // 本来の期待出力
-    $expected = "ランタン 1 点灯\nランタン 2 点灯\nランタン 3 点灯\nランタン 4 点灯\nランタン 5 点灯";
+    $expected = "ランタン 1 点灯 ランタン 2 点灯 ランタン 3 点灯";
     if (!$this->isSafe($code)) {
       return [
         'output' => '',
@@ -155,6 +155,8 @@ class EscapeService
     }
 
     $output = $this->execute($code);
+    $outputCleaned = preg_replace('/\s+/', '', $output);
+    $expectedCleaned = preg_replace('/\s+/', '', $expected);
 
     $hasLoop = preg_match('/for\s*\(/', $code) || preg_match('/foreach\s*\(/', $code);
     $structureErrors = [];
@@ -165,7 +167,7 @@ class EscapeService
 
     return [
       'output' => $output,
-      'correct' => $output === $expected && empty($structureErrors),
+      'correct' => $outputCleaned === $expectedCleaned && empty($structureErrors),
       'structure_errors' => $structureErrors
     ];
   }

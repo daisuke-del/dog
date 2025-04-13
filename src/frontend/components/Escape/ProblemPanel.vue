@@ -19,7 +19,13 @@
         auto-grow
       />
 
-      <v-btn color="primary" @click="runCode" :loading="loading" class="mt-3">
+      <v-btn
+        color="primary"
+        @click="runCode"
+        :loading="loading"
+        class="mt-3"
+        :disabled="disabled"
+      >
         実行
       </v-btn>
 
@@ -71,9 +77,10 @@ import escape from '@/plugins/modules/escape'
 export default {
   name: 'ProblemPanel',
   props: {
-    problem: {
-      type: Object,
-      required: true
+    problem: Object,
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

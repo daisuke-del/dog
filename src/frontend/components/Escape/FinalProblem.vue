@@ -67,7 +67,12 @@ export default {
         this.correct = response.correct
         if (response.correct) {
           this.escaped = true
-          this.$emit('solved')
+          setTimeout(() => {
+            this.$router.push('/escape/success')
+          }, 3000)
+        } else {
+          this.showOutputError = true
+          this.$emit('failed')
         }
       } catch (error) {
         this.output = error.response?.data?.error || 'エラーが発生しました'
