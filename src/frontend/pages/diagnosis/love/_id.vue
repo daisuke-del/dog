@@ -233,6 +233,24 @@ export default {
     delay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
     }
+  },
+  head() {
+    const id = this.$route.params.id
+
+    return {
+      title: '恋愛診断 - 80億分の1の奇跡',
+      meta: [
+        { hid: 'description', name: 'description', content: 'あなたの恋愛傾向を診断し、最適な相手をマッチング！' },
+        { hid: 'og:type', property: 'og:type', content: 'website' },
+        { hid: 'og:title', property: 'og:title', content: '恋愛診断でマッチング相手をチェック！' },
+        { hid: 'og:description', property: 'og:description', content: '恋愛観・性格・見た目から相性診断！今すぐチェック！' },
+        { hid: 'og:url', property: 'og:url', content: `https://www.dogiland.jp/diagnosis/love/${id}` },
+        { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
+        { hid: 'twitter:title', name: 'twitter:title', content: '恋愛診断で相性ぴったりの相手を発見！' },
+        { hid: 'twitter:description', name: 'twitter:description', content: 'あなたの恋愛傾向にぴったりの人は？今すぐ診断しよう！' },
+        { hid: 'twitter:image', name: 'twitter:image', content: `https://www.dogiland.jp/storage/love/ogp/${id}.jpg` }
+      ]
+    }
   }
 }
 </script>
