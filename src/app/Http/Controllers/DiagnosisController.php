@@ -51,9 +51,7 @@ class DiagnosisController extends Controller
    */
   public function person($id)
   {
-    Log::error('通過');
     $person = LoveDiagnosisPerson::where('slug', $id)->first();
-    Log::error('Matching person:', $person ? $person->toArray() : ['person' => null]);
 
     if (!$person) {
       return response()->json(['message' => 'Not found'], 404);
