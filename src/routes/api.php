@@ -23,6 +23,11 @@ Route::prefix('diagnosis')->name('diagnosis.')->group(function () {
   Route::post('result', [DiagnosisController::class, 'result']);
   Route::post('choice', [DiagnosisController::class, 'choice']);
   Route::post('alert', [DiagnosisController::class, 'alert']);
+
+    // 恋愛診断：マッチング対象を取得
+    Route::get('person/{id}', [DiagnosisController::class, 'person']);
+    Route::post('person', [DiagnosisController::class, 'storePerson']);
+
 });
 
 // 犬種系

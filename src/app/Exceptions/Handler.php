@@ -43,35 +43,39 @@ class Handler extends ExceptionHandler
         if ($exception instanceof DOGException) {
             $log = '[' . $exception->getCode() . '] ' . $exception->getMessage();
             $param = $exception->getParam();
-            if (empty($param) === false) {
+            if (!empty($param)) {
                 $log .= ' ' . json_encode($param, JSON_UNESCAPED_UNICODE);
             }
             Log::error($log . ' exception:' . $exception);
             return;
         }
+
         if ($exception instanceof ValidationException) {
-            $errorBag = 'something validation error';
-            if (isset($exception->errorBag)) {
-                $errorBag = $exception->errorBag->first();
-            }
-            Log::error('[' . $exception->getCode() . '] ' . 'validate ' . $errorBag . ' exception' . $exception);
+            $errors = $exception->errors();
+            $firstError = collect($errors)->first();
+            $errorMessage = is_array($firstError) ? $firstError[0] : $firstError;
+
+            Log::error('[' . $exception->getCode() . '] validate ' . $errorMessage . ' exception' . $exception);
             return;
         }
+
         if ($exception instanceof AuthenticationException) {
             Log::error('[401] ' . $exception->getMessage() . ' exception' . $exception);
             return;
         }
+
         if ($this->isHttpException($exception)) {
             Log::error('[' . $exception->getStatusCode() . '] ' . $exception->getMessage() . ' exception' . $exception);
             return;
         }
+
         $message = json_decode($exception->getMessage(), true);
-        if (isset($message)) {
+        if (isset($message['error']['reason'])) {
             Log::error('[' . $exception->getCode() . '] ' . $message['error']['reason'] . ' exception' . $exception);
             return;
         }
+
         Log::error('[' . $exception->getCode() . '] ' . $exception->getMessage() . ' exception' . $exception);
-        return;
     }
 
     /**
@@ -92,21 +96,25 @@ class Handler extends ExceptionHandler
             }
             return response(json_encode($res, JSON_UNESCAPED_UNICODE), $exception->getCode());
         }
+
         if ($exception instanceof ValidationException) {
-            $errorBag = 'something validation error';
-            if (isset($exception->errorBag)) {
-                $errorBag = $exception->errorBag->first();
-            }
-            $res = ['error' => $errorBag];
+            $errors = $exception->errors();
+            $firstError = collect($errors)->first();
+            $errorMessage = is_array($firstError) ? $firstError[0] : $firstError;
+
+            $res = ['error' => $errorMessage];
             return response(json_encode($res, JSON_UNESCAPED_UNICODE), $exception->status);
         }
+
         if ($exception instanceof AuthenticationException) {
             $res = ['error' => $exception->getMessage()];
             return response(json_encode($res, JSON_UNESCAPED_UNICODE), 401);
         }
+
         if ($this->isHttpException($exception)) {
             return response(null, $exception->getStatusCode());
         }
+
         $status = $exception->getCode();
         if ($status === 0) {
             if (is_object($exception) && method_exists($exception, 'getStatusCode')) {
@@ -115,9 +123,11 @@ class Handler extends ExceptionHandler
                 $status = $exception->status;
             }
         }
+
         if (empty($status)) {
             return response(null, 500);
         }
+
         return response(null, $status);
     }
 }

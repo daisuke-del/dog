@@ -11,8 +11,17 @@ RUN apk --update add tzdata && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 
-RUN apk add --no-cache libpng-dev \
-    && docker-php-ext-install gd
+    # GD用のライブラリを追加してビルド
+  RUN apk add --no-cache \
+  libjpeg-turbo-dev \
+  libpng-dev \
+  libwebp-dev \
+  freetype-dev \
+  libxpm-dev \
+  && docker-php-ext-configure gd \
+  --with-jpeg \
+  --with-freetype \
+  && docker-php-ext-install gd
 
 WORKDIR /var/www/html
 COPY ../src /var/www/html
